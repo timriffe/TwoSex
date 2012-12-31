@@ -1,0 +1,174 @@
+% 
+These are some opening words to the first non-introductory chapter. This chapter introduces an exhaustive suite of
+ approaches to the two-sex problem, and works through the various analytic adjustments. Authors have tended to agree on a list of conditions for a valid sex-consistency adjustment: 1) homogeneity, meaning that if the numbers of males and females doubles, then so does the number of births (marriages) (I personally do not subscribe to this one), 2) only positive fertility (marriage) rates are allowed and, 3) if one sex is missing there is no fertilty (or marriages). Then there have been a few guidlines that have been more desirable than mathematically necessary, e.g. that the two-sex rate must be bracketed by the separate male and female one-sex rates- this has been shown more than once to be not necessarilyu true \citep{yellin1977comparison}
+
+\begin{description}
+\item[Alho]: competing risks
+\item[Castillo-Chavez]: logistic, minimum and harmonic
+\item[Caswell]: bifurcation, exstinction
+\item[Choo-Siow]: matching with spillover, utility
+\item[Chung]: cycles. (still acquiring article)
+\item[Das Gupta]: stable pops, general approach
+\item[Decker]: extension of Choo-Siow model
+\item[Feeney]: (Diss) unknown contrib, in acquisition.
+\item[Fredrickson]: random mating vs strict monogamy, implications
+\item[Henry]: matrix decomp (panmictic circles)
+\item[Hoppensteadt] general formula for 2-sex age structures differential equation.
+\item[Inaba]: Cauchy problem loose differential
+\item[Karmel]: deterministic model with fixed heterogamy (4 year)
+\item[Kendall]: weighted mean
+\item[Keyfitz]: comparison of means methods
+\item[Kirschner]: general mixing models (context HIV)
+\item[Kuczynski]: arithmetic average, idea that two-sex must fall in one sex interval
+\item[Lotka]: analogy to Lotka-Volterra predator prey
+\item[Martcheva]: Fredrickson-Hoppensteadt model, exponential
+\item[Maxin]: including divorce
+\item[McFarland]: iterative contingency table (1971 Diss, have article)
+\item[Milner]: partial differential equation
+\item[Mitra]: instrinsic rates, building from Das Gupta
+\item[Pollak]: stability framework, birth matrix mating rule (BMMR) with persistant unions
+\item[Pollard]: generalized harmonic
+\item[Pruess]: question of stability and exponentiality
+\item[Schoen]: harmonic
+\item[Tennenbaum]: analogy to foraging model (2006 Diss)
+\item[Thieme]: general solution to age-structured pop with subgroups (i.e. sexes with marstat)
+\item[Waldstaetter]: trying to acquire still (1990 Diss)
+\item[Yang and Minlner]: logistic
+\item[Zacher]: also on topic of exponentiality (group with Pruess, Martcheva)
+\end{description}
+
+\section{Means and bracketing}
+
+\begin{singlespace}
+\begin{quote}
+Now of everything that is continuous and divisible, it is possible to take the larger part, or the smaller part, or an equal part, and these parts may be larger, smaller, and equal either with respect to the thing itself or relatively to us; the equal part being a mean between excess and deficiency. By the mean of the thing I denote a point equally distant from either extreme, which is one and the same for everybody; by the mean relative to us, that amount which is neither too much nor too little, and this is not one and the same for everybody.
+\citetalias{rackham1947trans}
+\end{quote}
+\end{singlespace}
+
+
+It being the case that summary measures, such as $r$, $R_0$, $B$ or $M$ based on male or female rates will nearly always differ, it may be reasonable to suppose that the true rates, those descriptive of the whole population, lie somewhere between the one-sex linear rates. This, in keeping with \citet{yellin1977comparison}, we term bracketing, and to be clear I consider it a weak assumption. If the true rates are bracketed by the single-sex rates, then one way to estimate them might be to calulate one of a variety of potential means. If necessary, the mean rates can be rescaled back to each sex such in order that they produce the same summary measure, i.e. forcing consistency. This modelling decision is not as sharply defined as it might appear at first glance. Three major refinements must be made in order to decide how to apply the strategy of means by combining some of the following considerations:
+
+\begin{itemize}
+\item One must decide what to take the mean of, and how this relates age-sex-specific rates to the final summary measure, i.e. between top-down or bottom-up averaging.
+\item There are several candidate varieties of means. Demographers have most often compared the Pythagorean means: arithmetic, geometric and harmonic. For the sake of thoroughness, we will also consider logorithmic, identric, hedonic, contraharmonic, arithmetic-geometric and root mean squares.
+\item Males and females can either be given equal or unequal weight. For the later, weights must be derived from data.
+\end{itemize}
+
+Results will vary based on different combinations of these considerations, have different implications for model flexibility, and entail more or less reasonable assumptions, which will be discussed in following. 
+
+\subsection{A mean of what?}
+Take for instance births, $B$, which we calculate by multiplying age-specific fertility rates to population exposed to fertility and then summing:
+
+\begin{align}
+B = \sum _{x=\alpha} ^{\omega} f_x N_x
+\end{align}
+
+Alternatively, and more intuitive for program or spreadsheet implementation, one can express this in terms of vectors, where $\bm{f}$ is a vector of ASFR, $\bm{n}$ a vector of population exposures and $\bm{b}$ a vector of births by age of progenitor (male or female as the case may be). The above formula becomes:
+
+\begin{align}
+\bm{b} &= \bm{f}\cdot\bm{n} \notag \\ \notag \\
+B &= \sum \bm{b}
+\label{birthvec}
+\end{align}
+
+Clearly, in the data year from which we estimate rates, calculating $B$ from either male or female rates will necessarily produce the same number, but in later years (iterations) the births calculated by males, $B^m$, and by females, $B^f$, will differ. This is the discrepancy that we wish to remedy, such that the male and female rates produce the same amount of births, either in total or by age of mother and father.
+
+\subsubsection{Top-down rescaling}
+The simplest, but most rigid, manner of forcing consistency is to take a mean of the births estimated by males and females, $\bar{B}$, and use it to monotonically rescale the single-sex rates. The resclaed rates are then taken used to estimate births in year $t$ of the model, and this procedure is repeated at each model iteration, forcing consistency throughout. This is the method described by \citet{keilman1985nuptiality} for a (then) experimental projection model in the Netherlands, and which used the harmonic mean of total marriages, $M$, to rescale male and female marriage schedules. An intuitive moniker for this method is top-down rescaling. Where $\bm{f^{\star}}$ is the vector of rescaled ASFR:
+
+\begin{align}
+\bm{f^{m\star }} &= \bm{f^m} \left(\frac{\bar{B}}{B^m}\right) \notag \\ \notag \\
+\bm{f^{f\star }} &= \bm{f^f} \left(\frac{\bar{B}}{B^f}\right)
+\label{simplerescale}
+\end{align}
+
+In R code, equation \ref{simplerescale} looks something like that displayed below, when \texttt{fm}, \texttt{ff}, \texttt{nm} and \texttt{nf} are defined vectors containing male and female fertility rates and population exposures, respectively. Here, the arithmetic mean, \texttt{mean()}, is implemented as an example, though this can be switched out for other another mean function.
+
+<<echo=F,results=hide>>=
+# here we generate some fake variables, just for a brief code demonstration:
+set.seed(1)
+nm <- rev(sort((1000+1000*runif(70))*seq(from=1,to=.65,length.out=70)))
+nf <- rev(sort((1000+1000*runif(70))*seq(from=1,to=.75,length.out=70)))
+fm <- c(rep(0,15),sort(runif(10)),rev(sort(runif(25))),rep(0,20))
+ff <- c(rep(0,12),sort(runif(7)),rev(sort(runif(20))),rep(0,31))
+@
+
+\singlespacing
+<<verbatim=TRUE,results=hide>>=
+# Births predicted from males and females:
+bm 		<- fm*nm
+bf		<- ff*nf
+# arithmetic average of sums:
+bbar 	<- mean(c(sum(bm),sum(bf)))
+# rescale male and female fertility:
+fmstar 	<- fm*(bbar/sum(bm))
+ffstar	<- ff*(bbar/sum(bf))
+@
+\doublespacing
+
+This method preserves all aspects of the fertility PDF for each sex. Consider the case where one sex, say females, experiences a disproportionate increase in the number of 20-24 year-olds and all other ages for males and females remain the same. This will cause the total of births predicted by females to increase, and so increase somewhat the \textit{mean} of births predicted by male and female rates. Uniform rescaling assumes that the excess females from this one age class will be mated evenly across the distribution of males, and the other age classes of females will be equally disadvantaged by the boom in 20-24 year-olds. One could reasonably expect ripple-effects in competition across the ages from such a sudden spike, but one would also expect neighboring age groups to be more affected than distant age groups. For this reason, top-down rescaling is considered rigid; the sex-specific fertility PDFs never change in accordance with shifting age-distributions of the sexes. In a sense, all ages are affected equally by adjustments. A positive aspect of this adjustment is that it will never produce a negative number, and it will always respect zeros for ages with no fertility.
+
+\subsubsection{Age-specific rescaling}
+Still preferable would be to allow adjusted age schedules, $f_x^{\star}$, to change flexibly by preserving some amount of the age-heterogamy pattern present in the population. That is to say the above mentioned excess in 20-24 year-old females should translate more directly to increased rates for similarly aged males, but have a much dampened affect on older males. It should also predjudice the marriage prospects of 15-19 and 25-29 year-old females more than that of older females. This desirable quality in model feedback consitutes an improvement, but is itself rather difficult to implement satisfactorily. 
+
+The simplest approach for age-specific rate rescaling is to assume fixed heterogamy, i.e. all parents and/or spouses having an exact difference in age. This value is generally taken to be the mean age difference between spouses, e.g. from 2 to 5 years in whole numbers, depending on the population and year. This was an intermediate step in \citet{karmel1947relations}, assuming 4-year fixed age heterogamy before progressing to include all age combinations, and by \citet{cabre1997tortulos} to predict a marriage squeeze in Spain, assuming 3-year fixed heterogamy. For example, assuming 3-year age differences, under fixed age heterogamy, a sudden spike in 25-year-old males will increases marriages of 22 year-old females, but have no effect on distant ages. The problem is that spillover effects are ignored entirely, with neigboring male ages unpredjudiced and neighboring female ages receiving no extra pressure to marry. This method therefore only gives a good approximation of squeezes when changes are broad and gradual, or when the variance in age heterogamy is very low (which has yet to be observed). Furthermore, older ages would tend to be disqualified from consideration, since male fertility continues well beyond female menopause.
+
+To retain fixed heterogamy but permit spillover effects, one could assign a moving age-window of potential spouses, assigning another window for ages giving the greatest competition and taking both into consideration for each single age. However, these windows would have to change by age and would also be unnecessarily rigid. Similarly, a weighted window could be used, with weights spanning the ages of all potential spouses and a different set of weights to take into account all potential competitor ages. In either case, it is unclear how one would apply these windows, weighted or not, simultaneously so as to resolve the issue of rate adjustments. If one knew how to apply moving windows, then in principle, one could maintain this as a given set of constraints, to be applied to changing stocks each year, each age of male and female having an inherent propensity to marry, but constrained by the market and relatively loose heterogamy parameters. However, the fixing of windows and/or weighting schemes would also be in a way accidents of prior heterogamy outcomes. Apparently no studies have undertaken any variant of the present ``moving window'' proposal, but instead leap to the next level of complexity.
+
+The most thorough method, that which comes the closest to continuous rate distributions of potential mates, is to consider all age combinations of mates or spouses. Generally this is done by calculating a rate for each \textit{potential} mate combination in a particular year, producing two rate matrices, one for males and another for females. Predicted births (or marriages) for each age combination are calculated separately from the male and female rates, producing two more matrices what will be unique from one another in nearly all non-zero entries. A mean prediction is then calculated, using a selected mean function, and this is then used to adjust the male and female rates separately.
+
+Symbolically, where $\bm{M}$ is a matrix of counts of births (or marriages) by age of male partner and female partner, $\bm{m_0}$ and $\bm{f_0}$ are vectors of male and female exposures the same year (the jump-off year) and whose lengths correspond with the row and column dimensions of $\bm{M}$, respectively, we derive male and female rate matrices, $\bm{W^m}$ and $\bm{W^f}$:
+
+\begin{align}
+\bm{W^m} &= diag(\bm{m_0}^{-1}) \times \bm{M} \notag \\ \notag \\
+\bm{W^f} &= \bm{M} \times diag(\bm{f_0}^{-1})
+\end{align}
+
+This kind of matrix operation may appear exotic to most demographers and some explanation is in order. Recalling that male ages are in the rows of $\bm{M}$ and females ages in the columns, to derive male rates, one must divide \textit{row-wise} by the vector of male exposures and \textit{column-wise} by the vector of female exposures. This translates into matrix operations by taking the inverse of the (strictly non-zero positive) vectors of exposures and converting them into diagonal matrices. Multiplying from the left of $\bm{M}$ divides row-wise (males) and multiplying on the right divides column-wise (females). The resulting rate matrices, $\bm{W^m}$ and $\bm{W^f}$, are of the same dimensions as $\bm{M}$, are age-indexed inthe exact same way, and have a straightforward interpretation. For instance $\bm{W_{30,27}^m}$ is the fertility (or marriage) rate for 30 year-old males and 27-year old females with the exposure of 30 year-old males in the denominator, and $\bm{W_{30,27}^f}$ is the same, except the exposure of 27 year-old females in the denominator. The row margins of $\bm{W^m}$ are the familiar male ASFR and the column margins of $\bm{W^f}$ are female ASFR.
+
+As above, multiplying these sex-specific rate matrices by the original sex-specific exposures (using analogous diagonal matrix trick) yields the same count matrix $\bm{M}$, as should be the case for the year from which data were taken. Changing the male and female exposures, as happens when iterating to the next year in a model, and repeating this procedure will produce two divergent matrices of $\bm{M}$. The strategy to force consistency is analogous to the above simpler case. First, derive the two divergent sex-specific count matrices for time $t$, $\bm{M_t^m}$ and $\bm{M_t^f}$. Then, take the element-wise mean of these two matrices to yield $\bm{M^{\star}}$, and use this to rescale the male and female rate matrices. 
+
+\begin{align}
+\bm{M_{t}^{m}} &= diag(\bm{m_t}) \times \bm{W^m} \notag \\ \notag \\
+\bm{M_{t}^{f}} &= diag(\bm{f_t}) \times \bm{W^f} \\ \notag \\
+\bm{\bar{M_{t}}} &= meanfun(\bm{M_{t}^{m}},\bm{M_{t}^{f}}) \\ \notag \\
+\bm{W_t^{m\star}} &= \left(\bm{\bar{M_{t}}} \circ \frac{1}{\bm{M_{t}^{m}}}\right) \circ \bm{W^m} \notag \\ \notag \\
+\bm{W_t^{f\star}} &= \left(\bm{\bar{M_{t}}} \circ \frac{1}{\bm{M_{t}^{f}}}\right) \circ \bm{W^f}
+\end{align}
+
+\noindent, where $meanfun$ is a general mean function, and can be switched out for any of the various means discussed in the next section. Above, $\circ$ stands for the Hadamard product of two matrices, i.e. the element-wise product, rather than the standard matrix product; and $\frac{1}{\bm{M_{t}}}$ is understood as $\frac{1}{\bm{M_{i,j,t}}}$, that is to say, the element-wise inverse of the matrix, \textit{not} the standard matrix inverse.
+
+This produces two adjusted rate matrices, $\bm{W^{m\star}}$ and $\bm{W^{f\star}}$, which when multiplied into the corresponding exposures from year $t$ (using the diagonal matrix trick), separately yield the exact same count matrix, $\bm{M_{t}^{\star}}$. In this way, the rate matrices $\bm{W^m}$ and $\bm{W^f}$ can be maintained into indefinite future iterations, or assumptions may be applied as to how they change. These matrices are used as external standards. In the end, adjusted rate matrices will always be returned that produce consistent event counts, but these may be considerably different from the standards used, due to density dependent model feedback.
+
+An R implementation of age-combination-specific consistency adjustments turns out to be much more straightforward than the above formulas would suggest. Specifically, R allows division of a matrix by a vector without prior conversion into a diagonal matrix. Omitting this step increases code legibility. A code sample to demonstrate this point, where \texttt{\%$\ast$\%} is the R operator for matrix multiplication:
+
+
+\singlespacing
+<<keep.source=TRUE>>=
+set.seed(1)
+# a random matrix:
+A <- matrix(runif(4),2)
+# a random vector with which to do row-division:
+b <- runif(2)
+# equality of row-wise division by vector (TRUE):
+all.equal((A/b),diag(1/b)%*%A)
+# likewise, for column division (TRUE):
+all.equal(t(t(A)/b),A%*%diag(1/b))
+@
+%\doublespacing
+
+\noindent, thus later code chunks will prefer the \texttt{A/b} formulation for row-wise division by a vector, as it is also computationally lighter. To demonstrate, assume we have matrix $\bm{M}$, tabulated from data, an example is given below.
+
+In general, after tabulating the intitial matrix $\bm{M}$, it is good practice to smooth this along both dimensions in order to reduce the effects of stochasticity among less common age-combinations. Otherwise, random events from year zero will echo through the model. This results in fewer cells containing zeros and less noise on the two-dimensional perimeters. 
+
+Arguments have been made that methods using data based on all age combinations from a given year still do not adequately account for inter-age competition in mating. The problem is that the rates derived as standards are also the product of competition in the year from which data were taken; what we would like to use as standards are the forces inherent in each sex \textit{prior} to the market. This is indeed how the standard rate matrices are used in future iterations of the population model, and ideally we would be able to backward-derive them from the data. This particular point has yet to be resolved.
+
+Furthermore, the standard rate matrices are still static \textit{within-sex}. This is best explained by example: Say there is a spike in 25 year-old males. This will lower all rates in the adjusted male row, $\bm{W_{25,j}^{m\star}}$, and increase all rates in the adusted female row $\bm{W_{25,j}^{f\star}}$, which essentially increases age-specific fertility (or marriage rates) at all female ages. However, these changes in female rates do not then echo back into other male ages. Theoretically, 24 year-old males, $\bm{W_{24,j}^{m\star}}$, (and all other male ages) would also be affected negatively by this spike. 
+
+\subsection{Varieties of means}
+
+
+
+\citet{keyfitz1972mathematics}
+

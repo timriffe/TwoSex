@@ -1,0 +1,6 @@
+% 
+Populations are dynamic, mixy, complex, random, living things. What's the point of being a demographer. Models help 
+us summarize and predict reality. No model is true, but some models are better than others. Which models are better 
+is a question of our priorities- parsimony versus precision. Is the error entailed by the assumption of female 
+dominance worth the parsimony that we somehow win? Is this a problem worth investing in? Should we not just aggregate
+ upward from microsimulations? 

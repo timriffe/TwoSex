@@ -1,0 +1,13 @@
+% 
+Some opening words to chapter three. Chapter 2 was arduous, but all proposals had something key in common, namely that
+they did not allow for realistic mixing of spouses- all were either locked age heterogamy, or age-blind scaling 
+solutions. Along come Henry, Schoen, Pollak and pals to make things messy
+\section{Panmictic circles}
+Here begins the truly random mixing. Swing your partner round'n'round.
+
+\section{Harmonic mean solution}
+
+\section{Generalized harmonic mean solution}
+
+\section{Complex matrix models}
+These models, as outlined in Caswell, include much of the above, and also mention much more. Awesome stuff.

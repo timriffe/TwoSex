@@ -1,0 +1,10 @@
+% shoot for 150 words
+The most widely used measures and models of population formally assume fertility as a function of females only, 
+'female dominance'. Early formal demographers proposed presently used indicators, such as $R_{0}$ and TFR as 
+approximations, and accepted the assumption of female dominance as a matter of convenience rather than conviction.
+ The magnitude and direction of error in measures of fertility and reproductivity due to this practice are not 
+ always clear. Various adjustment procedures have been proposed in the past several decades, but there remains no 
+ consensus about the most desirable analytic method. This dissertation recapitulates the discussion,  assesses 
+ the proposals that have been made about the two-sex problem, makes methods available in reproducible programming 
+ code and comparatively applies this suite of methods to modern populations, including Spain and the USA. Extra 
+ sections make recommendations for two-sex adjustments in cohort component population projections.

@@ -1,0 +1,66 @@
+% setwd("C:/Users/triffe/git/DISSERTATION_REPO/DISSERTATION")
+\documentclass[a4paper]{article}
+\usepackage{enumerate}
+\usepackage[OT1]{fontenc}
+\usepackage{Sweave}
+\begin{document}
+
+\title{Two-Sex Methods Inventory}
+\author{Tim Riffe}
+
+\maketitle
+
+This document details the stocks of methods to be included to one degree or another in my dissertation \textit{The Two-Sex Problem in Demography}. Each entry in this list includes the main contributor, and an ad-hoc description of what the method is about. The minimal condition for inclusion on this list is that the method bear consequences for how a model is to adjust rates to force or allow for sex-consistency in fertility or marriage (indirect path to fertility).
+
+Mathematical considerations of the problem with no solutions offered:
+\begin{description}
+\item[Lotka]
+\item[Hajnal]
+\item[Myers]
+\item[Stolnitz and Ryder]
+\item[Yellin and Samuelson]
+\item[various others on topic of stability and growth consequences]
+\end{description}
+
+These are actualy methods contributions, though some of them may be groupable. This is not meant to be a bibliography, but it based on solution originality. I will need to seek assistance in understanding some of them. This list may be either simplified or expanded as work continues.
+
+\begin{description}
+\item[Alho]: competing risks
+\item[Castillo-Chavez]: logistic, minimum and harmonic
+\item[Caswell]: bifurcation, exstinction
+\item[Choo-Siow]: matching with spillover, utility
+\item[Chung]: cycles. (still acquiring article)
+\item[Das Gupta]: stable pops, general approach
+\item[Decker]: extension of Choo-Siow model
+\item[Feeney]: (Diss) unknown contrib, in acquisition.
+\item[Fredrickson]: random mating vs strict monogamy, implications
+\item[Henry]: matrix decomp (panmictic circles)
+\item[Hoppensteadt] general formula for 2-sex age structures differential equation.
+\item[Inaba]: Cauchy problem loose differential
+\item[Karmel]: deterministic model with fixed heterogamy (4 year)
+\item[Kendall]: weighted mean
+\item[Keyfitz]: comparison of means methods
+\item[Kirschner]: general mixing models (context HIV)
+\item[Kuczynski]: arithmetic average, idea that two-sex must fall in one sex interval
+\item[Lotka]: analogy to Lotka-Volterra predator prey
+\item[Martcheva]: Fredrickson-Hoppensteadt model, exponential
+\item[Maxin]: including divorce
+\item[McFarland]: iterative contingency table (1971 Diss, have article)
+\item[Milner]: partial differential equation
+\item[Mitra]: instrinsic rates, building from Das Gupta
+\item[Pollak]: stability framework, birth matrix mating rule (BMMR) with persistant unions
+\item[Pollard]: generalized harmonic
+\item[Pruess]: question of stability and exponentiality
+\item[Schoen]: harmonic
+\item[Tennenbaum]: analogy to foraging model (2006 Diss)
+\item[Thieme]: general solution to age-structured pop with subgroups (i.e. sexes with marstat)
+\item[Waldstaetter]: trying to acquire still (1990 Diss)
+\item[Yang and Minlner]: logistic
+\item[Zacher]: also on topic of exponentiality (group with Pruess, Martcheva)
+\end{description}
+
+<<>>=
+2+2
+@
+
+\end{document}

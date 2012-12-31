@@ -1,0 +1,303 @@
+\SweaveOpts{}
+\section{The nature of the problem}
+
+In the paragraphs to follow, I explain the meaning, origins, and consequences of the so-called \textit{two-sex problem}, or \textit{problem of the sexes}, for formal and applied demography. A thorough stand-alone treatment of this issue would require lengthy descriptions of the data and objectives of demography, well beyond the scope of present considerations. For this reason, I presume from the onset that the reader understands the differences between proportions, rates, odds, and is at least somewhat familiar with commonly used demographic indicators such as the Total Fertility Rate (TFR) and Net Reproduction ($R_0$). Fertility measures are very much at the heart of the two-sex problem, and so these will be examined at length.
+
+	\subsection{Common misconceptions}
+
+The most common synthetic measure of fertility, TFR, has been the subject of debate in recent years. New variants have been suggested in order to account for temporal distortions that may affect the intuitiveness of its interpretation. These critiques and their corresponding proposals are of a different nature than that to which I now turn, and the \textit{two-sex problem} will be present in all of the recently proposed variants of TFR. Issues of tempo and sex-consistency are sufficiently separable that I will not attempt to adapt the present discourse to account for the various available temporal adjustments of TFR.
+
+This is an opportune place to dispel a few frequent initial misconceptions about the \textit{two-sex problem}. In and among real populations, there is no \textit{problem of the sexes}, so to speak. It is true that all populations are subject to pressures that fundamentally derive from scarcity and abundance of potential mates. In some cases this may emerge as a \textit{marriage squeeze}, a familiar concept to most demographers. Other demographic forces may also originate from behavior patterns, themselves owing to or stoked by the sex ratio. If one is motivated by population wellbeing, these demographic forces will be of interest; to the extent that they are due to (or in the weakest case, are predicted by) sex ratios, the observer may at times judge there to be a real and present problem of the sexes. In this dissertation, the term is not used in this way, but rather in refernce to a particular analytical problem in classical formal demography. The \textit{problem} studied here exists in population models and in concepts of population measurement, both of which are abstract summaries of the world. The challenge is one of making our measurements and models better reflect reality.
+
+The term \textit{population model} is also often leads to misunderstandings, even among demographers. In one sense, demographers use statistical models to estimate numerous aspects of a population, i.e. models with a left and right side, dependant and explanatory variables. Because such statistical models are used to study populations, they are frequently referred to as population models. A second sense of \textit{population model} derives from the concept of a model in the most general sense: that of a symbolic approximation of observed phenomena that uses explicitly stated simplifying assumptions. Models can never be \textit{true}, but they may offer greater or lesser utility based on their parsimony, predictivity and ability to lend objective understanding to the true underlying phenomena. We conceive of a population as an abstract plurality of individuals with two ways in, birth and immigration, and two ways out, death and emmigration. A population model is in this sense an abstraction of the phenomena that shape and generate a population: the internal forces of mortality, fertility and migrations considered together. The specifying of mortality and fertiltiy forces (minimally) and a starting population constitutes a population model. This idea is most familiar to demographers in the context of population projections.
+
+A final myth that must be stated clearly is that the two-sex problem reduces to or can be summarized by the fluctuations and/or disparity in the sex ratio at birth (SRB). This is an overly zealous reduction of the question at hand. The sex ratio within a cohort varies over age as a function of its initial value (the SRB) and the year-to-year sex differences in mortality and migrations to which it is subject. Since populations consist in many cohorts, annual variation in the SRB also contributes to variation between ages, but it is not the only factor, nor even the most important. In brief, sex ratios are heterogeneous within populations and cannot be summarized adequately by the SRB. Furthermore, differences in the fertility and reproduction of males and females do not reduce to sex ratios.
+
+	\subsection{The problem stated}
+
+Differences in the counts of males and females over age are only relevant to the two-sex problem to the extent that they cause differences between male and female fertility rates. The matter is complicated further when considering age mixing between males and females and overall differences in the age-pattern of fertility. The issue at base is that the values TFR and $R_0$ differ depending on whether one uses male or female rates in their calculation. They differ both in their age-specific dissagregate and in their summary forms, and for this reason we say that male and female fertilty and reproduction rates are inconsistent. These differences owe to sex differences in \textit{all} of the forces that are studied within demography, both biological and social. Sex inconsistencies in fertility and reproduction are more than a curiosity, since these very summary measures are used to make statements about \textit{populations'} ability to regenerate, to replace themselves. Positively stated: 
+
+\begin{quote}
+The \textit{two-sex problem} is the inherent difficulty in making analytical statements about population fertility and reproductivity owing to disparities between the sexes that include, but are not necessarily limited to, differences in 1) the population structure when broken down by sex and 2) the age distributions of fathers and mothers.
+\end{quote}
+
+\section{Objectives}
+
+Common practice is to select the fertility rates of the female sex as indicative of the entire population, an assumption called \textit{female dominance}. This is a simplifying assumption and it admits error into our estimates of fertility and reproductivity. We can conceive of the maginitude of this error as the \textit{size} of the two-sex problem. Ideally, demography would possess a summary indicator in its analytic toolkit analogous to TFR or $R_0$ but valid for the entire population; a measure that does not admit the error of female dominance. This we currently lack, although there have been many noble attempts to specify one via all manner of estimation and adjustment procedures. 
+
+The first objective of this dissertation is to deconstruct these measures conceptually and by way of example in order to illustrate the two-sex problem and why it is problematic. This task forms the basis of the introduction. The rest of the introduction is centered on delimiting the two-sex problem, starting with TFR and Lotka's renewal equation, and ending with divergence in population growth rates. We will see that consideration of the two-sex problem is particularly problematic for stable population theory, and, perhaps more familiar, forces us to reconsider the figure of population replacement.
+
+A second objective is to carry out an inventory of analytic methods (solutions, adjustments) a propos the two-sex problem, since it has been addressed by many individuals, many times and from a variety of angles. This inventory, the basis of chapter two, includes functional implementations of these methods in \textit{code blocks} associated with each mathematical representation. Data-based comparative applications of this large suite of methods are conducted in chapter three, a broad assessment of the state of the art, also with extractable programming code. 
+
+The dissertation concludes with recommendations of two kinds. First, I reflect on the continued relevance of the two-sex problem for population theory. To the general demographer, my message is that extra care should be taken when considering fertility indicators, to admit the shortcomings of indicators based on the assumption of female dominance. Second, I make method recommendations to applied demographers including reasonable modifications that can be made to the cohort component method of population projections.
+
+A further and overarching objective has been to write this dissertation as a self-contained and reproducible document, i.e. which contains all the syntax necessary to manipulate the data used and reproduce the exact figures and tables embedded beneath the text. All work has been done and can be reproduced using free open-source software that runs on nearly all operating systems, and care has been taken to make code modular and extensible. An additional appendix provides a tutorial on extracting and using the code in this document. 
+
+\section{The one-sex paradigm}
+
+
+
+\todo{a verbal conceptual description, with no reference to measures R0 or TFR}
+
+	\subsection{Two canonical measures of population reproductivity}
+
+		\subsubsection{The Total Fertility Rate}
+		
+		\todo{3 or so paragraphs}
+		
+		\subsubsection{Net Reproduction}
+		
+		\todo{3 or so paragraphs}
+
+
+\section{Females are the primary rate-limiting factor in human reproduction}
+
+Why is it then that we measure and project fertility as if it depended only on the female sex? To be sure, many would defend this practice, and I will now lay out their primary arguments. Females, not just in humans, limit the rate of reproduction more than males. I have already mentioned that females have more interest in investing in their own offspring, from an evolutionary point of view. The very form of this investment, catering to the slow development (somatic growth) and high dependency of human fetuses, infants and children (altriciality), places limits on the fertility of females. Humans on the whole rely on this development strategy for our competitive advantage: We have big brains, and it takes time to train them. What kinds of limits to females place on fertility to make this possible?
+
+First, human \textit{litter} sizes are small, and nearly all births have been singletons. For most of human history, twins were rare because giving birth to twins was dangerous for mothers and therefore selected against. Humans have high energy needs in early development, and this particular limit owes to mothers' ability to assimilate nutrients and pass them on to multiple offspring, both in gestation and lactation. In natural settings, twins are cause for heavy physiological burden on mothers. Modern abundance and medical practice have relieved much of the pressure from this selective force, but singletons still remain the norm. Male physiology sets no limits on litter size.
+
+Second, pregnancy induces temporary infecundity in women; gestations cannot overlap in a staggered way, and this exclusivity extends into lactation. That gestations last eight to nine months, and postpartum infecundity lasts at least one month, sometimes up to a few years depending on lactation practices, is a hard limit on the frequency with which females can give birth. The male physiology has no such limits; male gametes are continuously and prolifically produced, males can fertilize females in rapid succession and can be the father of multiple overlapping gestations from various partners.
+
+Third, the fecund period for females is shorter than that for males. Surviving females undergo the menopause around age 45-55, although there is evidence for high variance between women in the degree of fecundity leading up to menopause. Menopause is literally due to a fixed stock of female gametes that depletes starting at menarche and eventually runs out around menopause. Healthy males continue producing gametes, and are able to reproduce into old age.
+
+The theoretical and observed maxima of human male lifetime fertility are orders of magnitude higher than those of females. These are the primary biological reasons why many are comfortable assuming that fertility depends only on women. There are also psycho-social arguments based on the conscious and semi-conscious limitation of fertility. Conscious interest in doing so tends to fall in line with the above-stated evolutionary interest that females have in limiting fertility; lifetime investment in offspring increases their chances of surviving until reproductive age. Fewer offspring allows for increased investment in each child. Conscious fertility limitation is of an entirely different kind, much more heterogeneous with respect to individual choice, circumstance, and cultural, environmental and population constraints. This has been the locus of the so-called Ready-Willing-Able (RWA) perspective of fertility change. Modern contraceptive technologies and practices in most cases serve to reinforce or amplify the women's \textit{ability} to limit fertility, while reproductive education, family planning outreach, feminist social change and state interventions \footnote{Coercive state interventions are of a different nature and not considered here, since by definition they do not appeal to individual agency.} are aimed at women's Readiness and Willingness to limit fertility. Again, RWA-targeted social changes in reproductive norms and practice have also been aimed almost exclusively at women, under the premise that women in high fertility milieus are the most effective agents to enact change. In my estimation, this premise is correct, and has indeed often proven effective due to its effective alignment with females having been selected to favor investment in their offspring, which itself demands fewer offspring. There is much to be said about such programs, and about the prevalent but not universal preference for not maximizing fertility among females. I wish here only to point out that, also in terms of conscious fertility limitation, women have also tended to be the primary limiting factor to fertility.
+
+Cultural practices can also act to regulate fertility in either direction. This has been recognized as such in the context of norms regarding marriage, for instance norms that operate to minimize extramarital fertility and also regulate marriage practices in such a way as to limit exposure to marital fertility. Cultural norms of this kind also have the potential to constrain fertility, but whether this limits the fertility of one or the other sex more or equally will depend on particular cases. For instance, if widowed men can remarry, but widowed women cannot and there is negligible extramarital fertility, this limits female fertility more than male fertility.
+
+\section{The assumption of female dominance}
+
+There are certainly additional points about fertility physiology, practice and and norms that also have tended to convince demographers of the acceptability of assuming exclusive female dependence in measuring fertility. This particular assumption, also known as \textit{female dominance}, is very well established, possibly even entrenched. For example, when conducting a population projection, one uses a schedule of fertility risks for females, which is applied to female population counts to determine the number of births. Births are then split into boys and girls by assuming some sex ratio at birth, often 1.05 boys for every girl. Males, in this practice, are a residual: They appear in the projected population pyramids, but they did not inform the projected population pyramids. While demographers have long known that this practice does not reflect how fertility works, the drawbacks are assumed to be minor, and the decision to assume female dominance in population indicators and population projections is often used for expediency. The residual produced by assuming female dominance is presumed to be small and ineffectual.
+
+Of indicators, it is reasonable to demand that the phenomenon studied be measured with fidelity; that whatever residuals are produced by imprecision in the measurement not determine or affect our judgment of the sign, magnitude or rank of the quantified underlying phenomenon. This is to say, all indicators have residuals, even the raw input data of demography is subject to estimation error, but the formulation of our indicators ought to abide by the nature of the population phenomenon of interest; the method itself ought not to incur additional error, and if such error is produced it ought not introduce bias to the indicator. I suspect that indicators such as TFR and NRR are subject to an unknown degree of bias due to the way that we calculate them. There are other common demographic data procedures, products, such as population projections that are typically produced with the assumption of female dominance, and their output may in these instances be biased, especially over periods that have undergone changes in population structure or mating patterns.
+
+At this point I have only pointed out why it is that demographers are usually not uncomfortable with the assumption of female dominance. Explicitly, what is being assumed by female dominance is not that males do not matter, but rather that they are always sufficiently available to fertilize females in a way that is purely a function of the number of females \citep{caswell2001matrix}, i.e. that they do not constrain fertility. In this way, what commonly calculated fertility rates do is relate births only to females of reproductive age. Births are not related to some function of females and males, although it is easy enough to admit that realized fertility certainly is a function of both males and females, that the relative availability of males and females is a vital parameter in human mating systems. This statement, a platitude to our common sense, is perceived as exotic, at worst intractable, in formal measures of fertility. There have been many attempts to address this inconsistency, and no generally agreed-upon solution. In later sections, I will guide the reader through many of the most notable proposed solutions.
+
+The fertility of a population doubtless depends upon more than just the numbers, ages and proportions of males and females. Other risk factors are known to codetermine fertility, such as marriage levels and norms, parity composition, economic swings and others. In certain circumstances it makes sense to calculate fertility separately for subgroups defined by characteristics, in order to provide extra insight into the components of fertility change. The present essay does not tackle the problem from this angle, since it is still unclear how males would figure into the picture when partitioning fertility into subgroups; weighting subpopulations together to arrive at a general measure of (period) fertility is straightforward, but how to weight males and females together in a consistent and parsimonious way has proven perplexing.
+
+\section{Two kinds of stability}
+
+It is time for some concrete examples to solidify this point. The concept of a stable population will be used as the point of departure. A stable population is most commonly understood as one whose relative structure in terms of ages and sexes does not change. Such a population might be growing, shrinking or stationary, but the proportions within each age-sex category remain stable. I will refer to this as stability of the generations, for clarity. A different use of the word might refer to the stability of the total population size. This later has not been the focus of stable population theory. We are now interested in both, in the implications that they have on interpreting the fertility of a population. Fertility measures are frequently compared with a special threshold, replacement, which derives from the first concept of stability, that of structure, or at least a particular part of the structure, females, and a particular growth scenario, stationarity (of females). When TFR is equal to replacement, we sigh in relief, when too far above or below, we project dire scenarios. Not all demographers see things in this way, but all demographers are concerned with the long-term development of the populations they study, with a widespread bias toward desiring stability and a universal practice of comparing present and future scenarios with stability so as the judge present conditions.
+
+The concept of replacement is used to operationalize this, to benchmark observed fertility. In its common usage, the replacement value indicates how many live births an average woman must have over her lifetime in order that future generations attain the same size as her own. As a rule of thumb, this value is usually cited at a value of 2.1, and this is a number that the public is generally aware of. The extra 1.1 is padding for early-life mortality, and because usually more boys are born than girls. More precisely stated, the replacement threshold is set to be just enough so that on average each mother gives birth to a girl that survives to reproductive age; within the 2.1 births to 1 mother, there is a 1 to 1, 1 daughter to 1 mother.
+
+Dr. Anna Cabr\'{e} has criticized the rigidity of the replacement value of 2.1 in periods where life expectancy is increasing. The kind of stability implied by her perspective is that of the total population, rather than that of generation sizes. In this way, if life expectancy increases, there are effectively fewer exits from the population, implying fewer births necessary in order to replace them. This criterion could be applied to the entre mixed-sex population, or just to the population of females, and these would entail still different replacement values. Other circumstances also call for lowering the value of 2.1. If the sex ratio at birth decreases, which has been observed in certain modern populations\footnote{For instance, in Spain, this phenomenon has been observed alongside an increase in ages at childbearing. It is presumed that there is an age-effect on the sex ratio at birth.}, then it takes fewer births on average to produce a girl- female generational replacement or female total population replacement could be allowed to drop in this case. As well, if pre-reproductive mortality drops, then there is less need for excess mortality padding, and the replacement figure may again be allowed to drop in the case of generational replacement.
+
+	\subsection{A simple illustration}
+
+What do these versions of stability imply? Imagine a population with 100 males and 100 females, 40 of each in reproductive age, and no migration. There are 10 ages (0-9), to keep things simple, and each age contains the same number of individuals. There is no mortality until achieving the final age group, which is followed by 100\% mortality. In this case, life expectancy is exactly 10 (10th birthdays are also funeral celebrations). If there are 20 births, 10 male and 10 female, we can furthermore say that the population is stationary, and rather than simply count the total population one by one, we can multiply life expectancy (10) by the number of births each year (20) or by the number of deaths each year (20) and arrive at the same figure of total population, 200. Assume a flat fertility curve: 5 births come from each of 4 reproductive ages, summing to 20- replacement. Here we say that the TFR is equal to the sum of the age-specific fertility rates, calculated as births over female exposure. In this case, TFR is always equal to 2:
+
+\begin{align}
+TFR = \sum_{a=2}^{5}\frac{B_a}{F_a} = 4 \times \frac{5}{10} = 2
+\end{align}
+
+Where $B_a$ are births from women age $a$ and $F_a$ are women age $a$. This special case satisfies both kinds of stability: each year women in reproductive ages produce enough females to replace themselves (stability of the generations) and each year the whole population produces enough new births to maintain itself. Were we to calculate male TFR, it would also be equal to 2, and TFR for both sexes combined in the denominator, assuming perfect age homogamy, is equal to 1: An intuitive result, here coinciding with replacement.
+
+		\subsubsection{Response to an increase in lifespan}
+
+Say now that instead of all 9-year-olds dying at the end of the year (exact age 10), $\frac{1}{2}$ die having arrived at age 10, and $\frac{1}{2}$ survive to exact age 11, dying at the end of their 10th year of life. Life expectancy is now 10.5. In the year of change, how many births would have been necessary for stability? For generational stability, the population must still produce 20 births, and TFR must remain at 2. In this case the total population rises to 210, and is thereafter stationary. For stability of the total population, we note that 10 fewer exits than usual from the population, a bonus. Only 10 births are needed in the year of change in order to maintain the population at 200: Let some women go on vacation for a year. In that year TFR will have been 1 instead of 2, and demographers will forecast catastrophe, only to be proven wrong the next year when again there are 20 births to make up for the 10 deaths at exact age 10 and 10 deaths at exact age 11.
+
+When the smaller 10-person generation arrives to reproductive age, what is to be expected of them? Will they have benefited from being a smaller generation and then have a fertility bonanza, keeping up with the larger neighboring generations? Simple arithmetic tells us that in the long run, the population only needs to produce a little more than 19 people each year in order to sustain itself:
+
+\begin{align}
+P_a = \frac{P}{e_0} = \frac{200}{10.5} = 19.048
+\end{align}
+ 
+Where $P_a$ is the population at age $a$ (except for 11-year olds). That is to say, each of the four reproductive ages must now produce $\frac{19.048}{4}= 4.76$ births in order to maintain the status quo, and there will be $\frac{19.048}{2}= 9.52$ males and females in age each. It may take many years to arrive at this final figure, and there may be some ripples in the population structure in the early years, but under these conditions, the total population, its generation size and its TFR, will eventually be stable. And what will be the new replacement TFR if everything else stays the same?
+
+\begin{align}
+TFR = \sum_{a=2}^{5} \frac{B_a}{F_a} = 4 \times\frac{4.76}{9.52} = 2 
+\end{align}
+
+This is a convenient result; in the long run the population does not need to change its behavior. We have still not answered the following question adequately: What is to be expected of the first small generation when it arrives in reproductive age? In the first year when they are in reproductive age, 20 elderly people will die, as before, and so we will hold all persons of reproductive age accountable for producing 20 births, that we may continue to have a population of 200. There are now 70 people of reproductive age, 35 women, as opposed to 40 before. We could place the entire burden on the small generation, that they produce the same amount as all of the others, i.e. that each of the 5 women of age 2 gives birth, or the others could show them solidarity and everyone increases their fertility. We choose the later and say that all the women must average $\frac{20}{35}$ = 0.57 births in that year. That will turn out to be the case in each of the 4 years that this small generation is in reproductive ages. Things then return to the way they were until the small generation reaches old age. When they are old, first 5 will die at age 10 together with 10 individuals 1 age higher, then another 5 at age 11 together with 10 individuals 1 age lower. For these two years, the full-size generations in reproductive ages will only be accountable for producing 15 births, so that our population remains stable at 200. When these two small generations arrive at reproductive ages, again all must increase fertility. The population then cycles through these inconsistent demands of the generations for many years until converging at the stable behavior marked above.
+
+This is reassuring; TFR returns to 2, but in the years where there are ripples in the population stocks, what must be expected of TFR in order to keep the total population steady at 200? Let us project this scenario forward for many years and determine the consequences (Figure~\ref{fig:one}):
+
+\begin{figure}
+\begin{center}
+% contain everything in a function, speeds up later compilations
+<<ch1-sim1,echo=FALSE,results=hide>>=
+sim1 <- function(){
+	horizon <- 1000
+	POP <- matrix(10,ncol=2,nrow=10)
+	colnames(POP) <- c("males","females")
+	Pi <- TFR <- vector(length=horizon)
+	M1 <- c(rep(0,9),1)
+	M1.5 <- c(rep(0,9),.5)
+	M2 <- c(rep(0,9),.5,1)
+	for (i in 1:horizon){
+		M <- if (i<3) M1 else {if (i==3) M1.5 else M2}
+		Deaths <- sum(POP*M)
+		Births <- Deaths
+		BMF <- rep(Births/2,2)
+		POP <- POP-POP*M
+		if (any(POP==0)){
+			POP <- POP[-which(POP[,1]==0),]
+		}
+		POP <- rbind(BMF,POP)
+		FR <- sum(POP[3:6,2])
+		Rate <- Births/FR
+		TFR[i] <- 4*sum((Rate*POP[3:6,2])/sum(POP[3:6,2]))
+		Pi[i] <- sum(POP) # total pop, not returned
+	}
+	return(TFR)
+}
+sim1.results <- sim1()
+
+@
+<<label=fig1,fig=TRUE,echo=FALSE>>=
+	par(mai=c(1,1,0,0))
+	plot(1:500,
+			sim1.results[1:500],
+			type='l',
+			main="",
+			xlab="Years",
+			ylab="total pop. replacement TFR",
+			cex.lab=1.5)
+@
+\end{center}
+\caption{TFR necessary to maintain population at 200, given a sudden 0.5 increase in lifespan, projected 500 years.}
+\label{fig:one}
+\end{figure}
+
+Under the conditions we specified, the TFR, calculated in the usual way, would need to adjust from year to year in order to keep the total population steady at 200. The time series, projected 500 years forward, obtains a sinusoidal pattern, with exponentially decreasing amplitude and a constant period of 11 years. 1000 years forward in time, there is still year to year variation in TFR necessary, although the range from trough to peak is a mere \Sexpr{round(diff(range(sim1.results[980:1000])),digits=3)} births, barely noticeable. Since this scenario takes so long to converge, we call it weakly ergodic. Real human populations, with many age classes and clear age patterns to demographic functions, tend to converge much faster. So it is that populations lose their memory of ruptures in the distant past, the blending of behavior over ages dampens the impact of shocks, such as a sudden increase in life expectancy.
+
+We note that in both scenarios TFR attains a value of 2, in the first case (the typical case) immediately, in the second case (that of Dr. Cabr\'{e}) asymptotically. In the first case the population grows, and in the second case it remains steady, with the size of each generation decreasing by a small amount in order to make room for the surviving elderly. In the first case, reproducing men and women experience no shocks, and in the second they must adjust according to the present population size and structure. As a matter of course, the cohort TFR in the latter case will also have a sinusoidal shape, with some generations having increasing fertility over their reproductive careers, others decreasing, other peaking, others bottoming out, in each case according to the demands of the replacement TFR condition in the present year. Certainly, the first scenario is not nearly as smooth as its constant TFR would suggest, for there must be ripple effects in the intergenerational care transfers implied by increased survival of the elderly, a consideration that beyond our scope.
+
+The present discourse provides no criterion by which to judge one or the other scenario more or less desirable, but we conclude that both are indeed consistent visions. Similarly, we could simulate more complex and realistic pictures, where fertility and mortality display age patterns, and these determine the stationary age structure in year 0. Mortality decreases have tended to be gradual and sustained in recent decades, and we could model it this way too. So too could we alter the modeled sex ratio at birth and pre-reproductive mortality, and optimize TFR to hold the population constant. In doing so, we would notice that the TFR required for generational stability is mutable with changes in the sex ratio at birth and in infant and youth mortality, but it is not mutable with changes in post-reproductive mortality. The condition of total population stability, however, would entail replacement TFR adjustments due to any change in the sex ratio at birth or mortality. 
+
+		\subsubsection{Response to imbalances in the stocks of the sexes}
+
+Again with the case of 10 ages, imagine now that instead of a 1:1 sex ratio at birth, that it changes to something rather drastic, like 2:1, i.e. 2 males for each female. Assume also that there is no excess male mortality, and that males later in life do not migrate away in frustration. What would be required for us to maintain 1) stability of the generations and 2) stability of the total population?
+
+In the first case 1.a), we begin with equal stocks of males and females in reproductive ages, the new generations are still 20 total births, but they are divided into 6.67 girls to 13.33 boys. When these generations, still liberated from early-life mortality, come of reproductive age, the stocks of available women will be lower than was the case before. In order to maintain generation size, women must increase their fertility. Some males of reproductive age will never mate, especially if the society practices strict monogamy. There is much to be said of how pluralities of humans adjust to imbalances in the sex ratio among members of reproductive age, and this topic will be treated later on in a different section. For the time being, we focus just on the arithmetic implied by meeting both conditions of stability. When the first sex-imbalanced generation arrives to age 2 (the first reproductive age), these 6.67 women are added to another 30 from the prior balanced generations. 36.67 women are then called to duty to produce 20 births. In the next year 33.33 women must produce 20 births, followed by 30 women, and finally by 26.67 women. From then on, there will be a steady 26.67 women available to produce 20 births, entailing a sharp increase in TFR:
+
+\begin{align}
+TFR = \sum_{a=2}^{5} \frac{B_a}{F_a} = 4 \times\frac{5}{6.67} = 3 
+\end{align}
+
+This increase will happen in even steps over a 4 year period, starting when the first imbalanced generation reaches reproductive age. Of the males, we notice no change at first, then an additional 3.33 males each year for four years. This entails a linear fall in male fertility: 20 births are first produced by 40, then 43.33, 46.66, 50 and finally 53.33 males, and so it remains for the rest of time, with male TFR at a steady 1.5, disappointingly lower than when there were parity sex ratios at birth. Free of increases in life expectancy, the population remains the same size.
+
+This scenario diverges from the usual expectation of generation replacement in the following way: Here we have replaced the entire mixed-sex generation, while typically population biologists require us to fully replace a \textit{generation of females}. This is so because it is the females that are asked to increase their fertility, and clearly they would be the limiting factor in this experiment. 
+
+How would this scenario 1.b) change in order to meet the population biologist?s request? If the change in sex ratio at birth is sudden, changes would have to happen in the very first year, and they would not be gradual. In the first year, rather than 1:1, we have 2:1 males to females: Women must immediately increase their fertility by 50\% in order to hold the number of girls born to 10, entailing 30 births, and an immediate TFR of 3, from then on steady. At first, men too must increase their fertility by 50\% in order to adjust for the shock; it jumps to 3. When the first sex imbalanced generations come of reproductive age, the denominators of male TFR begin to inflate, 30 births are fathered from 40 then 43.33, 46.66, 50 and finally stabilizing at 53.33 males. Male TFR then falls in a linear fashion over four years to a value of 2.25 ($4\times\frac{30}{53.33}$). The total population increases by 10 male individuals per year for 10 years, then holds steady at 300. The population biologist tells us that in order to maintain a population, we must maintain its females, and in order to do so in the event of an increase in the sex ratio at birth, the population increases by a factor proportional to the change in the inverse of the sex ratio at birth (50\% in this case). We notice that both males and females are asked to increase their fertility in this case, all the more surprising since there are now relatively more males than before. Let us hope that this island of humans is able to cope with its increased population, for this scenario follows demographic wisdom!
+
+Returning to condition 2, that of holding the total population stable, we first note that the response required of women is identical to that of scenario 1.a: As smaller generations of women enter reproductive ages, they must incrementally increase their fertility, until arriving at a TFR of 3. This keeps both the generation size and the total population size steady at 20 and 200, respectively, although the total number of females will decrease to 66.67 and the total number of males will increase to 133.33, as in case 1.a. Males arrive at a TFR of 1.5, as in case 1.a. If we ask that the population maintain the same total count of females, then the solution also falls back to scenario 2.b. Female fertility immediately increases in order to produce enough baby girls, thereby making male fertility also increase; female fertility maintains a steady high level, while male fertility falls linearly from 3 to 2.25, still higher than it was before.
+
+We observe how summary measures of fertility must adjust for these two most basic of biological changes: longer lifespan and changes in the sex ratio at birth. The responses require change in accordance with our optimization of replacement fertility, which itself is a function of our criterion for stability. So it is that stability of population structure and stability of population size are two very different concepts entailing very different replacement thresholds. We note that the stability with which demographers have long engaged is the former, ergodic stability, while critics of cornucopian economics have tended to side with the later a total population held at a limit. 
+
+		\subsubsection{Response to differences in the age combinations and age-ranges of mates}
+
+Take the initial case with 10 individuals of each sex at every age, and imagine now instead of perfect age homogamy, that males and females mate over different age ranges. Females reproduce from age 2 to 5 (4 ages), and males from age 2-7 (6 ages). We ignore age combinations of females and males, and just assume that each age has the same fertility within each sex. In general, nothing changes with respect to our variants of replacement, female TFR is the same and male TFR is the same, both still 2. However, male fertility is now $\frac{1}{3}$ lower in each reproductive age (20 births come from 60 males instead of from 40) while female age-specific fertility remains the same.
+
+One step further, we can randomize parent age-matching between males and females within these ranges (2-5 for females and 2-7 for males), so that births are not evenly distributed. That is to say, births are randomly distributed over age combinations, still summing to 20, but with an uneven distribution of births among males and an uneven distribution among females. The stocks of males and females are still evenly distributed over the ages as before. In this case, it would be possible to calculate a specific fertility rate for each combination of male and female reproductive ages. It still holds here that if there are 20 births, male TFR and female TFR will each be equal to 2, even with random mixing of partners, as long as stocks are evenly distributed as in the example. Furthermore, we can still retrieve a convenient mixed-sex replacement TFR of 1, placing both males and females in the denominator as in the case of equal age ranges and perfect homogamy. To do so, take the birth counts from each potential partner age dyad. Divide each by the sum of males and females from the corresponding ages. The resulting table will still sum to 1 in this example.
+
+To state this observation formally, where $\textbf{B}_{xy}$ is a matrix of birth counts by mothers' age $x$ in rows and fathers' age $y$ in columns. $\textbf{p}_x$ and $\textbf{p}_y$ are count vectors of females and males aged $x$ and $y$ respectively. Then a simple mixed-sex TFR$_{mf}$ might be\footnote{Here the $\otimes$ operator indicates the outer sum, or tensor sum. px and py are vectors, and their outer sum results in a matrix whose row dimension is equal to the length $\textbf{p}_x$ and whose column dimension is equal to the length of $\textbf{p}_y$, and whose elements consist in the element-wise sums of $\textbf{p}_x$ and $\textbf{p}_y$. Division is possible because the matrix dimensions are identical.}:
+
+\begin{align}
+TFR_{mf} = \sum\frac{\textbf{B}_{xy}}{\textbf{p}_x \otimes \textbf{p}_y}
+\end{align}
+
+Recall that the population pyramid is still uniform in our example, with 10 males and 10 females in each age group. As long as there are a total of 20 births in $\textbf{B}_{xy}$, the replacement TFR$_{mf}$ will be equal to 1.
+
+This observation continues to hold even if we tilt the stocks of males and females evenly toward one or the other sex. For example, instead of 10 in each age class of males and females, we place 9 in each age class of females and 11 in each age class of males. In this case, male and female TFR will indeed differ, but the mixed sex TFR$_{mf}$ will continue to sum to 1, a convenient result. This is because the sum of each age combination of males and females is still 20, as when there are 10 individuals in each age. In this case we have 20 total births and 20 total individuals in each generation, as well as 20 dying in the old. The replacement birth \textit{count} will be 20 no matter which kind of stability we wish to satisfy, despite having 9 females and 11 males in each age, supposing that this ratio also translates over into the sex ratio at birth.
+
+If we change the counts of males and females in each age to, say, 9 females and 12 males, this result will no longer pertain. In this case the above formula will essentially reduce to the ratio $\frac{20}{21}$, a mixed sex TFR a less than 1 (0.952). This is consistent because in this case we will have changed both replacement thresholds- generations of size 21 and 21 population exits: In this case there ought to have been 21 births whether aiming for generational or total population replacement. 
+
+From this we learn that age mixing and different age ranges for males and females are not what complicate the interpretation of common (female) TFR. Differences in stocks between males and females, non-unity sex ratios within or between mating ages, do complicate its interpretation, even when replacement is satisfied. In the case of 9 females in each of 4 ages (to 11 males in each of 6), we observe a TFR of $\frac{20}{4\times9}=2.222$. However, we know that the replacement criterion has been satisfied exactly. Are we to understand that the replacement TFR for females under these circumstances is 2.222, while that for males is $\frac{20}{6\times11}=1.818$? This is inconsistent and confusing. However, the mixed sex TFR$_{mf}$ still yields a value of 1, consistent with the very basic initial scenario.
+
+There are conditions that complicate variants of this scenario further, and they will be treated separately in a pedantic way, so that we may become familiar with the difficulties of the problem at hand.
+
+		\subsubsection{Response to subtle differences in the sex ratios of males and females in reproductive ages}
+
+We have seen that differences between the age-specific stocks of males and females do not modify the replacement threshold of our mixed sex TFR$_mf$ , as long as all of their combinations sum to the replacement birth count, in our example 20, and even in the realistic case where males reproduce until later in life.  This continues to hold even when births are randomly distributed over age combos, an unrealistic condition for sure, but one whose satisfaction guarantees that any age curve of fertility will be acceptable. We now change the stocks of males and females in the following way: Males retain their reproductive age range (2-7), but their stocks are staggered, (9,11,9,11,9,11), averaging 10 still. Female stocks are even at 10. Births still sum to 20, but remain randomly distributed over all 24 age combinations of males and females.
+
+In this case, female TFR is still equal to 2, but due to staggered exposures male TFR will not be equal to 2. The exposures serve to weight the randomly distributed births in the numerator, and since these are now staggered, it is unlikely that male age-specific fertility rates will continue to sum to 2. Nor does mixed-sex TFR$_mf$ equal 1, also due to inconsistent weighting. The average generation size is 20, the average sex ratio at birth is 1, and the average number of people dying each year is 20, but all of these things change from year to year. If we are interested only in immediate period replacement, we will require year to year adjustments, depending on the variant of replacement in effect.
+
+For female replacement of the generations, notice in this strange case that over the 4 reproductive ages females will average their own replacement with 1 girl as long as there are 20 births per year. Indeed, due to year to year variation over the ages, some female cohorts will fall short of, and others will exceed 1 girl, but they will all average 1. If the birth count and sex ratio stagger in such a way as to always produce 10 girls, but sometimes 9 and sometimes 11 males, then a particular year's female generational replacement TFR will never equal 2, because some years will only require 19 births, others 21. Convention calls for averaging out female replacement TFR in this case, to keep things simple: If women in this scenario aim for 2 births over their own lifetime, they will all average out to 1 girl, even if the sex ratio at birth toggles in this way. If in each year they succeed as a group, producing 20 births, randomly spread over female ages, period TFR will appear as a stationary time series with random noise (see Figure~\ref{fig:two}), and a mean value of 2 in the long run. 
+
+Note that merely randomizing the age pattern from year to year is not enough to induce stochasticity in the female period TFR in this case: There must also be staggering of the female generation size in order to irregularly weight the age-specific rates. This is here induced by toggling the sex ratio at birth, a fine but relevant point, if we are to make progress. Male TFR will be bound to the same noise pattern, but with attenuated weights from exposure being spread over 6 ages, and a complementary stagger.
+
+If we return to the notion of total population replacement, we would see the same variation in observed period TFR, but the replacement TFR threshold would always be derived from the 20 annual deaths. Since each generation consists in unequal numbers of males and females that always sum to 20, this replacement criterion will always be met, as a simple matter of definition. Furthermore, replacement TFR will be constant, since the female generations also converge quickly to regular staggering.
+
+In general, we conclude that year to year variation in the sex ratio at birth does not play a determining role in choosing a replacement fertility threshold, but it can induce stochasticity in year to year observed fertility rates if the age pattern of fertility is not constant. This can lead to short term deviance from the stated replacement threshold.
+
+\begin{figure}
+\begin{center}
+% sim2
+<<ch1-sim2, echo=FALSE, results=hide>>=
+sim2 <- function(){
+	set.seed(3586)
+	o9 <- ((10/9)+10)
+	horizon <- 1000
+	POP <- matrix(c(9,11,9,11,9,11,9,11,9,11,rep(10,10)),ncol=2,nrow=10)
+	colnames(POP) <- c("males","females")
+	Pi <- TFR <- vector(length=horizon)
+	M <- c(rep(0,9),1)
+	Births <- 20
+	for (i in 1:horizon){
+		Deaths <- sum(POP*M)
+		SRB <- ifelse(i%%2==0,(9/10),(o9/10))
+		BMF <- c(Births*(SRB/(1+SRB)),Births*(1/(1+SRB)))
+		POP <- POP-POP*M
+		if (any(POP==0)){
+			POP <- POP[-which(POP[,1]==0),]
+		}
+		POP <- rbind(BMF,POP)
+		Ba <- unlist(table(sample(x=c(1:4),size=20,replace=T)))
+		Bai <- rep(0,4)
+		names(Bai) <- 1:4
+		Bai[which(names(Bai)%in%names(Ba))] <- Ba[which(names(Ba)%in%names(Bai))]
+		TFR[i] <- sum(Bai/POP[3:6,2])
+		Pi[i] <- sum(POP)
+	}
+	return(TFR)
+}
+sim2.results <- sim2()
+@
+% keep figure separate from values generation
+<<fig2,fig=TRUE,echo=FALSE>>=
+par(mai=c(1,1,0,0))
+plot(1:500, 
+		sim2.results[1:500],
+		type='l',
+		main="",
+		xlab="Years",
+		ylab="TFR stationary series",
+		cex.lab=1.5)
+@
+
+\end{center}
+\caption{Stochasticity induced in period female TFR due to toggling sex ratio at birth (9/10; 11/10) and randomizing the female age pattern of fertility (4 reproductive ages), constant 20 births, constant 200 population.}
+\label{fig:two}
+\end{figure}
+
+Here we have a strange situation where we know that the population satisfies the replacement criterion, but appears not to in most years. It is always possible to exactly retrieve the replacement TFR threshold from the randomness present in every year if instead of dividing births in each age by the observed staggered exposures we divide each age's fertility by the observed average exposure, which is always 10 in our example. Equivalently, we can multiply the ratio of observed exposures to mean exposure into the observed ASFR. Summing these will yield the replacement value of two, even if births are randomly allocated over age. Likewise, the mixed-sex TFRmf can be brought back to 1 by designing weights to bring each element of its denominator back to 20. These treatments are not valid procedures when working with real word data, but serve to validate the simple simulations described here. We presume that real world variation in the sex ratio at birth and year to year variation in the age pattern of fertility are much lower than that simulated here, and real world populations have much larger numbers and more ages; all of these factors would combine to lessen the year to year variation in TFR produced in this example.
+
+	\subsection{A fertility indicator for the population as a whole}
+
+The different versions of replacement, those implying generational replacement or total population replacement, and their variants looking only at females or at both sexes together, entail different replacement criteria. The utility of our common synthetic fertility indicators, TFR and NRR (so far not discussed) does not yet stand in question, but their interpretation will depend on the notion of replacement in use. This makes it tedious to judge whether or not a particular observed TFR is high or low. 
+
+The above scenarios consider fertility measures for males and females separately, under a variety of population conditions. The sexes are indeed at times subject to different pressures in order to meet different replacement criteria. I have tended to separate changes from the base scenario in order to shed light upon the kinds of population changes that a good fertility indicator should dampen out or be sensitive to. Other desirable properties of a fertility indicator include that it respect scale and rank in accordance with the definition of replacement on hand. In this way it can be comparable between different populations, and apply as a summary judgment of the fertility of a single population as a whole, both sexes together. There are certain aspects that we prefer it to be sensitive to, such as market effects between the sexes, an endogenous aspect of population that I have not yet tended to. 
+
+	\subsection{Endogeneity in mixed sex population dynamics}
+
+As stated previously, males and females seek mates under certain constraints, the most universal of which is mate availability. Populations propel themselves forward by reproducing, an activity governed by the population's own inner logic and constrained by exogenous factors, for instance the carrying capacity of a given time and place. Individuals within populations consider aspects of the population itself as constraints. Males are constrained by the availability of females, and females are constrained by the availability of males. Without a male, a female cannot reproduce, and vice versa. Humans (and other species) incur costs in searching for mates, and in competing for mates, especially when mates are scarce. Individual males and females may have different and non-compatible selection criteria, leading to negotiation and tradeoffs. Here I do not consider individual choice mechanisms, but will point out some macro consequences of stock imbalances between the sexes that may have consequences on observed fertility.
+
+In measuring the fertility of the moment, there is no straightforward way to extract how rates might have changed if sex ratios and age distributions had been different. In measuring the fertility of the moment, one also tends to ignore what opportunity costs played out in the aggregate, what losses were incurred, in order to successfully mate: Those are aspects for \textit{explainers}, not for \textit{predictors}. Surely, though, behavior patterns can make fertility increase or decrease in predictable ways. Theories from disciplines beyond demography make this link, but there have been few attempts, and little success, at linking these theories back into prediction. 
+
+Concretely, given present and recent past conditions, demographers project fertility and mortality forward confidently for a few years, but with little confidence thereafter. Precisely, it would be of potential utility for projected future fertility rates to not only be a function of the hopes and judgments of the present, but also of the population structure itself, which we know informs fertility. One avenue for continued future research are in age preferences of the sexes, and substitution preferences when constrained by mate availability. 
+
+\section{A Word on Notation}
+This document makes use of a particular set of typfaceing conventions for mathematics and programming, which I here document in order that the remainder of the document be easier to read. First, the following font is used to indicate variables used in text: $R_0$, $f_x$, as opposed to $\text{R}_{\text{0}}$ or $\text{f}_{\text{x}}$. Subscripts indicate ages and transitive states, where ${}_x$ or ${}_y$ indicate age, ${}_t$ indicates time. For instance, $f_x$ is often used to indicate ASFR. Superscripts will be used to differentiate males and females, such that $f_x ^m$ is paternal ASFR and $f_x ^f$ is maternal (typical) ASFR. If male and female variables indexed by age appear together in the same statement or formula, ${}_x$ refers to male age, ${}_y$ refers to female age and ${}_{xy}$ indexes each combination of male and female age. Left subscripts are often dropped, but refer to age interval lengths when used, as is typical in demography, e.g. ${}_5f_20$ specifies the fertility rate for the age-range 20-24. Whenever discrete formulas are used, these left subscripts are implied, but often left out to reduce clutter.
+
+Bold faced lower case variables refer to vectors, which in this context means a vector of age-specific values, e.g. exposures, rates, weights, and such. In this sense, $f_x$ and $\bm{f}$ can be understood as representing the same thing, though vectors will frequently be necessary with particular mathematical operations, and they translate more directly to the style of programming code used in this dissertation. Bold faced upper case variables refer to matrices, such as $\bm{M}$, which could be a marriage table expressed in matrix form, or a birth table $\bm{B}$ cross-tabulated by age of mother and age of father.
+
+All programming for this dissertation has been carried out in the R languange \citep{Rcitation}, and has been integrated with the dissertation typesetting using Sweave \citep{lmucs-papers:Leisch:2002} facilities for literate programming and reproducible research. Often, the R translation of a particular procedure will be displayed as a separate \textit{code chunk}, such as the following:
+
+<<>>=
+(fx <- runif(10))
+@
+
+Here a \texttt{>} markers on the left indicates code sent to R, while bracketed numbers, such as \texttt{[1]} indicate interpreted output resulting from commands sent to R. To reduce clutter ocassionally either input or are be dropped, depending on context. Monospaced text used in-line refers to an R object that has already been defined in a code-chunk. \texttt{fx} indicates the R object defined in the above code chunk. Care has been taken to keep the names of R objects as much in accordance as possible with the variable names used in a particular section. The appendices include a tutorial on extracting the R code from this dissertation for closer inspection. Doing so allows access to the minutia of data pre-processing that are not discussed at length in the body of the text.
+
+Other special symbols that are not familiar to most demographers are defined in context.
