@@ -138,7 +138,14 @@ StolarskyM <- function(x, y, p){
 #B <- matrix(rpois(16,lambda=200),4, dimnames=list(1:4,1:4))
 #ABm <- StolarskyM(A,B,.5)
 
-
+# weighted (arithmetic) mean, used i.a. for MAC (mean age at childbearing)
+wmean <- function(x, w){
+    sum(w * x) / sum(w)
+}
+# counterpart for weighted variance
+wvar  <- function(x, w){
+    sum(w * ((x -  wmean(x, w)) ^2)) / (sum(w) - 1)    
+}
 
 #p.i <-  seq(-10,10,by = .1)
 #xy <- c(10,100)
