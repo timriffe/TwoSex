@@ -29,13 +29,13 @@ lines(1969:2010, my.years, col = "red", lty = 2)
 # Try Adrien's decomposition of mean age? for males and females? 2d?
 # it had a 'quantum' component I think. Maybe that's worth meting out
 # load in Bxy
-B <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/USbirths/USBxy10_65.Rdata")))
+B                   <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/USbirths/USBxy10_65.Rdata")))
 
-Bcube <- abind::abind(B, along = 3)
-array_names <- dimnames(Bcube)
-names(array_names) <- c("Males", "Females", "Year")
-dimnames(Bcube) <- array_names
-E <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/USexp.Rdata")))
+Bcube               <- abind::abind(B, along = 3)
+array_names         <- dimnames(Bcube)
+names(array_names)  <- c("Males", "Females", "Year")
+dimnames(Bcube)     <- array_names
+E                   <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/USexp.Rdata")))
 
 #dimnames(Bcube)
 # Bcube: males in rows, females in columns:
@@ -91,34 +91,55 @@ wvar  <- function(x,w){
 #lines(10:65, Dschedule, col = "red")
 
 Fxm <- Fxf <- list()
+ages <- 10:65
 years <- 1969:2009
 for (yr in 1:length(years)){
-    Fxm[[yr]] <- B[[yr]] / E[E$Year == years[yr] & E$Age %in% (10:65), "Male"]
-    Fxf[[yr]] <- t(t(B[[yr]]) / E[E$Year == years[yr] & E$Age %in% (10:65), "Female"])
+    Fxm[[yr]] <- B[[yr]] / E[E$Year == years[yr] & E$Age %in% ages, "Male"]
+    Fxf[[yr]] <- t(t(B[[yr]]) / E[E$Year == years[yr] & E$Age %in% ages, "Female"])
 }
 
-MAC     <- TFR <- vector(length = length(years))
-MACi    <- TFRi <- matrix(ncol = length(years), nrow = length(10:65))
-
+MACm    <- TFRm     <- MACf    <- TFRf      <- vector(length = length(years))
+MACim   <- TFRim    <- MACif   <- TFRif     <- matrix(ncol = length(years), nrow = length(ages), 
+                                                    dimnames = list(Age = ages, Year = years))
+age.mids    <- ages + .5
 for (yr in 1:length(years)){
-    TFRi[,yr]      <-  colSums(Fxm[[yr]], na.rm = TRUE) 
-    TFR[yr]        <-  sum(Fxm[[yr]], na.rm = TRUE)
-    MACi[,yr]      <-  colSums(Fxm[[yr]] * age.mids, na.rm = TRUE) / TFRi[, yr]
-    MAC[yr]        <-  wmean(age.mids, rowSums(Fxm[[yr]], na.rm = TRUE))
+    # males
+    TFRim[,yr]      <-  colSums(Fxm[[yr]], na.rm = TRUE) 
+    TFRm[yr]        <-  sum(Fxm[[yr]], na.rm = TRUE)
+    MACim[,yr]      <-  colSums(Fxm[[yr]] * age.mids, na.rm = TRUE) / TFRim[, yr]
+    MACm[yr]        <-  wmean(age.mids, rowSums(Fxm[[yr]], na.rm = TRUE))
+    
+    # females
+    TFRif[,yr]      <-  colSums(t(Fxf[[yr]]), na.rm = TRUE) 
+    TFRf[yr]        <-  sum(t(Fxf[[yr]]), na.rm = TRUE)
+    MACif[,yr]      <-  colSums(t(Fxf[[yr]]) * age.mids, na.rm = TRUE) / TFRif[, yr]
+    MACf[yr]        <-  wmean(age.mids, rowSums(t(Fxf[[yr]]), na.rm = TRUE))  
 }
 
 # 
-plot(years, MAC,type='l')
-plot(years, TFR,type='l')
+plot(years, MACm,type='l',col = "blue",ylim=c(25,32))
+lines(years,MACf,col = "red")
 
-Dweights  <- Dschedule <- matrix(nrow = length(10:65), ncol = length(years)-1)
+# good, crossover too
+plot(years, TFRm, type='l', col = "blue", ylim = c(1.5,2.8))
+lines(years, TFRf, col = "red")
+
+Dfertm  <- Dschedulem <- Dfertf  <- Dschedulef <- matrix(nrow = length(ages), ncol = length(years) - 1,
+                                            dimnames = list(Age = ages, Year = years[-1]))
 for (yr in 1:(length(years)-1)){
-    Dschedule[, yr] <- (TFRi[, yr+1] / TFR[yr+1] + TFRi[,yr] / TFR[yr]) / 2 * (MACi[, yr+1] - MACi[, yr])
-    Dweights[, yr]  <- (TFRi[, yr+1] / TFR[yr+1] - TFRi[,yr] / TFR[yr])  * ((MACi[, yr+1] + MACi[,yr]) / 2)
+    Dschedulem[, yr] <- (TFRim[, yr+1] / TFRm[yr+1] + TFRim[,yr] / TFRm[yr]) / 2 * (MACim[, yr+1] - MACim[, yr])
+    Dfertm[, yr]  <- (TFRim[, yr+1] / TFRm[yr+1] - TFRim[,yr] / TFRm[yr])  * ((MACim[, yr+1] + MACim[,yr]) / 2)
+    Dschedulef[, yr] <- (TFRif[, yr+1] / TFRf[yr+1] + TFRif[,yr] / TFRf[yr]) / 2 * (MACif[, yr+1] - MACif[, yr])
+    Dfertf[, yr]  <- (TFRif[, yr+1] / TFRf[yr+1] - TFRif[,yr] / TFRf[yr])  * ((MACif[, yr+1] + MACif[,yr]) / 2)
 }
 
-image(Dschedule)
-image(Dweights)
+par(mfrow = c(1, 2))
+image(t(Dschedulef), main = "Schedule Females")
+image(t(Dschedulem), main = "Schedule Males")
+
+par(mfrow = c(1, 2))
+image(t(Dfertm), main = "Fert Females")
+image(t(Dfertf), main = "Fert Females")
 
 plot(1970:2009, colSums(Dweights, na.rm = TRUE),type = 'l', ylim = c(-.15,.15), col = gray(.5), lwd = 2)
 lines(1970:2009, colSums(Dschedule, na.rm = TRUE), col = gray(.2),lwd=1.5, lty=2)
