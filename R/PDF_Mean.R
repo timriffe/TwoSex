@@ -227,6 +227,44 @@ lines(1970:2009, p.l.vec, col = "blue")
 
 # now instead of optimizing over the whole pdf, optimize over local pdfs-
 # e.g. 3x3 cells of 3x3 blocks? something like that.
+wmean(matrix(c(2,3,4,5),2), )
+wmeanM2 <- compiler::cmpfun(function(M1, M2, w.frac){
+    M1 * w.frac + M2 * w.frac
+})
+
+for (i in 1:(length(years) - 2)){
+    
+    # observed births from year 1 and 2
+    Bx1  <- makeBlockAgeGroups(BxUS[[i]], N = 3)
+    Bx2  <- makeBlockAgeGroups(BxUS[[i+1]], N = 3)
+    
+    # exposures from years 1 and 2
+    Exf1 <- makeVectorAgeGroups(ExUS$Female[with(ExUS, Year == years[i] & Age %in% c(10:65))], ages = 10:65, N = 3)
+    Exm1 <- makeVectorAgeGroups(ExUS$Male[with(ExUS, Year == years[i] & Age %in% c(10:65))], ages = 10:65, N = 3)
+    Exf2 <- makeVectorAgeGroups(ExUS$Female[with(ExUS, Year == years[i+1] & Age %in% c(10:65))], ages = 10:65, N = 3)
+    Exm2 <- makeVectorAgeGroups(ExUS$Male[with(ExUS, Year == years[i+1] & Age %in% c(10:65))], ages = 10:65, N = 3)
+    
+    # year 1 male and female rates
+    Fxm  <- Bx1 / Exm1
+    Fxf  <- t(t(Bx1) / Exf1) # females in columns
+    
+    # year 2 estimated births using year 1 rates, single sex
+    Bxm.hat <- Fxm * Exm2
+    Bxf.hat <- t(t(Fxf) * Exf2)
+    
+    # the corresponding pdfs of male and female estimatd births
+    Bxm.hat.pdf <- Bxm.hat / sum(Bxm.hat) 
+    Bxf.hat.pdf <- Bxf.hat / sum(Bxf.hat) 
+    
+    # observed year  pdf
+    Bx2.pdf   <- Bx2 / sum(Bx2)
+    #starts <- c(pu = .5, pl = .5)
+    
+    p.u.vec[i] <- optimize(min.tri2, bm.hat.pdf = Bxm.hat.pdf, bf.hat.pdf = Bxf.hat.pdf, 
+            .Bx2.pdf = Bx2.pdf, tri.fun = upper.tri, lower = -200, upper = 500)$minimum
+    p.l.vec[i] <- optimize(min.tri2, bm.hat.pdf = Bxm.hat.pdf, bf.hat.pdf = Bxf.hat.pdf, 
+            .Bx2.pdf = Bx2.pdf, tri.fun = lower.tri, lower = -200, upper = 500)$minimum
+}
 
 
 
