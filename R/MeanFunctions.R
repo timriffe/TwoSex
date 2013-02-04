@@ -113,7 +113,7 @@ stolarsky.mean.v <- Vectorize(compiler:::cmpfun(function(x, y, p){
     )
 }))
 # same as above, though a bit more flexible: this takes either x and y as matrices, with a single
-# p; or x and y as single numbers over a vecor of p
+# p; or x and y as single numbers over a vector of p
 StolarskyM <- function(x, y, p){
     if (length(x) != length(y)){
         stop("x and y must have the same length / dimensions")
@@ -140,13 +140,17 @@ StolarskyM <- function(x, y, p){
 
 # weighted (arithmetic) mean, used i.a. for MAC (mean age at childbearing)
 wmean <- function(x, w){
-    sum(w * x) / sum(w)
+    sum(w * x, na.rm = TRUE) / sum(w, na.rm = TRUE)
 }
 # counterpart for weighted variance
 wvar  <- function(x, w){
     sum(w * ((x -  wmean(x, w)) ^2)) / (sum(w) - 1)    
 }
 
+# weighted mean of two matrices:
+wmeanM2 <- compiler::cmpfun(function(M1, M2, w.frac){
+            M1 * w.frac + M2 * w.frac
+        })
 #p.i <-  seq(-10,10,by = .1)
 #xy <- c(10,100)
 #
