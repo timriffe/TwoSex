@@ -72,3 +72,16 @@ logit <- function(x){
 expit <- function(x){
     exp(x) / (1 + exp(x))
 }
+
+
+# for easier matrix row and column division.
+# column division is otherwise a mess with
+# transposing. Will be nice to internalize 
+# matrix ops, though this might not help all
+# that much
+'%row/%' <- function(M,v){
+    diag(1 / v) %*% M    
+}
+'%col/%' <- function(M,v){
+    M %*% diag(1 / v)  
+}
