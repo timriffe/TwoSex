@@ -7,6 +7,24 @@ BxUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy10_65.Rdata")))
 ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
 
 
+
+Bxy         <- BxUS[["1970"]]
+rowTotals   <- rowSums(Bxy)
+colTotals   <- colSums(Bxy)
+nOfCases    <- sum(rowTotals)
+expected    <- outer(rowSums(Bxy), colSums(Bxy), "*") / nOfCases
+
+
+
+par(mfrow=c(1,2))
+image(x=10:65,y=10:65,log(t(Bxy)),asp=1, zlim = c(0,12))
+image(x=10:65,y=10:65,log(t(expected)),asp=1, zlim = c(0,12))
+log(60000)
+max(expected)
+
+Diff <- Bxy - expected
+image(x=10:65,y=10:65,t(Diff),asp=1)
+## Fisher's exact test gives p = 0.4857 ...
 # not sure what I'm supposed to see in equation 4.1 everything cancels!
 
 
@@ -54,3 +72,6 @@ harmonic.mean(c(TFRm, TFRf)) #hmmm
 
 # I've come to the conclusion that Das Gupta essentially banks on a harmonic mean, but with no
 # lengthy justification.
+
+
+
