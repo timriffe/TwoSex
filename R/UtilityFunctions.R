@@ -92,6 +92,14 @@ Mna0 <- function(M){
     M
 }
 
+Minf0 <- function(M){
+    M[is.infinite(M)]  <- 0
+    M
+}
+MinfNA <- function(M){
+    M[is.infinite(M)]  <- NA
+    M
+}
 # this function rounds N-dimensional arrays, while maintaining margin totals
 contround2 <- function(origvalue){
     contround <-function(origvalue){
