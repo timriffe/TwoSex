@@ -182,9 +182,9 @@ plot(as.integer(names(BxUS)), TotalVarUS, type = 'l', ylim = c(.33,.48), xlim = 
         col = gray(.2), lwd = 2, axes = FALSE, xlab = "", ylab = "",
         panel.first = list(rect(1960,.3,2012,.5, col = gray(.93), border = NA),
                            abline(v = seq(1970,2010,by = 5),col = "white"),
-                           abline(h = seq(.3,.5,by = .025),col = "white"),
+                           abline(h = seq(.3,.45,by = .025),col = "white"),
                            text(seq(1970,2010,by = 5),.33,seq(1970,2010,by = 5),pos = 1,cex = .7, xpd = TRUE),
-                           text(1967,seq(.35,.5,by = .05),seq(.3,.5,by = .05),pos = 2,cex = .7, xpd = TRUE)
+                           text(1967,seq(.35,.45,by = .05),seq(.35,.45,by = .05),pos = 2,cex = .7, xpd = TRUE)
                            ))
 lines(as.integer(names(BxES)), TotalVarES, col = gray(.4), lwd = 3, lty = 3)
 legend("bottomleft", col = gray(c(.2,.4)), lwd = c(2,3), lty = c(1,3),
