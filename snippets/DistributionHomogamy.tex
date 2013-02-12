@@ -16,13 +16,15 @@ where $x$ stands for age of father and $y$ stands for age of mother.
         \centering  
           \caption{Observed versus expected bivariate age distribution of
           parents, 1970, USA}
+           % figure produced in
+           % /R/ObservedVsExpectedBivariateBirthDistribution.R
           \includegraphics{home/triffe/git/DISS/DiagnosticPlots/ObsvsExpectedBxy/ObservedvsExpectedBxy}
           \label{fig:US1970obsexp}
 \end{figure}
 
-Visual inspection of surfaces of the observed and expected birth counts
-confirms they are indeed quite different: The observed surface shows a stronger
-homogamy-hypergamy pattern than the expected surface. How similar are the
+Visual inspection of surfaces of the observed and expected birth counts in
+Figure~\ref{fig:US1970obsexp} confirms they are indeed quite different: The
+observed surface shows a stronger homogamy-hypergamy pattern than the expected surface. How similar are the
 observed and association-free $B_{xy}$ distributions from each other? One way to
 judge the departure from randomness of this distribution is to calculate a
 simple difference coefficient, $\theta$, namely:
@@ -75,8 +77,9 @@ than structural hypergamy. While these types of values do not enter, per se,
 into any of the thus-far proposed two-sex solutions, they characterize the 
 population in a basic way, and aid in understanding macro-level patterns. 
 
-Let us then calculate two times series, one for overlap and another for
-residual hypergamy:
+Let us then calculate two times series, one for total difference,
+Figure~\ref{fig:Theta}, and another for our three measures of hypergamy,
+Figure~\ref{fig:HypergamyStrength}:
 
 \begin{figure}
         \centering
@@ -84,19 +87,22 @@ residual hypergamy:
                 \centering
                  \caption{Departure from association-free bivariate
                  distribution. }
+                 % figure produced in
+                 % /R/ObservedVsExpectedBivariateBirthDistribution.R
                 \includegraphics{home/triffe/git/DISS/DiagnosticPlots/ObsvsExpectedBxy/TotalVariationObsvsExpectedUSES}
                 \label{fig:Theta}
         \end{subfigure}
         \quad
         \begin{subfigure}[b]{0.9\textwidth}
                 \centering
+                 % figure produced in
+                 % /R/ObservedVsExpectedBivariateBirthDistribution.R
                 \caption{Strength of Hypergamy, $\frac{B_{x>y}}{B_{x<y}}$,
                 total, structural and excess. }
-                \includegraphics{home/triffe/git/DISS/DiagnosticPlots/ObsvsExpectedBxy/StrengthHypergamy}
-                
+                \includegraphics{home/triffe/git/DISS/DiagnosticPlots/ObsvsExpectedBxy/StrengthHypergamy}      
                 \label{fig:HypergamyStrength}
         \end{subfigure}
-        \caption{USA and Spain}\label{fig:obsexp}
+        \caption{USA, 1969-2010 and Spain, 1975-2009}\label{fig:obsexp2}
 \end{figure}
 
 
