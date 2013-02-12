@@ -16,17 +16,39 @@ colTotals   <- colSums(Bxy)
 nOfCases    <- sum(rowTotals)
 expected    <- outer(rowSums(Bxy), colSums(Bxy), "*") / nOfCases
 
+# structural hypogamy due only to single-sex spans and distributions.
+
+# -----------------------------------------------
+# including diagonal
+# lower = hyergamy, upper = hypogamy
 sum(expected[lower.tri(expected, TRUE)]) /
 sum(expected[upper.tri(expected, TRUE)])
 
+# lower = hyergamy, upper = hypogamy
 sum(Bxy[lower.tri(Bxy, TRUE)]) /
 sum(Bxy[upper.tri(Bxy, TRUE)])
+# -----------------------------------------------
+# percent on the diagonal
+sum(diag(Bxy)) / sum(Bxy)
+sum(diag(expected)) / sum(expected)
+# -----------------------------------------------
+# excluding diagonal
+sum(expected[lower.tri(expected)]) /
+sum(expected[upper.tri(expected)])
 
-upper.tri(matrix(0,ncol=3,nrow = 3))
+# lower = hyergamy, upper = hypogamy
+sum(Bxy[lower.tri(Bxy)]) /
+sum(Bxy[upper.tri(Bxy)])
+#------------------------------
+# excess hypergamy:
+(sum(Bxy[lower.tri(Bxy)]) / sum(Bxy[upper.tri(Bxy)])) / 
+(sum(expected[lower.tri(expected)]) / sum(expected[upper.tri(expected)]))
 
+# --------------------------------
+# surfaces for observed and expected Bxy
+{
 colramp <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"), space = "Lab")
 
-Zmax <- max(pretty(max(c(Bxy, expected))))
 ages <- 10:65
 
 #outer(10^c(0:-10))
@@ -45,7 +67,7 @@ g.xy <- seq(10, 65, by = 5)
 gb.xy <- seq(10, 65, by = 10)
 
 graphics.off()
-dev.new(height = 4, width = 6.5)
+#dev.new(height = 4, width = 6.5)
 
 brks <- seq(min(logBxy, na.rm = TRUE),max(logBxy, na.rm = TRUE), length.out = 51)
 
@@ -105,7 +127,7 @@ contour(x = ages[1:55] + .5, y = ages[1:55] + .5, logExy[1:55,1:55],
 # line of homogamy:
 segments(10,10,66,66,col = "#50505050")
 dev.off()
-
+}
 
 # total variation distance:
 (ToalVar <- sum(abs(Bxy / sum(Bxy) - expected / sum(expected))) / 2 )
@@ -125,8 +147,9 @@ Exf <- with(ExUS, Female[Age >= 10 & Age <= 65 & Year == 1970])
 (TFRfexpected <- sum(expected %col% (1/Exf)))
 (TFRfobserved <- sum(Bxy %col% (1/Exf))) # identical
 
-
-TotalVar <- unlist(lapply(BxUS, function(x){
+# ------------------------------------------------------------------
+# calculate total difference (theta) between observed and expected:
+TotalVarUS <- unlist(lapply(BxUS, function(x){
             x[is.na(x)] <- 0
             rowTotals   <- rowSums(x)
             colTotals   <- colSums(x)
@@ -137,9 +160,108 @@ TotalVar <- unlist(lapply(BxUS, function(x){
             sum(abs(x / sum(x) - E / sum(E))) / 2
  
         })  )
+
 # i.e. convergence as fertility decreased.
-plot(as.integer(names(BxUS)), TotalVar, type = 'l')
-head(ExUS)
+BxES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata")))
+TotalVarES <- unlist(lapply(BxES, function(x){
+                    x[is.na(x)] <- 0
+                    rowTotals   <- rowSums(x)
+                    colTotals   <- colSums(x)
+                    nOfCases    <- sum(rowTotals)
+                    # expected distr
+                    E           <- outer(rowSums(x), colSums(x), "*") / nOfCases
+                    # coef of diff
+                    sum(abs(x / sum(x) - E / sum(E))) / 2
+                    
+                })  )
+# --------------------------------------------
+# plot theta:
+pdf("/home/triffe/git/DISS/DiagnosticPlots/ObsvsExpectedBxy/TotalVariationObsvsExpectedUSES.pdf", height = 4.5, width = 4.5)
+par(mar = c(3,3,3,3), xaxs = "i", yaxs = "i")
+plot(as.integer(names(BxUS)), TotalVarUS, type = 'l', ylim = c(.33,.48), xlim = c(1967,2012), 
+        col = gray(.2), lwd = 2, axes = FALSE, xlab = "", ylab = "",
+        panel.first = list(rect(1960,.3,2012,.5, col = gray(.93), border = NA),
+                           abline(v = seq(1970,2010,by = 5),col = "white"),
+                           abline(h = seq(.3,.5,by = .025),col = "white"),
+                           text(seq(1970,2010,by = 5),.33,seq(1970,2010,by = 5),pos = 1,cex = .7, xpd = TRUE),
+                           text(1967,seq(.35,.5,by = .05),seq(.3,.5,by = .05),pos = 2,cex = .7, xpd = TRUE)
+                           ))
+lines(as.integer(names(BxES)), TotalVarES, col = gray(.4), lwd = 3, lty = 3)
+legend("bottomleft", col = gray(c(.2,.4)), lwd = c(2,3), lty = c(1,3),
+    legend = c(expression(paste(theta," USA")), expression(paste(theta," ES"))), bty = "n")
+dev.off()
+
+# --------------------------------------------
+# calculate strength of hypergamy, H, (ratio of total to structural hypergamy)
+      
+HypergamyES <- as.matrix(do.call(rbind,lapply(BxES, function(x){
+                    x[is.na(x)] <- 0
+                    rowTotals   <- rowSums(x)
+                    colTotals   <- colSums(x)
+                    nOfCases    <- sum(rowTotals)
+                    # expected distr
+                    E           <- outer(rowSums(x), colSums(x), "*") / nOfCases
+                    # structural hypergamy:
+                    sH <- sum(E[lower.tri(E)]) /
+                            sum(E[upper.tri(E)])
+                    # observed hypergamy:
+                    tH <- sum(x[lower.tri(x)]) /
+                            sum(x[upper.tri(x)])
+                    # excess hypergamy: 
+                    list(structural = sH, total = tH, excess = tH / sH, homogamy = sum(diag(x)) / sum(x))
+                })  ))
+HypergamyUS <- as.matrix(do.call(rbind,lapply(BxUS, function(x){
+                    x[is.na(x)] <- 0
+                    rowTotals   <- rowSums(x)
+                    colTotals   <- colSums(x)
+                    nOfCases    <- sum(rowTotals)
+                    # expected distr
+                    E           <- outer(rowSums(x), colSums(x), "*") / nOfCases
+                    # structural hypergamy:
+                    sH <- sum(E[lower.tri(E)]) /
+                            sum(E[upper.tri(E)])
+                    # observed hypergamy:
+                    tH <- sum(x[lower.tri(x)]) /
+                            sum(x[upper.tri(x)])
+                    # excess hypergamy: 
+                    list(structural = sH, total = tH, excess = tH / sH, homogamy = sum(diag(x)) / sum(x))
+                })  ))
+# --------------------------------------------
+# plot H:
+pdf("/home/triffe/git/DISS/DiagnosticPlots/ObsvsExpectedBxy/StrengthHypergamy.pdf", height = 4.5, width = 4.5)
+par(mar = c(3,3,3,3), xaxs = "i", yaxs = "i")
+USyrs <- as.integer(rownames(HypergamyUS))
+ESyrs <- as.integer(rownames(HypergamyES))
+plot(USyrs, HypergamyUS[,"structural"], type = 'l', ylim = c(0,8), xlim = c(1967,2012), 
+        col = gray(.2), lty = 1, lwd = 2, axes = FALSE, xlab = "", ylab = "",
+        panel.first = list(rect(1960,0,2012,9, col = gray(.93), border = NA),
+                abline(v = seq(1970,2010,by = 5),col = "white"),
+                abline(h = seq(0,8,by = 1),col = "white"),
+                text(seq(1970,2010,by = 5),0,seq(1970,2010,by = 5),pos = 1,cex = .7, xpd = TRUE),
+                text(1967,seq(0,8,by = 1),seq(0,8,by = 1),pos = 2,cex = .7, xpd = TRUE)
+                
+        ))
+lines(USyrs, HypergamyUS[,"total"], col = gray(.1), lwd = 1, lty = 1)
+lines(USyrs, HypergamyUS[,"excess"], col = gray(.2), lwd = 3, lty = 1)
+
+lines(ESyrs, HypergamyES[,"structural"], col = gray(.2), lwd = 2, lty = 2)
+lines(ESyrs, HypergamyES[,"total"], col = gray(.1), lwd = 1, lty = 2)
+lines(ESyrs, HypergamyES[,"excess"], col = gray(.2), lwd = 3, lty = 2)
+
+text(1970,2,"structural hypergamy", cex = 1, pos = 4)
+text(1970,4.3,"excess hypergamy", cex = 1, pos = 4)
+text(1970,7.5,"total observed hypergamy", cex = 1, pos = 4)
+
+text(1964,4.5,expression(frac(B["x>y"], B["x<y"])),xpd = TRUE)
+
+text(c(1970.984, 1968.685, 1969.160),c(6.955055, 4.072075, 1.549466), c("US","US","US"), cex = .8)
+text(c(1979.548, 1981.213, 1986.447),c(6.868566, 3.754947, 1.95), c("ES","ES","ES"), cex = .8)
+dev.off()
+# --------------------------------------------
+
+
+
+
 ExfList <- tapply(ExUS$Female, ExUS$Year, function(x){
             x[11:66]
         })
