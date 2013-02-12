@@ -262,18 +262,6 @@ dev.off()
 
 
 
-ExfList <- tapply(ExUS$Female, ExUS$Year, function(x){
-            x[11:66]
-        })
-TFRf <- unlist(mapply(function(x,y){
-                    x[is.na(x)] <- 0
-                    
-                    sum(colSums(x) / y)
-                    
-                },BxUS,ExfList, )  )
-
-
-
 
 
 
