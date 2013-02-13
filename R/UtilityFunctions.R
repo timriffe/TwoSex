@@ -79,11 +79,13 @@ expit <- function(x){
 # transposing. Will be nice to internalize 
 # matrix ops, though this might not help all
 # that much
-'%row%' <- function(M,v){
-    diag(v) %*% M    
+'%row%' <- function(M, v){
+    M / v
+    #diag(v) %*% M    
 }
-'%col%' <- function(M,v){
-    M %*% diag(v)  
+'%col%' <- function(M, v){
+    t(t(M) / v)
+    # diag(v) %*% M
 }
 
 Mna0 <- function(M){
