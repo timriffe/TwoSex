@@ -2,16 +2,44 @@
 %* all figs here produced in IllustrateDivergence.R
 
 Divergence of single-sex population models is problem of practical significance
-for demographers, and it stems from the fact that vital rates of increment and
-decrement to human populations nearly always (except in rare coindcidences where
-rates cross) differ between the sexes. Observed age-specific vital rates for
-Spain and the United States serve well to illustrate the peculiarities of the problem.  %
+for demographers, and it stems from the fact that vital rates almost always
+differ between the sexes, except in rare coincidences when rates cross over
+time. This characteristic of human populations, sexual dimorphism,
+is manifest in all aspects of demography. In observed populations, fluctuations
+in sexual dimorphism are constatly underway, while in theoretical population
+models, dimorphism is typcically limited to fertility, mortality and the sex
+ratio at birth. For convenience, this author classifies these concepts as
+two-sex interactive, sex-specific, and a global population characteristic, 
+respectively. Observed age-specific vital rates for Spain and the United States
+serve well to illustrate the peculiarities of the problem.  %
 
 % ASFR for 1975, both countries
+\begin{figure}[ht!]
+        \centering  
+          \caption{Male and Female Age-Specific Fertility Rates, 1975, USA and
+          Spain}
+           % figure produced in
+           % /R/ObservedVsExpectedBivariateBirthDistribution.R
+           \makebox[\textwidth]{\includegraphics{Figures/ASFR1975}}
+          %\includegraphics{Figures/ObservedvsExpectedBxy}
+          \label{fig:ASFR1975}
+\end{figure}
+
 
 % TFR 1969- 2010
-
+\begin{figure}[ht!]
+        \centering  
+          \caption{Male and Female Total Fertility Rates, 1969-2009, USA and
+          Spain}
+           % figure produced in
+           % /R/ObservedVsExpectedBivariateBirthDistribution.R
+           \makebox[\textwidth]{\includegraphics{Figures/TFR}}
+          %\includegraphics{Figures/ObservedvsExpectedBxy}
+          \label{fig:TFRseries}
+\end{figure}
 % NRR single sex? US SRB?
+
+
 % vs net TFR
 
 % Can't assume constant SRB
