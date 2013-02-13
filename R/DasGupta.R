@@ -31,19 +31,19 @@ Pxf <- with(ExUS, Female[Age >= 10 & Age <= 65 & Year == 1970])
 
 Bxy <- BxUS[["1970"]]
 # eq 5.4
-Uxy <- Mna0(Bxy %row% (1 / rowSums(Bxy)))
-Vxy <- Mna0(Bxy %col% (1 / colSums(Bxy)))
+Uxy <- Mna0(Bxy %row% rowSums(Bxy))
+Vxy <- Mna0(Bxy %col% colSums(Bxy))
 
 Uxy <- Uxy / sum(Uxy)
 Vxy <- Vxy / sum(Vxy)
 thetam <- 1.05 / 2.05
 thetaf <- 1 / 2.05
 
-Mxy <- Uxy %row% Pxm 
-Fxy <- Uxy %col% Pxf 
+Mxy <- Uxy %row% (Pxm / 1)
+Fxy <- Uxy %col% (Pxf / 1)
 
 
-mxy <- Mna0(Bxy / (Uxy %row% Pxm + Vxy %col% Pxf))
+mxy <- Mna0(Bxy / (Uxy %row% (Pxm / 1) + Vxy %col% (Pxf / 1)))
 
 mx <- rowSums(Bxy) / Pxm
 my <- colSums(Bxy) / Pxf
@@ -58,7 +58,7 @@ sum(mxy)
 plot(10:65, mxy, col = "red", type = "l")
 polygon(c(10:65, 65:10), c(mx, rev(my)), col = "#55555550")
 
-Bt <- sum((thetam * Uxy %row% Pxm + thetaf * Vxy %col% Pxf) * )
+Bt <- sum((thetam * Uxy %row% (Pxm/1) + thetaf * Vxy %col% (Pxf/1)) * )
 
 sum(apply(cbind(mxm / (2 * thetam), myf / (2 * thetaf)), 1, harmonic.mean))
 sum(apply(cbind(mxm / (thetam), myf / ( thetaf)), 1, harmonic.mean))
