@@ -1,7 +1,7 @@
 
 % lengthy preamble is aside. That's where packages are loaded as needed, new environments
 % defined, etc
-\input{sections/preamble.tex}
+\input{sections/00.preamble.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -44,7 +44,7 @@
 
 % Optional Acknowledgements page
 \startacknowledgementspage
-\SweaveInput{Ackn/Ackn}
+\input{sections/03.Ackn.tex}
 \label{Acknowledgements}
 
 % Optional Preface page
@@ -63,27 +63,27 @@
 % Inserts abstract from external Rnw file
 \startabstractpage
 {The Two-Sex Problem in Demography}{Timothy L. M. Riffe}{Chair: Dr. Albert Esteve}
-\SweaveInput{Abstract/Abstract}
+\input{sections/02.Abstract.tex}
 \label{Abstract}
 
 \startthechapters 
 % inserts ch1 (Intro)
- \SweaveOpts{prefix.string=Figures/intro}
+ %\SweaveOpts{prefix.string=Figures/intro}
  \chapter{Introduction}
  \label{chap:Intro}
- \SweaveInput{Intro/Intro}
+ %\input{Intro/Intro}
 % inserts ch2 
- \SweaveOpts{prefix.string=Figures/ch2}
+ %\SweaveOpts{prefix.string=Figures/ch2}
  \chapter{Posing the problem analytically}
  \label{chap:Posing}
- \SweaveInput{ch2/ch2}
+ \input{sections/05.Approaches.tex}
 % potential for further chapters
 \startappendices
 
  \SweaveOpts{prefix.string=Figures/Appendix1}
  \appendix{Proofs of Decomposition Formulas Used in Dissertation}
  \label{app:Appendix1}
- \SweaveInput{Appendices/Appendix1}
+ \input{sections/zAppendix1.tex}
  
 \startbibliography
  \begin{singlespace} % Bibliography must be single spaced
