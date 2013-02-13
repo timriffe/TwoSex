@@ -249,9 +249,9 @@ lines(ESyrs, HypergamyES[,"structural"], col = gray(.2), lwd = 2, lty = 2)
 lines(ESyrs, HypergamyES[,"total"], col = gray(.1), lwd = 1, lty = 2)
 lines(ESyrs, HypergamyES[,"excess"], col = gray(.2), lwd = 3, lty = 2)
 
-text(1966,2,"structural hypergamy", cex = .8, pos = 4)
+text(1966,1,"structural hypergamy", cex = .8, pos = 4)
 text(1966,4.5,"excess hypergamy", cex = .8, pos = 4)
-text(1966,7.7,"total observed hypergamy", cex = .8, pos = 4)
+text(1972,7.7,"total observed hypergamy", cex = .8, pos = 4)
 
 text(1962,4.5,expression(frac(B["x>y"], B["x<y"])),xpd = TRUE)
 
