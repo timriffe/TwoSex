@@ -6,14 +6,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-% this is to cache values produced in R to time recompiling code that contains calucations.
-%<<cache=F,echo=FALSE>>=
-%# setting directory to be used for caching objects created.
-%setCacheDir("Values")
-%options(width=65) # set max char line width for R code
-%#options(continue=" ") # removes the "+" from continuation prompts
-%@
-
 \bibliographystyle{agu04}    % Set the bibliography style. agu04, plain, alpha, etc.
 
 % Title page 
@@ -77,7 +69,7 @@
  %\SweaveOpts{prefix.string=Figures/ch2}
  \chapter{Posing the problem analytically}
  \label{chap:Posing}
- %\input{sections/05.Approaches.tex}
+ \input{sections/05.Approaches.tex}
 % potential for further chapters
 \startappendices
 
@@ -86,10 +78,12 @@
  %\label{app:Appendix1}
  %\input{sections/zAppendix1.tex}
  
+ \nocite{*} % cites everything in References.bib
 \startbibliography
  \begin{singlespace} % Bibliography must be single spaced
   \bibliography{References}   % Use the BibTeX file ``References.bib''.
  \end{singlespace}
+
 
 
 \end{document}
