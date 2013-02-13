@@ -40,7 +40,7 @@
 \makeatother
  
 % Optional Dedication page
-\dedicationpage{For all the people}
+%\dedicationpage{For all the people}
 
 % Optional Acknowledgements page
 \startacknowledgementspage
@@ -71,30 +71,25 @@
  %\SweaveOpts{prefix.string=Figures/intro}
  \chapter{Introduction}
  \label{chap:Intro}
+ \input{sections/04.Intro.tex}
  %\input{Intro/Intro}
 % inserts ch2 
  %\SweaveOpts{prefix.string=Figures/ch2}
  \chapter{Posing the problem analytically}
  \label{chap:Posing}
- \input{sections/05.Approaches.tex}
+ %\input{sections/05.Approaches.tex}
 % potential for further chapters
 \startappendices
 
- \SweaveOpts{prefix.string=Figures/Appendix1}
- \appendix{Proofs of Decomposition Formulas Used in Dissertation}
- \label{app:Appendix1}
- \input{sections/zAppendix1.tex}
+ %\SweaveOpts{prefix.string=Figures/Appendix1}
+ %\appendix{Proofs of Decomposition Formulas Used in Dissertation}
+ %\label{app:Appendix1}
+ %\input{sections/zAppendix1.tex}
  
 \startbibliography
  \begin{singlespace} % Bibliography must be single spaced
   \bibliography{References}   % Use the BibTeX file ``References.bib''.
  \end{singlespace}
 
-% An external Abstract that can be printed at the end of the document, 
-% for separate submission to Rackham. Comment it out when not needed. - jg
-%\startextabstractpage
-%{The Title of Your Dissertation}{Your Name}{Chair: Albert Einstein}
-%\input{Abstract/Abstract}
-%\label{ExtAbstract}
 
 \end{document}
