@@ -1,32 +1,30 @@
+# preamble:
 source("/home/triffe/git/DISS/R/UtilityFunctions.R")
 source("/home/triffe/git/DISS/R/MeanFunctions.R")
 
-BxUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy10_65.Rdata")))
 # BxUS is a list of 56x56 matrices, ages 10-65, males in rows, females in columns
 # (1969 - 2010)
+# BxES is 0:110, years 1975:2009
+BxUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy10_65.Rdata")))
+BxES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+# exposures, as such, straiht from HMD, all ages 0-110, long form
 ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
 
+#--------------------------
+# Das Gupta 1972:
+
+
+
+
+
+
+
+
+# implementing Das Gupta 1978:
 
 
 Bxy         <- BxUS[["1970"]]
-rowTotals   <- rowSums(Bxy)
-colTotals   <- colSums(Bxy)
-nOfCases    <- sum(rowTotals)
-expected    <- outer(rowSums(Bxy), colSums(Bxy), "*") / nOfCases
-
-
-
-par(mfrow=c(1,2))
-image(x=10:65,y=10:65,log(t(Bxy)),asp=1, zlim = c(0,12))
-image(x=10:65,y=10:65,log(t(expected)),asp=1, zlim = c(0,12))
-log(60000)
-max(expected)
-
-Diff <- Bxy - expected
-image(x=10:65,y=10:65,t(Diff),asp=1)
-## Fisher's exact test gives p = 0.4857 ...
-# not sure what I'm supposed to see in equation 4.1 everything cancels!
-
 
 Pxm <- with(ExUS, Male[Age >= 10 & Age <= 65 & Year == 1970])
 Pxf <- with(ExUS, Female[Age >= 10 & Age <= 65 & Year == 1970])        
@@ -70,7 +68,7 @@ sum(apply(cbind(mx, my), 1, harmonic.mean))
 (TFRf <- sum(myf / thetaf))
 harmonic.mean(c(TFRm, TFRf)) #hmmm
 
-# I've come to the conclusion that Das Gupta essentially banks on a harmonic mean, but with no
+# I've come to the conclusion that Das Gupta essentially banks on a *harmonic mean*, but with no
 # lengthy justification.
 
 
