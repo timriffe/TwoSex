@@ -6,5 +6,5 @@ approximations, and accepted the assumption of female dominance as a matter of c
  always clear. Various adjustment procedures have been proposed in the past several decades, but there remains no 
  consensus about the most desirable analytic method. This dissertation recapitulates the discussion,  assesses 
  the proposals that have been made about the two-sex problem, makes methods available in reproducible programming 
- code and comparatively applies this suite of methods to modern populations, including Spain and the USA. Extra 
+ code and comparatively applies this suite of methods to two contemporary populations, Spain and the USA. Extra 
  sections make recommendations for two-sex adjustments in cohort component population projections.
