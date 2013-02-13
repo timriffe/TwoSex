@@ -1,0 +1,114 @@
+
+The age combination of the male and female fertility schedules from
+any given year varies greatly from the distribution that would be expected if
+age and mother and age of father were selected randomly according to the two
+single-sex distributions.
+
+The expected cross-classified age distribution $\textbf{E}B(x,y)$ is defined as:
+
+\begin{equation}
+\textbf{E}B_{xy} = \frac{B_x B_y}{\int _{x = \alpha} ^\beta \int _{y = \alpha}
+^\beta B_{xy} \; dx \;dy}
+\end{equation}
+where $x$ stands for age of father and $y$ stands for age of mother.
+
+\begin{figure}
+        \centering  
+          \caption{Observed versus expected bivariate age distribution of
+          parents, 1970, USA}
+           % figure produced in
+           % /R/ObservedVsExpectedBivariateBirthDistribution.R
+          \includegraphics{home/triffe/git/DISS/DiagnosticPlots/ObsvsExpectedBxy/ObservedvsExpectedBxy}
+          \label{fig:US1970obsexp}
+\end{figure}
+
+Visual inspection of surfaces of the observed and expected birth counts in
+Figure~\ref{fig:US1970obsexp} confirms they are indeed quite different: The
+observed surface shows a stronger homogamy-hypergamy pattern than the expected surface. How similar are the
+observed and association-free $B_{xy}$ distributions from each other? One way to
+judge the departure from randomness of this distribution is to calculate a
+simple difference coefficient, $\theta$, namely:
+
+\begin{equation}
+\theta = 1 - \int \;\int min(f_1, f_2)
+\end{equation}
+,where $f_1$ is $B_{xy}$ and $f_2$ is $\textbf{E}B_{xy}$, both scaled to sum to
+1. $\theta$ is constrained to fall between 0 and 1, where 1 indicates that the
+two distributions are separate and 0 indicates identical distributions. In 1970 USA,
+$\theta$ was equal to $0.47$, a value which can be understood to stand as the
+degree of residual preference.
+
+Note that that age-preference is an imprecise label for the variety
+of preferences that may actually lead to observed age-combination biases. For
+instance, preferences may reflect a third variable (e.g. socioeconomic
+in nature) that covaries with age, so as to give the appearance of age
+preferences. Furthermore, as \citet{bergstrom1989effects, bergstrom1994sweden}
+demonstrate, pair matching may just as easily occur as a function of individual
+preferences for event (mating, marriage) timing coupled with relative
+availability, which follows partly from cohort size. This is consistent with
+\citet{bhrolchain2001flexibility}, who concludes that age preferences for
+mates are highly adaptive to availability conditions.
+
+Despite this ambiguity in mechanisms behind age combination patterns, one can
+create a rough index of the strength of hypergamy or homogamy, based on the
+matrices represented in Figure~\ref{fig:US1970obsexp}. Giving equal reproductive
+bounds to the birth count matrix $B_{xy}$ makes a square matrix, from which we
+can separate the upper and lower triangles. Here, the lower triangle, $L$,
+of $B_{xy}$ contains births due to age-hypergamous (father's age > mother's age)
+parents and the upper triangle $U$ contains births due to age-hypogamous parents. Thus, a simple
+measure of total hypergamy, $\widehat{H}$, can be taken as a ratio of the total
+births in $L$ versus $U$, or in shorthand $\frac{B_{x>y}}{B_{x<y}}$, excluding
+single-age exact homogamy on the matrix diagonal.
+
+\begin{equation}
+\widehat{H} = \frac{\sum L}{\sum U} 
+\end{equation}
+
+In this case, the $\widehat{H}$ will be calculated for the observed and expected
+birth matrices. US data from 1970 yields and observed $\widehat{H}$ of $7.37$
+versus an expected $\textbf{E}\widehat{H}$ of $1.75$. The later value is
+possibly much higher than one would suspect, given that the $\textbf{E}B_{xy}$
+is purged of association. It is due, as mentioned above to differences in the
+shape and span of male and female single-sex fertility. For reference, I
+will call this structural or latent hypergamy, as opposed to the residual, or
+excess hypergamy, which is the ratio of observed (total) hypergamy to
+structural hypergamy, in this case $4.21$ times higher
+than structural hypergamy. While these types of values do not enter, per se, 
+into any of the thus-far proposed two-sex solutions, they characterize the 
+population in a basic way, and aid in understanding macro-level patterns. 
+
+Let us then calculate two times series, one for total difference,
+Figure~\ref{fig:Theta}, and another for our three measures of hypergamy,
+Figure~\ref{fig:HypergamyStrength}:
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.9\textwidth}
+                \centering
+                 \caption{Departure from association-free bivariate
+                 distribution. }
+                 % figure produced in
+                 % /R/ObservedVsExpectedBivariateBirthDistribution.R
+                \includegraphics{home/triffe/git/DISS/DiagnosticPlots/ObsvsExpectedBxy/TotalVariationObsvsExpectedUSES}
+                \label{fig:Theta}
+        \end{subfigure}
+        \quad
+        \begin{subfigure}[b]{0.9\textwidth}
+                \centering
+                 % figure produced in
+                 % /R/ObservedVsExpectedBivariateBirthDistribution.R
+                \caption{Strength of Hypergamy, $\frac{B_{x>y}}{B_{x<y}}$,
+                total, structural and excess. }
+                \includegraphics{home/triffe/git/DISS/DiagnosticPlots/ObsvsExpectedBxy/StrengthHypergamy}      
+                \label{fig:HypergamyStrength}
+        \end{subfigure}
+        \caption{USA, 1969-2010 and Spain, 1975-2009}\label{fig:obsexp2}
+\end{figure}
+
+
+
+
+
+
+
+
