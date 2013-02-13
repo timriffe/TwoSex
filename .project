@@ -6,16 +6,25 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
-			<triggers>full,incremental,</triggers>
+			<name>net.sourceforge.texlipse.builder.TexlipseBuilder</name>
 			<arguments>
-				<dictionary>
-					<key>LaunchConfigHandle</key>
-					<value>&lt;project&gt;/.externalToolBuilders/latex.launch</value>
-				</dictionary>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>net.sourceforge.texlipse.builder.TexlipseNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>.tex</name>
+			<type>1</type>
+			<location>/usr/share/texmf-texlive/tex/latex/tools/.tex</location>
+		</link>
+		<link>
+			<name>latex/.tex</name>
+			<type>1</type>
+			<location>/usr/share/texmf-texlive/tex/latex/tools/.tex</location>
+		</link>
+	</linkedResources>
 </projectDescription>
+

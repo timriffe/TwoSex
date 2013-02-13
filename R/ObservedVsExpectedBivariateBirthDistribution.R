@@ -5,6 +5,7 @@
 source("/home/triffe/git/DISS/R/UtilityFunctions.R")
 source("/home/triffe/git/DISS/R/MeanFunctions.R")
 
+BxES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata")))
 BxUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy10_65.Rdata")))
 # BxUS is a list of 56x56 matrices, ages 10-65, males in rows, females in columns
 # (1969 - 2010)
@@ -71,7 +72,7 @@ graphics.off()
 
 brks <- seq(min(logBxy, na.rm = TRUE),max(logBxy, na.rm = TRUE), length.out = 51)
 
-pdf("/home/triffe/git/DISS/DiagnosticPlots/ObsvsExpectedBxy/ObservedvsExpectedBxy.pdf", 
+pdf("/home/triffe/git/DISS/latex/Figures/ObservedvsExpectedBxy.pdf", 
         height = 4, width = 6.5)
 par(mfrow=c(1,2), mar = c(2,1,2,3))
 image(x = ages + .5, y = ages + .5, logBxy, 
@@ -162,7 +163,7 @@ TotalVarUS <- unlist(lapply(BxUS, function(x){
         })  )
 
 # i.e. convergence as fertility decreased.
-BxES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata")))
+
 TotalVarES <- unlist(lapply(BxES, function(x){
                     x[is.na(x)] <- 0
                     rowTotals   <- rowSums(x)
@@ -176,8 +177,8 @@ TotalVarES <- unlist(lapply(BxES, function(x){
                 })  )
 # --------------------------------------------
 # plot theta:
-pdf("/home/triffe/git/DISS/DiagnosticPlots/ObsvsExpectedBxy/TotalVariationObsvsExpectedUSES.pdf", height = 4.5, width = 4.5)
-par(mar = c(3,3,3,3), xaxs = "i", yaxs = "i")
+pdf("/home/triffe/git/DISS/latex/Figures/TotalVariationObsvsExpectedUSES.pdf", height = 4.5, width = 4.5)
+par(mar = c(4,4,2, 2), xaxs = "i", yaxs = "i")
 plot(as.integer(names(BxUS)), TotalVarUS, type = 'l', ylim = c(.33,.48), xlim = c(1967,2012), 
         col = gray(.2), lwd = 2, axes = FALSE, xlab = "", ylab = "",
         panel.first = list(rect(1960,.3,2012,.5, col = gray(.93), border = NA),
@@ -228,8 +229,8 @@ HypergamyUS <- as.matrix(do.call(rbind,lapply(BxUS, function(x){
                 })  ))
 # --------------------------------------------
 # plot H:
-pdf("/home/triffe/git/DISS/DiagnosticPlots/ObsvsExpectedBxy/StrengthHypergamy.pdf", height = 4.5, width = 4.5)
-par(mar = c(3,3,3,3), xaxs = "i", yaxs = "i")
+pdf("/home/triffe/git/DISS/latex/Figures/StrengthHypergamy.pdf", height = 4.5, width = 4.5)
+par(mar = c(4,4,2,2), xaxs = "i", yaxs = "i")
 USyrs <- as.integer(rownames(HypergamyUS))
 ESyrs <- as.integer(rownames(HypergamyES))
 plot(USyrs, HypergamyUS[,"structural"], type = 'l', ylim = c(0,8), xlim = c(1967,2012), 
@@ -248,14 +249,14 @@ lines(ESyrs, HypergamyES[,"structural"], col = gray(.2), lwd = 2, lty = 2)
 lines(ESyrs, HypergamyES[,"total"], col = gray(.1), lwd = 1, lty = 2)
 lines(ESyrs, HypergamyES[,"excess"], col = gray(.2), lwd = 3, lty = 2)
 
-text(1970,2,"structural hypergamy", cex = 1, pos = 4)
-text(1970,4.3,"excess hypergamy", cex = 1, pos = 4)
-text(1970,7.5,"total observed hypergamy", cex = 1, pos = 4)
+text(1966,2,"structural hypergamy", cex = .8, pos = 4)
+text(1966,4.5,"excess hypergamy", cex = .8, pos = 4)
+text(1966,7.7,"total observed hypergamy", cex = .8, pos = 4)
 
-text(1964,4.5,expression(frac(B["x>y"], B["x<y"])),xpd = TRUE)
+text(1962,4.5,expression(frac(B["x>y"], B["x<y"])),xpd = TRUE)
 
-text(c(1970.984, 1968.685, 1969.160),c(6.955055, 4.072075, 1.549466), c("US","US","US"), cex = .8)
-text(c(1979.548, 1981.213, 1986.447),c(6.868566, 3.754947, 1.95), c("ES","ES","ES"), cex = .8)
+text(c(1970.984, 1968.685, 1969.160),c(6.955055, 4.072075, 1.549466), c("US","US","US"), cex = .7)
+text(c(1979.548, 1981.213, 1986.447),c(6.868566, 3.754947, 1.95), c("ES","ES","ES"), cex = .7)
 dev.off()
 # --------------------------------------------
 

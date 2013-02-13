@@ -14,7 +14,11 @@
 \usepackage{epsfig}
 \usepackage{subfigure}   % To make subfigures. Read subfigure.pdf on ctan.tug.org
 \usepackage{verbatim}
-\usepackage{natbib}      % Allows you to use BibTeX
+\usepackage{natbib}      % for bibtex
+% ---------------------------------------------------------------------
+\usepackage[draft]{pdfpages}    % allows inclusion of multipage pdfs:
+% change to [final] when ready to compile complete
+% ---------------------------------------------------------------------  
 % some custom citation aliases
 \defcitealias{rackham1947trans}{\textit{Aristotle}, Nichomachean Ethics, Book II, Chapter 6, Sections 4-5.}
 
@@ -98,5 +102,6 @@
 \tt\begin{center} #1 \end{center}\end{minipage}}\vspace{5 mm}\par}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% for the d in integrals
+\newcommand{\dd}{\; \mathrm{d}}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

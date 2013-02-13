@@ -7,20 +7,22 @@ single-sex distributions.
 The expected cross-classified age distribution $\textbf{E}B(x,y)$ is defined as:
 
 \begin{equation}
-\textbf{E}B_{xy} = \frac{B_x B_y}{\int _{x = \alpha} ^\beta \int _{y = \alpha}
-^\beta B_{xy} \; dx \;dy}
+\textbf{E}\left[B_{xy}\right] = \frac{B_x B_y}{\int _{x = \alpha} ^\beta \int
+_{y = \alpha} ^\beta B_{xy} \; \dd x \;\dd y}
 \end{equation}
 where $x$ stands for age of father and $y$ stands for age of mother.
 
-\begin{figure}
+\begin{figure}[ht!]
         \centering  
           \caption{Observed versus expected bivariate age distribution of
           parents, 1970, USA}
            % figure produced in
            % /R/ObservedVsExpectedBivariateBirthDistribution.R
-          \includegraphics{home/triffe/git/DISS/DiagnosticPlots/ObsvsExpectedBxy/ObservedvsExpectedBxy}
+           \makebox[\textwidth]{\includegraphics{Figures/ObservedvsExpectedBxy}}
+          %\includegraphics{Figures/ObservedvsExpectedBxy}
           \label{fig:US1970obsexp}
 \end{figure}
+
 
 Visual inspection of surfaces of the observed and expected birth counts in
 Figure~\ref{fig:US1970obsexp} confirms they are indeed quite different: The
@@ -81,29 +83,27 @@ Let us then calculate two times series, one for total difference,
 Figure~\ref{fig:Theta}, and another for our three measures of hypergamy,
 Figure~\ref{fig:HypergamyStrength}:
 
-\begin{figure}
-        \centering
-        \begin{subfigure}[b]{0.9\textwidth}
-                \centering
-                 \caption{Departure from association-free bivariate
-                 distribution. }
-                 % figure produced in
-                 % /R/ObservedVsExpectedBivariateBirthDistribution.R
-                \includegraphics{home/triffe/git/DISS/DiagnosticPlots/ObsvsExpectedBxy/TotalVariationObsvsExpectedUSES}
-                \label{fig:Theta}
-        \end{subfigure}
-        \quad
-        \begin{subfigure}[b]{0.9\textwidth}
-                \centering
-                 % figure produced in
-                 % /R/ObservedVsExpectedBivariateBirthDistribution.R
-                \caption{Strength of Hypergamy, $\frac{B_{x>y}}{B_{x<y}}$,
-                total, structural and excess. }
-                \includegraphics{home/triffe/git/DISS/DiagnosticPlots/ObsvsExpectedBxy/StrengthHypergamy}      
-                \label{fig:HypergamyStrength}
-        \end{subfigure}
-        \caption{USA, 1969-2010 and Spain, 1975-2009}\label{fig:obsexp2}
+\begin{figure}[!ht]
+  \centering
+    \caption{Departure from association-free bivariate distribution. USA,
+    1969-2010 and Spain, 1975-2009}
+     % figure produced in
+     % /R/ObservedVsExpectedBivariateBirthDistribution.R
+     \includegraphics{Figures/TotalVariationObsvsExpectedUSES}
+     \label{fig:Theta}
 \end{figure}
+
+\begin{figure}[!ht]
+  \centering
+    % figure produced in
+    % /R/ObservedVsExpectedBivariateBirthDistribution.R
+    \caption{Strength of Hypergamy, $\frac{B_{x>y}}{B_{x<y}}$, total, structural
+    and excess. USA, 1969-2010 and Spain, 1975-2009}
+    \includegraphics{Figures/StrengthHypergamy}      
+    \label{fig:HypergamyStrength}
+\end{figure}
+
+
 
 
 
