@@ -85,27 +85,27 @@ The simplest, but most rigid, manner of forcing consistency is to take a mean of
 
 In R code, equation \ref{simplerescale} looks something like that displayed below, when \texttt{fm}, \texttt{ff}, \texttt{nm} and \texttt{nf} are defined vectors containing male and female fertility rates and population exposures, respectively. Here, the arithmetic mean, \texttt{mean()}, is implemented as an example, though this can be switched out for other another mean function.
 
-<<echo=F,results=hide>>=
-# here we generate some fake variables, just for a brief code demonstration:
-set.seed(1)
-nm <- rev(sort((1000+1000*runif(70))*seq(from=1,to=.65,length.out=70)))
-nf <- rev(sort((1000+1000*runif(70))*seq(from=1,to=.75,length.out=70)))
-fm <- c(rep(0,15),sort(runif(10)),rev(sort(runif(25))),rep(0,20))
-ff <- c(rep(0,12),sort(runif(7)),rev(sort(runif(20))),rep(0,31))
-@
+%<<echo=F,results=hide>>=
+%# here we generate some fake variables, just for a brief code demonstration:
+%set.seed(1)
+%nm <- rev(sort((1000+1000*runif(70))*seq(from=1,to=.65,length.out=70)))
+%nf <- rev(sort((1000+1000*runif(70))*seq(from=1,to=.75,length.out=70)))
+%fm <- c(rep(0,15),sort(runif(10)),rev(sort(runif(25))),rep(0,20))
+%ff <- c(rep(0,12),sort(runif(7)),rev(sort(runif(20))),rep(0,31))
+%@
 
-\singlespacing
-<<verbatim=TRUE,results=hide>>=
-# Births predicted from males and females:
-bm 		<- fm*nm
-bf		<- ff*nf
-# arithmetic average of sums:
-bbar 	<- mean(c(sum(bm),sum(bf)))
-# rescale male and female fertility:
-fmstar 	<- fm*(bbar/sum(bm))
-ffstar	<- ff*(bbar/sum(bf))
-@
-\doublespacing
+%\singlespacing
+%<<verbatim=TRUE,results=hide>>=
+%# Births predicted from males and females:
+%bm 		<- fm*nm
+%bf		<- ff*nf
+%# arithmetic average of sums:
+%bbar 	<- mean(c(sum(bm),sum(bf)))
+%# rescale male and female fertility:
+%fmstar 	<- fm*(bbar/sum(bm))
+%ffstar	<- ff*(bbar/sum(bf))
+%@
+%\doublespacing
 
 This method preserves all aspects of the fertility PDF for each sex. Consider the case where one sex, say females, experiences a disproportionate increase in the number of 20-24 year-olds and all other ages for males and females remain the same. This will cause the total of births predicted by females to increase, and so increase somewhat the \textit{mean} of births predicted by male and female rates. Uniform rescaling assumes that the excess females from this one age class will be mated evenly across the distribution of males, and the other age classes of females will be equally disadvantaged by the boom in 20-24 year-olds. One could reasonably expect ripple-effects in competition across the ages from such a sudden spike, but one would also expect neighboring age groups to be more affected than distant age groups. For this reason, top-down rescaling is considered rigid; the sex-specific fertility PDFs never change in accordance with shifting age-distributions of the sexes. In a sense, all ages are affected equally by adjustments. A positive aspect of this adjustment is that it will never produce a negative number, and it will always respect zeros for ages with no fertility.
 
@@ -144,18 +144,18 @@ This produces two adjusted rate matrices, $\bm{W^{m\star}}$ and $\bm{W^{f\star}}
 An R implementation of age-combination-specific consistency adjustments turns out to be much more straightforward than the above formulas would suggest. Specifically, R allows division of a matrix by a vector without prior conversion into a diagonal matrix. Omitting this step increases code legibility. A code sample to demonstrate this point, where \texttt{\%$\ast$\%} is the R operator for matrix multiplication:
 
 
-\singlespacing
-<<keep.source=TRUE>>=
-set.seed(1)
-# a random matrix:
-A <- matrix(runif(4),2)
-# a random vector with which to do row-division:
-b <- runif(2)
-# equality of row-wise division by vector (TRUE):
-all.equal((A/b),diag(1/b)%*%A)
-# likewise, for column division (TRUE):
-all.equal(t(t(A)/b),A%*%diag(1/b))
-@
+%\singlespacing
+%<<keep.source=TRUE>>=
+%set.seed(1)
+%# a random matrix:
+%A <- matrix(runif(4),2)
+%# a random vector with which to do row-division:
+%b <- runif(2)
+%# equality of row-wise division by vector (TRUE):
+%all.equal((A/b),diag(1/b)%*%A)
+%# likewise, for column division (TRUE):
+%all.equal(t(t(A)/b),A%*%diag(1/b))
+%@
 %\doublespacing
 
 \noindent, thus later code chunks will prefer the \texttt{A/b} formulation for row-wise division by a vector, as it is also computationally lighter. To demonstrate, assume we have matrix $\bm{M}$, tabulated from data, an example is given below.
