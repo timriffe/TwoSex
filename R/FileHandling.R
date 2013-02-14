@@ -254,30 +254,43 @@ All.Bxy <- lapply(All.paths, function(x){
 Bxymf <- lapply(All.Bxy, function(x){
               
             Bxym <- reshape2::acast(x[x$SEX == 1, ], MAGE ~ FAGE, sum, value.var = "BIRTHS")
-            a99 <- Bxym[,"99"]
+            a99  <- Bxym[,"99"]
             Bxym <- Bxym[, -ncol(Bxym)]
             Bxym <- Bxym + (Bxym / rowSums(Bxym)) * a99 
             
             Bxyf <- reshape2::acast(x[x$SEX == 2, ], MAGE ~ FAGE, sum, value.var = "BIRTHS")
-            a99 <- Bxyf[,"99"]
+            a99  <- Bxyf[,"99"]
             Bxyf <- Bxyf[, -ncol(Bxyf)]
             Bxyf <- Bxyf + (Bxyf / rowSums(Bxyf)) * a99 
             
             list(Bxym = t(Bxym),Bxyf = t(Bxyf))
         })
+
 Bxymf0_110 <- lapply(Bxymf, function(x){
-            Xm <- matrix(0, nrow = 111, ncol = 111, dimnames=list(Males = 0:110, Females = 0:110))
-            Xm[rownames(x),colnames(x)] <- x
-            X
+            Xf <- Xm <- matrix(0, nrow = 111, ncol = 111, dimnames=list(Males = 0:110, Females = 0:110))
+            Xm[rownames(x[["Bxym"]]),colnames(x[["Bxym"]])] <- x[["Bxym"]]
+            Xf[rownames(x[["Bxyf"]]),colnames(x[["Bxyf"]])] <- x[["Bxyf"]]
+            list(Bxym = Xm, Bxyf = Xf)
         })
 
-Bxymf10_65 <- lapply(Bxymf0_110, function(x){
-            x[, 11] <- rowSums(x[, 1:11])
-            x[11, ] <- colSums(x[1:11, ])
-            x[, 66] <- rowSums(x[, 66:101])
-            x[66, ] <- colSums(x[66:101, ])
-            x[11:66, 11:66]
+Bxymf10_65 <- lapply(Bxymf0_110, function(x){   
+            xm <- x[["Bxym"]]
+            xm[, 11] <- rowSums(xm[, 1:11])
+            xm[11, ] <- colSums(xm[1:11, ])
+            xm[, 66] <- rowSums(xm[, 66:101])
+            xm[66, ] <- colSums(xm[66:101, ])
+            
+            xf <- x[["Bxyf"]]
+            xf[, 11] <- rowSums(xf[, 1:11])
+            xf[11, ] <- colSums(xf[1:11, ])
+            xf[, 66] <- rowSums(xf[, 66:101])
+            xf[66, ] <- colSums(xf[66:101, ])
+           
+            list(Bxym = xm[11:66, 11:66], Bxyf = xf[11:66, 11:66])
         })
+save(Bxymf0_110 , file="/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")
+save(Bxymf10_65 , file="/home/triffe/git/DISS/Data/USbirths/USBxymf10_65.Rdata")
+
 
 # stick in 0_100 tables and in 10-65 tables (always same dims, named dims)
 Bxy0_110 <- lapply(All.Bxy, function(x){
