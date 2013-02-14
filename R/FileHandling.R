@@ -250,7 +250,7 @@ All.paths <- file.path("/home/triffe/DATA/CDC/BIRTHS/Bxy", paste0("Bxy",1969:201
 All.Bxy <- lapply(All.paths, function(x){
             local(get(load(x)))
         })
-
+source("/home/triffe/git/DISS/R/UtilityFunctions.R")
 Bxymf <- lapply(All.Bxy, function(x){
               
             Bxym <- reshape2::acast(x[x$SEX == 1, ], MAGE ~ FAGE, sum, value.var = "BIRTHS")
@@ -263,7 +263,9 @@ Bxymf <- lapply(All.Bxy, function(x){
             Bxyf <- Bxyf[, -ncol(Bxyf)]
             Bxyf <- Bxyf + (Bxyf / rowSums(Bxyf)) * a99 
             
-            list(Bxym = t(Bxym),Bxyf = t(Bxyf))
+            
+            
+            list(Bxym = Mna0(t(Bxym)),Bxyf = Mna0(t(Bxyf)))
         })
 
 Bxymf0_110 <- lapply(Bxymf, function(x){
