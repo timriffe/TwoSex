@@ -5,13 +5,20 @@ Divergence of single-sex population models is problem of practical significance
 for demographers, and it stems from the fact that vital rates almost always
 differ between the sexes, except in rare coincidences when rates cross over
 time. This characteristic of human populations, sexual dimorphism,
-is manifest in all aspects of demography. In observed populations, fluctuations
-in sexual dimorphism are constatly underway, while in theoretical population
-models, dimorphism is typcically limited to fertility, mortality and the sex
-ratio at birth. For convenience, this author classifies these concepts as
-two-sex interactive, sex-specific, and a global population characteristic, 
-respectively. Observed age-specific vital rates for Spain and the United States
-serve well to illustrate the peculiarities of the problem.  %
+is manifests itself in all concerns of demography. In observed populations,
+fluctuations in sexual dimorphism are constantly underway. In theoretical
+population models, dimorphism is typically limited to fertility and mortality
+rates and the sex ratio at birth. Fertility is a two-sex interactive phenomenon,
+but in practice population models, such as projections, do not often treat it as
+such. Mortality is always modelled separately for both sexes, and can
+be reasonably thought of as independent for each sex. If if male and female
+rate schedules were identical, mortality differences would also
+cause divergence between male and female single-sex models. The sex ratio at
+birth (SRB) varies from year to year, but is usually treated as a global variable, 
+uniform over age and time. For the USA this is a harmless assumption, but for Spain, 
+assumptions of a constant SRB have been very wrong. Even if male and female fertility and morality schedules
+were identical, Observed age-specific vital rates for Spain and the United
+States serve well to illustrate the peculiarities of the problem.  %
 
 % ASFR for 1975, both countries
 \begin{figure}[ht!]
@@ -39,6 +46,16 @@ serve well to illustrate the peculiarities of the problem.  %
 \end{figure}
 % NRR single sex? US SRB?
 
+\begin{figure}[ht!]
+        \centering  
+          \caption{Male and Female Net Reproduction Rates, 1969-2009, USA and
+          Spain}
+           % figure produced in
+           % /R/ObservedVsExpectedBivariateBirthDistribution.R
+           \makebox[\textwidth]{\includegraphics{Figures/R0mf}}
+          %\includegraphics{Figures/ObservedvsExpectedBxy}
+          \label{fig:NRRseries}
+\end{figure}
 
 % vs net TFR
 
