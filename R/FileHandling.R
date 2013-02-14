@@ -326,3 +326,23 @@ names(Bxy10_65) <-names(Bxy0_110) <- 1969:2010
 #        }, B = B)
 #names(Bxy) <- 1975:2009
 #save(Bxy, file = "/home/triffe/git/Dissertation/DISSERTATION/DATA/ESbirths/ESBxy.Rdata")
+
+BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
+BxymfES10_65 <- lapply(BxymfES, function(x){   
+            xm <- x[["Bxym"]]
+            xm[, 11] <- rowSums(xm[, 1:11])
+            xm[11, ] <- colSums(xm[1:11, ])
+            xm[, 66] <- rowSums(xm[, 66:101])
+            xm[66, ] <- colSums(xm[66:101, ])
+            
+            xf <- x[["Bxyf"]]
+            xf[, 11] <- rowSums(xf[, 1:11])
+            xf[11, ] <- colSums(xf[1:11, ])
+            xf[, 66] <- rowSums(xf[, 66:101])
+            xf[66, ] <- colSums(xf[66:101, ])
+            
+            list(Bxym = xm[11:66, 11:66], Bxyf = xf[11:66, 11:66])
+        })
+save(BxymfES10_65, file = "/home/triffe/git/DISS/Data/ESbirths/ESBxymf10_65.Rdata")
+
+BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
