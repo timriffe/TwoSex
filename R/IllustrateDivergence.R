@@ -11,6 +11,11 @@ BxES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # no
 ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
 ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
 
+yearsES <- 1975:2009
+yearsUS <- 1969:2009
+ages    <- 10:65
+
+
 # cut ES to same dimentions ages 10:65, square (summing boundary ages)
 BxES <- lapply(BxES, function(x){
             x[11, ] <- colSums(x[1:11, ])
@@ -21,9 +26,7 @@ BxES <- lapply(BxES, function(x){
         })
 
 # get years for each pop
-yearsES <- 1975:2009
-yearsUS <- 1969:2009
-ages    <- 10:65
+
 # ASFR sample year 1975:
 
 BxyUS <- BxUS[["1975"]]
@@ -75,6 +78,7 @@ TFRUS <- as.matrix(do.call(rbind,lapply(as.character(yearsUS), function(yr, .BxU
             c(TFRm = sum(Bxy %row% Exm, na.rm = TRUE), TFRf = sum(Bxy %col% Exf, na.rm = TRUE))
         }, .ExUS = ExUS, .BxUS = BxUS)))
 
+# plot it, save out
 pdf("/home/triffe/git/DISS/latex/Figures/TFR.pdf", height = 5, width = 5)
 par(mar = c(3, 3, 2, 2),xaxp = "i", yaxp = "i")
 plot(yearsUS, TFRUS[, 1], type = 'l', ylim = c(1, 2.9), xlim = c(1968,2010), axes = FALSE,
@@ -95,6 +99,82 @@ legend(1990,2.85, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,
 dev.off()
 
 # --------------------------------------------------------------
-# simple series of 
+# simple series of NRR male and female
 
+BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf10_65.Rdata")))
+BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf10_65.Rdata")))
+
+# get Lx from HMD, divide by l0 (100000)
+
+# these are age by year matrices:
+LxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmUS.Rdata")))[11:66, ] / 1e5
+LxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfUS.Rdata")))[11:66, ] / 1e5
+LxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata")))[11:66, ] / 1e5
+LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata")))[11:66, ] / 1e5
+
+# calculate male-male and female-female fertility:
+FxmfUS <- lapply(as.character(yearsUS), function(yr, .BxymfUS, .ExUS){ 
+          
+                            Exm <- with(.ExUS, Male[Year == yr & Age >= 10 & Age <= 65])
+                            Exf <- with(.ExUS, Female[Year == yr & Age >= 10 & Age <= 65])
+                            
+                            Bxym <- .BxymfUS[[yr]][["Bxym"]]
+                            Bxyf <- .BxymfUS[[yr]][["Bxyf"]]
+                            
+                            list(ASFRm = rowSums(Bxym %row% Exm),
+                                 ASFRf = colSums(Bxyf %col% Exf))
+                        }, .ExUS = ExUS, .BxymfUS = BxymfUS)
+               
+names(FxmfUS) <- yearsUS
+FxmfES <- lapply(as.character(yearsES), function(yr, .BxymfES, .ExES){ 
+                            Exm <- with(.ExES, Male[Year == yr & Age >= 10 & Age <= 65])
+                            Exf <- with(.ExES, Female[Year == yr & Age >= 10 & Age <= 65])
+                            
+                            Bxym <- .BxymfES[[yr]][["Bxym"]]
+                            Bxyf <- .BxymfES[[yr]][["Bxyf"]]
+                            
+                            list(ASFRm = rowSums(Bxym %row% Exm),
+                                    ASFRf = colSums(Bxyf %col% Exf))
+                        }, .ExES = ExES, .BxymfES = BxymfES)
+names(FxmfES) <- yearsES     
+R0mfUS <- as.matrix(do.call(rbind, lapply(as.character(yearsUS), function(yr, .FxmfUS, .LxmUS, .LxfUS){
+            ASFRm <- .FxmfUS[[yr]][["ASFRm"]]
+            ASFRf <- .FxmfUS[[yr]][["ASFRf"]]
+            Lxm   <- .LxmUS[, yr]
+            Lxf   <- .LxfUS[, yr]
+            c(R0m = sum(ASFRm * Lxm), R0f = sum(ASFRf * Lxf))
+        },.FxmfUS = FxmfUS, .LxmUS = LxmUS, .LxfUS = LxfUS)))
+rownames(R0mfUS) <- yearsUS
+
+R0mfES <- as.matrix(do.call(rbind, lapply(as.character(yearsES), function(yr, .FxmfES, .LxmES, .LxfES){
+            ASFRm <- .FxmfES[[yr]][["ASFRm"]]
+            ASFRf <- .FxmfES[[yr]][["ASFRf"]]
+            Lxm   <- .LxmES[, yr]
+            Lxf   <- .LxfES[, yr]
+            c(R0m = sum(ASFRm * Lxm), R0f = sum(ASFRf * Lxf))
+        },.FxmfES = FxmfES, .LxmES = LxmES, .LxfES = LxfES)))
+rownames(R0mfES) <- yearsES
+
+R0mfUS[,1] < R0mfUS[,2]
+R0mfES[,1] < R0mfES[,2]
+
+# plot it, save out:
+pdf("/home/triffe/git/DISS/latex/Figures/R0mf.pdf", height = 5, width = 5)
+par(mar = c(3, 3, 2, 2),xaxp = "i", yaxp = "i")
+plot(yearsUS, R0mfUS[, 1], type = 'l', ylim = c(.5, 1.45), xlim = c(1968,2010), axes = FALSE,
+        col = gray(.2), lwd = 2, xlab = "", ylab = "",
+        panel.first = list(rect(1968,.5,2010,1.45,col = gray(.95), border=NA),
+                abline(h = seq(.5,1.4,by = .1), col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(.5, 1.4, by = .1),seq(.5, 1.4, by = .1), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10),.5, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, .45, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1967,1.5, "TFR", cex = 1, xpd = TRUE)))
+lines(yearsUS, R0mfUS[, 2], lwd = 2.5, col = gray(.5))
+lines(yearsES, R0mfES[, 1], lwd = 2, col = gray(.2), lty = 5)
+lines(yearsES, R0mfES[, 2], lwd = 2.5, col = gray(.5), lty = 5)
+
+legend(1990,1.35, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
+        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
+dev.off()
 
