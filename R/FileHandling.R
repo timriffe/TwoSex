@@ -290,6 +290,9 @@ Bxymf10_65 <- lapply(Bxymf0_110, function(x){
            
             list(Bxym = xm[11:66, 11:66], Bxyf = xf[11:66, 11:66])
         })
+
+names(Bxymf0_110) <- 1969:2009
+names(Bxymf10_65) <- 1969:2009
 save(Bxymf0_110 , file="/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")
 save(Bxymf10_65 , file="/home/triffe/git/DISS/Data/USbirths/USBxymf10_65.Rdata")
 
