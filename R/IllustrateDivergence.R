@@ -178,3 +178,64 @@ legend(1990,1.35, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,
         legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
 dev.off()
 
+# -----------------------------------------------------------
+# SRB?
+
+# SRB varies over age: 1975:
+wlsSRBmf <- function(Bxyl, sex = "m", ages = 10:65){
+    if (sex == "m"){
+        SRB <- log(MinfNA(colSums(Bxyl[["Bxym"]]) / colSums(Bxyl[["Bxyf"]])))
+        return(lm(SRB ~ ages, weights = sqrt(colSums(Bxyl[["Bxym"]]) + colSums(Bxyl[["Bxyf"]]))))
+    } else {
+        SRB <- log(MinfNA(rowSums(Bxyl[["Bxym"]]) / rowSums(Bxyl[["Bxyf"]])))
+        return(lm(SRB ~ ages, weights = sqrt(rowSums(Bxyl[["Bxym"]]) + rowSums(Bxyl[["Bxyf"]]))))
+    }
+}
+
+
+calcSRBmf <- function(Bxyl, sex = "m"){
+    if (sex == "m"){
+        SRB <- log(MinfNA(colSums(Bxyl[["Bxym"]]) / colSums(Bxyl[["Bxyf"]])))
+        SRB[colSums(Bxyl[["Bxym"]]) + colSums(Bxyl[["Bxyf"]]) < 100] <- NA
+    } else {
+        SRB <- log(MinfNA(rowSums(Bxyl[["Bxym"]]) / rowSums(Bxyl[["Bxyf"]])))
+        SRB[rowSums(Bxyl[["Bxym"]]) + rowSums(Bxyl[["Bxyf"]]) < 100] <- NA
+    }
+    SRB
+}
+
+SRBfUS <- calcSRBmf(BxymfUS[["1975"]], "f")
+SRBmUS <- calcSRBmf(BxymfUS[["1975"]], "m")
+SRBfES <- calcSRBmf(BxymfES[["1975"]], "f")
+SRBmES <- calcSRBmf(BxymfES[["1975"]], "m")
+
+
+# log SRB x age, m, f:
+pdf("/home/triffe/git/DISS/latex/Figures/SRBagemf.pdf", height = 5, width = 5)
+par(mar = c(5, 2, 2, 2),xaxp = "i", yaxp = "i")
+ylim <- c(-.3,.3)
+plot(ages, SRBmUS, type = 'l', ylim = ylim, xlim = c(10,65), axes = FALSE,
+        col = gray(.2), lwd = 2, xlab = "", ylab = "",
+        panel.first = list(rect(10,ylim[1],65,ylim[2],col = gray(.95), border=NA),
+                abline(h = seq(ylim[1], ylim[2], by = .1), col = "white"),
+                abline(v = seq(10, 65, by = 5), col = "white"),
+                text(10, zapsmall(seq(ylim[1], ylim[2], by = .1)), zapsmall(seq(ylim[1], ylim[2], by = .1)), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(10, 60, by = 10),ylim[1], seq(10, 60, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(35, -.65, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(9,.65, "TFR", cex = 1, xpd = TRUE)))
+abline(wlsSRBmf(BxymfUS[["1975"]], "m"), col = "red")
+
+lines(ages, SRBfUS, lwd = 2.5, col = gray(.5))
+abline(wlsSRBmf(BxymfUS[["1975"]], "f"), col = "blue")
+
+lines(ages, SRBmES, lwd = 2, col = gray(.2), lty = 5)
+abline(wlsSRBmf(BxymfES[["1975"]], "m"), col = "orange")
+
+lines(ages, SRBfES, lwd = 2.5, col = gray(.5), lty = 5)
+abline(wlsSRBmf(BxymfES[["1975"]], "f"), col = "pink")
+abline(h = log(1.05), col = "red")
+legend(4,-.7, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
+        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE, horiz = TRUE,
+        cex = .8)
+
+dev.off()
