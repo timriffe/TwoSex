@@ -351,7 +351,7 @@ library(HMDget)
 username <- "XXX"
 password <- "XXX"
 years <- list()
-years$mltper_1x1 <- c(1969:1975)
+years$mltper_1x1 <- c(1969:2009)
 LxmUS <- HMDget(countries = c("USA"), wanteditems = c("mltper_1x1"), 
         years = years, column ="Lx", drop.tadj = TRUE, format = 4, 
         username = username, password = password)
