@@ -250,13 +250,35 @@ All.paths <- file.path("/home/triffe/DATA/CDC/BIRTHS/Bxy", paste0("Bxy",1969:201
 All.Bxy <- lapply(All.paths, function(x){
             local(get(load(x)))
         })
-All.Bxy <- lapply(All.Bxy, function(x){
-            Bxy <- reshape2::acast(x, MAGE ~ FAGE, sum, value.var = "BIRTHS")
-            a99 <- Bxy[,"99"]
-            Bxy <- Bxy[, -ncol(Bxy)]
-            Bxy <- Bxy + (Bxy / rowSums(Bxy)) * a99 
-            t(Bxy)
+
+Bxymf <- lapply(All.Bxy, function(x){
+              
+            Bxym <- reshape2::acast(x[x$SEX == 1, ], MAGE ~ FAGE, sum, value.var = "BIRTHS")
+            a99 <- Bxym[,"99"]
+            Bxym <- Bxym[, -ncol(Bxym)]
+            Bxym <- Bxym + (Bxym / rowSums(Bxym)) * a99 
+            
+            Bxyf <- reshape2::acast(x[x$SEX == 2, ], MAGE ~ FAGE, sum, value.var = "BIRTHS")
+            a99 <- Bxyf[,"99"]
+            Bxyf <- Bxyf[, -ncol(Bxyf)]
+            Bxyf <- Bxyf + (Bxyf / rowSums(Bxyf)) * a99 
+            
+            list(Bxym = t(Bxym),Bxyf = t(Bxyf))
         })
+Bxymf0_110 <- lapply(Bxymf, function(x){
+            Xm <- matrix(0, nrow = 111, ncol = 111, dimnames=list(Males = 0:110, Females = 0:110))
+            Xm[rownames(x),colnames(x)] <- x
+            X
+        })
+
+Bxymf10_65 <- lapply(Bxymf0_110, function(x){
+            x[, 11] <- rowSums(x[, 1:11])
+            x[11, ] <- colSums(x[1:11, ])
+            x[, 66] <- rowSums(x[, 66:101])
+            x[66, ] <- colSums(x[66:101, ])
+            x[11:66, 11:66]
+        })
+
 # stick in 0_100 tables and in 10-65 tables (always same dims, named dims)
 Bxy0_110 <- lapply(All.Bxy, function(x){
             X <- matrix(0, nrow = 111, ncol = 111, dimnames=list(Males = 0:110, Females = 0:110))
@@ -272,8 +294,8 @@ Bxy10_65 <- lapply(Bxy0_110, function(x){
         })
 names(Bxy10_65) <-names(Bxy0_110) <- 1969:2010
 
-save(Bxy0_110, file = "/home/triffe/git/Dissertation/DISSERTATION/DATA/USbirths/USBxy0_110.Rdata")
-save(Bxy10_65, file = "/home/triffe/git/Dissertation/DISSERTATION/DATA/USbirths/USBxy10_65.Rdata")
+#save(Bxy0_110, file = "/home/triffe/git/Dissertation/DISSERTATION/DATA/USbirths/USBxy0_110.Rdata")
+#save(Bxy10_65, file = "/home/triffe/git/Dissertation/DISSERTATION/DATA/USbirths/USBxy10_65.Rdata")
 
 # making standard tables, including in single list, standardizing ages, distributing missing ages.
 #ES <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/ESbirths/ESbirths.Rdata")))
