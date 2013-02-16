@@ -137,7 +137,10 @@ contround2 <- function(origvalue){
 }
 
 # used so far in Mitra.R
-LotkaRCoale <- copiler::cmpfun(function(fx,Lx,x){
+Rmomentn <- compiler::cmpfun(function(fx,Lx,x,n=0){
+            sum((x^n)*fx*Lx)
+        })
+LotkaRCoale <- compiler::cmpfun(function(fx,Lx,x){
     # from Coale, Ansley J. (1957) A New Method for Calculating Lotka's r- the Intrinsic Rate of Growth in a Stable Population.
     # Population Studies, Vol. 11 no. 1, pp 92-94
     R0 <- Rmomentn(fx,Lx,x,0)
@@ -152,6 +155,3 @@ LotkaRCoale <- copiler::cmpfun(function(fx,Lx,x){
     return(ri)  
 })
 
-Rmomentn <- compiler::cmpfun(function(fx,Lx,x,n=0){
-    sum((x^n)*fx*Lx)
-})
