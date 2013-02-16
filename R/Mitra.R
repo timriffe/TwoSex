@@ -45,7 +45,7 @@ Bxyf <- BxymfUS[["1975"]][["Bxyf"]][, 1:40]
 Exm <- with(ExUS, Male[Year == 1975 & Age >= 10 & Age <= 65])
 Eyf <- with(ExUS, Female[Year == 1975 & Age >= 10 & Age <= 49])
 Lxm <- LxmUS[,"1975"]
-Lxf <- LxfUS[,"1975"]
+Lyf <- LxfUS[,"1975"]
 # only interested in truly reproductive ages here, not ages 10:65
 Ftot <- sum(Eyf)
 Mtot <- sum(Exm)
@@ -67,7 +67,7 @@ ut <- Ftot / Ptot # eq 5
 vt <- Mtot / Ptot # eq 7
 (ut + vt == 1)    # eq 8
 gm <- Lxm * Km    # eq 6
-gf <- Lxf * Kf
+gf <- Lyf * Kf
 
 R0m <- sum(mm * Lxm)
 R0f <- sum(mf * Lxf)
@@ -96,5 +96,61 @@ rstar <- optimize(f = eq10optim,
                   agem = agem + .5,
                   tol = 1e-11)$minimum
  
+rMitra <- compiler::cmpfun(function(Bxym, Bxyf, Exm, Eyf, Lxm, Lyf, agem, agef){
+    Ftot    <- sum(Eyf)
+    Mtot    <- sum(Exm)
+    Ptot    <- sum(Ftot, Mtot)
+    mm      <- rowSums(Bxym) / Exm
+    mf      <- colSums(Bxyf) / Eyf
+    Km      <- mm / (Ftot / Ptot)
+    Kf      <- mf / (Mtot / Ptot)
+    gm      <- Lxm * Km    # eq 6
+    gf      <- Lyf * Kf
+    
+    optimize(f = eq10optim, 
+            # unique r is bounded by male and female r, thus we specify for faster convergence
+            interval = range(c(LotkaRCoale(mm, Lxm, agem),
+                            LotkaRCoale(mf, Lxf, agef)
+                    )), 
+            gf = gf, 
+            gm = gm, 
+            agef = agef, 
+            agem = agem,
+            tol = 1e-11)$minimum
+})
 
+rMitra(Bxym,Bxyf,Exm,Eyf,Lxm,Lyf, agem + .5, agef + .5)
+
+# calculate ES and US single sex and Mitra r estimates:
+
+rmfUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .BxymfUS, .ExUS, .LxmUS, .LxfUS, agem = 10:65, agef = 10:49){
+            Bxym <- .BxymfUS[[yr]][["Bxym"]][, 1:40]
+            Bxyf <- .BxymfUS[[yr]][["Bxyf"]][, 1:40]
+            Exm  <- with(.ExUS, Male[Year == as.integer(yr) & Age >= 10 & Age <= 65])
+            Eyf  <- with(.ExUS, Female[Year == as.integer(yr) & Age >= 10 & Age <= 49])
+            Lxm  <- .LxmUS[, yr]
+            Lyf  <- .LxfUS[, yr]
+            mm      <- rowSums(Bxym) / Exm
+            mf      <- colSums(Bxyf) / Eyf
+            c( r.mf = rMitra(Bxym, Bxyf, Exm, Eyf, Lxm, Lyf, agem + .5, agef + .5),
+               r.m = LotkaRCoale(mm, Lxm, agem + .5),
+               r.f = LotkaRCoale(mf, Lxf, agef))
+        }, .BxymfUS = BxymfUS, .ExUS = ExUS, .LxmUS = LxmUS, .LxfUS = LxfUS))
+# TODO: ES throws error, fix
+rmfES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .BxymfES, .ExES, .LxmES, .LxfES, agem = 10:65, agef = 10:49){
+                    Bxym <- .BxymfES[[yr]][["Bxym"]][, 1:40]
+                    Bxyf <- .BxymfES[[yr]][["Bxyf"]][, 1:40]
+                    Exm  <- with(.ExES, Male[Year == as.integer(yr) & Age >= 10 & Age <= 65])
+                    Eyf  <- with(.ExES, Female[Year == as.integer(yr) & Age >= 10 & Age <= 49])
+                    Lxm  <- .LxmES[, yr]
+                    Lyf  <- .LxfES[, yr]
+                    mm   <- rowSums(Bxym) / Exm
+                    mf   <- colSums(Bxyf) / Eyf
+                    c( r.mf = rMitra(Bxym, Bxyf, Exm, Eyf, Lxm, Lyf, agem + .5, agef + .5),
+                            r.m = LotkaRCoale(mm, Lxm, agem + .5),
+                            r.f = LotkaRCoale(mf, Lxf, agef))
+                }, .BxymfES = BxymfES, .ExES = ExES, .LxmES = LxmES, .LxfES = LxfES))
+
+plot(yearsUS, rmfUS[,"r.mf"], type = 'l')
+abline(h=0)
 
