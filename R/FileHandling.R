@@ -382,7 +382,7 @@ save(LxmES, file = "/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata")
 save(LxfES, file = "/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata")
 
 years <- list()
-years$mltper_1x1 <- c(1969:1975)
+years$mltper_1x1 <- c(1969:2009)
 dxmUS <- HMDget(countries = c("USA"), wanteditems = c("mltper_1x1"), 
         years = years, column = "dx", drop.tadj = TRUE, format = 4, 
         username = username, password = password)
