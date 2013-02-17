@@ -155,3 +155,35 @@ LotkaRCoale <- compiler::cmpfun(function(fx,Lx,x){
     return(ri)  
 })
 
+# find a way to use this is dissertation:
+ExpectedDx <- function(Px, dx){
+    dxi      <- dx / sum(dx, na.rm = TRUE)
+    N        <- length(dx)
+    EDx      <- matrix(0, nrow = N, ncol = N)
+    # Population age loop
+    for (i in 1:N){
+        # distribute each age of Populatin over death times
+        EDx[1:length(dxi), i]    <- Px[i] * dxi
+        # remove firs element and rescale
+        dxi                      <- dxi[2:length(dxi)] / sum(dxi[2:length(dxi)], na.rm = TRUE)
+    }
+    EDx[is.na(EDx)] <- 0
+    EDx
+}
+
+PyramidOutline <- function(males, females, prop = TRUE, ...){
+    N       <- length(males)
+    Total   <- sum(c(males, females), na.rm = TRUE)
+    widths  <- rep(1, N)
+    age     <- c(0,cumsum(widths)[-N])
+    u.age   <- age[N] + widths[N]
+    if (prop){
+        males   <- 100 * males / Total
+        females <- 100 * females / Total
+    }
+    
+    polygon(x = c(0, rep(females, each = 2) + 0, 0), 
+            y =  c(rep(c(age, u.age), each = 2)), ...)
+    polygon(x = c(-0, rep(-males, each = 2) - 0, -0), 
+            y =  c(rep(c(age, u.age), each = 2)), ...)
+}
