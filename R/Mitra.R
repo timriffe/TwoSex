@@ -40,8 +40,6 @@ Bxym <- BxymfUS[["1975"]][["Bxym"]][, 1:40]
 Bxyf <- BxymfUS[["1975"]][["Bxyf"]][, 1:40]
 # just take ages 10-49 for females here
 
-
-
 Exm <- with(ExUS, Male[Year == 1975 & Age >= 10 & Age <= 65])
 Eyf <- with(ExUS, Female[Year == 1975 & Age >= 10 & Age <= 49])
 Lxm <- LxmUS[,"1975"]
@@ -95,7 +93,12 @@ rstar <- optimize(f = eq10optim,
                   agef = agef + .5, 
                   agem = agem + .5,
                   tol = 1e-11)$minimum
- 
+# ------------------------------------------------
+# run on while series:          
+eq10optim <- function(r, gf, gm, agef = 10.5:49.5, agem = 10.5:65.5){
+    (1 - (1 / sum(exp(-r * agem) * gm) + 1 / sum(exp(-r * agef) * gf))) ^ 2
+}
+
 rMitra <- compiler::cmpfun(function(Bxym, Bxyf, Exm, Eyf, Lxm, Lyf, agem, agef){
     Ftot    <- sum(Eyf)
     Mtot    <- sum(Exm)
@@ -110,7 +113,7 @@ rMitra <- compiler::cmpfun(function(Bxym, Bxyf, Exm, Eyf, Lxm, Lyf, agem, agef){
     optimize(f = eq10optim, 
             # unique r is bounded by male and female r, thus we specify for faster convergence
             interval = range(c(LotkaRCoale(mm, Lxm, agem),
-                            LotkaRCoale(mf, Lxf, agef)
+                            LotkaRCoale(mf, Lyf, agef)
                     )), 
             gf = gf, 
             gm = gm, 
@@ -124,6 +127,7 @@ rMitra(Bxym,Bxyf,Exm,Eyf,Lxm,Lyf, agem + .5, agef + .5)
 # calculate ES and US single sex and Mitra r estimates:
 
 rmfUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .BxymfUS, .ExUS, .LxmUS, .LxfUS, agem = 10:65, agef = 10:49){
+ 
             Bxym <- .BxymfUS[[yr]][["Bxym"]][, 1:40]
             Bxyf <- .BxymfUS[[yr]][["Bxyf"]][, 1:40]
             Exm  <- with(.ExUS, Male[Year == as.integer(yr) & Age >= 10 & Age <= 65])
@@ -134,10 +138,12 @@ rmfUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .BxymfUS, .ExU
             mf      <- colSums(Bxyf) / Eyf
             c( r.mf = rMitra(Bxym, Bxyf, Exm, Eyf, Lxm, Lyf, agem + .5, agef + .5),
                r.m = LotkaRCoale(mm, Lxm, agem + .5),
-               r.f = LotkaRCoale(mf, Lxf, agef))
+               r.f = LotkaRCoale(mf, Lyf, agef))
         }, .BxymfUS = BxymfUS, .ExUS = ExUS, .LxmUS = LxmUS, .LxfUS = LxfUS))
 # TODO: ES throws error, fix
+names(BxymfES) <- yearsES
 rmfES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .BxymfES, .ExES, .LxmES, .LxfES, agem = 10:65, agef = 10:49){
+                    
                     Bxym <- .BxymfES[[yr]][["Bxym"]][, 1:40]
                     Bxyf <- .BxymfES[[yr]][["Bxyf"]][, 1:40]
                     Exm  <- with(.ExES, Male[Year == as.integer(yr) & Age >= 10 & Age <= 65])
@@ -148,9 +154,17 @@ rmfES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .BxymfES, .ExE
                     mf   <- colSums(Bxyf) / Eyf
                     c( r.mf = rMitra(Bxym, Bxyf, Exm, Eyf, Lxm, Lyf, agem + .5, agef + .5),
                             r.m = LotkaRCoale(mm, Lxm, agem + .5),
-                            r.f = LotkaRCoale(mf, Lxf, agef))
+                            r.f = LotkaRCoale(mf, Lyf, agef))
                 }, .BxymfES = BxymfES, .ExES = ExES, .LxmES = LxmES, .LxfES = LxfES))
 
-plot(yearsUS, rmfUS[,"r.mf"], type = 'l')
-abline(h=0)
+plot(yearsUS, rmfUS[,"r.mf"], type = 'l', ylim = c(-.02,.02))
+polygon(c(yearsUS,rev(yearsUS)), c(rmfUS[,"r.m"],rev(rmfUS[,"r.f"])), col = "#CCCCCC50")
+lines(yearsUS,rmfUS[,"r.m"], col = gray(.2), lwd = 2)
+lines(yearsUS,rmfUS[,"r.f"], col = gray(.4), lwd = 2)
 
+
+
+abline(h=0)
+lines(yearsES, rmfES[,"r.mf"], col = "red")
+lines(yearsUS,rmfUS[,"r.m"], col = gray(.2), lwd = 2)
+lines(yearsUS,rmfUS[,"r.f"], col = gray(.4), lwd = 2)
