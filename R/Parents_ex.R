@@ -143,7 +143,6 @@ lines(10:65, Bxf / sum(Bxf), col = "red", lty = 2)
 legend("topright", lty = c(1,1,2,2), col = c("blue","red","blue","red"), 
         legend = c("fathers 1975", "mothers 1975","fathers 2009", "mothers 2009"))
 
-
 # US
 Bxm <- rowSums(BxUS[["1975"]][11:66,])
 Bxf <- colSums(BxUS[["1975"]][,11:66])
@@ -159,3 +158,36 @@ legend("topright", lty = c(1,1,2,2), col = c("blue","red","blue","red"),
         legend = c("fathers 1975", "mothers 1975","fathers 2009", "mothers 2009"))
 
 library(DecompHoriuchi)
+
+
+
+
+Meanex <- function(Bx, .dx, x = 0:110 + .5){
+    ex <- rowSums(ExpectedDx(Px = Bx, dx = .dx))
+    wmean(x, ex)
+}
+
+exES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .BxES, .dxf, .dxm){
+            c(Father_ex = Meanex(rowSums(Mna0(.BxES[[yr]])), .dxm[, yr]),
+              Mother_ex = Meanex(colSums(Mna0(.BxES[[yr]])), .dxf[, yr]))
+        }, .BxES = BxES, .dxf = dxfES, .dxm = dxmES))
+
+plot(yearsES, exES[, "Father_ex"] - exES[, "Father_ex"][1], type = 'l', col = "blue", ylim = c(0,5))
+lines(yearsES, exES[, "Mother_ex"] - exES[, "Mother_ex"][1], col = "red")
+
+plot(yearsES, exES[, "Mother_ex"] - exES[, "Father_ex"])
+
+
+exUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .BxUS, .dxf, .dxm){
+                    c(Father_ex = Meanex(rowSums(Mna0(.BxUS[[yr]])), .dxm[, yr]),
+                            Mother_ex = Meanex(colSums(Mna0(.BxUS[[yr]])), .dxf[, yr]))
+                }, .BxUS = BxUS, .dxf = dxfUS, .dxm = dxmUS))
+
+plot(yearsUS, exUS[, "Father_ex"], type = 'l', col = "blue", ylim = c(40,55))
+lines(yearsUS, exUS[, "Mother_ex"], col = "red")
+
+plot(yearsUS, exUS[, "Mother_ex"] - exUS[, "Father_ex"], col = "blue",type= 'l')
+lines(yearsES, exES[, "Mother_ex"] - exES[, "Father_ex"], col = "red")
+
+
+
