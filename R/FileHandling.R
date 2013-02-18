@@ -417,5 +417,7 @@ years$E0per <- c(1908:2009)
 e0perES <- HMDget(countries = c("ESP"), wanteditems = c("E0per"), years = years, 
         column ="", drop.tadj = TRUE, format = 0, username = username, password = password)
 
+colnames(e0perUS) <- colnames(e0perES) <- c("Year","Female","Male","Total")
+
 save(e0perUS, file = "/home/triffe/git/DISS/Data/HMD_e0period/e0perUS.Rdata")
 save(e0perES, file = "/home/triffe/git/DISS/Data/HMD_e0period/e0perES.Rdata")
