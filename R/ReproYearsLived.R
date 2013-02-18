@@ -29,8 +29,8 @@ LxfES   <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) / 1
 
 
 # Henry R0star
-head(E0ES)
 R0starUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .BxymfUS, .ExUS, .E0US, .LxmUS, .LxfUS){
+          
             Bxm          <- rowSums(Mna0(.BxymfUS[[yr]][["Bxym"]]))
             Bxf          <- colSums(Mna0(.BxymfUS[[yr]][["Bxyf"]]))
             Exm          <- with(.ExUS, Male[Year == as.integer(yr)])
