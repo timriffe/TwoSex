@@ -45,7 +45,7 @@ ASFRfES <- colSums(BxyES) / ExfES
 # max(c(ASFRmUS,ASFRfUS,ASFRmES,ASFRfES))
 
 pdf("/home/triffe/git/DISS/latex/Figures/ASFR1975.pdf", height = 5, width = 5)
-par(mar = c(3,3,2,2),xaxp = "i", yaxp = "i")
+par(mai = c(.5,.5,.3,.3),xaxs = "i", yaxs = "i")
 plot(ages, ASFRmUS, type = 'l', ylim = c(0, .21), xlim = c(10,66), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
         panel.first = list(rect(10,0,66,.21,col = gray(.95), border=NA),
@@ -80,7 +80,7 @@ TFRUS <- as.matrix(do.call(rbind,lapply(as.character(yearsUS), function(yr, .BxU
 
 # plot it, save out
 pdf("/home/triffe/git/DISS/latex/Figures/TFR.pdf", height = 5, width = 5)
-par(mar = c(3, 3, 2, 2),xaxp = "i", yaxp = "i")
+par(mai = c(.5, .3, .3, .3),xaxs = "i", yaxs = "i")
 plot(yearsUS, TFRUS[, 1], type = 'l', ylim = c(1, 2.9), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
         panel.first = list(rect(1968,1,2010,2.9,col = gray(.95), border=NA),
@@ -88,13 +88,13 @@ plot(yearsUS, TFRUS[, 1], type = 'l', ylim = c(1, 2.9), xlim = c(1968,2010), axe
                 abline(v = seq(1970, 2010, by = 5), col = "white"),
                 text(1968, seq(1, 2.9, by = .2),seq(1, 2.9, by = .2), pos = 2, cex = .8, xpd = TRUE),
                 text(seq(1970, 2010, by = 10),1, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
-                text(1990, -.1, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1990, .88, "Year", cex = 1, pos = 1, xpd = TRUE),
                 text(1967,3, "TFR", cex = 1, xpd = TRUE)))
 lines(yearsUS, TFRUS[, 2], lwd = 2.5, col = gray(.5))
 lines(yearsES, TFRES[, 1], lwd = 2, col = gray(.2), lty = 5)
 lines(yearsES, TFRES[, 2], lwd = 2.5, col = gray(.5), lty = 5)
 
-legend(1990,2.85, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
+legend(1993,2.85, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
         legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
 dev.off()
 
@@ -103,7 +103,7 @@ dev.off()
 
 BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf10_65.Rdata")))
 BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf10_65.Rdata")))
-
+names(BxymfES) <- yearsES
 # get Lx from HMD, divide by l0 (100000)
 
 # these are age by year matrices:
@@ -130,8 +130,8 @@ FxmfES <- lapply(as.character(yearsES), function(yr, .BxymfES, .ExES){
                             Exm <- with(.ExES, Male[Year == yr & Age >= 10 & Age <= 65])
                             Exf <- with(.ExES, Female[Year == yr & Age >= 10 & Age <= 65])
                             
-                            Bxym <- .BxymfES[[yr]][["Bxym"]]
-                            Bxyf <- .BxymfES[[yr]][["Bxyf"]]
+                            Bxym <- Mna0(.BxymfES[[yr]][["Bxym"]])
+                            Bxyf <- Mna0(.BxymfES[[yr]][["Bxyf"]])
                             
                             list(ASFRm = rowSums(Bxym %row% Exm),
                                     ASFRf = colSums(Bxyf %col% Exf))
@@ -155,12 +155,9 @@ R0mfES <- as.matrix(do.call(rbind, lapply(as.character(yearsES), function(yr, .F
         },.FxmfES = FxmfES, .LxmES = LxmES, .LxfES = LxfES)))
 rownames(R0mfES) <- yearsES
 
-R0mfUS[,1] < R0mfUS[,2]
-R0mfES[,1] < R0mfES[,2]
-
 # plot it, save out:
 pdf("/home/triffe/git/DISS/latex/Figures/R0mf.pdf", height = 5, width = 5)
-par(mar = c(3, 3, 2, 2),xaxp = "i", yaxp = "i")
+par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, R0mfUS[, 1], type = 'l', ylim = c(.5, 1.45), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
         panel.first = list(rect(1968,.5,2010,1.45,col = gray(.95), border=NA),
@@ -169,12 +166,12 @@ plot(yearsUS, R0mfUS[, 1], type = 'l', ylim = c(.5, 1.45), xlim = c(1968,2010), 
                 text(1968, seq(.5, 1.4, by = .1),seq(.5, 1.4, by = .1), pos = 2, cex = .8, xpd = TRUE),
                 text(seq(1970, 2010, by = 10),.5, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
                 text(1990, .45, "Year", cex = 1, pos = 1, xpd = TRUE),
-                text(1967,1.5, "TFR", cex = 1, xpd = TRUE)))
+                text(1966,1.5, expression(R[0]), cex = 1, xpd = TRUE)))
 lines(yearsUS, R0mfUS[, 2], lwd = 2.5, col = gray(.5))
 lines(yearsES, R0mfES[, 1], lwd = 2, col = gray(.2), lty = 5)
 lines(yearsES, R0mfES[, 2], lwd = 2.5, col = gray(.5), lty = 5)
 
-legend(1990,1.35, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
+legend(1993,1.45, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
         legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
 dev.off()
 
@@ -210,32 +207,33 @@ SRBfES <- calcSRBmf(BxymfES[["1975"]], "f")
 SRBmES <- calcSRBmf(BxymfES[["1975"]], "m")
 
 
+# TODO: finish SRB plot
 # log SRB x age, m, f:
-pdf("/home/triffe/git/DISS/latex/Figures/SRBagemf.pdf", height = 5, width = 5)
-par(mar = c(5, 2, 2, 2),xaxp = "i", yaxp = "i")
-ylim <- c(-.3,.3)
-plot(ages, SRBmUS, type = 'l', ylim = ylim, xlim = c(10,65), axes = FALSE,
-        col = gray(.2), lwd = 2, xlab = "", ylab = "",
-        panel.first = list(rect(10,ylim[1],65,ylim[2],col = gray(.95), border=NA),
-                abline(h = seq(ylim[1], ylim[2], by = .1), col = "white"),
-                abline(v = seq(10, 65, by = 5), col = "white"),
-                text(10, zapsmall(seq(ylim[1], ylim[2], by = .1)), zapsmall(seq(ylim[1], ylim[2], by = .1)), pos = 2, cex = .8, xpd = TRUE),
-                text(seq(10, 60, by = 10),ylim[1], seq(10, 60, by = 10), pos = 1, cex = .8, xpd = TRUE),
-                text(35, -.65, "Year", cex = 1, pos = 1, xpd = TRUE),
-                text(9,.65, "TFR", cex = 1, xpd = TRUE)))
-abline(wlsSRBmf(BxymfUS[["1975"]], "m"), col = "red")
-
-lines(ages, SRBfUS, lwd = 2.5, col = gray(.5))
-abline(wlsSRBmf(BxymfUS[["1975"]], "f"), col = "blue")
-
-lines(ages, SRBmES, lwd = 2, col = gray(.2), lty = 5)
-abline(wlsSRBmf(BxymfES[["1975"]], "m"), col = "orange")
-
-lines(ages, SRBfES, lwd = 2.5, col = gray(.5), lty = 5)
-abline(wlsSRBmf(BxymfES[["1975"]], "f"), col = "pink")
-abline(h = log(1.05), col = "red")
-legend(4,-.7, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
-        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE, horiz = TRUE,
-        cex = .8)
-
-dev.off()
+#pdf("/home/triffe/git/DISS/latex/Figures/SRBagemf.pdf", height = 5, width = 5)
+#par(mar = c(5, 2, 2, 2),xaxp = "i", yaxp = "i")
+#ylim <- c(-.3,.3)
+#plot(ages, SRBmUS, type = 'l', ylim = ylim, xlim = c(10,65), axes = FALSE,
+#        col = gray(.2), lwd = 2, xlab = "", ylab = "",
+#        panel.first = list(rect(10,ylim[1],65,ylim[2],col = gray(.95), border=NA),
+#                abline(h = seq(ylim[1], ylim[2], by = .1), col = "white"),
+#                abline(v = seq(10, 65, by = 5), col = "white"),
+#                text(10, zapsmall(seq(ylim[1], ylim[2], by = .1)), zapsmall(seq(ylim[1], ylim[2], by = .1)), pos = 2, cex = .8, xpd = TRUE),
+#                text(seq(10, 60, by = 10),ylim[1], seq(10, 60, by = 10), pos = 1, cex = .8, xpd = TRUE),
+#                text(35, -.65, "Year", cex = 1, pos = 1, xpd = TRUE),
+#                text(9,.65, "TFR", cex = 1, xpd = TRUE)))
+#abline(wlsSRBmf(BxymfUS[["1975"]], "m"), col = "red")
+#
+#lines(ages, SRBfUS, lwd = 2.5, col = gray(.5))
+#abline(wlsSRBmf(BxymfUS[["1975"]], "f"), col = "blue")
+#
+#lines(ages, SRBmES, lwd = 2, col = gray(.2), lty = 5)
+#abline(wlsSRBmf(BxymfES[["1975"]], "m"), col = "orange")
+#
+#lines(ages, SRBfES, lwd = 2.5, col = gray(.5), lty = 5)
+#abline(wlsSRBmf(BxymfES[["1975"]], "f"), col = "pink")
+#abline(h = log(1.05), col = "red")
+#legend(4,-.7, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
+#        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE, horiz = TRUE,
+#        cex = .8)
+#
+#dev.off()
