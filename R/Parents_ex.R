@@ -147,206 +147,49 @@ exSFRESf <- do.call(cbind, lapply(as.character(yearsES), function(yr, .BxES, .Ex
                 }, .BxES = BxES, .ExES = ExES, .dxfES = dxfES))
 colnames(exSFRESm) <- colnames(exSFRESf) <- yearsES
 
+colramp <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"), space = "Lab")
+
+ages <- 10:65
+
+#outer(10^c(0:-10))
+
+lexSFRUSm       <- MinfNA(log(exSFRUSm))
+lexSFRUSf       <- MinfNA(log(exSFRUSf))
+
+TickMaj         <- rev(c(10^(0:4)))
+TickMajLab      <- c("10000","1000","100","10","1")
+TickMin         <- t(outer(TickMaj[2:length(TickMaj)], 2:9))
+
+g.xy            <- seq(0, 10, by = 5)
+gb.xy           <- seq(0, 10, by =10)
 
 
+#dev.new(height = 4, width = 6.5)
 
+brks <- seq(min(exSFRUSm, na.rm = TRUE),max(exSFRUSf, na.rm = TRUE), length.out = 51)
+levs <- seq(0,.12,by = .01)
+par(mfrow=c(1,2), mar = c(2,1,2,3))
+# males
+image(x = yearsUS + .5, y = 0:110 + .5, t(exSFRUSm), 
+        xlim = c(1969, 2010), ylim = c(0, 104), zlim = c(0, .12), 
+        col = colramp(50), breaks = brks, axes = FALSE, asp = 1,
+        xlab = "", ylab = "")
+abline(v=seq(1970,2010,by=10), col = "#FFFFFF50")
+abline(h=seq(0,100,by=10), col = "#FFFFFF50")
+# contours
+contour(x = yearsUS + .5, y = 0:110 + .5, t(exSFRUSm),
+        levels = levs, labels = levs, add = TRUE)
 
-for (yr in as.character(yearsUS)){
-    ParMUS <- rowSums(BxUS[[yr]])
-    ParFUS <- colSums(BxUS[[yr]])
-    
-Pyramid(males = ExpectedDx(Px = ParMUS, dx = dxmUS[,1]),
-        females = ExpectedDx(Px = ParFUS, dx = dxfUS[,1]),
-        widths = rep(1, nrow(dxmUS)),
-        fill.males = gray(seq(.1, .9, length = nrow(dxmUS))),
-        fill.females = gray(seq(.1, .9, length = nrow(dxmUS))),
-        border.males = NA, border.females = NA, grid = FALSE,
-        main = yr, ylab.left = "(1933 + t) , Age",cex.axis = .7,
-        xlim = c(-1.7,1.7), prop = TRUE, box = FALSE, mar = c(4,4,4,4)
-)
-Sys.sleep(1)
-}
-
-
-par(mfrow =c(1,2))
-ParMUS <- rowSums(BxUS[["1970"]])
-ParFUS <- colSums(BxUS[["1970"]])
-
-Pyramid(males = ExpectedDx(Px = ParMUS, dx = dxmUS[,1]),
-        females = ExpectedDx(Px = ParFUS, dx = dxfUS[,1]),
-        widths = rep(1, nrow(dxmUS)),
-        fill.males = gray(seq(.1, .9, length = nrow(dxmUS))),
-        fill.females = gray(seq(.1, .9, length = nrow(dxmUS))),
-        border.males = NA, border.females = NA, grid = FALSE,
-        main = "1970", ylab.left = "(1933 + t) , Age",cex.axis = .7,
-        xlim = c(-1.7,1.7), prop = TRUE, box = FALSE, mar = c(4,4,4,4)
-)
-ParMUS <- rowSums(BxUS[["2009"]])
-ParFUS <- colSums(BxUS[["2009"]])
-
-Pyramid(males = ExpectedDx(Px = ParMUS, dx = dxmUS[,"2009"]),
-        females = ExpectedDx(Px = ParFUS, dx = dxfUS[,"2009"]),
-        widths = rep(1, nrow(dxmUS)),
-        fill.males = gray(seq(.1, .9, length = nrow(dxmUS))),
-        fill.females = gray(seq(.1, .9, length = nrow(dxmUS))),
-        border.males = NA, border.females = NA, grid = FALSE,
-        main = "2009", ylab.left = "(1933 + t) , Age",cex.axis = .7,
-        xlim = c(-1.7,1.7), prop = TRUE, box = FALSE, mar = c(4,4,4,4)
-)
-
-
-for (yr in c("1975","2009")){
-    ParM <- rowSums(BxUS[[yr]])
-    ParF <- colSums(BxUS[[yr]])
-    Pyramid(males = ExpectedDx(Px = ParM, dx = dxmUS[,yr]),
-            females = ExpectedDx(Px = ParF, dx = dxfUS[,yr]),
-            widths = rep(1, nrow(dxmUS)),
-            fill.males = gray(seq(.1, .9, length = nrow(dxmUS))),
-            fill.females = gray(seq(.1, .9, length = nrow(dxmUS))),
-            border.males = NA, border.females = NA, grid = FALSE,
-            main = yr, ylab.left = "(1933 + t) , Age",cex.axis = .7,
-            xlim = c(-2,2), prop = TRUE, box = FALSE, mar = c(4,4,4,4)
-    )
-}
-
-for (yr in c("1975","2009")){
-    ParM <- rowSums(BxES[[yr]])
-    ParF <- colSums(BxES[[yr]])
-    Pyramid(males = ExpectedDx(Px = ParM, dx = dxmES[,yr]),
-            females = ExpectedDx(Px = ParF, dx = dxfES[,yr]),
-            widths = rep(1, nrow(dxmUS)),
-            fill.males = gray(seq(.1, .9, length = nrow(dxmUS))),
-            fill.females = gray(seq(.1, .9, length = nrow(dxmUS))),
-            border.males = NA, border.females = NA, grid = FALSE,
-            main = yr, ylab.left = "(1933 + t) , Age",cex.axis = .7,
-            xlim = c(-2,2), prop = TRUE, box = FALSE, mar = c(4,4,4,4)
-    )
-}
-
-
-ityrs <- c("1975","2009")
-cols <- c("red","blue")
-plot(NULL, type = "n", xlim = c(-2,2), ylim = c(0,111))
-for (i in 1:2){
-    ParM <- rowSums(BxUS[[ityrs[i]]])
-    ParF <- colSums(BxUS[[ityrs[i]]])
-    
-    PyramidOutline(
-            rowSums(ExpectedDx(Px = ParM, dx = dxmUS[,ityrs[i]])), 
-            rowSums(ExpectedDx(Px = ParF, dx = dxfUS[,ityrs[i]])), prop = ,
-            TRUE,border = cols[i], xpd = TRUE, lwd = 1)    
-}
-
-plot(NULL, type = "n", xlim = c(-2,2), ylim = c(0,111))
-for (i in 1:2){
-    ParM <- rowSums(BxES[[ityrs[i]]])
-    ParF <- colSums(BxES[[ityrs[i]]])
-    
-    PyramidOutline(
-            rowSums(ExpectedDx(Px = ParM, dx = dxmES[,ityrs[i]])), 
-            rowSums(ExpectedDx(Px = ParF, dx = dxfES[,ityrs[i]])), prop = ,
-            TRUE,border = cols[i], xpd = TRUE, lwd = 1)    
-}
-
-# Spain
-Bxm <- rowSums(BxES[["1975"]][11:66,])
-Bxf <- colSums(BxES[["1975"]][,11:66])
-plot(10:65, Bxm / sum(Bxm), type = 'l', col = "blue", xlab = "Age",ylab = "Birth density",main = "Spain")
-lines(10:65, Bxf / sum(Bxf), col = "red")
-
-Bxm <- rowSums(BxES[["2009"]][11:66,])
-Bxf <- colSums(BxES[["2009"]][,11:66])
-lines(10:65, Bxm / sum(Bxm), col = "blue", lty = 2)
-lines(10:65, Bxf / sum(Bxf), col = "red", lty = 2)
-legend("topright", lty = c(1,1,2,2), col = c("blue","red","blue","red"), 
-        legend = c("fathers 1975", "mothers 1975","fathers 2009", "mothers 2009"))
-
-# US
-Bxm <- rowSums(BxUS[["1975"]][11:66,])
-Bxf <- colSums(BxUS[["1975"]][,11:66])
-plot(10:65, Bxm / sum(Bxm), type = 'l', col = "blue",xlab = "Age",ylab = "Birth density",main = "USA")
-lines(10:65, Bxf / sum(Bxf), col = "red")
-
-Bxm <- rowSums(BxUS[["2009"]][11:66,])
-Bxf <- colSums(BxUS[["2009"]][,11:66])
-lines(10:65, Bxm / sum(Bxm), col = "blue", lty = 2)
-lines(10:65, Bxf / sum(Bxf), col = "red", lty = 2)
-
-legend("topright", lty = c(1,1,2,2), col = c("blue","red","blue","red"), 
-        legend = c("fathers 1975", "mothers 1975","fathers 2009", "mothers 2009"))
-
-library(DecompHoriuchi)
-
-
-
-
-Meanex <- function(Bx, .dx, x = 0:110 + .5){
-    ex <- rowSums(ExpectedDx(Px = Bx, dx = .dx))
-    wmean(x, ex)
-}
-
-exES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .BxES, .dxf, .dxm){
-            c(Father_ex = Meanex(rowSums(Mna0(.BxES[[yr]])), .dxm[, yr]),
-              Mother_ex = Meanex(colSums(Mna0(.BxES[[yr]])), .dxf[, yr]))
-        }, .BxES = BxES, .dxf = dxfES, .dxm = dxmES))
-
-plot(yearsES, exES[, "Father_ex"] - exES[, "Father_ex"][1], type = 'l', col = "blue", ylim = c(0,5))
-lines(yearsES, exES[, "Mother_ex"] - exES[, "Mother_ex"][1], col = "red")
-
-plot(yearsES, exES[, "Mother_ex"] - exES[, "Father_ex"])
-
-
-exUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .BxUS, .dxf, .dxm){
-                    c(Father_ex = Meanex(rowSums(Mna0(.BxUS[[yr]])), .dxm[, yr]),
-                            Mother_ex = Meanex(colSums(Mna0(.BxUS[[yr]])), .dxf[, yr]))
-                }, .BxUS = BxUS, .dxf = dxfUS, .dxm = dxmUS))
-
-plot(yearsUS, exUS[, "Father_ex"], type = 'l', col = "blue", ylim = c(40,55))
-lines(yearsUS, exUS[, "Mother_ex"], col = "red")
-
-# compare female advantage tiems series, ES, US
-plot(yearsUS, exUS[, "Mother_ex"] - exUS[, "Father_ex"], col = "blue",type= 'l')
-lines(yearsES, exES[, "Mother_ex"] - exES[, "Father_ex"], col = "red")
-
-# what about rates by ex instead of Exp?
-colnames(dxmUS)
-FxExUS <- lapply(as.character(yearsUS), function(yr, .ExpUS, .BxUS, .dxfUS, .dxmUS){
-            Bexm <- rowSums(ExpectedDx(Px = rowSums(Mna0(.BxUS[[yr]])), dx =  .dxmUS[,yr]))
-            Bexf <- rowSums(ExpectedDx(Px = colSums(Mna0(.BxUS[[yr]])), dx =  .dxfUS[,yr]))
-            Exp.exm <- rowSums(ExpectedDx(Px = with(.ExpUS, Male[Year == as.integer(yr)]), dx =  .dxmUS[,yr]))
-            Exp.exf <- rowSums(ExpectedDx(Px = with(.ExpUS, Female[Year == as.integer(yr)]), dx =  .dxfUS[,yr]))
-            list(F.exf = Bexf / Exp.exf,
-            M.exf = Bexm / Exp.exm)
-        }, .ExpUS = ExUS, .BxUS = BxUS, .dxfUS = dxfUS, .dxmUS = dxmUS)
-
-FxExUSf <- do.call(cbind, lapply(FxExUS, "[[", 1))
-FxExUSm <- do.call(cbind, lapply(FxExUS, "[[", 2))
-colnames(FxExUSf) <-colnames(FxExUSm) <- yearsUS
-FxExES <- lapply(as.character(yearsES), function(yr, .ExpES, .BxES, .dxfES, .dxmES){
-            yr <- "1975"
-            Bexm <- rowSums(ExpectedDx(Px = rowSums(Mna0(.BxES[[yr]])), dx =  .dxmES[,yr]))
-            Bexf <- rowSums(ExpectedDx(Px = colSums(Mna0(.BxES[[yr]])), dx =  .dxfES[,yr]))
-            Exp.exm <- rowSums(ExpectedDx(Px = with(.ExpES, Male[Year == as.integer(yr)]), dx =  .dxmES[,yr]))
-            Exp.exf <- rowSums(ExpectedDx(Px = with(.ExpES, Female[Year == as.integer(yr)]), dx =  .dxfES[,yr]))
-            list(F.exf = Bexf / Exp.exf,
-                    M.exf = Bexm / Exp.exm)
-        }, .ExpES = ExES, .BxES = BxES, .dxfES = dxfES, .dxmES = dxmES)
-FxExESf <- do.call(cbind, lapply(FxExES, "[[", 1))
-FxExESm <- do.call(cbind, lapply(FxExES, "[[", 2))
-colnames(FxExESf) <-colnames(FxExESm) <- yearsES
-
-#image(t(FxExUSf))
-#image(t(FxExUSm))
-#image(t(FxExESf))
-#image(t(FxExESm))
-plot(0:110, FxExUSf[,1], type = 'l')
-
-plot(yearsUS, colSums(FxExUSf, na.rm = TRUE), type = 'l', col = "red", ylim = c(1,3))
-lines(yearsUS, colSums(FxExUSm, na.rm = TRUE), col = "blue")
-lines(yearsES, colSums(FxExESf, na.rm = TRUE), col = "red",lty=2)
-lines(yearsES, colSums(FxExESm, na.rm = TRUE), col = "blue",lty=2)
-
-
-
+# females
+image(x = yearsUS + .5, y = 0:110 + .5, t(exSFRUSf), 
+        xlim = c(1969, 2010), ylim = c(0, 104), zlim = c(0, .12), 
+        col = colramp(50), breaks = brks, axes = FALSE, asp = 1,
+        xlab = "", ylab = "")
+abline(v=seq(1970,2010,by=10), col = "#FFFFFF50")
+abline(h=seq(0,100,by=10), col = "#FFFFFF50")
+# contours
+levs <- seq(0,.1,by = .01)
+contour(x = yearsUS + .5, y = 0:110 + .5, t(exSFRUSf),
+        levels = levs, labels = levs, add = TRUE)
 
 
