@@ -27,11 +27,71 @@ dxfUS <- dxfUS %col% colSums(dxfUS)
 dxmES <- dxmES %col% colSums(dxmES)
 dxfES <- dxfES %col% colSums(dxfES)
 
-ParMUS <- rowSums(BxUS[["2009"]])
-ParFUS <- colSums(BxUS[["2009"]])
+yearsUS <- 1969:2009
+yearsES <- 1975:2009
+xlabs   <- c("1.0%","0.8%","0.6%","0.4%","0.2%","0.0%","0.2%","0.4%","0.6%","0.8%","1.0%")
 
 
-library(Pyramid)
+Mex75 <- rowSums(ExpectedDx(Px = with(ExUS, Male[Year == 1975]), dx = dxmUS[,"1975"]))
+Fex75 <- rowSums(ExpectedDx(Px = with(ExUS, Female[Year == 1975]), dx = dxfUS[,"1975"]))
+Mex09 <- rowSums(ExpectedDx(Px = with(ExUS, Male[Year == 2009]), dx = dxmUS[,"2009"]))
+Fex09 <- rowSums(ExpectedDx(Px = with(ExUS, Female[Year == 2009]), dx = dxfUS[,"2009"]))
+pdf("/home/triffe/git/DISS/latex/Figures/exPyramidUS.pdf", height = 5, width = 5)
+par(mai = c(.5,.3,.3,.3))
+plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
+        panel.first = list(
+                rect(-1, 0, 1, 111, col = gray(.95), border = NA),
+                abline(v = seq(-1, 1, by = .2), col = "white"),
+                abline(h = seq(0, 110, by = 10), col = "white"),
+                text(seq(-1, 1, by = .2),0, xlabs, xpd = TRUE, pos = 1, cex = .7),
+                text(-1, seq(0, 110, by = 10), seq(0, 110, by = 10), pos = 2, xpd = TRUE, cex = .7),
+                text(-1.15, 118, expression(e[x]), xpd = TRUE, cex = 1),
+                text(0, -15, "Percentage", xpd = TRUE, cex = 1),
+                text(c(-.5, .5), 115, c("Males", "Females"), cex = .9, xpd = TRUE)
+               ))
+barplot(-100*(Mex75/sum(Mex75+Fex75)), border = NA, col = "#44444450", 
+        add = TRUE, horiz = TRUE, space = 0, axes = FALSE)
+barplot(100*(Fex75/sum(Mex75+Fex75)), border = NA, col = "#44444450", 
+        add = TRUE, horiz = TRUE, space = 0, axes = FALSE)
+PyramidOutline(Mex09, Fex09, prop = TRUE, border = gray(.2), xpd = TRUE, lwd = 1)    
+text(c(-.5,-.55), c(50, 91), c("1975", "2009"), col = c("white", "black"), cex = 1.2, pos = 4)
+segments(-.4,88,-.3,83)
+dev.off()
+# for Spain:
+Mex75ES <- rowSums(ExpectedDx(Px = with(ExES, Male[Year == 1975]), dx = dxmES[,"1975"]))
+Fex75ES <- rowSums(ExpectedDx(Px = with(ExES, Female[Year == 1975]), dx = dxfES[,"1975"]))
+Mex09ES <- rowSums(ExpectedDx(Px = with(ExES, Male[Year == 2009]), dx = dxmES[,"2009"]))
+Fex09ES <- rowSums(ExpectedDx(Px = with(ExES, Female[Year == 2009]), dx = dxfES[,"2009"]))
+
+pdf("/home/triffe/git/DISS/latex/Figures/exPyramidES.pdf", height = 5, width = 5)
+par(mai = c(.5,.3,.3,.3))
+plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
+        panel.first = list(
+                rect(-1, 0, 1, 111, col = gray(.95), border = NA),
+                abline(v = seq(-1, 1, by = .2), col = "white"),
+                abline(h = seq(0, 110, by = 10), col = "white"),
+                text(seq(-1, 1, by = .2),0, xlabs, xpd = TRUE, pos = 1, cex = .7),
+                text(-1, seq(0, 110, by = 10), seq(0, 110, by = 10), pos = 2, xpd = TRUE, cex = .7),
+                text(-1.15, 118, expression(e[x]), xpd = TRUE, cex = 1),
+                text(0, -15, "Percentage", xpd = TRUE, cex = 1),
+                text(c(-.5, .5), 115, c("Males", "Females"), cex = .9, xpd = TRUE)
+        ))
+barplot(-100*(Mex75ES/sum(Mex75ES+Fex75ES)), border = NA, col = "#44444450", 
+        add = TRUE, horiz = TRUE, space = 0, axes = FALSE)
+barplot(100*(Fex75ES/sum(Mex75ES+Fex75ES)), border = NA, col = "#44444450", 
+        add = TRUE, horiz = TRUE, space = 0, axes = FALSE)
+PyramidOutline(Mex09ES, Fex09ES, prop = TRUE, border = gray(.2), xpd = TRUE, lwd = 1)   
+text(c(-.5,-.55), c(50, 90), c("1975", "2009"), col = c("white", "black"), cex = 1.2, pos = 4)
+segments(-.27,90.5,-.17,87)
+dev.off()
+    
+
+    
+    
+    
+    
+    
+
 
 for (yr in as.character(yearsUS)){
     ParMUS <- rowSums(BxUS[[yr]])
@@ -186,8 +246,49 @@ exUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .BxUS, .dxf, .d
 plot(yearsUS, exUS[, "Father_ex"], type = 'l', col = "blue", ylim = c(40,55))
 lines(yearsUS, exUS[, "Mother_ex"], col = "red")
 
+# compare female advantage tiems series, ES, US
 plot(yearsUS, exUS[, "Mother_ex"] - exUS[, "Father_ex"], col = "blue",type= 'l')
 lines(yearsES, exES[, "Mother_ex"] - exES[, "Father_ex"], col = "red")
+
+# what about rates by ex instead of Exp?
+colnames(dxmUS)
+FxExUS <- lapply(as.character(yearsUS), function(yr, .ExpUS, .BxUS, .dxfUS, .dxmUS){
+            Bexm <- rowSums(ExpectedDx(Px = rowSums(Mna0(.BxUS[[yr]])), dx =  .dxmUS[,yr]))
+            Bexf <- rowSums(ExpectedDx(Px = colSums(Mna0(.BxUS[[yr]])), dx =  .dxfUS[,yr]))
+            Exp.exm <- rowSums(ExpectedDx(Px = with(.ExpUS, Male[Year == as.integer(yr)]), dx =  .dxmUS[,yr]))
+            Exp.exf <- rowSums(ExpectedDx(Px = with(.ExpUS, Female[Year == as.integer(yr)]), dx =  .dxfUS[,yr]))
+            list(F.exf = Bexf / Exp.exf,
+            M.exf = Bexm / Exp.exm)
+        }, .ExpUS = ExUS, .BxUS = BxUS, .dxfUS = dxfUS, .dxmUS = dxmUS)
+
+FxExUSf <- do.call(cbind, lapply(FxExUS, "[[", 1))
+FxExUSm <- do.call(cbind, lapply(FxExUS, "[[", 2))
+colnames(FxExUSf) <-colnames(FxExUSm) <- yearsUS
+FxExES <- lapply(as.character(yearsES), function(yr, .ExpES, .BxES, .dxfES, .dxmES){
+            yr <- "1975"
+            Bexm <- rowSums(ExpectedDx(Px = rowSums(Mna0(.BxES[[yr]])), dx =  .dxmES[,yr]))
+            Bexf <- rowSums(ExpectedDx(Px = colSums(Mna0(.BxES[[yr]])), dx =  .dxfES[,yr]))
+            Exp.exm <- rowSums(ExpectedDx(Px = with(.ExpES, Male[Year == as.integer(yr)]), dx =  .dxmES[,yr]))
+            Exp.exf <- rowSums(ExpectedDx(Px = with(.ExpES, Female[Year == as.integer(yr)]), dx =  .dxfES[,yr]))
+            list(F.exf = Bexf / Exp.exf,
+                    M.exf = Bexm / Exp.exm)
+        }, .ExpES = ExES, .BxES = BxES, .dxfES = dxfES, .dxmES = dxmES)
+FxExESf <- do.call(cbind, lapply(FxExES, "[[", 1))
+FxExESm <- do.call(cbind, lapply(FxExES, "[[", 2))
+colnames(FxExESf) <-colnames(FxExESm) <- yearsES
+
+#image(t(FxExUSf))
+#image(t(FxExUSm))
+#image(t(FxExESf))
+#image(t(FxExESm))
+plot(0:110, FxExUSf[,1], type = 'l')
+
+plot(yearsUS, colSums(FxExUSf, na.rm = TRUE), type = 'l', col = "red", ylim = c(1,3))
+lines(yearsUS, colSums(FxExUSm, na.rm = TRUE), col = "blue")
+lines(yearsES, colSums(FxExESf, na.rm = TRUE), col = "red",lty=2)
+lines(yearsES, colSums(FxExESm, na.rm = TRUE), col = "blue",lty=2)
+
+
 
 
 
