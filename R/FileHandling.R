@@ -406,3 +406,16 @@ save(dxmUS, file = "/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata")
 save(dxfUS, file = "/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata")
 save(dxmES, file = "/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata")
 save(dxfES, file = "/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata")
+
+# get period e0 estimates, all years:
+library(HMDget)
+years <- list()
+years$E0per <- c(1933:2009)
+e0perUS <- HMDget(countries = c("USA"), wanteditems = c("E0per"), years = years, 
+        column ="", drop.tadj = TRUE, format = 0, username = username, password = password)
+years$E0per <- c(1908:2009)
+e0perES <- HMDget(countries = c("ESP"), wanteditems = c("E0per"), years = years, 
+        column ="", drop.tadj = TRUE, format = 0, username = username, password = password)
+
+save(e0perUS, file = "/home/triffe/git/DISS/Data/HMD_e0period/e0perUS.Rdata")
+save(e0perES, file = "/home/triffe/git/DISS/Data/HMD_e0period/e0perES.Rdata")
