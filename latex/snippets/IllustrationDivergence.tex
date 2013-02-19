@@ -4,28 +4,35 @@ Divergence of single-sex population models is a problem of practical
 significance for demographers, and it stems from the fact that vital rates almost always
 differ between the sexes, except in rare coincidences when rates cross over
 time. Divergence in this sense refers to the exponentially increasing
-disagreement between single-sex male and female models that happens when
+disagreement between single-sex male and female models that unfolds when
 projected toward infinity. This results from differing intrinsic growth rates,
-$r$, that following from Lotka's fundamental equation \citep{sharpe1911problem}:
+$r$, that follow from Lotka's fundamental equation \citep{sharpe1911problem}:
 
 \begin{equation}
+\label{eq:lotkaeq}
 1 = \int _0 ^\infty e^{-ra}p_a m_a \dd a 
 \end{equation}
 where $p_a$ are age-specific survival probabilities, $m_a$ are age-specific
 single-sex fertility probabilities, and $r$ is the growth parameter to be
 estimated. Thus, $m_a$ may either be the fertilty of girls born to mothers or of
-boys born to fathers.
+boys born to fathers. \citet{yellin1977comparison} prove that this is to be
+expected, as agreement between male and female versions of
+ Equation~\eqref{lotkaeq} implies an overdetermined
+system. At the root of the problem is that the total numbers of births predicted
+by the equations ought to, but never do, agree, aside from in the jump-off year
+from which rates are initially derived, which is a tautology. In any instance
+where single-sex $r$ estimates differ, forward projection will result in sex ratios 
+that either grow toward infinity in the limit if $r^m
+> r^f$ or decline to zero if $r^m < r^f$. If the gap between rates is large, this happens
+quickly, if small, divergence is slower. This is in either case a modelling
+inconvenience, and the crux of the two-sex problem. 
 
-In any instance where single-sex $r$ estimates differ, forward projection
-will result in sex ratios that either grow toward infinity if $r^m > r^f$ or
-fall to zero if $r^m < r^f$. If the gap between rates is large, this happens
-quickly, if small, divergence is slow. This is in either case a modelling
-inconvenience, and the crux of the two-sex problem. $r^m$ and $r^f$ can be
-estimated from data. In looking at time series (see Figure~\ref{fig:rmf}) of the
-single-sex intrinsic growth rates, observe that the sex-gap has varied over
-time, that the male rate is typcally higher than the female rate (aided
-greatly by the sex ratio at birth), and that there have been crossovers in the
-USA: the $r^f > r^m$ in 1994-1996, and again briefly in 2001. 
+Single-sex intrinsic growth rates, $r^m$ and $r^f$, can be 
+estimated from data. In looking at time series (see Figure~\ref{fig:rmf}) of 
+ growth rates, observe that the sex-gap has varied over 
+time, that the male rate is typcally higher than the female rate (aided greatly 
+by the sex ratio at birth), and that there have been crossovers in the USA: 
+the $r^f > r^m$ in 1994-1996, and again briefly in 2001. 
 
 \begin{figure}[ht!]
         \centering  
@@ -41,9 +48,10 @@ Perhaps even more curious are occassions when $r^m$ and $r^f$ have been on
 opposite sides of zero, i.e. intrinsic growth and instrinsic decrease at the
 same time. In the USA, this has happened many times in the period studied:
 1972-1973, 1990, 2004-2005, and again recently in 2008. In Spain rates were 
-briefly on opposites of zero in 1981-1982. In all of these cases male growth
-rates were positive while female growth rates were negative. Note that this does
-not mean that observed growth rates were of opposite sign, only that intrinsic
+briefly on opposites of zero in 1981-1982, in the middle of a period of sharp
+decline in fertility. In all of these cases male growth rates were positive
+while female growth rates were negative. Note that this does not mean that 
+observed growth rates were of opposite sign, only that intrinsic
 rates were. 
 
 Differences in intrinsic growth rates underly divergence, but they
@@ -67,10 +75,11 @@ the initial conditions?
 
 Clearly the run of years in the United States where $r^f$ and $r^m$ were very
 close (approx 1994-2001) imply such slow rates of divergence that we could, as a
-matter of accident, safely ignore the two sex problem in those years.
-However, any acceptability threshold is a matter of convenience and taste:
-presumably the demographer would like age-specific population estimates to be
-much closer to truth than \textit{half} or \textit{twice} the ideal value.
+matter of accident, safely ignore the two sex problem in those years. These
+tended to be the same years where the greater growth rate oscillated between
+male and females. However, any acceptability threshold is a matter of
+convenience and taste: presumably the demographer would like age-specific 
+population estimates to be much closer to truth than \textit{half} or \textit{twice} the ideal value.
 Dropping the badness threshold would of course decrease the waiting time until
 it is met in any given year. These are practical questions. More
 stringent are the demands of theoretical stable populations, where
