@@ -1,242 +1,84 @@
 
 %* all figs here produced in IllustrateDivergence.R
-
-Divergence of single-sex population models is problem of practical significance
-for demographers, and it stems from the fact that vital rates almost always
+Divergence of single-sex population models is a problem of practical
+significance for demographers, and it stems from the fact that vital rates almost always
 differ between the sexes, except in rare coincidences when rates cross over
-time. This characteristic of human populations, sexual dimorphism,
-is manifests itself in all concerns of demography. In observed populations,
-fluctuations in sexual dimorphism are constantly underway. In theoretical
-population models, dimorphism is typically limited to fertility and mortality
-rates and the sex ratio at birth. Fertility is a two-sex interactive phenomenon,
-but in practice population models, such as projections, do not often treat it as
-such. Mortality is always modelled separately for both sexes, and can
-be reasonably thought of as independent for each sex. If if male and female
-rate schedules were identical, mortality differences would also
-cause divergence between male and female single-sex models. The sex ratio at
-birth (SRB) varies from year to year, but is usually treated as a global variable, 
-uniform over age and time. For the USA this is a harmless assumption, but for Spain, 
-assumptions of a constant SRB have been very wrong. Even if male and female fertility and morality schedules
-were identical, Observed age-specific vital rates for Spain and the United
-States serve well to illustrate the peculiarities of the problem.  %
-
-% ASFR for 1975, both countries
-\begin{figure}[ht!]
-        \centering  
-          \caption{Male and Female Age-Specific Fertility Rates, 1975, USA and
-          Spain}
-           % figure produced in
-           % /R/ObservedVsExpectedBivariateBirthDistribution.R
-           \makebox[\textwidth]{\includegraphics{Figures/ASFR1975}}
-          %\includegraphics{Figures/ObservedvsExpectedBxy}
-          \label{fig:ASFR1975}
-\end{figure}
-
-
-% TFR 1969- 2010
-\begin{figure}[ht!]
-        \centering  
-          \caption{Male and Female Total Fertility Rates, 1969-2009, USA and
-          Spain}
-           % figure produced in
-           % /R/ObservedVsExpectedBivariateBirthDistribution.R
-           \makebox[\textwidth]{\includegraphics{Figures/TFR}}
-          %\includegraphics{Figures/ObservedvsExpectedBxy}
-          \label{fig:TFRseries}
-\end{figure}
-% NRR single sex? US SRB?
-
-\begin{figure}[ht!]
-        \centering  
-          \caption{Male and Female Net Reproduction Rates, 1969-2009, USA and
-          Spain}
-           % figure produced in
-           % /R/ObservedVsExpectedBivariateBirthDistribution.R
-           \makebox[\textwidth]{\includegraphics{Figures/R0mf}}
-          %\includegraphics{Figures/ObservedvsExpectedBxy}
-          \label{fig:NRRseries}
-\end{figure}
-
-% vs net TFR
-
-% Can't assume constant SRB
-
-% mortality divergence: compare e0, rates, inverse pyramid?
-
-Sexual dimorphism in mortality is of primary significance to human reproduction.
-Parents must survive in order to parent, and children must survive in order to
-become parents. This later element, survival until reproductive ages, enters
-directly into canoncial indicators such as the Net Reproduction Rate. Parental
-survival does not, to the knowledge of this author, enter into indicators of
-population reproductivity, except in the less-iluminating sense that parents
-must survive in order to progress birth parities. This section will briefly present 
-some novel methods and indicators for weighing mortality into measures of
-reproductivity.
-
-
-\subsubsection{Years as units of population}
-Recall the concept and method of \textit{reproduction of years lived} proposed
-by \citet{henry1965reflexions} and later replicated by \citet{cabre1990repro}
-for Catalonia. Henry's method involves weighting a Net Reproduction Rate by
-the ratio of daughters' to mothers' life expectancies:
+time. Divergence in this sense refers to the exponentially increasing
+disagreement between single-sex male and female models that happens when
+projected toward infinity. This results from differing intrinsic growth rates,
+$r$, that following from Lotka's fundamental equation \citep{sharpe1911problem}:
 
 \begin{equation}
-R_{0}^{\ast} = R_{0} \frac{e_0^{daughters}}{e_0^{mothers}}
+1 = \int _0 ^\infty e^{-ra}p_a m_a \dd a 
 \end{equation}
+where $p_a$ are age-specific survival probabilities, $m_a$ are age-specific
+single-sex fertility probabilities, and $r$ is the growth parameter to be
+estimated. Thus, $m_a$ may either be the fertilty of girls born to mothers or of
+boys born to fathers.
 
-This method essentially adjusts birth counts to account for changes (increases)
-in mean generation length. $R_{0}^{\ast}$ is analagous to thinking of populations 
-and their renovation in terms of total exposure, rather than as a given census cross-section. This
-method can be calculated analagously for males, and can be operationalized 
-in a variety of ways, depending on the available data. Ideally, 
-$R_{0}$ is calculated for a cohort, $e_0^{daughters}$ and $e_0^{mothers}$ are
-age generation-specific, and their ratio is weighted inside the calculation of
-$R_0$ according to CTFR. This ideal case is not practical for the present
-data because the cohort life expectancy of recent generations in unknown
-\footnote{Even the oldest generation of mothers in the first year of data
-presented here, $1969-50-1 = 1919$ , is not extinct. Thus all requisite cohort
-life expectancies are unknown.}, and because the data window used is narrow to
-cover the reproductive range of any cohort, thus cohort ASFR is not fully known.
-
-One could reduce fertility data requirements by using period data, i.e.
-use period instead of cohort ASFR and period $e_0$ instead of cohort $e_0$, both
-for mothers and daughters:
-
-\begin{equation}
-R_{0}^{\ast P}(t) = \int _{\alpha = 0} ^{\beta} p_{a}^{f}(t) f_{a}^{f}(t)
-\frac{e_{0}(t)}{e_{0}(t-a) \dd a}
-\end{equation}
-
-\textit{Periodizing} the formula in this way gains practicality at the cost of
-potential distortion. The series of period $R_0^\ast$ for US and Spanish males
-and females for the range of years treated here would look something like
-Figure~\ref{fig:R0perHenry}:
+In any instance where single-sex $r$ estimates differ, forward projection
+will result in sex ratios that either grow toward infinity if $r^m > r^f$ or
+fall to zero if $r^m < r^f$. If the gap between rates is large, this happens
+quickly, if small, divergence is slow. This is in either case a modelling
+inconvenience, and the crux of the two-sex problem. $r^m$ and $r^f$ can be
+estimated from data. In looking at time series (see Figure~\ref{fig:rmf}) of the
+single-sex intrinsic growth rates, observe that the sex-gap has varied over
+time, that the male rate is typcally higher than the female rate (aided
+greatly by the sex ratio at birth), and that there have been crossovers in the
+USA: the $r^f > r^m$ in 1994-1996, and again briefly in 2001. 
 
 \begin{figure}[ht!]
         \centering  
-          \caption{Male and Female $e_0$-weighted Net Reproduction Rates,
-          1969-2009, USA and Spain}
+          \caption{Male and Female intrinsic growth rates, Spain and US,
+          1969-2009}
            % figure produced in
-           % /R/ObservedVsExpectedBivariateBirthDistribution.R
-           \makebox[\textwidth]{\includegraphics{Figures/R0perHenry}}
-          %\includegraphics{Figures/ObservedvsExpectedBxy}
-          \label{fig:R0perHenry}
+           % /R/rm_rf_divergence
+           \makebox[\textwidth]{\includegraphics{Figures/rmf}}
+          \label{fig:rmf}
 \end{figure}
 
-The trends in these series essentially transmit the same information
-present in the sex-specific $R_0$ series shown in Figure~\ref{fig:NRRseries},
-except, where period $e_0$-weighting has its greatest effect in the first years
-of the series. The effect of this method is to change the units of population
-from persons to years. 
+Perhaps even more curious are occassions when $r^m$ and $r^f$ have been on
+opposite sides of zero, i.e. intrinsic growth and instrinsic decrease at the
+same time. In the USA, this has happened many times in the period studied:
+1972-1973, 1990, 2004-2005, and again recently in 2008. In Spain rates were 
+briefly on opposites of zero in 1981-1982. In all of these cases male growth
+rates were positive while female growth rates were negative. Note that this does
+not mean that observed growth rates were of opposite sign, only that intrinsic
+rates were. 
 
-\subsubsection{Redistributing population by remaining years}
-
-Now recall the observations of \citet{sanderson2005average}, more directly
-relating to the popuation pyramid. These authors note that despite ageing in a
-population, the mean \textit{remaining} years to be lived may increase at the
-same time. This is due to improvements in mortality offsetting increases in the
-mean age of a population. I now present a method to exactly redistribute
-population counts (or exposures) according to period remaining life
-expectancies, rather than according to age per se.
-
-From the lifetable of a given population, sex-specific and calculated with a
-radix of 1. Note the $d_x$ now sums to 1, and is therefore a proper density
-function. $d_x$ can be thought of as the probability of dying in any given age
-from the perspective of a 0-year-old, according to the given year's mortality
-experience. It follows that the observed population of age 0 can be redistribted
-according to $d_x$ and interpreted either as the expected death counts
-in each year $t+x$, or as the distribution of persons currently-aged 0
-reclassified according to remaining life expectancy. This can be done similarly
-for age 1, by ignoring the mortality experience of age 0, and rescaling $d_x$ to
-sum to 1, or generally:
-
-\begin{equation}
-\mathbf{E}(D_t) = \int _{a = 0} ^{\infty} P_a \frac{d_a}{\int _{b = a} ^{\infty}
-d_b\, \dd b} \;\dd a
-\end{equation}
-where $P_a$ is the population of age $a$, $d_a$ is the
-lifetable density function and $\mathbf{E}(D_t)$ is the expected number of
-deaths in each future year $t$, also understood as a vector of the current 
-population, redistributed into categories of remaining life expectancy. The key
-observation is that we can sidestep the $e_x$ column of the lifetable, since
-$e_x$ is essentially a weighted mean of $d_x$. The resulting population pyramid
-is heterogeneous with respect to age within any given level of remaining life
-expectancy, and looks like
-Figures~\ref{fig:exPyrUS} and \ref{fig:exPyrES}\footnote{The idea to
-redistribute the population pyramid in this way is due to a conversation with 
-John MacInnes, and appears in \citep{MacInnes2013pop} (unpublished) using a
-different method.} for the years 1975 and 2009. As a helpful pointer, note
-that the population at the base of the pyramid is expected to decrement
-within the \textit{next year}, thus the vertical axis can also can also be
-thought of as year $t+x$, although $e_x$ more clearly identifies the pyramid
-with year $t$ mortality conditions. In other words, the pyramid should not be
-taken out of context as a forecast. Note that this pyramid represents the
-exact same population: Underlying males sum to the correct total on the left and
-females sum to the correct total on the right. Both pyramids have been rescaled to sum to 100, in 
-order to more comparably represent population structure. \footnote{Incidentally,
-a time series of remaining life expectancy pyramids for any given Western country will show 
- incredible stability over time, which is remarkable in light of
- observed ageing in the observed population pyramid. The simple interpretation
- of this kind of pyramid adds to its utility, and this author believes that $e_x$-specific
- population structure, and other here-unmentioned indicators that can be derived
- from this method sould make up a valuable new component to the contemporary
- demographer's toolbox, as well as help inform current population debates.}
-
-\begin{figure}
-        \centering
-        \begin{subfigure}
-                \centering
-                \caption{US years-lived by $e_x$, 1975 and 2009}
-                \includegraphics[scale = .8]{Figures/exPyramidUS}
-                \label{fig:exPyrUS}
-        \end{subfigure}
-        \begin{subfigure}
-                \centering
-                \caption{Spain years-lived by $e_x$, 1975 and 2009}
-                \includegraphics[scale = .8]{Figures/exPyramidES}
-               
-                \label{fig:exPyrES}
-        \end{subfigure}
-\end{figure}
-
-We now apply this same redistribution technique in order to
-calculate male and female $e_x$-specific fertility rates ($e_x$-SFR). For any
-rate, the numerator and denominator require a common referent, thus both births and
-exposures are redistributed according to year $t$ mortality conditions. Such a
-rate cannot be directly compared with a typical age-specific rate, since the
-time scales are different, but we can indeed apply some familiar tools in order
-to analyze this new curve. Figure~\ref{fig:eSFR2009} shows an example $e_x$-SFR
-from 2009, for both the US and Spain.
+Differences in intrinsic growth rates underly divergence, but they
+do not represent divergence in the projection, per se.
+Figure~\ref{fig:rSRdoubling} playfully illustrates the divergence implied by the 
+rates in each given year: Given the
+male and female vital rates from each year, how many years would it take for one
+sex to be double the size of the other, always using the year $t$ population as
+the initial conditions?
 
 \begin{figure}[ht!]
         \centering  
-          \caption{Male and Female $e_x$-specific fertility rates, 2009, USA and
-          Spain}
-           % figure produced in
-           % /R/ObservedVsExpectedBivariateBirthDistribution.R
-           \makebox[\textwidth]{\includegraphics{Figures/eSFR2009}}
-          %\includegraphics{Figures/ObservedvsExpectedBxy}
-          \label{fig:eSFR2009}
+          \caption{$log(\mathrm{Years})$ until one sex is twice the size as the
+          other, given separate single-sex projections using annual vital rates and initial
+          conditions, Spain and US.}
+           \quad
+           % /R/rm_rf_divergence
+           \makebox[\textwidth]{\includegraphics{Figures/rSRdoubling}}
+          \label{fig:rSRdoubling}
 \end{figure}
 
-The assumption of homogenous mortality is particularly consequential in the case
-of fertility, where health selection is self-evident, but not easily measureable.
-It is thus to be expected that the left tails in Figure~\ref{fig:eSFR2009} are
-too thick. In contemporary Western populations, female $e_x$-SFR curves will be
-further to the right than male curves for two reasons 1) female mortality is
-almost universally lower than male mortality at any given age, thus associating
-births at a given age with higher remaining life expectancies; 2)
-female fertility is more tightly concentrated over young ages, partly due to
-upper bound represented by menopause, and partly due to prevailing hypergamy. 
+Clearly the run of years in the United States where $r^f$ and $r^m$ were very
+close (approx 1994-2001) imply such slow rates of divergence that we could, as a
+matter of accident, safely ignore the two sex problem in those years.
+However, any acceptability threshold is a matter of convenience and taste:
+presumably the demographer would like age-specific population estimates to be
+much closer to truth than \textit{half} or \textit{twice} the ideal value.
+Dropping the badness threshold would of course decrease the waiting time until
+it is met in any given year. These are practical questions. More
+stringent are the demands of theoretical stable populations, where
+sex consistency is very desirable. Not a single year of data presented here
+meets the requirements of a consistent stable population, and even if this were
+to be observed, it would be coincidentally rather than essentially so. Let us
+for now conclude that the divergence of single sex models is demonstrated.
 
-As with ASFR, $e_x$-SFR has changed its level and undergone a \textit{rightward}
-displacement over time, although the interpretation of this is entirely
-different. Observed fertility postponement should shift $e_x$-SFR unfavorably
-(left) to higher mortality levels, however mortality improvements have in many
-instances tended to offset this effect, acting to move the curve to higher
-remaining life expectancies. This evolution in rates can, as with ASFR, be
-represented with a standard surface, or be summarized with an indicator akin to
-TFR, which we here call $e_x$-TFR.
 
 
 

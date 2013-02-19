@@ -1,0 +1,117 @@
+
+Now recall the observations of \citet{sanderson2005average}, more directly
+relating to the popuation pyramid. These authors note that despite ageing in a
+population, the mean \textit{remaining} years to be lived may increase at the
+same time. This is due to improvements in mortality offsetting increases in the
+mean age of a population. I now present a method to exactly redistribute
+population counts (or exposures) according to period remaining life
+expectancies, rather than according to age per se.
+
+From the lifetable of a given population, sex-specific and calculated with a
+radix of 1. Note the $d_x$ now sums to 1, and is therefore a proper density
+function. $d_x$ can be thought of as the probability of dying in any given age
+from the perspective of a 0-year-old, according to the given year's mortality
+experience. It follows that the observed population of age 0 can be redistribted
+according to $d_x$ and interpreted either as the expected death counts
+in each year $t+x$, or as the distribution of persons currently-aged 0
+reclassified according to remaining life expectancy. This can be done similarly
+for age 1, by ignoring the mortality experience of age 0, and rescaling $d_x$ to
+sum to 1, or generally:
+
+\begin{equation}
+\mathbf{E}(D_t) = \int _{a = 0} ^{\infty} P_a \frac{d_a}{\int _{b = a} ^{\infty}
+d_b\, \dd b} \;\dd a
+\end{equation}
+where $P_a$ is the population of age $a$, $d_a$ is the
+lifetable density function and $\mathbf{E}(D_t)$ is the expected number of
+deaths in each future year $t$, also understood as a vector of the current 
+population, redistributed into categories of remaining life expectancy. The key
+observation is that we can sidestep the $e_x$ column of the lifetable, since
+$e_x$ is essentially a weighted mean of $d_x$. The resulting population pyramid
+is heterogeneous with respect to age within any given level of remaining life
+expectancy, and looks like
+Figures~\ref{fig:exPyrUS} and \ref{fig:exPyrES}\footnote{The idea to
+redistribute the population pyramid in this way is due to a conversation with 
+John MacInnes, and appears in \citep{MacInnes2013pop} (unpublished) using a
+different method.} for the years 1975 and 2009. As a helpful pointer, note
+that the population at the base of the pyramid is expected to decrement
+within the \textit{next year}, thus the vertical axis can also can also be
+thought of as year $t+x$, although $e_x$ more clearly identifies the pyramid
+with year $t$ mortality conditions. In other words, the pyramid should not be
+taken out of context as a forecast. Note that this pyramid represents the
+exact same population: Underlying males sum to the correct total on the left and
+females sum to the correct total on the right. Both pyramids have been rescaled to sum to 100, in 
+order to more comparably represent population structure. \footnote{Incidentally,
+a time series of remaining life expectancy pyramids for any given Western country will show 
+ incredible stability over time, which is remarkable in light of
+ observed ageing in the observed population pyramid. The simple interpretation
+ of this kind of pyramid adds to its utility, and this author believes that $e_x$-specific
+ population structure, and other here-unmentioned indicators that can be derived
+ from this method sould make up a valuable new component to the contemporary
+ demographer's toolbox, as well as help inform current population debates.}
+
+\begin{figure}
+        \centering
+        \begin{subfigure}
+                \centering
+                \caption{US years-lived by $e_x$, 1975 and 2009}
+                \includegraphics[scale = .8]{Figures/exPyramidUS}
+                \label{fig:exPyrUS}
+        \end{subfigure}
+        \begin{subfigure}
+                \centering
+                \caption{Spain years-lived by $e_x$, 1975 and 2009}
+                \includegraphics[scale = .8]{Figures/exPyramidES}
+               
+                \label{fig:exPyrES}
+        \end{subfigure}
+\end{figure}
+
+We now apply this same redistribution technique in order to
+calculate male and female $e_x$-specific fertility rates ($e_x$-SFR). For any
+rate, the numerator and denominator require a common referent, thus both births and
+exposures are redistributed according to year $t$ mortality conditions. Such a
+rate cannot be directly compared with a typical age-specific rate, since the
+time scales are different, but we can indeed apply some familiar tools in order
+to analyze this new curve. Figure~\ref{fig:eSFR2009} shows an example $e_x$-SFR
+from 2009, for both the US and Spain.
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Male and Female $e_x$-specific fertility rates, 2009, USA and
+          Spain}
+           % figure produced in
+           % /R/ObservedVsExpectedBivariateBirthDistribution.R
+           \makebox[\textwidth]{\includegraphics{Figures/eSFR2009}}
+          %\includegraphics{Figures/ObservedvsExpectedBxy}
+          \label{fig:eSFR2009}
+\end{figure}
+
+The assumption of homogenous mortality is particularly consequential in the case
+of fertility, where health selection is self-evident, but not easily measureable.
+It is thus to be expected that the left tails in Figure~\ref{fig:eSFR2009} are
+too thick. In contemporary Western populations, female $e_x$-SFR curves will be
+further to the right than male curves for two reasons 1) female mortality is
+almost universally lower than male mortality at any given age, thus associating
+births at a given age with higher remaining life expectancies; 2)
+female fertility is more tightly concentrated over young ages, partly due to
+upper bound represented by menopause, and partly due to prevailing hypergamy. 
+
+As with ASFR, $e_x$-SFR has changed its level and undergone a \textit{rightward}
+displacement over time, although the interpretation of this is entirely
+different. Observed fertility postponement should shift $e_x$-SFR unfavorably
+(left) to higher mortality levels, however mortality improvements have in many
+instances tended to offset this effect, acting to move the curve to higher
+remaining life expectancies. This evolution in rates can, as with ASFR, be
+represented with a standard surface, or be summarized with an indicator akin to
+TFR, which we here call $e_x$-TFR.
+
+
+
+
+
+
+
+
+
+
