@@ -1,0 +1,55 @@
+
+\subsubsection{Years as the units of population}
+Recall the concept and method of \textit{reproduction of years lived} proposed
+by \citet{henry1965reflexions} and later replicated by \citet{cabre1990repro}
+for Catalonia. Henry's method involves weighting a Net Reproduction Rate by
+the ratio of daughters' to mothers' life expectancies:
+
+\begin{equation}
+R_{0}^{\ast} = R_{0} \frac{e_0^{daughters}}{e_0^{mothers}}
+\end{equation}
+
+This method essentially adjusts birth counts to account for changes (increases)
+in mean generation length. $R_{0}^{\ast}$ is analagous to thinking of populations 
+and their renovation in terms of total exposure, rather than as a given census cross-section. This
+method can be calculated analagously for males, and can be operationalized 
+in a variety of ways, depending on the available data. Ideally, 
+$R_{0}$ is calculated for a cohort, $e_0^{daughters}$ and $e_0^{mothers}$ are
+age generation-specific, and their ratio is weighted inside the calculation of
+$R_0$ according to CTFR. This ideal case is not practical for the present
+data because the cohort life expectancy of recent generations in unknown
+\footnote{Even the oldest generation of mothers in the first year of data
+presented here, $1969-50-1 = 1919$ , is not extinct. Thus all requisite cohort
+life expectancies are unknown.}, and because the data window used is narrow to
+cover the reproductive range of any cohort, thus cohort ASFR is not fully known.
+
+One could reduce fertility data requirements by using period data, i.e.
+use period instead of cohort ASFR and period $e_0$ instead of cohort $e_0$, both
+for mothers and daughters:
+
+\begin{equation}
+R_{0}^{\ast P}(t) = \int _{\alpha = 0} ^{\beta} p_{a}^{f}(t) f_{a}^{f}(t)
+\frac{e_{0}(t)}{e_{0}(t-a) \dd a}
+\end{equation}
+
+\textit{Periodizing} the formula in this way gains practicality at the cost of
+potential distortion. The series of period $R_0^\ast$ for US and Spanish males
+and females for the range of years treated here would look something like
+Figure~\ref{fig:R0perHenry}:
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Male and Female $e_0$-weighted Net Reproduction Rates,
+          1969-2009, USA and Spain}
+           % figure produced in
+           % /R/ObservedVsExpectedBivariateBirthDistribution.R
+           \makebox[\textwidth]{\includegraphics{Figures/R0perHenry}}
+          %\includegraphics{Figures/ObservedvsExpectedBxy}
+          \label{fig:R0perHenry}
+\end{figure}
+
+The trends in these series essentially transmit the same information
+present in the sex-specific $R_0$ series shown in Figure~\ref{fig:NRRseries},
+except, where period $e_0$-weighting has its greatest effect in the first years
+of the series. The effect of this method is to change the units of population
+from persons to years. 
