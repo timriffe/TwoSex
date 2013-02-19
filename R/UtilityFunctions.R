@@ -104,11 +104,15 @@ MinfNA <- function(M){
 }
 
 # used in rm_rf_divergence.R
-dx2px <- function(dx){
-    lx <- c(1, sum(dx) - cumsum(dx))
+dx2pxLes <- function(dx){
+    lx <- sum(dx) - cumsum(dx)
     px <- lx[2:length(lx)] / lx[1:(length(lx)-1)]
-    px[length(px)] <- 0
+    px <- px
     Minf0(Mna0(px))
+}
+Leslie <- function(fx, px){
+    fx <- fx * (1 - ((1 - px[1]) / 2)) # simple cheat for infant mort
+    cbind(rbind(fx[1:length(px)],diag(px)),0)
 }
 
 
