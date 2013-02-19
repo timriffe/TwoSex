@@ -102,6 +102,16 @@ MinfNA <- function(M){
     M[is.infinite(M)]  <- NA
     M
 }
+
+# used in rm_rf_divergence.R
+dx2px <- function(dx){
+    lx <- c(1, sum(dx) - cumsum(dx))
+    px <- lx[2:length(lx)] / lx[1:(length(lx)-1)]
+    px[length(px)] <- 0
+    Minf0(Mna0(px))
+}
+
+
 # this function rounds N-dimensional arrays, while maintaining margin totals
 contround2 <- function(origvalue){
     contround <-function(origvalue){
