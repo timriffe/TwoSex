@@ -138,7 +138,7 @@ rmfUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .BxymfUS, .ExU
             mf      <- colSums(Bxyf) / Eyf
             c( r.mf = rMitra(Bxym, Bxyf, Exm, Eyf, Lxm, Lyf, agem + .5, agef + .5),
                r.m = LotkaRCoale(mm, Lxm, agem + .5),
-               r.f = LotkaRCoale(mf, Lyf, agef))
+               r.f = LotkaRCoale(mf, Lyf, agef + .5))
         }, .BxymfUS = BxymfUS, .ExUS = ExUS, .LxmUS = LxmUS, .LxfUS = LxfUS))
 # TODO: ES throws error, fix
 names(BxymfES) <- yearsES
@@ -154,7 +154,7 @@ rmfES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .BxymfES, .ExE
                     mf   <- colSums(Bxyf) / Eyf
                     c( r.mf = rMitra(Bxym, Bxyf, Exm, Eyf, Lxm, Lyf, agem + .5, agef + .5),
                             r.m = LotkaRCoale(mm, Lxm, agem + .5),
-                            r.f = LotkaRCoale(mf, Lyf, agef))
+                            r.f = LotkaRCoale(mf, Lyf, agef + .5))
                 }, .BxymfES = BxymfES, .ExES = ExES, .LxmES = LxmES, .LxfES = LxfES))
 
 plot(yearsUS, rmfUS[,"r.mf"], type = 'l', ylim = c(-.02,.02))
