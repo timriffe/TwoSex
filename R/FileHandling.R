@@ -421,3 +421,55 @@ colnames(e0perUS) <- colnames(e0perES) <- c("Year","Female","Male","Total")
 
 save(e0perUS, file = "/home/triffe/git/DISS/Data/HMD_e0period/e0perUS.Rdata")
 save(e0perES, file = "/home/triffe/git/DISS/Data/HMD_e0period/e0perES.Rdata")
+
+
+years <- list()
+years$mltper_1x1 <- c(1969:2009)
+lxmUS <- HMDget(countries = c("USA"), wanteditems = c("mltper_1x1"), 
+        years = years, column = "lx", drop.tadj = TRUE, format = 4, 
+        username = username, password = password)
+years <- list()
+years$fltper_1x1 <- c(1969:2009)
+lxfUS <- HMDget(countries = c("USA"), wanteditems = c("fltper_1x1"), 
+        years = years, column = "lx", drop.tadj = TRUE, format = 4, 
+        username = username, password = password)
+
+years <- list()
+years$mltper_1x1 <- c(1975:2009)
+lxmES <- HMDget(countries = c("ESP"), wanteditems = c("mltper_1x1"), 
+        years = years, column = "lx", drop.tadj = TRUE, format = 4, 
+        username = username, password = password)
+years <- list()
+years$fltper_1x1 <- c(1975:2009)
+lxfES <- HMDget(countries = c("ESP"), wanteditems = c("fltper_1x1"), 
+        years = years, column = "lx", drop.tadj = TRUE, format = 4, 
+        username = username, password = password)
+save(lxmUS, file = "/home/triffe/git/DISS/Data/HMD_lx/lxmUS.Rdata")
+save(lxfUS, file = "/home/triffe/git/DISS/Data/HMD_lx/lxfUS.Rdata")
+save(lxmES, file = "/home/triffe/git/DISS/Data/HMD_lx/lxmES.Rdata")
+save(lxfES, file = "/home/triffe/git/DISS/Data/HMD_lx/lxfES.Rdata")
+
+years <- list()
+years$mltper_1x1 <- c(1969:2009)
+muxmUS <- HMDget(countries = c("USA"), wanteditems = c("mltper_1x1"), 
+        years = years, column = "mx", drop.tadj = TRUE, format = 4, 
+        username = username, password = password)
+years <- list()
+years$fltper_1x1 <- c(1969:2009)
+muxfUS <- HMDget(countries = c("USA"), wanteditems = c("fltper_1x1"), 
+        years = years, column = "mx", drop.tadj = TRUE, format = 4, 
+        username = username, password = password)
+years <- list()
+years$mltper_1x1 <- c(1969:2009)
+muxmES <- HMDget(countries = c("ESP"), wanteditems = c("mltper_1x1"), 
+        years = years, column = "mx", drop.tadj = TRUE, format = 4, 
+        username = username, password = password)
+years <- list()
+years$fltper_1x1 <- c(1969:2009)
+muxfES <- HMDget(countries = c("ESP"), wanteditems = c("fltper_1x1"), 
+        years = years, column = "mx", drop.tadj = TRUE, format = 4, 
+        username = username, password = password)
+save(muxmUS, file = "/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata")
+save(muxfUS, file = "/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata")
+save(muxmES, file = "/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata")
+save(muxfES, file = "/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata")
