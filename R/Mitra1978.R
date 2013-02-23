@@ -135,7 +135,7 @@ plot(v.vec, type = 'l')
 plot(r.vec[2:length(r.vec)], type = 'l')
 
 
-# now functionalize the above!
+# now functionalize the above! 
 
 v.r.stable <- compiler::cmpfun(function(.v0, .Lxm, .Lxf, .lxm, .lxf, .Bma, .Bfa, .Mat, 
                 .Fat, tol = 1e-11, maxit = 1e3, 
@@ -185,13 +185,13 @@ v.r.stable <- compiler::cmpfun(function(.v0, .Lxm, .Lxf, .lxm, .lxf, .Bma, .Bfa,
         Bfi         <- sum(Hfa * Fat.2, na.rm = TRUE) / (1 - v.t)
         # Bmi / Bfi == SRB #TRUE
         # discount for infant mort (i.e. births not surviving to t+1
-        Mat.2[1]    <- Bmi #* infm
-        Fat.2[1]    <- Bfi #* inff
+        Mat.2[1]    <- Bmi * infm
+        Fat.2[1]    <- Bfi * inff
         
         # save parameters to return
         v.vec[i]    <- v.t 
         p.vec[i]    <- sum(Mat.2, na.rm = TRUE) + sum(Fat.2, na.rm = TRUE)
-        r.vec[i]    <- log(diff(p.vec[(i-1):i]))
+        r.vec[i]    <- log(p.vec[i] / p.vec[i - 1])
         stable      <- ifelse(i > 10, {abs(r.vec[i] - r.vec[i-1]) < tol}, FALSE)
 
         # reassign
@@ -258,6 +258,20 @@ v.r.OLS <- function(Lxm, Lxf, lxm, lxf, Bma, Bfa, Mat, Fat,
                     r.m = LotkaRCoale(Minf0(Mna0(Bma / Mat)), Lxm, a),
                     trajectory = trajectory))
 }
+# keep for testing:
+#.Lxm <- Lxm     <- LxmUS[, yr]
+#.Lxf <- Lxf     <- LxfUS[, yr]
+#.lxm <- lxm     <- lxmUS[, yr]
+#.lxf <- lxf     <- lxfUS[, yr]
+#.Bma <- Bma     <- rowSums(BxymfUS[[yr]][["Bxym"]])
+#.Bfa <- Bfa     <- colSums(BxymfUS[[yr]][["Bxyf"]])
+#.Mat <- Mat     <- with(ExUS, Male[Year == yearsUS[i]])
+#.Fat <- Fat     <- with(ExUS, Female[Year == yearsUS[i]])
+#tol     <- 1e-11
+#maxit   <- 1e5
+#what.min <- "firstlast"
+
+
 
 resultsUS <- list()
 for (i in 1:length(yearsUS)){
@@ -268,7 +282,7 @@ for (i in 1:length(yearsUS)){
             Bfa = colSums(BxymfUS[[yr]][["Bxyf"]]), 
             Mat = with(ExUS, Male[Year == yearsUS[i]]), 
             Fat = with(ExUS, Female[Year == yearsUS[i]]), 
-            tol = 1e-11, maxit = 1e4, what.min = "firstlast")
+            tol = 1e-08, maxit = 1e5, what.min = "firstlast")
     
 }
 
@@ -285,22 +299,17 @@ for (i in 1:length(yearsES)){
     
 }
 
-
-A <- 10 * exp((1/20) * (1:20))
-diff(A) / ((A[1:19] + A[2:20]) / 2)
-
-log(A[2:20] / A[1:19])
-
-
-r.stableUS <- unlist(lapply(resultsUS, "[[", 3))
-
+names(resultsUS[[1]])
+r.stableUS <- unlist(lapply(resultsUS, "[[", "r"))
 plot(yearsUS, MitraOLSUSresults[, "r"], type = 'l')
 lines(yearsUS, r.stableUS, col = "blue")
 
-v0.stableUS <- unlist(lapply(resultsUS, "[[", 1))
-v.stableUS <- unlist(lapply(resultsUS, "[[", 2))
-rf.stableUS <- unlist(lapply(resultsUS, "[[",4))
-rm.stableUS <- unlist(lapply(resultsUS, "[[",5))
+
+
+v0.stableUS <- unlist(lapply(resultsUS, "[[", "v0"))
+v.stableUS <- unlist(lapply(resultsUS, "[[", "v.lim"))
+rf.stableUS <- unlist(lapply(resultsUS, "[[","r.f"))
+rm.stableUS <- unlist(lapply(resultsUS, "[[","r.m"))
 
 
 plot(yearsUS, v0.stableUS, type = 'l', ylim = range(c(v0.stableUS, v.stableUS)))
@@ -314,11 +323,12 @@ lines(yearsUS, rm.stableUS, col = "blue")
 plot(unlist(lapply(resultsUS, function(x){nrow(x$trajectory)})))
 
 
-v.stableES <- unlist(lapply(resultsES, "[[", 2))
-v0.stableES <- unlist(lapply(resultsES, "[[", 1))
-plot(yearsES,v.stableES, ylim = range(c(v.stableES,v0.stableES)))
+v.stableES <- unlist(lapply(resultsES, "[[", "v.lim"))
+v0.stableES <- unlist(lapply(resultsES, "[[", "v0"))
+plot(yearsES,v.stableES, ylim = range(c(v.stableES, v0.stableES)), type = 'l', col = "red")
 lines(yearsES,v0.stableES, col = "blue")
-
+abline(h = .5)
+legend("topright", lty = 1, col = c("red","blue"))
 
 plot(yearsES, unlist(lapply(resultsES, "[[", 1)), type = 'l')
 r.stableES <- unlist(lapply(resultsES, "[[", 3))
