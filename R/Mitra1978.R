@@ -28,33 +28,65 @@ lxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_lx/lxfES.Rdata"))) / 1e5
 
 ages    <- 0:110
 
-library(compiler)
-Mitra1978initv0 <- cmpfun(function(r, .v0., .Bma., .Bfa., .Pma., .Pfa., .Mat., .Fat., .a.){
-            # find r, given a starting .v0.
-            .Hma. <-  Minf0(Mna0((.Bma. * .v0.) / .Mat.)) # eq 4
-            .Hfa. <-  Minf0(Mna0((.Bfa. * (1 - .v0.)) / .Fat.)) # eq 5
-            # residual from eq 17:
-            (1 - sum(exp(-r * .a.)*(.Pma. * .Hma. + .Pfa. * .Hfa.), na.rm = TRUE)) ^ 2
-        })
 
-v0OLSmin <- function(.v0, .Bma, .Bfa, .Pma, .Pfa, .Mat, .Fat, .a, .SRB0){
+#Mitra1978initv0 <- cmpfun(function(r, .v0., .Bma., .Bfa., .Pma., .Pfa., .Mat., .Fat., .a.){
+#            # find r, given a starting .v0.
+#            .Hma. <-  Minf0(Mna0((.Bma. * .v0.) / .Mat.)) # eq 4
+#            .Hfa. <-  Minf0(Mna0((.Bfa. * (1 - .v0.)) / .Fat.)) # eq 5
+#            # residual from eq 17:
+#            (1 - sum(exp(-r * .a.)*(.Pma. * .Hma. + .Pfa. * .Hfa.), na.rm = TRUE)) ^ 2
+#        })
+# iterative solution, suggested but not shown in mitra 1978
+RMitraFast <- compiler::cmpfun(function(v0, Bxm, Bxf, Exm, Exf, Lxm, Lxf, x = 0:110 + .5, maxit = 100, tol = 1e-15){
+    # iteration design inspired by: Coale, Ansley J. (1957) A New Method for 
+    # Calculating Lotka's r- the Intrinsic Rate of Growth in a Stable Population.
+    # Population Studies, Vol. 11 no. 1, pp 92-94
+    Hma         <- Minf0(Mna0((Bxm * v0) / Exm))  # eq 4
+    Hfa         <- Minf0(Mna0((Bxf * (1 - v0)) / Exf))
+    # first assuming a mean generation time of arithmetic mean of male and female (after v0 w0 weighting)
+    # and an R0 of 1 ...
+    T.est       <- mean(c(wmean(x, Hma), wmean(x, Hfa)))
+    # also initial R0 is arithmetic mean of male and female R0. Just a first guess.
+    R0.est      <- mean(c(sum(Minf0(Mna0(Bxm / Exm)) * Lxm), sum(Minf0(Mna0(Bxf / Exf)) * Lxf)))
+    ri          <- log(R0.est) / T.est 
+    for (i in 1:maxit){ # i <- 1
+        deltai <- sum(exp(-ri * x) * (Hma * Lxm + Hfa * Lxf), na.rm = TRUE) - 1
+        # the mean generation time self-corrects 
+        # according to the error produced by the Lotka equation
+        ri <- ri + (deltai / ( T.est  - (deltai / ri)))
+        if (abs(deltai) < tol){
+            break
+        }
+    }
+    ri
+})
+
+# .v0 <- .5; .a = a
+v0OLSmin <- function(.v0, .Bma, .Bfa, .Pma, .Pfa, .Mat, .Fat, .a){
     # find the v0 that minimizes the difference between the 
     # initial and stable unadjusted male and female rates
-    # (optimize over logit of vt)
+    # (optimize over logit of vt) 
     .Hma <-  Minf0(Mna0((.Bma * .v0) / .Mat))  # eq 4
     .Hfa <-  Minf0(Mna0((.Bfa * (1 - .v0)) / .Fat))  # eq 5
-    ri <- optimize(f = Mitra1978initv0, 
-            interval = range(c(LotkaRCoale( Minf0(Mna0(.Bma / .Mat)), .Pma, .a), 
-                            LotkaRCoale( Minf0(Mna0(.Bfa / .Fat)), .Pfa, .a))),
-            .v0. = .v0, .Bma. = .Bma, .Bfa. = .Bfa, 
-            .Pma. = .Pma, .Pfa. = .Pfa, 
-            .Mat. = .Mat, .Fat. = .Fat,
-            .a. = .a, tol = 1e-15)$minimum
-    # eq 33
-    #v.lim <- sum(exp(-r * a) * (.Pma * .Hma), na.rm = TRUE) / 
-    #        (sum(exp(-r * a) * (.Pma * .Hma), na.rm = TRUE) + .SRB0 * sum(exp(-ri * .a) * (.Pfa * .Hfa), na.rm = TRUE) )
-    #
+#    ri <- optimize(f = Mitra1978initv0, 
+#            interval = range(c(LotkaRCoale( Minf0(Mna0(.Bma / .Mat)), .Pma, .a), 
+#                            LotkaRCoale( Minf0(Mna0(.Bfa / .Fat)), .Pfa, .a))),
+#            .v0. = .v0, .Bma. = .Bma, .Bfa. = .Bfa, 
+#            .Pma. = .Pma, .Pfa. = .Pfa, 
+#            .Mat. = .Mat, .Fat. = .Fat,
+#            .a. = .a, tol = 1e-15)$minimum
+    
+    ri <- RMitraFast(v0 = .v0, Bxm = .Bma, Bxf = .Bfa, 
+            Exm = .Mat, Exf = .Fat, 
+            Lxm = .Pma, Lxf = .Pfa, 
+            x = .a, maxit = 100, tol = 1e-15)
+   
+#        # eq 33 this is for v.t, not v.lim. SRB no longer passed in
+#        v.lim <- sum(exp(-ri * .a) * (.Pma * .Hma), na.rm = TRUE) / 
+#                (sum(exp(-ri * .a) * (.Pma * .Hma), na.rm = TRUE) + .SRB0 * sum(exp(-ri * .a) * (.Pfa * .Hfa), na.rm = TRUE) )
+#    
     v.lim <- sum(exp(-ri * .a) * (.Pma * .Hma), na.rm = TRUE) # eq 34
+    
     
     # initial rates:
     mma0 <-  Minf0(Mna0(.Bma / .Mat))
@@ -63,16 +95,15 @@ v0OLSmin <- function(.v0, .Bma, .Bfa, .Pma, .Pfa, .Mat, .Fat, .a, .SRB0){
     mma.lim <- .Hma / v.lim # eq 38
     mfa.lim <- .Hfa / (1 - v.lim)
     
-    sum((mma.lim - mma0) ^2, na.rm = TRUE) + sum((mfa.lim - mfa0) ^2, na.rm = TRUE) # eq 45
+    log(sum((mma.lim - mma0) ^2, na.rm = TRUE) + sum((mfa.lim - mfa0) ^2, na.rm = TRUE))# eq 45
 }
 
 Mitra1978OLS <- function(Bma, Bfa, Pma, Pfa, Mat, Fat){
-    SRB0 <- sum(Bma, na.rm = TRUE) / sum(Bfa, na.rm = TRUE)
-    a    <- 0:110 + .5
-    v0 <- optimize(v0OLSmin, interval = c(0,1),
+    a   <- 0:110 + .5
+    v0  <- optimize(v0OLSmin, interval = c(.4,.6),
             .Bma = Bma, .Bfa = Bfa, 
             .Pma = Pma, .Pfa = Pfa, 
-            .Mat = Mat, .Fat = Fat, .SRB0 = SRB0,
+            .Mat = Mat, .Fat = Fat,
             .a = a, tol = 1e-15)$minimum
     
     Hma <-  Minf0(Mna0((Bma * v0) / Mat)) # from eq 4
@@ -84,38 +115,120 @@ Mitra1978OLS <- function(Bma, Bfa, Pma, Pfa, Mat, Fat){
     
     # (re) find r given by optimized v0 
     # [it was already used, but not returned in v0OLSmin()]
-    r  <- optimize(f = Mitra1978initv0, 
-            interval = range(c(r.m, r.f)),
-            .v0. = v0, .Bma. = Bma, .Bfa. = Bfa, 
-            .Pma. = Pma, .Pfa. = Pfa, 
-            .Mat. = Mat, .Fat. = Fat, .a. = a,
-            tol = 1e-15)$minimum
-    # eq 33 (same as 34, simpler)
-    #v.lim <- sum(exp(-r * a) * (Pma * Hma), na.rm = TRUE) / 
-    #       (sum(exp(-r * a) * (Pma * Hma), na.rm = TRUE) + SRB0 * sum(exp(-r * a) * (Pfa * Hfa), na.rm = TRUE) )
+#    r  <- optimize(f = Mitra1978initv0, 
+#            interval = range(c(r.m, r.f)),
+#            .v0. = v0, .Bma. = Bma, .Bfa. = Bfa, 
+#            .Pma. = Pma, .Pfa. = Pfa, 
+#            .Mat. = Mat, .Fat. = Fat, .a. = a,
+#            tol = 1e-15)$minimum
+    r <- RMitraFast(v0 = v0, Bxm = Bma, Bxf = Bfa, 
+            Exm = Mat, Exf = Fat, 
+            Lxm = Pma, Lxf = Pfa, 
+            x = a, maxit = 100, tol = 1e-15)
+   
+    # eq 33 for v.t., not v.lim. SRB no longer passed in
+#   
+#        v.lim <- sum(exp(-r * a) * (Pma * Hma), na.rm = TRUE) / 
+#                (sum(exp(-r * a) * (Pma * Hma), na.rm = TRUE) + SRB0 * sum(exp(-r * a) * (Pfa * Hfa), na.rm = TRUE) )
+#    
     v.lim <- sum(exp(-r * a) * (Pma * Hma), na.rm = TRUE) # eq 34
     
+
     # return estimates
     c(v = v.lim, v0 = v0, r = r, r.m = r.m, r.f = r.f)
 }
 
 MitraOLSUSresults <- matrix(ncol = 5, nrow = length(yearsUS), dimnames = list(yearsUS,c("v","v0","r","r.m","r.f")))
 for (i in 1:length(yearsUS)){
+    # yr <- "1972"
     yr <- as.character(yearsUS[i])
     MitraOLSUSresults[i, ] <- 
-            Mitra1978OLS(   Bma = rowSums(BxymfUS[[yr]][["Bxym"]]), 
+           Mitra1978OLS(   Bma = rowSums(BxymfUS[[yr]][["Bxym"]]), 
                     Bfa = colSums(BxymfUS[[yr]][["Bxyf"]]), 
                     Pma = LxmUS[, yr], 
                     Pfa = LxmUS[, yr], 
-                    Mat = with(ExUS, Male[Year == yearsUS[i]]), 
-                    Fat = with(ExUS, Female[Year == yearsUS[i]]))
+                    Mat = with(ExUS, Male[Year == as.integer(yr)]), 
+                    Fat = with(ExUS, Female[Year == as.integer(yr)]))
 }
+
+# verify that it works:
+#Hma <- ((Bma * exper["v0"]) / Mat)
+#Hfa <- ((Bfa * (1 - exper["v0"])) / Fat)
+#1 - sum(exp(-exper["r"] * (0:110 + .5)) * (Hma * Pma + Hfa * Pfa))
+#
+#(Bmlim <- sum(exp( -exper["r"] *(0:110 + .5)) * (SRB / (SRB + 1)) * Hma * Pma ) / exper["v"])
+#(Bflim <- sum(exp( -exper["r"] *(0:110 + .5)) * (1 / (SRB + 1)) * Hfa * Pfa ) / (1 - exper["v"]))
+#Bmlim / Bflim
+#SRB <- sum(Bma) / sum(Bfa)
+MitraOLSESresults <- matrix(ncol = 5, nrow = length(yearsES), dimnames = list(yearsES,c("v","v0","r","r.m","r.f")))
+for (i in 1:length(yearsES)){
+    yr <- as.character(yearsES[i])
+    MitraOLSESresults[i, ] <- 
+            Mitra1978OLS(   Bma = rowSums(BxymfES[[yr]][["Bxym"]]), 
+                    Bfa = colSums(BxymfES[[yr]][["Bxyf"]]), 
+                    Pma = LxmES[, yr], 
+                    Pfa = LxmES[, yr], 
+                    Mat = with(ExES, Male[Year == as.integer(yr)]), 
+                    Fat = with(ExES, Female[Year == as.integer(yr)]))
+}
+
+
+pdf("/home/triffe/git/DISS/latex/Figures/Mitra1978v0vstar.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
+plot(yearsUS, MitraOLSUSresults[, "v"], type = 'l', ylim = c(.48, .56), xlim = c(1968,2010), axes = FALSE,
+        col = gray(.2), lwd = 2, xlab = "", ylab = "",
+        panel.first = list(rect(1968,.48,2010,.56,col = gray(.95), border=NA),
+                abline(h = seq(.48, .56,by = .01), col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(.48, .56, by = .01),seq(.48, .56, by = .01), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10),.48, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, .475, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1965.5,.564, "v", cex = 1, xpd = TRUE)))
+lines(yearsUS, MitraOLSUSresults[, "v0"], lwd = 2.5, col = gray(.2), lty = 5)
+lines(yearsES, MitraOLSESresults[, "v"], lwd = 2, col = gray(.5), lty = 1)
+lines(yearsES, MitraOLSESresults[, "v0"], lwd = 2.5, col = gray(.5), lty = 5)
+
+legend(1993,.56, lty = c(1,5,1,5), col = gray(c(.2,.2,.5,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
+        legend = sapply(c(bquote("US" ~ v^"*"), 
+                bquote("US" ~ v[0]), 
+                bquote("ES" ~ v^"*"), 
+                bquote("ES" ~ v[0])), as.expression), xpd = TRUE)
+dev.off()
+
+# which mean is r* closest to?
+
+
+stolarsky.mean(0.0019855660, -0.002086295,2000000000)
+lehmer.mean(c(0.0019855660, -0.002086295),1.418554)
+find.lehmer.p <- function(p,x,calib){
+    abs(calib - lehmer.mean(x=x,p=p)) 
+}
+optimize(find.lehmer.p, interval = c(-5,5), x = c(0.0019855660,-0.002086295), calib = 0.0001831172)
+
+
+log((0.0001831172 - lehmer.mean(x=c(0.0019855660,-0.002086295),p=-8.5) ) ^ 2)
+
 
 
 # * makes no difference whether we optimize over v0 or expit(v0).
 # no sensitivity issues, it would appear
 plot(yearsUS, MitraOLSUSresults[, "v"], type = 'l', col = "blue", ylim = c(.4, .6))
 lines(yearsUS, 1 - MitraOLSUSresults[, "v"], col = "pink")
+lines(yearsUS, MitraOLSUSresults[, "v0"], col = "blue", lty = 2)
+lines(yearsUS, 1 - MitraOLSUSresults[, "v0"], col = "pink", lty =2)
+
+
+plot(yearsES, MitraOLSESresults[, "v"], type = 'l', col = "blue",  ylim = c(.4,.6))
+lines(yearsES, 1 - MitraOLSESresults[, "v"], col = "pink")
+lines(yearsES, MitraOLSESresults[, "v0"], type = 'l', col = "blue", lty = 2)
+lines(yearsES, 1 - MitraOLSESresults[, "v0"], col = "pink", lty = 2)
+
+
+
+
+plot(yearsUS, MitraOLSUSresults[, "v"] / (1 - MitraOLSUSresults[, "v"]), type = 'l', ylim = c(.95,1.3))
+lines(yearsES,  MitraOLSESresults[, "v"] / (1 - MitraOLSESresults[, "v"]), col = "red")
+
 
 plot(yearsUS, logit(MitraOLSUSresults[, "v0"]), type = 'l', col = "blue", ylim = c(-.1, .1))
 lines(yearsUS, logit(1 - MitraOLSUSresults[, "v0"]), col = "pink")
@@ -141,6 +254,7 @@ v.r.stable <- compiler::cmpfun(function(.v0, .Lxm, .Lxf, .lxm, .lxf, .Bma, .Bfa,
                 .Fat, tol = 1e-11, maxit = 1e3, 
                 SRB  = sum(.Bma, na.rm = TRUE) / sum(.Bfa, na.rm = TRUE)
 ){
+    # .v0 <- .51
     N           <- length(.Lxm)
     Sxm         <- Minf0(Mna0(.Lxm[2:N] / .Lxm[1:(N - 1)]))
     Sxf         <- Minf0(Mna0(.Lxf[2:N] / .Lxf[1:(N - 1)]))
@@ -173,17 +287,18 @@ v.r.stable <- compiler::cmpfun(function(.v0, .Lxm, .Lxf, .lxm, .lxf, .Bma, .Bfa,
         Mat.2       <- c(Lm %*% Mat.1)
         Fat.2       <- c(Lf %*% Fat.1)
         
-        #eq 8
-        vR          <- (sum(Hma * Mat.2, na.rm = TRUE) / sum(Hfa * Fat.2, na.rm = TRUE)) / SRB
-        v.t         <- vR / (1 + vR)
-        
+        #eq 8 same as 9
+#        vR          <- (sum(Hma * Mat.2, na.rm = TRUE) / sum(Hfa * Fat.2, na.rm = TRUE)) / SRB
+#        v.t         <- vR / (1 + vR)
+#        
         # eq 9 , identical
-        #v.i <- sum(Hma * Mat.i, na.rm = TRUE) / 
-        #        (sum(Hma * Mat.i, na.rm = TRUE) + SRB * sum(Hfa * Fat.i, na.rm = TRUE)) 
-        
+        v.t <- sum(Hma * Mat.2, na.rm = TRUE) / 
+                (sum(Hma * Mat.2, na.rm = TRUE) + SRB * sum(Hfa * Fat.2, na.rm = TRUE)) 
+        # in the limit:
+        #sum(exp( -r *(0:110 + .5)) * (SRB / (SRB + 1)) * Hma * Pma ) / v
         Bmi         <- sum(Hma * Mat.2, na.rm = TRUE) / v.t
         Bfi         <- sum(Hfa * Fat.2, na.rm = TRUE) / (1 - v.t)
-        # Bmi / Bfi == SRB #TRUE
+        # Bmi / Bfi - SRB #TRUE
         # discount for infant mort (i.e. births not surviving to t+1
         Mat.2[1]    <- Bmi * infm
         Fat.2[1]    <- Bfi * inff
@@ -232,7 +347,7 @@ v.min <- function(.v0, .Lxm, .Lxf, .lxm, .lxf, .Bma, .Bfa, .Mat, .Fat, tol = 1e-
 }
 
 v.r.OLS <- function(Lxm, Lxf, lxm, lxf, Bma, Bfa, Mat, Fat, 
-        tol = 1e-11, maxit = 1e3, what.min = "firstfinal"){
+        tol = 1e-11, maxit = 1e3, what.min = "firstfinal", SRB = sum(Bma, na.rm = TRUE) / sum(Bfa, na.rm = TRUE)){
     
     a <- 0:110 + .5
     v0 <- optimize(v.min, interval = c(0.2,.8), 
@@ -242,14 +357,14 @@ v.r.OLS <- function(Lxm, Lxf, lxm, lxf, Bma, Bfa, Mat, Fat,
             .Mat = Mat, .Fat = Fat, 
             maxit = maxit,  tol = tol,
             what.min = what.min, 
-            SRB = sum(Bma, na.rm = TRUE) / sum(Bfa, na.rm = TRUE))$minimum
+            SRB = SRB)$minimum
     trajectory <- v.r.stable(.v0 = v0, 
             .Lxm = Lxm, .Lxf = Lxf, 
             .lxm = lxm, .lxf = lxf, 
             .Bma = Bma, .Bfa = Bfa, 
             .Mat = Mat, .Fat = Fat, 
             tol = tol, maxit = 1e3,
-            SRB = sum(Bma, na.rm = TRUE) / sum(Bfa, na.rm = TRUE))
+            SRB = SRB)
     trajectory <- trajectory[!is.na(trajectory[, 1]), ]
     N          <- nrow(trajectory)
     invisible(list(v0 = v0, v.lim = trajectory[N, "v.vec"], 
@@ -259,14 +374,15 @@ v.r.OLS <- function(Lxm, Lxf, lxm, lxf, Bma, Bfa, Mat, Fat,
                     trajectory = trajectory))
 }
 # keep for testing:
-#.Lxm <- Lxm     <- LxmUS[, yr]
-#.Lxf <- Lxf     <- LxfUS[, yr]
+#yr <- "1969"
+#.Pma <- Pma <-.Lxm <- Lxm     <- LxmUS[, yr]
+#.Pfa <- Pfa <- .Lxf <- Lxf     <- LxfUS[, yr]
 #.lxm <- lxm     <- lxmUS[, yr]
 #.lxf <- lxf     <- lxfUS[, yr]
 #.Bma <- Bma     <- rowSums(BxymfUS[[yr]][["Bxym"]])
 #.Bfa <- Bfa     <- colSums(BxymfUS[[yr]][["Bxyf"]])
-#.Mat <- Mat     <- with(ExUS, Male[Year == yearsUS[i]])
-#.Fat <- Fat     <- with(ExUS, Female[Year == yearsUS[i]])
+#.Mat <- Mat     <- with(ExUS, Male[Year == as.integer(yr)])
+#.Fat <- Fat     <- with(ExUS, Female[Year == as.integer(yr)])
 #tol     <- 1e-11
 #maxit   <- 1e5
 #what.min <- "firstlast"
@@ -283,7 +399,6 @@ for (i in 1:length(yearsUS)){
             Mat = with(ExUS, Male[Year == yearsUS[i]]), 
             Fat = with(ExUS, Female[Year == yearsUS[i]]), 
             tol = 1e-08, maxit = 1e5, what.min = "firstlast")
-    
 }
 
 resultsES <- list()
@@ -295,15 +410,37 @@ for (i in 1:length(yearsES)){
             Bfa = Mna0(colSums(BxymfES[[yr]][["Bxyf"]])), 
             Mat = Mna0(with(ExES, Male[Year == yearsES[i]])), 
             Fat = Mna0(with(ExES, Female[Year == yearsES[i]])), 
-            tol = 1e-11, maxit = 1e4, what.min = "firstlast")
+            tol = 1e-08, maxit = 1e4, what.min = "firstlast")
     
 }
+
+resultsUSnotraj <- do.call(rbind, lapply(lapply(resultsUS, "[",c(1:5)), unlist))
+resultsESnotraj <- do.call(rbind, lapply(lapply(resultsES, "[",c(1:5)), unlist))
+head(resultsUSnotraj)
+
+Hma <- (Bma * resultsUSnotraj[1,"v0"]) / Mat
+Hfa <- (Bfa * (1-resultsUSnotraj[1,"v0"])) / Fat
+1-sum(exp(-resultsUSnotraj[1,"r"] * (ages + .5)) * (Hma * Pma + Hfa * Pfa))
+
+
+colnames(resultsUSnotraj) <- colnames(resultsESnotraj) <- c("v0","v","r","r.f","r.m")
+
+par(mfrow = c(1,2))
+plot(yearsUS, resultsUSnotraj[, "v"], col = "blue", ylim = c(.4,.6), type = 'l', lwd = 2)
+lines(yearsUS, 1-resultsUSnotraj[, "v"], col = "pink", lty = 2, lwd = 2)
+lines(yearsES, resultsESnotraj[, "v"], col = "blue", lty = 2, lwd = 2)
+lines(yearsES, 1-resultsESnotraj[, "v"], col = "pink", lty = 2, lwd = 2)
+
+lines(yearsUS, MitraOLSUSresults[, "v"], col = "blue")
+lines(yearsUS, 1 - MitraOLSUSresults[, "v"], col = "pink")
+lines(yearsES, MitraOLSESresults[, "v"], type = 'l', col = "blue", lty = 2)
+lines(yearsES, 1 - MitraOLSESresults[, "v"], col = "pink", lty = 2)
 
 names(resultsUS[[1]])
 r.stableUS <- unlist(lapply(resultsUS, "[[", "r"))
 plot(yearsUS, MitraOLSUSresults[, "r"], type = 'l')
 lines(yearsUS, r.stableUS, col = "blue")
-
+plot(yearsUS, MitraOLSUSresults[, "r"]-r.stableUS)
 
 
 v0.stableUS <- unlist(lapply(resultsUS, "[[", "v0"))
@@ -334,10 +471,11 @@ plot(yearsES, unlist(lapply(resultsES, "[[", 1)), type = 'l')
 r.stableES <- unlist(lapply(resultsES, "[[", 3))
 rf.stableES <- unlist(lapply(resultsES, "[[",4))
 rm.stableES <- unlist(lapply(resultsES, "[[",5))
+
 plot(yearsES, r.stableES, type = 'l', ylim = range(c(rf.stableES, rm.stableES)))
 lines(yearsES, rf.stableES, col = "red")
 lines(yearsES, rm.stableES, col = "blue")
-
+lines(yearsES, MitraOLSESresults[, "r"],col = "magenta")
 
 plot(unlist(lapply(resultsES, function(x){nrow(x$trajectory)})))
 
@@ -347,5 +485,27 @@ for (i in 1:length(yearsES)){
     plot(resultsES[[yr]]$trajectory[,"r.vec"][1:300],type='l',main=yr, ylim = c(-.02,.02))
     Sys.sleep(.6)
 }
+
+
+
+v0 <- .5
+yr <- "1969"
+Lxm     <- LxmUS[, yr]
+Lxf     <- LxfUS[, yr]
+
+Bxm <- Bma     <- rowSums(BxymfUS[[yr]][["Bxym"]])
+Bxf <- Bfa     <- colSums(BxymfUS[[yr]][["Bxyf"]])
+Exm <- Mat     <- with(ExUS, Male[Year == as.integer(yr)])
+Exf <- at     <- with(ExUS, Female[Year == as.integer(yr)])
+
+
+LotkaRMitraFast(v0 = .5, Bxm = Bma, Bxf = Bfa, Exm = Mat, Exf = Fat, Lxm = Lxm, Lxf = Lxf, x = 0:110 + .5, maxit = 50)
+
+
+
+
+
+
+
 
 

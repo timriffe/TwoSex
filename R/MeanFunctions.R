@@ -79,7 +79,7 @@ rms.mean <- function(x){
 # not generalized - only vectors of length 2 are acceptable
 lehmer.mean <- function(x, p, w = c(1, 1)){
     stopifnot(length(x) == 2 & length(x) == length(w))
-    sum(w * x ^ p) / sum(w * x ^ (p - 1))
+    sum(w * x ^ p, na.rm = TRUE) / sum(w * x ^ (p - 1), na.rm = TRUE)
 }
 
 # improved stolarsky mean
