@@ -1,11 +1,11 @@
 % 
 
-\section{Fertility rates by remaining life expectancy under different assumed
+\chapter{Fertility rates by remaining years of life under different assumed
 reproductive spans}
-
+\label{Appendix:reprospans}
 One may rightly wish to see $e_x$-classified fertility rates calculated where
-exposures in the denominator are taken only from the known reproductive span.
-For many, this will more closely represent the population exposed. Bounding the
+exposures in the denominator are taken only from ages within the known
+reproductive span. For many, this will more closely represent the population exposed. Bounding the
 original age-clsasified exposures introduces a second problem, namely that of
 determining the which age-bounds to use for males and females. Results are
 sensitive to the choice, especially when comparing males and females, since 1)
@@ -25,22 +25,24 @@ age-classified exposures to certain reproductive bounds. These include:
   each year for males and females separately. ($e_x$-TFR only).
 \end{itemize}
 
-\subsection{ages 15-55 for both males and females}
+\pagebreak
 
-\begin{figure}
+\section{ages 15-55 for both males and females}
+
+\begin{figure}[ht!]
         \centering
         \begin{subfigure}
                 \centering
                 \caption{Male and Female $e_x$-SFR surfaces, 1969-2009, USA,
                 redistributing exposures only from ages 15-55}
-                \includegraphics[scale = .8]{Figures/eSFRsurfacesUSlim15_55}
+                \includegraphics[scale = .8]{Figures/eSFRsurfacesUSlim1555}
                 \label{fig:exSFRsurfUSlim15_55}
         \end{subfigure}
         \begin{subfigure}
                 \centering
                 \caption{Male and Female $e_x$-SFR surfaces, 1975-2009, Spain,
                 redistributing exposures only from ages 15-55}
-                \includegraphics[scale = .8]{Figures/eSFRsurfacesESlim15_55} 
+                \includegraphics[scale = .8]{Figures/eSFRsurfacesESlim1555} 
                 \label{fig:exSFRsurfESlim15_55}
         \end{subfigure}
 \end{figure}
@@ -51,27 +53,28 @@ age-classified exposures to certain reproductive bounds. These include:
           and USA, 1969-2009}
            % figure produced in
            % /R/Parents_ex.R
-           \includegraphics{Figures/exTFRlim15_55}
+           \includegraphics{Figures/exTFRlim1555}
           \label{fig:exTFRlim15_55}
 \end{figure}
+\pagebreak
 
-\subsection{ages 13-49 for females and 15-64 for males}
+\section{ages 13-49 for females and 15-64 for males}
 
-\begin{figure}
+\begin{figure}[ht!]
         \centering
         \begin{subfigure}
                 \centering
                 \caption{Male and Female $e_x$-SFR surfaces, 1969-2009, USA,
                 redistributing exposures only from ages 13-49 for females and 15-64 for males}
-                \includegraphics[scale = .8]{Figures/eSFRsurfacesUSlim13_64}
-                \label{fig:exSFRsurfUSlim13_64}
+                \includegraphics[scale = .8]{Figures/eSFRsurfacesUSlim1364mixed}
+                \label{fig:exSFRsurfUSlim1364}
         \end{subfigure}
         \begin{subfigure}
                 \centering
                 \caption{Male and Female $e_x$-SFR surfaces, 1975-2009, Spain,
                 redistributing exposures only from ages 13-49 for females and 15-64 for males}
-                \includegraphics[scale = .8]{Figures/eSFRsurfacesESlim13_64} 
-                \label{fig:exSFRsurfESlim13_64}
+                \includegraphics[scale = .8]{Figures/eSFRsurfacesESlim1364mixed} 
+                \label{fig:exSFRsurfESlim1364}
         \end{subfigure}
 \end{figure}
 
@@ -81,14 +84,15 @@ age-classified exposures to certain reproductive bounds. These include:
           and USA, 1969-2009}
            % figure produced in
            % /R/Parents_ex.R
-           \includegraphics{Figures/exTFRlim13_64}
+           \includegraphics{Figures/exTFRlim1364mixed}
           \label{fig:exTFRlim13_64}
 \end{figure}
 
-\subsection{ages higher than the 1st and lower than the 99th quantiles of ASFR,
+\pagebreak
+\section{ages higher than the 1st and lower than the 99th quantiles of ASFR,
 full period}
 
-\begin{figure}
+\begin{figure}[ht!]
         \centering
         \begin{subfigure}
                 \centering
@@ -116,4 +120,27 @@ full period}
            % /R/Parents_ex.R
            \includegraphics{Figures/exTFRlimBquant}
           \label{fig:exTFRlimBquant}
+\end{figure}
+\pagebreak
+
+\section{ages higher than the 1st and lower than the 99th quantiles of ASFR,
+each year}
+
+In comparing Figures~\ref{fig:exTFRlimBquant}~and~\ref{fig:exTFRlimBquantyr},
+one notes that flexibly changing the age bounds included in $e_x$-classified
+exposures according to year-to-year changing ASFR quantiles does not make much
+difference as compared to holding the same bounds over the entire period. If
+the central 98\% of fertility moves over age with time, then year-to-year
+flexbility may be desirable. These data do not undergo large enough changes in
+these thresholds to justify this practice. Further, surfaces are best rendered
+based upon constant bounds.
+
+ \begin{figure}[ht!]
+        \centering  
+          \caption{Male and Female $e_x$-total fertility rates, Spain
+          and USA, 1969-2009}
+           % figure produced in
+           % /R/Parents_ex.R
+           \includegraphics{Figures/exTFRlimBquantyr}
+          \label{fig:exTFRlimBquantyr}
 \end{figure}
