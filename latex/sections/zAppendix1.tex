@@ -1,2 +1,119 @@
 % 
-who knows if I'll actually need to use different decomposition formulas or if the Horiuchi method will do for everything.
+
+\section{Fertility rates by remaining life expectancy under different assumed
+reproductive spans}
+
+One may rightly wish to see $e_x$-classified fertility rates calculated where
+exposures in the denominator are taken only from the known reproductive span.
+For many, this will more closely represent the population exposed. Bounding the
+original age-clsasified exposures introduces a second problem, namely that of
+determining the which age-bounds to use for males and females. Results are
+sensitive to the choice, especially when comparing males and females, since 1)
+the male reproductive span is much longer than the female span, and 2) the
+$e_x$-distributed population shows a greater and steadier sex-imbalance than the
+age-classified population. As expected, results are sensitive to the choice of
+bounds. In following, Figures~\ref{fig:exSFRsurfUS},~\ref{fig:exSFRsurfES}
+and~\ref{fig:exTFR} are reproduced after first limiting original
+age-classified exposures to certain reproductive bounds. These include:
+
+\begin{itemize}
+  \item ages 15-55 for both males and females.
+  \item ages 13-49 for females and 15-64 for males.
+  \item ages higher than the 1st and lower than the 99th quantiles of ASFR for
+  males and females separately and over the entire period studied.
+  \item ages higher than the 1st and lower than the 99th quantiles of ASFR for
+  each year for males and females separately. ($e_x$-TFR only).
+\end{itemize}
+
+\subsection{ages 15-55 for both males and females}
+
+\begin{figure}
+        \centering
+        \begin{subfigure}
+                \centering
+                \caption{Male and Female $e_x$-SFR surfaces, 1969-2009, USA,
+                redistributing exposures only from ages 15-55}
+                \includegraphics[scale = .8]{Figures/eSFRsurfacesUSlim15_55}
+                \label{fig:exSFRsurfUSlim15_55}
+        \end{subfigure}
+        \begin{subfigure}
+                \centering
+                \caption{Male and Female $e_x$-SFR surfaces, 1975-2009, Spain,
+                redistributing exposures only from ages 15-55}
+                \includegraphics[scale = .8]{Figures/eSFRsurfacesESlim15_55} 
+                \label{fig:exSFRsurfESlim15_55}
+        \end{subfigure}
+\end{figure}
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Male and Female $e_x$-total fertility rates, Spain
+          and USA, 1969-2009}
+           % figure produced in
+           % /R/Parents_ex.R
+           \includegraphics{Figures/exTFRlim15_55}
+          \label{fig:exTFRlim15_55}
+\end{figure}
+
+\subsection{ages 13-49 for females and 15-64 for males}
+
+\begin{figure}
+        \centering
+        \begin{subfigure}
+                \centering
+                \caption{Male and Female $e_x$-SFR surfaces, 1969-2009, USA,
+                redistributing exposures only from ages 13-49 for females and 15-64 for males}
+                \includegraphics[scale = .8]{Figures/eSFRsurfacesUSlim13_64}
+                \label{fig:exSFRsurfUSlim13_64}
+        \end{subfigure}
+        \begin{subfigure}
+                \centering
+                \caption{Male and Female $e_x$-SFR surfaces, 1975-2009, Spain,
+                redistributing exposures only from ages 13-49 for females and 15-64 for males}
+                \includegraphics[scale = .8]{Figures/eSFRsurfacesESlim13_64} 
+                \label{fig:exSFRsurfESlim13_64}
+        \end{subfigure}
+\end{figure}
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Male and Female $e_x$-total fertility rates, Spain
+          and USA, 1969-2009}
+           % figure produced in
+           % /R/Parents_ex.R
+           \includegraphics{Figures/exTFRlim13_64}
+          \label{fig:exTFRlim13_64}
+\end{figure}
+
+\subsection{ages higher than the 1st and lower than the 99th quantiles of ASFR,
+full period}
+
+\begin{figure}
+        \centering
+        \begin{subfigure}
+                \centering
+                \caption{Male and Female $e_x$-SFR surfaces, 1969-2009, USA,
+                redistributing exposures only from the 1st-99th quantiles of
+                ASFR over the full period}
+                \includegraphics[scale = .8]{Figures/eSFRsurfacesUSlimBquant}
+                \label{fig:exSFRsurfUSlimBquant}
+        \end{subfigure}
+        \begin{subfigure}
+                \centering
+                \caption{Male and Female $e_x$-SFR surfaces, 1975-2009, Spain,
+                redistributing exposures only from the 1st-99th quantiles of
+                ASFR over the full period}
+                \includegraphics[scale = .8]{Figures/eSFRsurfacesESlimBquant} 
+                \label{fig:exSFRsurfESlimBquant}
+        \end{subfigure}
+\end{figure}
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Male and Female $e_x$-total fertility rates, Spain
+          and USA, 1969-2009}
+           % figure produced in
+           % /R/Parents_ex.R
+           \includegraphics{Figures/exTFRlimBquant}
+          \label{fig:exTFRlimBquant}
+\end{figure}
