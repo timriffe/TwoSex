@@ -3,20 +3,30 @@ Recall the observations of \citet{sanderson2005average}, more directly
 relating to the popuation pyramid. These authors note that despite ageing in a
 population, the mean \textit{remaining} years to be lived may increase. This is due 
 to improvements in mortality offsetting (or more than offsetting) increases in
-the mean age of a population. I now present a method to exactly redistribute
-population counts (or exposures) according to period remaining life
-expectancies, rather than according to age per se.
+the mean age of a population. In general, a population looked at from the
+perspective of life expectancy looks different, and yields complimentary
+information to one looked at from the typical perspective of age. I will first
+present a method to exactly redistribute population counts (or exposures) according to 
+period remaining years of life, rather than according to age per se. A
+reexamination of recent fertility patterns according to remaining years of life
+will follow.
 
-From a given population and year derive male and female lifetables of radix
-($l_0$) equal to 1. Note that in this case the $d_x$ column sums to 1, and is therefore a
-proper density function. $d_x$ can now be thought of as the probability of dying 
-in any given age from the perspective of a 0-year-old, according to the given year's mortality
-experience. It follows that the observed population of age 0 can be redistribted
-according to $d_x$ and interpreted either as the expected death counts
-in each year $t+x$, or as the distribution of persons currently-aged 0
-reclassified according to remaining life expectancy. This can be done similarly
-for age 1, by ignoring the mortality experience of age 0, and rescaling $d_x$ to
-sum to 1, or more generally:
+\subsubsection{Redistributing age-classified data by remaining years of life}
+The steps required to carry out the present data transformation are conceptually
+simple, and easy to implement once understood. From a given
+population and year extract the $d_x$ column from the corresponding lifetable of
+radix ($l_0$) equal to 1\footnote{If the lifetable was calculcated with a
+different radix, then simply divide the $d_x$ column by $l_0$}. Note that in
+this case the $d_x$ column sums to 1, and is therefore a proper density function. 
+$d_x$ can now be thought of as the probability of dying in any given age from the
+ perspective of a 0-year-old, according to the given year's mortality experience. 
+ It follows that the observed population of age 0 can be redistribted according to
+  $d_x$ and interpreted either as the expected death counts in each future year
+$t+x$, or more intuitively as the distribution of persons currently-aged 0 according 
+to remaining life expectancy. This can be done similarly for age 1, by ignoring the 
+mortality experience of age 0, and rescaling $d_x$ to
+sum to 1, or more generally redistributing each age and then summing to
+$e_x$-specific totals:
 
 \begin{equation}
 \label{eq:dxredist}
@@ -28,8 +38,8 @@ lifetable density function and $\mathbf{E}(D_t)$ is the expected number of
 deaths in each future year $t$, also understood as a vector of the current 
 population, redistributed into categories of remaining life expectancy. 
 
-The function of this formula is not original, as \citet{vaupel2009life} required
-a similar identity in the proof for the statement that:
+The function of this formula is not totally original, as \citet{vaupel2009life}
+required a similar identity in the proof for the statement that:
 \begin{quotation}
 if an individual is chosen at random from a stationary population with a positive force
 of mortality at all ages, then the probability the individual is one who has lived $a$ years
@@ -37,14 +47,22 @@ equals the probability the individual is one who has that number of years left t
 \end{quotation}
 , which takes this shape:
 \begin{equation}
+\label{eq:vaupelredist}
 f(n | a) = \mu (a+n) \frac{l(a+n}{l(a)}
 \end{equation}
 , where $f(n | a) $ is the probability of dying $n$ years in the future given
 survival to age $a$, and $\mu$ is the force of mortality.
-Formula~\eqref{eq:dxredist} is more convenient when
-discretized, although both are equally valid. The use of either in the way
-presented in this section is novel.
+Formula~\eqref{eq:vaupelredist} would require an
+extra integral over age, in order to come to the same
+overall pdf, and then needs to be multiplied into
+age-classified populations. Formula~\eqref{eq:dxredist} is more convenient when
+discretized\footnote{Formula~\eqref{eq:dxredist} is more convenient due 1) to
+lifetable close-out issues and 2) because only one column from the lifetable is
+required instead of 3 columns ($\mu_x$, $l_x$, $L_x$) in
+Equation~\eqref{eq:vaupelredist} }, although both are equally valid. The use of either
+ in the way presented in this section is to this author's knowledge novel.
 
+\subsubsection{Population structure by remaining years of life}
 The key
 observation is that we can sidestep the $e_x$ column of the lifetable, since
 $e_x$ is essentially a weighted mean of $d_x$. The resulting population pyramid
@@ -57,19 +75,23 @@ different method.} for the years 1975 and 2009 in the US and Spain. As a helpful
 pointer, note that the population at the base of the pyramid is expected to decrement
 within the \textit{next year}, thus the vertical axis can also can also be
 thought of as year $t+x$, although $e_x$ more clearly identifies the pyramid
-with year $t$ mortality conditions. In other words, the pyramid should not be
-taken out of context as a forecast. Note that this pyramid represents the
-exact same population as an age-classified pyramid: Underlying males sum to the
-correct total on the left and females sum to the correct total on the right. Only the definition of age has
-changed: instead of counting forward from birth we count \textit{age} in reverse
+with year $t$ mortality conditions. The pyramid should not be
+taken out of context as a forecast. Note that this pyramid represents the exact same
+population as an age-classified pyramid: Underlying males sum to the correct total on 
+the left and females sum to the correct total on the right. Only the definition of age has
+changed; instead of counting forward from birth we count \textit{age} in reverse
 starting from death. For individuals, this feat would be impossible, but given
  the information contained in a period lifetable,  one can to great utility 
- redistribute population aggregates accoridng to $e_x$.
-Both pyramids have been rescaled to sum to 100, in order to more comparably represent population 
-structure\footnote{Incidentally, a time series of remaining life expectancy 
-pyramids for any given Western country will show incredible stability over time, 
-which is remarkable in light of observed ageing in the observed population pyramid. 
-The simple interpretation of this kind of pyramid adds to its utility, and this author 
+ redistribute population aggregates accoridng to $e_x$\footnote{To undertake
+ the same but assumping future mortality changes (improvements) one might
+ better undertake a fertility-free cohort component projection and collect the
+ deaths from each future year $t+x$ until extinction. This possibility is not
+ treated in the present dissertation.}. Both pyramids have been rescaled
+ to sum to 100, in order to more comparably represent population structure\footnote{Incidentally, 
+ a time series of remaining life expectancy pyramids for any given Western country will show 
+ incredible stability over time, which is remarkable in light of observed ageing in the observed
+  population pyramid. The simple interpretation of this kind of pyramid adds to its utility, and
+   this author 
 believes that $e_x$-specific population structure, and other here-unmentioned indicators 
 that can be derived from this method sould make up a valuable new component to the contemporary
  demographer's toolbox, as well as help inform current population debates.}.
@@ -91,15 +113,29 @@ that can be derived from this method sould make up a valuable new component to t
         \end{subfigure}
 \end{figure}
 
-We now apply this same redistribution technique in order to
-calculate male and female $e_x$-specific fertility rates, $e_x$-SFR. For any
-rate, the numerator and denominator require a common referent, thus both births and
-exposures are redistributed according to year $t$ mortality conditions. That
+\subsubsection{Fertility rates by remaining years of life}
+The technique presented in Equation~\ref{eq:dxredist} and illustrated in
+Figures~\ref{fig:exPyrUS}~and~\ref{fig:exPyrES} can indeed be used to reclassify
+any age-distributed data, assuming that the appropriate lifetable is available.
+We now apply this redistribution technique in order to calculate male and 
+female $e_x$-specific fertility rates ($e_x$-SFR). For any rate, the numerator 
+and denominator require a common referent, thus both births and exposures are 
+redistributed according to year $t$ mortality conditions. That
 is to say, we take the extra step of moving the age-specific vector
 of birth counts (by mothers' or fathers' age) into $e_x$-specific birth
-vectors before dividing into exposure. Such a rate cannot be directly compared
-with a typical age-specific rate, since the time scales are different, but we 
-can indeed apply some familiar tools in order to analyze this new curve. 
+vectors before dividing into  $e_x$-specific exposures. Such a rate cannot be
+directly compared with a typical age-specific rate, since the time scales are different, but we 
+can indeed apply some familiar tools in order to analyze this new curve.
+
+\paragraph{The $e_x$-pattern of fertility}
+
+The $e_x$-pattern of fertility is distinct from the age-pattern of fertility. 
+In contemporary Western populations, female $e_x$-SFR curves will be
+further to the right than male curves for two reasons: 1) Female mortality is
+almost universally lower than male mortality at (and beyond) any given age,
+thus associating births at a given age with higher remaining life expectancies; 2)
+female fertility is more tightly concentrated over young ages, partly due to the
+upper bound defined by menopause, and partly due to prevailing hypergamy.
 Figure~\ref{fig:eSFR2009} shows an example $e_x$-SFR from 2009, for both the US and Spain.
 
 \begin{figure}[ht!]
@@ -108,30 +144,36 @@ Figure~\ref{fig:eSFR2009} shows an example $e_x$-SFR from 2009, for both the US 
           Spain}
            % figure produced in
            % /R/Parents_ex.R
-           \makebox[\textwidth]{\includegraphics{Figures/eSFR2009}}
+           \includegraphics{Figures/eSFR2009}
           \label{fig:eSFR2009}
 \end{figure}
 
-One may question whether the curve shown in Figure~\ref{fig:eSFR2009} properly
-represent rates. This argue that the same definition of events in the
+One may question whether the curves shown in Figure~\ref{fig:eSFR2009} properly
+represent rates. This author argues that the same definition of events in the
 numerator and exposures in the denominator has been applied, only the
 structuring variable has changed from \textit{time since birth} to \textit{time
-until death} (of progenitor here).
+until death} (of progenitor here). In this way, age-classified and
+$e_x$-classified populations have structure in the same sense. As with any
+demographic variable, we may wish to analyze the intensity of demographic
+phenomena removed of the distorting effects of population structure.
+Working with event-exposure rates are just one way of doing so, simple
+decomposition is another, and indeed such rates and decompositions are possible
+in the aggregate both with respect to age and with respect to
+$e_x$.
 
-This is, in the best case, a very rough calculation, for several reasons. The
+This is, in the best case, a rough calculation, for several reasons. The
 assumption of homogenous mortality is particularly consequential in the case of 
 fertility, where health selection is self-evident, but not easily measureable.
-It is thus to be expected that the left tails in Figure~\ref{fig:eSFR2009} are
-too thick. In contemporary Western populations, female $e_x$-SFR curves will be
-further to the right than male curves for two reasons 1) female mortality is
-almost universally lower than male mortality at any given age, thus associating
-births at a given age with higher remaining life expectancies; 2)
-female fertility is more tightly concentrated over young ages, partly due to
-upper bound represented by menopause, and partly due to prevailing hypergamy.
+It is for this reason to be expected that the left tails in
+Figure~\ref{fig:eSFR2009} are too thick. 
+
 Furthermore, exposure is taken from the \textit{entire} population, not merely
 the populaton within reproductive ages. The rates could be thusly recalculated,
 for instance using female ages $13-50$ and male age $15-65$, and would look like 
-Figure~\ref{fig:eSFR2009limits}, a more reasonable if less intelligible result.
+Figure~\ref{fig:eSFR2009limits}, in some isntances a more reasonable if less
+intelligible result\footnote{Rate surfaces based on $e_x$-specific fertility
+data are calculated under a variety of reproductive spans in
+Appendix~\ref{Appendix:reprospans}}.
 
 \begin{figure}[ht!]
         \centering  
@@ -140,17 +182,19 @@ Figure~\ref{fig:eSFR2009limits}, a more reasonable if less intelligible result.
           male ages $15-65$}
            % figure produced in
            % /R/Parents_ex.R
-           \makebox[\textwidth]{\includegraphics{Figures/eSFR2009limits}}
+          \includegraphics{Figures/eSFR2009limits}
           \label{fig:eSFR2009limits}
 \end{figure}
 
-Comparing Figures~\ref{fig:eSFR2009} and~\ref{fig:eSFR2009limits} echoes the
+Comparing Figures~\ref{fig:eSFR2009} and~\ref{fig:eSFR2009limits} reminds of the
 comments of \citet{gupta1978alternative} and \citet{mitra1976effect} on the difficulty of
-defining an \textit{effective} population for use in exposures. Clearly persons
-outside the reproductive age range would conventionally be excluded from
+defining an \textit{effective} population for use in exposures. Clearly, persons
+outside the reproductive age range will conventionally be excluded from
 exposures. Other kinds of risk heterogeneity are known to exist, such as age
-patterns in fecundability and sexual intercourse, that are unaccounted for in
-standard fertility measures. With no pretensions of superiority over the more
+patterns in fecundability, contraceptive use and sexual intercourse, that are
+unaccounted for in standard fertility measures. 
+
+With no claim of superiority over the more
 restrictive exposures used for Figure~\ref{fig:eSFR2009limits}, we will proceed
 in this section by using exposures derived from all ages. One could weakly
 defend this choice by noting that we are attempting to measure the period
@@ -187,11 +231,59 @@ postponement should shift $e_x$-SFR unfavorably to higher mortality
 levels (lower $e_x$ levels), however mortality improvements have tended to 
 offset this effect, acting to move the curve to higher
 remaining life expectancies. This evolution in rates can, as with ASFR, also be
-summarized with an indicator akin to TFR, which we here call $e_x$-TFR, as in
-Figure~\ref{}.
+summarized with an indicator akin to TFR, which we here call $e_x$-TFR, seen in
+Figure~\ref{fig:exTFR}.
 
+\begin{figure}[ht!]
+        \centering  
+          \caption{Male and Female $e_x$-total fertility rates, Spain
+          and USA, 1969-2009}
+           % figure produced in
+           % /R/Parents_ex.R
+           \includegraphics{Figures/exTFR}
+          \label{fig:exTFR}
+\end{figure}
 
+Canonical TFR can conveniently be imagined as the total number of
+offspring that that an average female (male) will have in a lifetime assuming
+perfect survival and constant fertility rates of the present year.
+Since a lifetime measured in age counting from birth is the same length as a
+lifetime measured in age counting backward from death, $e_x$-TFR in fact has the
+same intrepretation. Why is this? Age-classified rates are of course
+heterogenous within age with respect to remaining life expectancy, and here we have produced
+an synthetic index based on the reverse idea. The age-classified
+distribution of births and populations are quite different (there being an age
+pattern to fertility rates). $e_x$-reclassifying these data not only changes the
+center of gravity of numerator and denominator distributions, but asymmetrically
+shifts underlying schedules, uniquely reshaping the pattern of
+fertility. Summing over $e_x$-rates will almost yield a different total, our
+synthetic $e_x$-TFR. 
 
+Figures~\ref{fig:exSFRsurfES}~and~\ref{fig:exTFR} are reproduced according to
+various definitions of the reproductive span in
+Appendix~\ref{Appendix:reprospans}. Rates are shown to be sensitive to the
+choice of reproductive span. For the remainder of this dissertation, we ignore
+issues of age boundaries in the reproductive span for simplicity and
+consistency, although this issue deserves further attention if the
+$e_x$-perspective is deemed of merit.
+
+\paragraph{Bivariate birth distribution by remaining years of life}
+
+First, note that the observed bivariate $e_x$-distribution of birth counts is
+very nearly identical to the expected distribution.
+Figure~\ref{fig:US1970obsexpex} compares these two distributions for birth
+counts in the USA in 1970 (compare with Figure~\ref{fig:US1970obsexp}).
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Observed versus expected bivariate
+          distribution of birth counts by $e_x$-distribution of parents, 1970,
+          USA}
+           % figure produced in
+           % /R/Parents_exCross.R
+           \makebox[\textwidth]{\includegraphics{Figures/ObservedvsExpectedBexey}}
+          \label{fig:US1970obsexpex}
+\end{figure}
 
 
 
