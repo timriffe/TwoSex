@@ -185,19 +185,20 @@ ExpectedDx <- compiler::cmpfun(function(Px, dx){
     EDx
 })
 # same as above but for cross-classified matrix
-# tricky. Matrix must have male ages in rows, female ages in columns
 ExpectedDxMxFmatrix <- function(Mat, dxm, dxf){
-    apply(
-            t( # first go over rows, redisitributing mother's age (in columns) by mother's ex.
-                    # transposed because
-                    apply(Mat, 1, function(.bx, .dxf){
-                                rowSums(ExpectedDx(Px = .bx, dx = .dxf))
-                            },.dxf = dxf)
-            ), # then redist male age.
-            2, function(.bx, .dxm){
+    # first go over rows, redisitributing mother's age (in columns) by mother's ex.
+    # this is a male age x female age matrix still
+    FemEx <- t(apply(Mat, 1, function(.bx, .dxf){
+                        rowSums(ExpectedDx(Px = .bx, dx = .dxf))
+                    },.dxf = dxf))   
+    # now we do the same over columns, redisitributing male age (which is in rows)
+    MemEx <- t(apply(FemEx, 2, function(.bx, .dxm){
                 rowSums(ExpectedDx(Px = .bx, dx = .dxm))
-            }, .dxm = dxm)
+            }, .dxm = dxm))
+    dimnames(MemEx) <- dimnames(Mat)
+    MemEx
 }
+
 PyramidOutline <- function(males, females, prop = TRUE, ...){
     N       <- length(males)
     Total   <- sum(c(males, females), na.rm = TRUE)

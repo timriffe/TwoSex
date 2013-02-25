@@ -286,9 +286,12 @@ segments(2070, .y2, 2071, .y2, xpd = TRUE)
 text(2071, .y2, seq(0, .1, length.out = 11), pos = 4, xpd = TRUE, cex = .7)
 dev.off()
 
+# ----------------------------------------------
+# doesn't look good for Spain, but what about removing non-reproductive ages?
+# see appendix
+
 #----------------------------------------------------------------
 # exTFR plot
-
 exTFRmUS <- colSums(exSFRUSm, na.rm = TRUE)
 exTFRfUS <- colSums(exSFRUSf, na.rm = TRUE)
 exTFRmES <- colSums(exSFRESm, na.rm = TRUE)
@@ -312,70 +315,3 @@ lines(yearsES, exTFRfES, lwd = 2.5, col = gray(.5), lty = 5)
 legend(1995, 3, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
         legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
 dev.off()
-
-# ----------------------------------------------
-# doesn't look good for Spain, but what about removing non-reproductive ages?
-ages <- 0:110
-exSFRUSmlim <- do.call(cbind, lapply(as.character(yearsUS), function(yr, .BxUS, .ExUS, .dxmUS){
-                    Px <- 
-                    Bex <- rowSums(ExpectedDx(Px = rowSums(Mna0(.BxUS[["2009"]])), dx = .dxmUS[,"2009"]))
-                    Eex <- rowSums(ExpectedDx(Px = with(.ExUS, Male[Year == as.integer(yr)]), dx = .dxmUS[,"1975"]))
-                    Bex / Eex
-                }, .BxUS = BxUS, .ExUS = ExUS, .dxmUS = dxmUS))
-exSFRUSflim <- do.call(cbind, lapply(as.character(yearsUS), function(yr, .BxUS, .ExUS, .dxfUS){
-                    Bex <- rowSums(ExpectedDx(Px = colSums(Mna0(.BxUS[["2009"]])), dx = .dxfUS[,"2009"]))
-                    Eex <- rowSums(ExpectedDx(Px = with(.ExUS,Female[Year == as.integer(yr)]), dx = .dxfUS[,"1975"]))
-                    Bex / Eex
-                }, .BxUS = BxUS, .ExUS = ExUS, .dxfUS = dxfUS))
-colnames(exSFRUSmlim) <- colnames(exSFRUSflim) <- yearsUS
-
-exSFRESmlim <- do.call(cbind, lapply(as.character(yearsES), function(yr, .BxES, .ExES, .dxmES){
-                    Bex <- rowSums(ExpectedDx(Px = rowSums(Mna0(.BxES[["2009"]])), dx = .dxmES[,"2009"]))
-                    Eex <- rowSums(ExpectedDx(Px = with(.ExES, Male[Year == as.integer(yr)]), dx = .dxmES[,"1975"]))
-                    Bex / Eex
-                }, .BxES = BxES, .ExES = ExES, .dxmES = dxmES))
-exSFRESflim <- do.call(cbind, lapply(as.character(yearsES), function(yr, .BxES, .ExES, .dxfES){
-                    Bex <- rowSums(ExpectedDx(Px = colSums(Mna0(.BxES[["2009"]])), dx = .dxfES[,"2009"]))
-                    Eex <- rowSums(ExpectedDx(Px = with(.ExES,Female[Year == as.integer(yr)]), dx = .dxfES[,"1975"]))
-                    Bex / Eex
-                }, .BxES = BxES, .ExES = ExES, .dxfES = dxfES))
-colnames(exSFRESmlim) <- colnames(exSFRESflim) <- yearsES
-
-
-
-
-
-
-x <- 0:110
-
-
-Bex09USm <- rowSums(ExpectedDx(Px = rowSums(BxUS[["1975"]]), dx = dxmUS[,"1975"]))
-Bex09USf <- rowSums(ExpectedDx(Px = colSums(BxUS[["1975"]]), dx = dxfUS[,"1975"]))
-Bex09ESm <- rowSums(ExpectedDx(Px = rowSums(BxES[["1975"]]), dx = dxmES[,"1975"]))
-Bex09ESf <- rowSums(ExpectedDx(Px = colSums(BxES[["1975"]]), dx = dxfES[,"1975"]))
-
-
-Fxex09USm <- Bex09USm / Mex75US
-Fxex09USf <- Bex09USf / Fex75US
-Fxex09ESm <- Bex09ESm / Mex75ES
-Fxex09ESf <- Bex09ESf / Fex75ES
-
-pdf("/home/triffe/git/DISS/latex/Figures/eSFR2009.pdf", height = 5, width = 5)
-par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
-plot(x, Fxex09USm, type = 'l', ylim = c(0, .07), xlim = c(0,111), axes = FALSE,
-        col = gray(.2), lwd = 2, xlab = "", ylab = "",
-        panel.first = list(rect(0,0,111,0.07,col = gray(.95), border=NA),
-                abline(h = seq(0,.07,by = .01), col = "white"),
-                abline(v = seq(0, 110, by = 10), col = "white"),
-                text(seq(0, 110, by = 10), 0,seq(0, 110, by = 10), pos = 1, cex = .8, xpd = TRUE),
-                text(0,seq(0, .07, by = .01), seq(0, .07, by = .01), pos = 2, cex = .8, xpd = TRUE),
-                text(55, -.004, expression(e[x]), cex = 1, pos = 1, xpd = TRUE),
-                text(-15,.076, "Fertility Rate", cex = 1, xpd = TRUE, pos = 4)))
-lines(x, Fxex09USf, lwd = 2.5, col = gray(.5))
-lines(x, Fxex09ESm, lwd = 2, col = gray(.2), lty = 5)
-lines(x, Fxex09ESf, lwd = 2.5, col = gray(.5), lty = 5)
-
-legend(70,.067, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
-        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
-dev.off()
-

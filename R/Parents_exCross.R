@@ -30,23 +30,97 @@ yearsES <- 1975:2009
 ages <- 0:110
 # example for 1975 US:
 
-Mex75US <- rowSums(ExpectedDx(Px = with(ExUS, Male[Year == 1975]), dx = dxmUS[,"1975"]))
-Fex75US <- rowSums(ExpectedDx(Px = with(ExUS, Female[Year == 1975]), dx = dxfUS[,"1975"]))
+Mex75US <- rowSums(ExpectedDx(Px = with(ExUS, Male[Year == 1970]), dx = dxmUS[,"1970"]))
+Fex75US <- rowSums(ExpectedDx(Px = with(ExUS, Female[Year == 1970]), dx = dxfUS[,"1970"]))
 
+# tricky. Matrix must have male ages in rows, female ages in columns
 
-ExBxy <- ExpectedDxMxFmatrix( BxUS[["1975"]], dxmUS[,"1975"], dxfUS[,"1975"])
+ExBxy <- ExpectedDxMxFmatrix( BxUS[["1970"]], dxmUS[,"1970"], dxfUS[,"1970"])
 
+expected    <- outer(rowSums(ExBxy), colSums(ExBxy), "*") / sum(ExBxy)
 
 Fxym <- ExBxy %row% Mex75US
 Fxyf <- ExBxy %col% Fex75US
 
-par(mfrow = c(1,2))
-image(x = ages + .5, y = ages + .5, t(Fxym), ylim = c(0,111),xlim = c(0,111))
-image(x = ages + .5, y = ages + .5, t(Fxyf), ylim = c(0,111),xlim = c(0,111))
+# let's do an image, same 1975
+colramp <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"), space = "Lab")
+
+
+# plotting pars
+brks <- seq(min(ExBxy, na.rm = TRUE), max(ExBxy, na.rm = TRUE), length.out = 51)
+#brks <- seq(min(lExBxy, na.rm = TRUE), max(lExBxy, na.rm = TRUE), length.out = 51)
+g.xy <- seq(0, 100, by = 5)
+gb.xy <- seq(0, 100, by = 10)
+levs <- c(100,seq(500,3000,by=500))     # for contour plot
+
+ExBxy[ExBxy == 0]       <- NA
+expected[expected == 0] <- NA
+pdf("/home/triffe/git/DISS/latex/Figures/ObservedvsExpectedBexey.pdf", 
+        height = 4, width = 6.5)
+
+par(mfrow=c(1,2), mar = c(3,1,2,3))
+image(x = ages + .5, y = ages + .5, t(ExBxy), 
+        xlim = c(0, 101), ylim = c(0, 101), zlim = c(0,3100),
+        col = colramp(50), breaks = brks, axes = FALSE, asp = 1, 
+        panel.first = list(rect(0, 0, 101, 101, col = "#EEEEEE", xpd = TRUE, border = NA), 
+                abline(h = g.xy, col = "white", lwd = .5),
+                abline(v = g.xy, col = "white", lwd = .5),
+                text(2, gb.xy, gb.xy, pos = 2, cex = .5, xpd = TRUE),
+                text(gb.xy, 0, gb.xy, pos = 1, cex = .5, xpd = TRUE),
+                segments(0, gb.xy, -1, gb.xy, xpd = TRUE),
+                segments(gb.xy, 0, gb.xy, -1, xpd = TRUE)),
+        
+        xlab = "", ylab = "")
+# contours
+contour(x = ages + .5, y = ages + .5, t(ExBxy), 
+        levels = levs, labels = levs, add = TRUE)
+# legend
+leg.y <- seq(0,11,length = 50) * (101 / 11) 
+rect(105,leg.y[1:(length(leg.y) - 1)],113, leg.y[2:length(leg.y)],
+        col = colramp(50), border = NA, xpd = TRUE)
+minmax <- range(brks)
+TickMaj <- seq(0,3000,by = 200)
+TickMajsc <- (TickMaj / diff(range(minmax))) * diff(range(leg.y)) 
+segments(113,TickMajsc,113.5,TickMajsc,col = "#444444", xpd = TRUE)
+text(113,TickMajsc, TickMaj, pos = 4, xpd = TRUE, cex = .5)
+
+# line of homogamy:
+segments(0,0,111,111,col = "#50505050")
+
+# axis labels
+fath <- "Father"
+moth <- "Mother"
+text(50,-10, bquote(.(fath) ~ e[x]), xpd = TRUE, cex = .7, pos =1)
+text(-10,110,bquote(.(moth) ~ e[x]), xpd = TRUE, pos = 4, cex = .7)
+
+# expected bivariate distribution:
+
+par(mar=c(3,2,2,2))
+image(x = ages + .5, y = ages + .5, t(expected), 
+        xlim = c(0, 101), ylim = c(0, 101), zlim = c(0,3100),
+        col = colramp(50), breaks = brks, axes = FALSE, asp = 1, 
+        panel.first = list(rect(0, 0, 101, 101, col = "#EEEEEE", xpd = TRUE, border = NA), 
+                abline(h = g.xy, col = "white", lwd = .5),
+                abline(v = g.xy, col = "white", lwd = .5),
+                text(2, gb.xy, gb.xy, pos = 2, cex = .5, xpd = TRUE),
+                text(gb.xy, 0, gb.xy, pos = 1, cex = .5, xpd = TRUE),
+                segments(0, gb.xy, -1, gb.xy, xpd = TRUE),
+                segments(gb.xy, 0, gb.xy, -1, xpd = TRUE)),
+        xlab = "", ylab = "")
+# axis labels
+text(50,-10, bquote(.(fath) ~ e[x]), xpd = TRUE, cex = .7, pos = 1)
+text(-15,110,bquote(.(moth) ~ e[x]), xpd = TRUE, pos = 4, cex = .7)
+
+# contours
+ 
+contour(x = ages + .5, y = ages + .5, t(expected), 
+        levels = levs, labels = levs, add = TRUE)
+# line of homogamy:
+segments(0,0,101,101,col = "#50505050")
+dev.off()
 
 # observed vs expected:
 
-expected    <- outer(rowSums(ExBxy), colSums(ExBxy), "*") / sum(ExBxy)
 
 #image(x = ages + .5, y = ages + .5, t(expected), ylim = c(0,111),xlim = c(0,111))
 #image(x = ages + .5, y = ages + .5, t( expected / sum(expected)) - t(ExBxy / sum(ExBxy)) , ylim = c(0,111),xlim = c(0,111))

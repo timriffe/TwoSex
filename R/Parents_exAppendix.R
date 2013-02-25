@@ -1,5 +1,5 @@
 # appendix, showing different combinations of reproductive spans:
-
+# source("/home/triffe/git/DISS/R/Parents_exAppendix.R")
 source("/home/triffe/git/DISS/R/UtilityFunctions.R")
 source("/home/triffe/git/DISS/R/MeanFunctions.R")
 
@@ -70,7 +70,7 @@ levs <- seq(0,.15,by = .01)
 shift <- 50
 
 # for USA:
-pdf("/home/triffe/git/DISS/latex/Figures/eSFRsurfacesUSlim15_55.pdf", height = 5, width = 5)
+pdf("/home/triffe/git/DISS/latex/Figures/eSFRsurfacesUSlim1555.pdf", height = 5, width = 5)
 par(mai = c(.3,.3,.3,1))
 # males
 image(x = yearsUS + .5, y = 0:110 + .5, t(exSFRUSmlim), 
@@ -112,7 +112,7 @@ text(2071, .y2, seq(0, .15, length.out = 16), pos = 4, xpd = TRUE, cex = .7)
 dev.off()
 
 # for Spain:
-pdf("/home/triffe/git/DISS/latex/Figures/eSFRsurfacesESlim15_55.pdf", height = 5, width = 5)
+pdf("/home/triffe/git/DISS/latex/Figures/eSFRsurfacesESlim1555.pdf", height = 5, width = 5)
 par(mai = c(.3,.3,.3,1))
 # males
 image(x = yearsES + .5, y = 0:110 + .5, t(exSFRESmlim), 
@@ -162,7 +162,7 @@ exTFRfUSlim <- colSums(exSFRUSflim, na.rm = TRUE)
 exTFRmESlim <- colSums(exSFRESmlim, na.rm = TRUE)
 exTFRfESlim <- colSums(exSFRESflim, na.rm = TRUE)
 
-pdf("/home/triffe/git/DISS/latex/Figures/exTFRlim15_55.pdf", height = 5, width = 5)
+pdf("/home/triffe/git/DISS/latex/Figures/exTFRlim1555.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, exTFRmUSlim, type = 'l', ylim = c(2, 7), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
@@ -231,7 +231,7 @@ levs <- seq(0,.15,by = .01)
 shift <- 50
 
 # for USA:
-pdf("/home/triffe/git/DISS/latex/Figures/eSFRsurfacesUSlim13_64mixed.pdf", height = 5, width = 5)
+pdf("/home/triffe/git/DISS/latex/Figures/eSFRsurfacesUSlim1364mixed.pdf", height = 5, width = 5)
 par(mai = c(.3,.3,.3,1))
 # males
 image(x = yearsUS + .5, y = 0:110 + .5, t(exSFRUSmlim), 
@@ -273,7 +273,7 @@ text(2071, .y2, seq(0, .15, length.out = 16), pos = 4, xpd = TRUE, cex = .7)
 dev.off()
 
 # for Spain:
-pdf("/home/triffe/git/DISS/latex/Figures/eSFRsurfacesESlim13_64mixed.pdf", height = 5, width = 5)
+pdf("/home/triffe/git/DISS/latex/Figures/eSFRsurfacesESlim1364mixed.pdf", height = 5, width = 5)
 par(mai = c(.3,.3,.3,1))
 # males
 image(x = yearsES + .5, y = 0:110 + .5, t(exSFRESmlim), 
@@ -323,7 +323,7 @@ exTFRfUSlim <- colSums(exSFRUSflim, na.rm = TRUE)
 exTFRmESlim <- colSums(exSFRESmlim, na.rm = TRUE)
 exTFRfESlim <- colSums(exSFRESflim, na.rm = TRUE)
 
-pdf("/home/triffe/git/DISS/latex/Figures/exTFRlim13_64mixed.pdf", height = 5, width = 5)
+pdf("/home/triffe/git/DISS/latex/Figures/exTFRlim1364mixed.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, exTFRmUSlim, type = 'l', ylim = c(1.5, 5.5), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
@@ -525,7 +525,7 @@ dev.off()
 }
 #----------------------------------------------------------------
 # finally the 1st -99th percentile on a year-by year basis, exTFR only
-
+{
 exTFRUSmlim <- colSums(Minf0(do.call(cbind, lapply(as.character(yearsUS), function(yr, .BxUS, .ExUS, .dxmUS){
                                     Bx    <- rowSums(Mna0(.BxUS[[yr]]))
                                     Ex    <- Mna0(with(.ExUS, Male[Year == as.integer(yr)])) 
@@ -597,3 +597,6 @@ lines(yearsES, exTFRfESlim, lwd = 2.5, col = gray(.5), lty = 5)
 legend(1994, 9.5, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
         legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
 dev.off()
+
+
+}
