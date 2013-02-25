@@ -170,7 +170,7 @@ LotkaRCoale <- compiler::cmpfun(function(fx,Lx,x){
 })
 
 # find a way to use this is dissertation:
-ExpectedDx <- function(Px, dx){
+ExpectedDx <- compiler::cmpfn(function(Px, dx){
     dxi      <- dx / sum(dx, na.rm = TRUE)
     N        <- length(dx)
     EDx      <- matrix(0, nrow = N, ncol = N)
@@ -183,7 +183,7 @@ ExpectedDx <- function(Px, dx){
     }
     EDx[is.na(EDx)] <- 0
     EDx
-}
+})
 
 PyramidOutline <- function(males, females, prop = TRUE, ...){
     N       <- length(males)
