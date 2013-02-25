@@ -372,40 +372,38 @@ fkeepUS <- findKeeperAges(Bx = BxUS, Ex = ExUS, sex = "f")
 mkeepES <- findKeeperAges(Bx = BxES, Ex = ExES, sex = "m")
 fkeepES <- findKeeperAges(Bx = BxES, Ex = ExES, sex = "f")
 
-exSFRUSmlim <- Minf0(do.call(cbind, lapply(as.character(yearsUS), function(yr, .BxUS, .ExUS, .dxmUS){
-                            Bx    <- rowSums(Mna0(.BxUS[[yr]]))
-                            Ex    <- Mna0(with(.ExUS, Male[Year == as.integer(yr)])) * mkeepUS
-                            Bex   <- rowSums(ExpectedDx(Px = Bx, dx = .dxmUS[,yr]))
-                            Eex   <- rowSums(ExpectedDx(Px = Ex, dx = .dxmUS[,yr]))
+exSFRUSmlim <- Minf0(do.call(cbind, lapply(as.character(yearsUS), function(yr, .BxUS, .ExUS, .dxmUS, .mkeepUS){
+                            Bx <-  rowSums(Mna0(.BxUS[[yr]]))
+                            Ex <-  Mna0(with(.ExUS, Male[Year == as.integer(yr)])) * .mkeepUS
+                            Bex <- rowSums(ExpectedDx(Px = Bx, dx = .dxmUS[,yr]))
+                            Eex <- rowSums(ExpectedDx(Px = Ex, dx = .dxmUS[,yr]))
                             Bex / Eex
-                        }, .BxUS = BxUS, .ExUS = ExUS, .dxmUS = dxmUS)))
-exSFRUSflim <- Minf0(do.call(cbind, lapply(as.character(yearsUS), function(yr, .BxUS, .ExUS, .dxfUS){
-                            Bx    <- colSums(Mna0(.BxUS[[yr]]))
-                            Ex    <- Mna0(with(.ExUS, Female[Year == as.integer(yr)])) * fkeepUS
-                            
-                            Bex   <- rowSums(ExpectedDx(Px = Bx, dx = .dxfUS[,yr]))
-                            Eex   <- rowSums(ExpectedDx(Px = Ex, dx = .dxfUS[,yr]))
+                        }, .BxUS = BxUS, .ExUS = ExUS, .dxmUS = dxmUS, .mkeepUS = mkeepUS)))
+exSFRUSflim <- Minf0(do.call(cbind, lapply(as.character(yearsUS), function(yr, .BxUS, .ExUS, .dxfUS, .fkeepUS){
+                            Bx  <- colSums(Mna0(.BxUS[[yr]]))
+                            Ex  <- Mna0(with(.ExUS, Female[Year == as.integer(yr)])) * .fkeepUS
+                            Bex <- rowSums(ExpectedDx(Px = Bx, dx = .dxfUS[,yr]))
+                            Eex <- rowSums(ExpectedDx(Px = Ex, dx = .dxfUS[,yr]))
                             Bex / Eex
-                        }, .BxUS = BxUS, .ExUS = ExUS, .dxfUS = dxfUS)))
+                        }, .BxUS = BxUS, .ExUS = ExUS, .dxfUS = dxfUS, .fkeepUS = fkeepUS)))
 colnames(exSFRUSmlim) <- colnames(exSFRUSflim) <- yearsUS
 
-exSFRESmlim <- Minf0(do.call(cbind, lapply(as.character(yearsES), function(yr, .BxES, .ExES, .dxmES){
-                            Bx    <- rowSums(Mna0(.BxES[[yr]]))
-                            Ex    <- Mna0(with(.ExES, Male[Year == as.integer(yr)])) * mkeepES
-                            
-                            Bex   <- rowSums(ExpectedDx(Px = Bx, dx = .dxmES[,yr]))
-                            Eex   <- rowSums(ExpectedDx(Px = Ex, dx = .dxmES[,yr]))
+exSFRESmlim <- Minf0(do.call(cbind, lapply(as.character(yearsES), function(yr, .BxES, .ExES, .dxmES, .mkeepES){
+                            Bx  <- rowSums(Mna0(.BxES[[yr]]))
+                            Ex  <- Mna0(with(.ExES, Male[Year == as.integer(yr)])) * .mkeepES
+                            Bex <- rowSums(ExpectedDx(Px = Bx, dx = .dxmES[,yr]))
+                            Eex <- rowSums(ExpectedDx(Px = Ex, dx = .dxmES[,yr]))
                             Bex / Eex
-                        }, .BxES = BxES, .ExES = ExES, .dxmES = dxmES)))
-exSFRESflim <- Minf0(do.call(cbind, lapply(as.character(yearsES), function(yr, .BxES, .ExES, .dxfES){
-                            Bx    <- colSums(Mna0(.BxES[[yr]]))
-                            Ex    <- Mna0(with(.ExES, Female[Year == as.integer(yr)])) * fkeepES
-                            
-                            Bex   <- rowSums(ExpectedDx(Px = Bx, dx = .dxfES[,yr]))
-                            Eex   <- rowSums(ExpectedDx(Px = Ex, dx = .dxfES[,yr]))
+                        }, .BxES = BxES, .ExES = ExES, .dxmES = dxmES, .mkeepES = mkeepES)))
+exSFRESflim <- Minf0(do.call(cbind, lapply(as.character(yearsES), function(yr, .BxES, .ExES, .dxfES, .fkeepES){
+                            Bx  <- colSums(Mna0(.BxES[[yr]]))
+                            Ex  <- Mna0(with(.ExES, Female[Year == as.integer(yr)])) * .fkeepES
+                            Bex <- rowSums(ExpectedDx(Px = Bx, dx = .dxfES[,yr]))
+                            Eex <- rowSums(ExpectedDx(Px = Ex, dx = .dxfES[,yr]))
                             Bex / Eex
-                        }, .BxES = BxES, .ExES = ExES, .dxfES = dxfES)))
+                        }, .BxES = BxES, .ExES = ExES, .dxfES = dxfES, .fkeepES = fkeepES)))
 colnames(exSFRESmlim) <- colnames(exSFRESflim) <- yearsES
+
 
 colramp <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"), space = "Lab")
 brks <- seq(0,.15, length.out = 51)
@@ -526,3 +524,76 @@ dev.off()
 
 }
 #----------------------------------------------------------------
+# finally the 1st -99th percentile on a year-by year basis, exTFR only
+
+exTFRUSmlim <- colSums(Minf0(do.call(cbind, lapply(as.character(yearsUS), function(yr, .BxUS, .ExUS, .dxmUS){
+                                    Bx    <- rowSums(Mna0(.BxUS[[yr]]))
+                                    Ex    <- Mna0(with(.ExUS, Male[Year == as.integer(yr)])) 
+                                    
+                                    Fx    <- Bx / Ex
+                                    Fx[85:111]  <- 0
+                                    Fx          <- cumsum(Fx) / sum(Fx)
+                                    keep.vec    <- as.integer(Fx > .01 & Fx < .99)
+                                    
+                                    Bex   <- rowSums(ExpectedDx(Px = Bx, dx = .dxmUS[,yr]))
+                                    Eex   <- rowSums(ExpectedDx(Px = Ex * keep.vec, dx = .dxmUS[,yr]))
+                                    Bex / Eex
+                                }, .BxUS = BxUS, .ExUS = ExUS, .dxmUS = dxmUS))), na.rm = TRUE)
+exTFRUSflim <- colSums(Minf0(do.call(cbind, lapply(as.character(yearsUS), function(yr, .BxUS, .ExUS, .dxfUS){
+                                    Bx    <- colSums(Mna0(.BxUS[[yr]]))
+                                    Ex    <- Mna0(with(.ExUS, Female[Year == as.integer(yr)])) 
+                                    
+                                    Fx    <- Bx / Ex
+                                    Fx[85:111]  <- 0
+                                    Fx          <- cumsum(Fx) / sum(Fx)
+                                    keep.vec    <- as.integer(Fx > .01 & Fx < .99)
+                                    
+                                    Bex   <- rowSums(ExpectedDx(Px = Bx, dx = .dxfUS[,yr]))
+                                    Eex   <- rowSums(ExpectedDx(Px = Ex * keep.vec, dx = .dxfUS[,yr]))
+                                    Bex / Eex
+                                }, .BxUS = BxUS, .ExUS = ExUS, .dxfUS = dxfUS))), na.rm = TRUE)
+exTFRESmlim <- colSums(Minf0(do.call(cbind, lapply(as.character(yearsES), function(yr, .BxES, .ExES, .dxmES){
+                                    Bx    <- rowSums(Mna0(.BxES[[yr]]))
+                                    Ex    <- Mna0(with(.ExES, Male[Year == as.integer(yr)])) * mkeepES
+                                    
+                                    Fx    <- Bx / Ex
+                                    Fx[85:111]  <- 0
+                                    Fx          <- cumsum(Fx) / sum(Fx)
+                                    keep.vec    <- as.integer(Fx > .01 & Fx < .99)
+                                    
+                                    Bex   <- rowSums(ExpectedDx(Px = Bx, dx = .dxmES[,yr]))
+                                    Eex   <- rowSums(ExpectedDx(Px = Ex * keep.vec, dx = .dxmES[,yr]))
+                                    Bex / Eex
+                                }, .BxES = BxES, .ExES = ExES, .dxmES = dxmES))), na.rm = TRUE)
+exTFRESflim <- colSums(Minf0(do.call(cbind, lapply(as.character(yearsES), function(yr, .BxES, .ExES, .dxfES){
+                                    Bx    <- colSums(Mna0(.BxES[[yr]]))
+                                    Ex    <- Mna0(with(.ExES, Female[Year == as.integer(yr)])) * fkeepES
+                                    
+                                    Fx    <- Bx / Ex
+                                    Fx[85:111]  <- 0
+                                    Fx          <- cumsum(Fx) / sum(Fx)
+                                    keep.vec    <- as.integer(Fx > .01 & Fx < .99)
+                                    
+                                    Bex   <- rowSums(ExpectedDx(Px = Bx, dx = .dxfES[,yr]))
+                                    Eex   <- rowSums(ExpectedDx(Px = Ex * keep.vec, dx = .dxfES[,yr]))
+                                    Bex / Eex
+                                }, .BxES = BxES, .ExES = ExES, .dxfES = dxfES))), na.rm = TRUE)
+
+pdf("/home/triffe/git/DISS/latex/Figures/exTFRlimBquantyr.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
+plot(yearsUS, exTFRmUSlim, type = 'l', ylim = c(2.5, 9.5), xlim = c(1968,2010), axes = FALSE,
+        col = gray(.2), lwd = 2, xlab = "", ylab = "",
+        panel.first = list(rect(1968, 2, 2010, 9.5,col = gray(.95), border=NA),
+                abline(h = seq(2.5, 9.5, by = .5), col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(3, 9, by = 1),seq(3, 9, by = 1), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10), 2.5, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, 2.2, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1965, 9.85, expression(e[x], "             -TFR"), cex = 1, xpd = TRUE)))
+lines(yearsUS, exTFRfUSlim, lwd = 2.5, col = gray(.5))
+lines(yearsES, exTFRmESlim, lwd = 2, col = gray(.2), lty = 5)
+lines(yearsES, exTFRfESlim, lwd = 2.5, col = gray(.5), lty = 5)
+
+legend(1994, 9.5, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
+        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
+dev.off()
