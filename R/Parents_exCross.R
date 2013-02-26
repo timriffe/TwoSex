@@ -125,6 +125,81 @@ dev.off()
 #image(x = ages + .5, y = ages + .5, t(expected), ylim = c(0,111),xlim = c(0,111))
 #image(x = ages + .5, y = ages + .5, t( expected / sum(expected)) - t(ExBxy / sum(ExBxy)) , ylim = c(0,111),xlim = c(0,111))
 # total variation distance:
+
+ExBxy <- ExpectedDxMxFmatrix( BxUS[["1970"]], dxmUS[,"1970"], dxfUS[,"1970"])
+
+expected    <- outer(rowSums(ExBxy), colSums(ExBxy), "*") / sum(ExBxy)
+
+# takes a minute or two to run...
+ExBxyAallUS <- lapply(as.character(yearsUS), function(yr, .BxUS, .dxmUS, .dxfUS){
+            ExpectedDxMxFmatrix( .BxUS[[yr]], .dxmUS[,yr], .dxfUS[,yr])
+        }, .BxUS = BxUS, .dxmUS = dxmUS, .dxfUS = dxfUS)
+ExBxyAallES <- lapply(as.character(yearsES), function(yr, .BxES, .dxmES, .dxfES){
+            ExpectedDxMxFmatrix( .BxES[[yr]], .dxmES[,yr], .dxfES[,yr])
+        }, .BxES = BxES, .dxmES = dxmES, .dxfES = dxfES)
+# animate run-through
+#lapply(ExBxyAall, function(ExBxy){
+#            brks <- seq(min(ExBxy, na.rm = TRUE), max(ExBxy, na.rm = TRUE), length.out = 51)
+##brks <- seq(min(lExBxy, na.rm = TRUE), max(lExBxy, na.rm = TRUE), length.out = 51)
+#            g.xy <- seq(0, 100, by = 5)
+#            gb.xy <- seq(0, 100, by = 10)
+#            levs <- c(100,seq(500,3500,by=500))     # for contour plot
+#            
+#            ExBxy[ExBxy == 0]       <- NA
+#        image(x = ages + .5, y = ages + .5, t(ExBxy), 
+#        xlim = c(0, 101), ylim = c(0, 101), zlim = c(0,3500),
+#        col = colramp(50), breaks = brks, axes = FALSE, asp = 1, 
+#        panel.first = list(rect(0, 0, 101, 101, col = "#EEEEEE", xpd = TRUE, border = NA), 
+#                abline(h = g.xy, col = "white", lwd = .5),
+#                abline(v = g.xy, col = "white", lwd = .5),
+#                text(2, gb.xy, gb.xy, pos = 2, cex = .5, xpd = TRUE),
+#                text(gb.xy, 0, gb.xy, pos = 1, cex = .5, xpd = TRUE),
+#                segments(0, gb.xy, -1, gb.xy, xpd = TRUE),
+#                segments(gb.xy, 0, gb.xy, -1, xpd = TRUE)),
+#        
+#        xlab = "", ylab = "")
+## contours
+#       contour(x = ages + .5, y = ages + .5, t(ExBxy), 
+#        levels = levs, labels = levs, add = TRUE)
+#Sys.sleep(1)
+#        })
+
+TotalVarUS <- unlist(lapply(ExBxyAallUS, function(.ExBxy){
+            expected    <- outer(rowSums(.ExBxy), colSums(.ExBxy), "*") / sum(.ExBxy)
+            sum(abs(.ExBxy / sum(.ExBxy) - expected / sum(expected))) / 2
+        }))
+TotalVarES <- unlist(lapply(ExBxyAallES, function(.ExBxy){
+                    expected    <- outer(rowSums(.ExBxy), colSums(.ExBxy), "*") / sum(.ExBxy)
+                    sum(abs(.ExBxy / sum(.ExBxy) - expected / sum(expected))) / 2
+                }))
+
+# plot it
+pdf("/home/triffe/git/DISS/latex/Figures/TotalVariationObsvsExpectedexUSES.pdf", height = 4.5, width = 4.5)
+par(mai = c(.5,.4,.4,.2), xaxs = "i", yaxs = "i")
+plot(yearsUS, TotalVarUS, type = 'l', ylim = c(.04,.07), xlim = c(1968,2010), 
+        col = gray(.2), lwd = 2, axes = FALSE, xlab = "", ylab = "",
+        panel.first = list(rect(1968,.04,2010,.07, col = gray(.95), border = NA),
+                abline(v = seq(1970,2010,by = 5),col = "white"),
+                abline(h = seq(.04,.07,by = .005),col = "white"),
+                text(1990, .037, "Year", xpd = TRUE),
+                text(1966, .072, expression(theta), xpd = TRUE),
+                text(seq(1970,2010,by = 5),.04,seq(1970,2010,by = 5),pos = 1,cex = .7, xpd = TRUE),
+                text(1968,seq(.04,.07,by = .005),seq(.04,.07,by = .005), pos = 2,cex = .7, xpd = TRUE)
+        ))
+lines(yearsES, TotalVarES, col = gray(.4), lwd = 3, lty = 5)
+legend("topright", col = gray(c(.2,.4)), lwd = c(2,3), lty = c(1,5),
+        legend = c(expression(paste(theta," USA")), expression(paste(theta," ES"))), bty = "n")
+dev.off()
+
+
+
+
+
+
+
+
+
+
 (ToalVar <- sum(abs(ExBxy / sum(ExBxy) - expected / sum(expected))) / 2 )
 
 # overlap 

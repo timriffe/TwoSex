@@ -178,14 +178,16 @@ TotalVarES <- unlist(lapply(BxES, function(x){
 # --------------------------------------------
 # plot theta:
 pdf("/home/triffe/git/DISS/latex/Figures/TotalVariationObsvsExpectedUSES.pdf", height = 4.5, width = 4.5)
-par(mar = c(4,4,2, 2), xaxs = "i", yaxs = "i")
-plot(as.integer(names(BxUS)), TotalVarUS, type = 'l', ylim = c(.33,.48), xlim = c(1967,2012), 
+par(mai = c(.4,.4,.4,.2), xaxs = "i", yaxs = "i")
+plot(as.integer(names(BxUS)), TotalVarUS, type = 'l', ylim = c(.33,.48), xlim = c(1967, 2012), 
         col = gray(.2), lwd = 2, axes = FALSE, xlab = "", ylab = "",
-        panel.first = list(rect(1960,.3,2012,.5, col = gray(.93), border = NA),
-                           abline(v = seq(1970,2010,by = 5),col = "white"),
-                           abline(h = seq(.3,.45,by = .025),col = "white"),
-                           text(seq(1970,2010,by = 5),.33,seq(1970,2010,by = 5),pos = 1,cex = .7, xpd = TRUE),
-                           text(1967,seq(.35,.45,by = .05),seq(.35,.45,by = .05),pos = 2,cex = .7, xpd = TRUE)
+        panel.first = list(rect(1960, .3, 2012, .5, col = gray(.95), border = NA),
+                           abline(v = seq(1970, 2010, by = 5),col = "white"),
+                           abline(h = seq(.3, .45, by = .025),col = "white"),
+                           text(1990,.318, "Year", xpd = TRUE),
+                           text(1965,.49, expression(theta), xpd = TRUE),
+                           text(seq(1970, 2010, by = 5), .33, seq(1970, 2010, by = 5), pos = 1 ,cex = .7, xpd = TRUE),
+                           text(1967, seq(.35, .45, by = .05), seq(.35, .45, by = .05), pos = 2, cex = .7, xpd = TRUE)
                            ))
 lines(as.integer(names(BxES)), TotalVarES, col = gray(.4), lwd = 3, lty = 3)
 legend("bottomleft", col = gray(c(.2,.4)), lwd = c(2,3), lty = c(1,3),
@@ -230,12 +232,12 @@ HypergamyUS <- as.matrix(do.call(rbind,lapply(BxUS, function(x){
 # --------------------------------------------
 # plot H:
 pdf("/home/triffe/git/DISS/latex/Figures/StrengthHypergamy.pdf", height = 4.5, width = 4.5)
-par(mar = c(4,4,2,2), xaxs = "i", yaxs = "i")
+par(mai = c(.4,.6,.4,.2), xaxs = "i", yaxs = "i")
 USyrs <- as.integer(rownames(HypergamyUS))
 ESyrs <- as.integer(rownames(HypergamyES))
 plot(USyrs, HypergamyUS[,"structural"], type = 'l', ylim = c(0,8), xlim = c(1967,2012), 
         col = gray(.2), lty = 1, lwd = 2, axes = FALSE, xlab = "", ylab = "",
-        panel.first = list(rect(1960,0,2012,9, col = gray(.93), border = NA),
+        panel.first = list(rect(1960,0,2012,9, col = gray(.95), border = NA),
                 abline(v = seq(1970,2010,by = 5),col = "white"),
                 abline(h = seq(0,8,by = 1),col = "white"),
                 text(seq(1970,2010,by = 5),0,seq(1970,2010,by = 5),pos = 1,cex = .7, xpd = TRUE),

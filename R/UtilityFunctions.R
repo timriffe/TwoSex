@@ -173,7 +173,7 @@ LotkaRCoale <- compiler::cmpfun(function(fx,Lx,x){
 ExpectedDx <- compiler::cmpfun(function(Px, dx){
     dxi      <- dx / sum(dx, na.rm = TRUE)
     N        <- length(dx)
-    EDx      <- matrix(0, nrow = N, ncol = N)
+    EDx      <- matrix(0, nrow = N, ncol = N, dimnames = list(Ex = 0:(N-1), Age =  0:(N-1)))
     # Population age loop
     for (i in 1:N){
         # distribute each age of Populatin over death times
