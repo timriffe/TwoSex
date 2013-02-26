@@ -7,6 +7,7 @@ single-sex distributions.
 The expected cross-classified age distribution $\textbf{E}B(x,y)$ is defined as:
 
 \begin{equation}
+\label{eq:expected}
 \textbf{E}\left[B_{xy}\right] = \frac{B_x B_y}{\int _{x = \alpha} ^\beta \int
 _{y = \alpha} ^\beta B_{xy} \; \dd x \;\dd y}
 \end{equation}
@@ -32,6 +33,7 @@ judge the departure from randomness of this distribution is to calculate a
 simple difference coefficient, $\theta$, namely:
 
 \begin{equation}
+\label{eq:coefdiff}
 \theta = 1 - \int \;\int min(f_1, f_2)
 \end{equation}
 ,where $f_1$ is $B_{xy}$ and $f_2$ is $\textbf{E}B_{xy}$, both scaled to sum to
@@ -49,18 +51,18 @@ demonstrate, pair matching may just as easily occur as a function of individual
 preferences for event (mating, marriage) timing coupled with relative
 availability, which follows partly from cohort size. This is consistent with
 \citet{bhrolchain2001flexibility}, who concludes that age preferences for
-mates are highly adaptive to availability conditions.
+mates are highly adaptive.
 
 Despite this ambiguity in mechanisms behind age combination patterns, one can
 create a rough index of the strength of hypergamy or homogamy, based on the
 matrices represented in Figure~\ref{fig:US1970obsexp}. Giving equal reproductive
 bounds to the birth count matrix $B_{xy}$ makes a square matrix, from which we
 can separate the upper and lower triangles. Here, the lower triangle, $L$,
-of $B_{xy}$ contains births due to age-hypergamous (father's age > mother's age)
-parents and the upper triangle $U$ contains births due to age-hypogamous parents. Thus, a simple
-measure of total hypergamy, $\widehat{H}$, can be taken as a ratio of the total
-births in $L$ versus $U$, or in shorthand $\frac{B_{x>y}}{B_{x<y}}$, excluding
-single-age exact homogamy on the matrix diagonal.
+of $B_{xy}$ contains births due to age-hypergamous (father's age > mother's
+age)\footnote{Here I use heterogamy-related terms loosely, as we are not
+dealing directly with nuptiality, but rather with reproduction in general and
+fertility in particular.} parents and the upper triangle $U$ contains births due to
+age-hypogamous parents. Thus, a simple measure of total hypergamy, $\widehat{H}$, can be taken as a ratio of the total births in $L$ versus $U$, or in shorthand $\frac{B_{x>y}}{B_{x<y}}$, excluding single-age exact homogamy on the matrix diagonal.
 
 \begin{equation}
 \widehat{H} = \frac{\sum L}{\sum U} 
