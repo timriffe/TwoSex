@@ -409,10 +409,66 @@ abline(h = mean(diffsESexPred15[,2]),col = "red",lty=2)
 # so that one could be derived from the other?
 
 
+# can also put full tables in appendix.
+
+# Difference is male - female
+
+MeanTableUS <- matrix(nrow = 4, ncol = 2, 
+        dimnames = list(c("1-year", "5-year", "10-year", "15-year"), c("$e_x$", "Age")))
+MeanTableES <- matrix(nrow = 4, ncol = 2, 
+        dimnames = list(c("1-year", "5-year", "10-year", "15-year"), c("$e_x$", "Age")))
+MeanTableUS[,"$e_x$"] <- c(mean(diffsUSexPred[,"RDiff"]),
+        mean(diffsUSexPred5[,"RDiff"]),
+        mean(diffsUSexPred10[,"RDiff"]),
+        mean(diffsUSexPred15[,"RDiff"]))
+MeanTableUS[,"Age"] <- c(mean(diffsUSaPred[,"RDiff"]),
+        mean(diffsUSaPred5[,"RDiff"]),
+        mean(diffsUSaPred10[,"RDiff"]),
+        mean(diffsUSaPred15[,"RDiff"]))
+MeanTableES[,"$e_x$"] <- c(mean(diffsESexPred[,"RDiff"]),
+        mean(diffsESexPred5[,"RDiff"]),
+        mean(diffsESexPred10[,"RDiff"]),
+        mean(diffsESexPred15[,"RDiff"]))
+MeanTableES[,"Age"] <- c(mean(diffsESaPred[,"RDiff"]),
+        mean(diffsESaPred5[,"RDiff"]),
+        mean(diffsESaPred10[,"RDiff"]),
+        mean(diffsESaPred15[,"RDiff"]))
+
+MeanAbsTableUS <- matrix(nrow = 4, ncol = 2, 
+        dimnames = list(c("1-year", "5-year", "10-year", "15-year"), c("$e_x$", "Age")))
+MeanAbsTableES <- matrix(nrow = 4, ncol = 2, 
+        dimnames = list(c("1-year", "5-year", "10-year", "15-year"), c("$e_x$", "Age")))
+MeanAbsTableUS[,"$e_x$"] <- c(mean(abs(diffsUSexPred[,"RDiff"])),
+        mean(abs(diffsUSexPred5[,"RDiff"])),
+        mean(abs(diffsUSexPred10[,"RDiff"])),
+        mean(abs(diffsUSexPred15[,"RDiff"])))
+MeanAbsTableUS[,"Age"] <- c(mean(abs(diffsUSaPred[,"RDiff"])),
+        mean(abs(diffsUSaPred5[,"RDiff"])),
+        mean(abs(diffsUSaPred10[,"RDiff"])),
+        mean(abs(diffsUSaPred15[,"RDiff"])))
+MeanAbsTableES[,"$e_x$"] <- c(mean(abs(diffsESexPred[,"RDiff"])),
+        mean(abs(diffsESexPred5[,"RDiff"])),
+        mean(abs(diffsESexPred10[,"RDiff"])),
+        mean(abs(diffsESexPred15[,"RDiff"])))
+MeanAbsTableES[,"Age"] <- c(mean(abs(diffsESaPred[,"RDiff"])),
+        mean(abs(diffsESaPred5[,"RDiff"])),
+        mean(abs(diffsESaPred10[,"RDiff"])),
+        mean(abs(diffsESaPred15[,"RDiff"])))
 
 
-
-
-
-
+library(xtable)
+print(xtable(MeanTableES, digits = c(0,4,4), align = c("l","|","c","c")),
+        sanitize.colnames.function = identity, 
+        file = "/home/triffe/git/DISS/latex/xtables/exDivergenceMeanTableES.tex",floating=FALSE)
+print(xtable(MeanTableUS, digits = c(0,4,4), align = c("l","|","c","c")),
+        sanitize.colnames.function = identity, 
+        file = "/home/triffe/git/DISS/latex/xtables/exDivergenceMeanTableUS.tex",floating=FALSE)
+print(xtable(MeanAbsTableES, digits = c(0,4,4)),
+        sanitize.colnames.function = identity, 
+        file = "/home/triffe/git/DISS/latex/xtables/exDivergenceMeanAbsTableES.tex",floating=FALSE,
+        include.rownames = FALSE)
+print(xtable(MeanAbsTableUS, digits = c(0,4,4)),
+        sanitize.colnames.function = identity, 
+        file = "/home/triffe/git/DISS/latex/xtables/exDivergenceMeanAbsTableUS.tex",floating=FALSE,
+        include.rownames = FALSE)
 
