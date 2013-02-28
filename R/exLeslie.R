@@ -174,7 +174,9 @@ optimize(ExLotkaMinF, c(-.05,.05),  Fx = FxfUS1975, dx = dxfUS[, "1975"], SRB = 
 #          )# Male - Male
 #    ) ^ 2
 #}
-ExLotkaTwoMin(.0015, FxmUS1975, FxfUS1975, dxmUS[, "1975"], dxfUS[, "1975"], sigma = .5)
+ExLotkaTwoMin(TwoSexRit(Fexm = FxmUS1975, Fexf = FxfUS1975, dxm = dxmUS[, "1975"], dxf = dxfUS[, "1975"], sigma = .5,
+                maxit = 1e4, tol = 1e-8, T.guess = 60, r.start = .01), 
+        FxmUS1975, FxfUS1975, dxmUS[, "1975"], dxfUS[, "1975"], sigma = .5)
 SRBf <- SRBm <- 1.05
 r <- .0015
 optimize(ExLotkaTwoMin, c(-.1,.1),Fexm = FxmUS1975, Fexf = FxfUS1975, dxm = dxmUS[, "1975"], dxf = dxfUS[, "1975"])
@@ -194,6 +196,7 @@ TwoSexRit <- function(Fexm, Fexf, dxm, dxf, sigma = .5,
                             # Female - Male
                             sigma       * sum(exp(-r1 * .a) * (SRBm / (1 + SRBm)) * rowSums(outer(dxm, Fexm, "*"), na.rm = TRUE), na.rm = TRUE) + 
                             sigma       * sum(exp(-r1 * .a) * (1 / (1 + SRBm))    * rowSums(outer(dxf, Fexm, "*"), na.rm = TRUE), na.rm = TRUE) - 1
+                    
                     # the mean generation time self-corrects 
                     # according to the error produced by the Lotka equation
                     r2 <- r1 + (deltai / (T.guess - (deltai / r1)))
@@ -215,8 +218,10 @@ TwoSexRit <- function(Fexm, Fexf, dxm, dxf, sigma = .5,
             return(r2)  
         }
 
-TwoSexRit(Fexm = FxmUS1975, Fexf = FxfUS1975, dxm = dxmUS[, "1975"], dxf = dxfUS[, "1975"], 
-        maxit = 1e4, tol = 1e-8, T.guess = 60, r.start = .01)
+(r <- TwoSexRit(Fexm = FxmUS1975, Fexf = FxfUS1975, 
+                dxm = dxmUS[, "1975"], dxf = dxfUS[, "1975"], sigma = .5,
+                SRBm = 1.08, SRBf = 1.07,
+        maxit = 1e4, tol = 1e-8, T.guess = 60, r.start = .01))
 
 getOption("digits")
 zapsmall(1e-8,6)
@@ -226,20 +231,22 @@ ExLotkaTwoMin <- function(r, Fexm, Fexf, dxm, dxf, sigma = .5, SRBm = 1.05, SRBf
     (1 - (
        sum(exp(-r * .a) * 
             (
-              (1 - sigma) * 
-                ((1 / (1 + SRBf)) * rowSums(outer(dxf, Fexf, "*"), na.rm = TRUE) + 
-                (SRBf / (1 + SRBf)) * rowSums(outer(dxm, Fexf, "*"), na.rm = TRUE) ) +      
-              sigma * 
-                ((SRBm / (1 + SRBm)) * rowSums(outer(dxm, Fexm, "*"), na.rm = TRUE) + 
-                (1 / (1 + SRBm)) * rowSums(outer(dxf, Fexm, "*"), na.rm = TRUE))
+              (1 - sigma) *  # female weight
+                ((1 / (1 + SRBf)) * rowSums(outer(dxf, Fexf, "*"), na.rm = TRUE) +       # female -> female
+                (SRBf / (1 + SRBf)) * rowSums(outer(dxm, Fexf, "*"), na.rm = TRUE)) +   # female -> male
+              sigma * # male weight
+                ((SRBm / (1 + SRBm)) * rowSums(outer(dxm, Fexm, "*"), na.rm = TRUE) +    # male -> male
+                (1 / (1 + SRBm)) * rowSums(outer(dxf, Fexm, "*"), na.rm = TRUE))         # male -> female
              )
            )
          )) ^ 2
 }
-ExLotkaTwoMin(.0015, FxmUS1975, FxfUS1975, dxmUS[, "1975"], dxfUS[, "1975"], sigma = .5)
-ExLotkaTwoMin2(.0015, FxmUS1975, FxfUS1975, dxmUS[, "1975"], dxfUS[, "1975"], sigma = .5)
+ExLotkaTwoMin(r, FxmUS1975, FxfUS1975, dxmUS[, "1975"], dxfUS[, "1975"], sigma = .8)
+
 
 
 rowSums(outer(dxm, Fexm, "*"))
 outer(dxm, Fexm, "*")
-all((matrix(dxm, nrow = 111, ncol = 111) * matrix(Fexm, nrow = 111, ncol = 111, byrow = TRUE) ) == outer(dxm, Fexm, "*"))
+all((matrix(dxm, nrow = 111, ncol = 111) * matrix(Fexm, nrow = 111, 
+                            ncol = 111, byrow = TRUE) ) == outer(dxm, Fexm, "*"))
+rowSums(outer(dxm, Fexm, "*"), na.rm = TRUE) == dxm * sum(Fexm)
