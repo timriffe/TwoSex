@@ -28,15 +28,18 @@ mortality experience of age 0, and rescaling $d_x$ to
 sum to 1, or more generally redistributing each age and then summing to
 $e_x$-specific totals:
 
-\begin{equation}
+\begin{align}
 \label{eq:dxredist}
-\mathbf{E}(D_t) = \int _{a = 0} ^{\infty} P_a \frac{d_a}{\int _{b = a} ^{\infty}
-d_b\, \dd b} \;\dd a
-\end{equation}
+P_{a'} &= \int _{a = 0} ^{\infty} P_a \frac{d_{a + a'}}{\int _{b
+= a} ^{\infty} d_b\, \dd b} \;\dd a
+\\
+&= \mathbf{E}(D_{t+a'}) \notag
+\end{align}
 where $P_a$ is the population of age $a$, $d_a$ is the
-lifetable density function and $\mathbf{E}(D_t)$ is the expected number of
-deaths in each future year $t$, also understood as a vector of the current 
-population, redistributed into categories of remaining life expectancy. 
+lifetable density function and $\mathbf{E}(D_{t+a'})$ is the expected number of
+deaths $a'$ years after the present year $t$, also understood as a vector of the
+current population, redistributed into categories of remaining life expectancy,
+$P_{a'}$, our newly reclassified data.
 
 The function of this formula is not totally original, as \citet{vaupel2009life}
 required a similar identity in the proof for the statement that:
@@ -52,15 +55,14 @@ f(n | a) = \mu (a+n) \frac{l(a+n}{l(a)}
 \end{equation}
 , where $f(n | a) $ is the probability of dying $n$ years in the future given
 survival to age $a$, and $\mu$ is the force of mortality.
-Formula~\eqref{eq:vaupelredist} would require an
-extra integral over age, in order to come to the same
-overall pdf, and then needs to be multiplied into
-age-classified populations. Formula~\eqref{eq:dxredist} is more convenient when
-discretized\footnote{Formula~\eqref{eq:dxredist} is more convenient due 1) to
-lifetable close-out issues and 2) because only one column from the lifetable is
-required instead of 3 columns ($\mu_x$, $l_x$, $L_x$) in
-Equation~\eqref{eq:vaupelredist} }, although both are equally valid. The use of either
- in the way presented in this section is to this author's knowledge novel.
+Formula~\eqref{eq:vaupelredist} can thus be used to weight age-classified data
+as well, and when then integrated over age is equal to
+Equation~\eqref{eq:dxredist}. Formula~\eqref{eq:dxredist} is more convenient when 
+discretized\footnote{Formula~\eqref{eq:dxredist} is more convenient due 1) to lifetable 
+close-out issues and 2) because only one column from the lifetable is required instead 
+of 3 columns ($\mu_x$, $l_x$, $L_x$) in
+Equation~\eqref{eq:vaupelredist} }, although both are equally valid.
+The use of either in the way presented in this section is to this author's knowledge novel.
 
 \subsubsection{Population structure by remaining years of life}
 The key
@@ -123,8 +125,16 @@ and denominator require a common referent, thus both births and exposures are
 redistributed according to year $t$ mortality conditions. That
 is to say, we take the extra step of moving the age-specific vector
 of birth counts (by mothers' or fathers' age) into $e_x$-specific birth
-vectors before dividing into  $e_x$-specific exposures. Such a rate cannot be
-directly compared with a typical age-specific rate, since the time scales are different, but we 
+vectors before dividing into $e_x$-specific exposures. Explicitly:
+
+\begin{align}
+F_{a'} &= \frac{\int _{a = 0} ^{\infty} B_a \frac{d_{a + a'}}{\int _{b = a)}
+^{\infty} d_b\, \dd b} \;\dd a}{\int _{a = 0} ^{\infty} F_a \frac{d_{a + a'}}{\int _{b = a} ^{\infty} d_b\, \dd b} \;\dd a} \\
+ &= \frac{B_{a'}}{E_{a'}}
+\end{align}
+, where $a'$ indexes remaining years of life and $a$ indexes age, $B_a$ are
+age-clsasified births, and $E_a$ are age-classified exposures. Such a rate
+cannot be directly compared with a typical age-specific rate, since the time scales are different, but we 
 can indeed apply some familiar tools in order to analyze this new curve.
 
 \paragraph{The $e_x$-pattern of fertility}
@@ -201,9 +211,9 @@ defend this choice by noting that we are attempting to measure the period
 reproductivity of an \textit{entire} population, not just part of it. The
 reproductive span was an outcome of evolution, varies greatly between
 individuals and populations, and is mutable, both due to ongoing
-population-level genetic and hormonal changes and direct human intervention. We
-will for the time being, be content to work with the cruder $e_x$-SFR, and note
-that this rate, as any other is amenable to further disaggregation and
+population-level genetic, nutritional and hormonal changes and direct human
+intervention. We will for the time being, be content to work with the cruder $e_x$-SFR, and note
+that this rate, as any other, is amenable to further disaggregation and
 decomponsition.
 
 \begin{figure}
@@ -231,8 +241,14 @@ postponement should shift $e_x$-SFR unfavorably to higher mortality
 levels (lower $e_x$ levels), however mortality improvements have tended to 
 offset this effect, acting to move the curve to higher
 remaining life expectancies. This evolution in rates can, as with ASFR, also be
-summarized with an indicator akin to TFR, which we here call $e_x$-TFR, seen in
-Figure~\ref{fig:exTFR}.
+summarized with an indicator akin to TFR, which we here call $e_x$-TFR:
+
+\begin{equation}
+\label{eq:exTFR}
+e_x\mathrm{-TFR} = \int _{a=0}^\infty F_a da
+\end{equation}
+, where $a$ indexes remaining years of life. A time series of this indicator
+for the period studied is displayed in Figure~\ref{fig:exTFR}.
 
 \begin{figure}[ht!]
         \centering  
