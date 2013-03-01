@@ -4,12 +4,18 @@ relating to the popuation pyramid. These authors note that despite ageing in a
 population, the mean \textit{remaining} years to be lived may increase. This is due 
 to improvements in mortality offsetting (or more than offsetting) increases in
 the mean age of a population. In general, a population looked at from the
-perspective of life expectancy looks different, and yields complimentary
-information to one looked at from the typical perspective of age. I will first
-present a method to exactly redistribute population counts (or exposures) according to 
-period remaining years of life, rather than according to age per se. A
-reexamination of recent fertility patterns according to remaining years of life
-will follow.
+perspective of life expectancy looks different from, behaves differently from,
+and yields complimentary information to one looked at from the canonical
+perspective of age. This observation is the point of departure for the
+linear and non-linear two-sex models that I will introduce in this dissertation.
+However, such steps are large, and require an involved demonstration of some
+key differences between age clsasified and \textit{remaining years}-classified,
+henceforth $e_x$-classified demographic data. Indeed a whole new one-sex
+model must first be developed prior to re-delving into its two-sex extensions. 
+I will first present a method
+to exactly redistribute population counts (or exposures) according to period 
+remaining years of life, rather than according to age per se. A reexamination 
+of recent fertility patterns according to remaining years of life will follow.
 
 \subsubsection{Redistributing age-classified data by remaining years of life}
 The steps required to carry out the present data transformation are conceptually
@@ -141,7 +147,8 @@ F_{a'} &= \frac{\int _{a = 0} ^{\infty} B_a \frac{d_{a + a'}}{\int _{b = a)}
 \end{align}
 , where $a'$ indexes remaining years of life and $a$ indexes age, $B_a$ are
 age-clsasified births, and $E_a$ are age-classified exposures. Such a rate
-cannot be directly compared with a typical age-specific rate, since the time scales are different, but we 
+cannot be directly compared with a typical age-specific rate, since the time 
+scales are different, but we 
 can indeed apply some familiar tools in order to analyze this new curve.
 
 \paragraph{The $e_x$-pattern of fertility}
@@ -252,9 +259,9 @@ summarized with an indicator akin to TFR, which we here call $e_x$-TFR:
 
 \begin{equation}
 \label{eq:exTFR}
-e_x\mathrm{-TFR} = \int _{a=0}^\infty F_a da
+e_x\mathrm{-TFR} = \int _{a'=0}^\infty F_a' \dd a'
 \end{equation}
-, where $a$ indexes remaining years of life. A time series of this indicator
+, where $a'$ indexes remaining years of life. A time series of this indicator
 for the period studied is displayed in Figure~\ref{fig:exTFR}.
 
 \begin{figure}[ht!]
