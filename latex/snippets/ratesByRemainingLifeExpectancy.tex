@@ -42,7 +42,7 @@ current population, redistributed into categories of remaining life expectancy,
 $P_{a'}$, our newly reclassified data.
 
 The function of this formula is not totally original, as \citet{vaupel2009life}
-required a similar identity in the proof for the statement that:
+made use of a similar identity in the proof for the statement that:
 \begin{quotation}
 if an individual is chosen at random from a stationary population with a positive force
 of mortality at all ages, then the probability the individual is one who has lived $a$ years
@@ -62,7 +62,14 @@ discretized\footnote{Formula~\eqref{eq:dxredist} is more convenient due 1) to li
 close-out issues and 2) because only one column from the lifetable is required instead 
 of 3 columns ($\mu_x$, $l_x$, $L_x$) in
 Equation~\eqref{eq:vaupelredist} }, although both are equally valid.
-The use of either in the way presented in this section is to this author's knowledge novel.
+Equation~\ref{eq:dxredist} is equivalent to:
+
+\begin{equation}
+P_n = \int _{a=0} ^\infty P_a \mu_{a+n} \frac{l_{a+n}}{l_a} da
+\end{equation}
+, where $n$ is treated as $a'$ in \ref{eq:dxredist}.
+The use of either in the way
+presented in this section is to this author's knowledge novel.
 
 \subsubsection{Population structure by remaining years of life}
 The key
