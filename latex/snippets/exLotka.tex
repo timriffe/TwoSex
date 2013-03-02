@@ -4,62 +4,76 @@ $e_x$-structured population have a different overall shape and behavior from
 those that belong to age-structured populations. This is because 1) $e_x$-classified rates
 are calculated over the entire population, 2) $e_x$ fertility rates respond to
 both fertility and mortality changes, 3) the underlying $e_x$-structured
-population tends to range close to its ultimate stable form, which means that
-the effects of population structure are typically minor and never abrupt.
+population ranges close to its ultimate stable form, which means that
+the effects of population structure are typically minor and never abrupt. This
+later point will be demonstrated in greater depth later in this dissertation.
 
 One may conceive of reproduction in an $e_x$-structured population without
 periodic reversion to the familar ground of age-structured populations.
 Intuitively, imagine the two varieties of pyramid that correspond to the
-population in question. 
+(closed) population in question. 
 
+\subsubsection{visualizing age-structured renewal}
 The age-structured pyramid shifts upward by 1 year with
 each passing year, with some decrement occurring in each age of life, such that
-the essential shape, mostly the fruit of past fertility, takes two or more
-generations to be erased from memory. Births from the age structured population
-fall to the bottom of the pyramid, and are lumped together into a cohort. This
-cohort is heterogenous with respect to future age (year) at death, but is
-homogenous with respect to the year of birth. We are comfortable with
+the essential shape, primarily the fruit of past fertility\footnote{Credit is
+owed to Kirk Scott for first imparting me with this heuristic.}, takes two or
+more generations to be erased from memory\footnote{Credit is
+owed to Anna Cabr for first imparting me with this heuristic.}. Births from the
+age structured population fall to the bottom of the pyramid, and are grouped 
+together into a cohort. This cohort is heterogenous with respect to future 
+age (year) at death, but is
+homogenous with respect to the year of birth. We are familiar with
 the way the age-structured population model unfolds, as it
-reflects our experience of life.
+reflects both our experience of life and history of demography.
 
-The $e_x$ structured pyramid shifts down by one year each year. There are no
-deaths, except for in the bottom layer, those whose $e_x = 0$. Those with a life
-expectancy of 20 move the next year into 19, and so forth, with no changes. The
-bottom, $e_x = 0$ (and every $e_x$, for that matter), is heterogenous with
-respect to year of birth, age, but equal with respect to remaining years of
-life. Fertility can arise from individuals with nearly any remaining life
-expectancy; the age-boundedness of fecundity belongs only in the age
+\subsubsection{visualizing $e_x$-structured renewal}
+The $e_x$ structured pyramid (see Figures~\ref{fig:exPyrUS},~\ref{fig:exPyrES})
+shifts down by one year each year. There are no deaths, except for in 
+the bottommost layer, those whose $e_x = 0$. Those with a life
+expectancy of 20 move the next year into 19, and so forth, experiencing
+increments from newly added births, but no decrement to mortality. The bottom,
+$e_x = 0$ (and every $e_x$, for that matter), is heterogenous with 
+respect to year of birth (age) but homogenous with respect to remaining 
+years of life. Fertility can arise from individuals with nearly any remaining life
+expectancy; the age-boundedness of fecundity belongs to the age
 perspective of demography. Thus the entire pyramid produces offspring\footnote{The only exception
 to this statement is the very top of the $e_x$-pyramid, consisting only of
 pre-menarchical girls and pre-semenarchical boys that will have very long
 lives}. Births, $B$, are proportioned to the pyramid using the ``radix-1''
-deaths distribution, $d_x$; e.g. $e_1$ is incremented by $d_1 B$, and so forth for all
-ages, adding a new layer whose total over $e_x$ equals $B$. In this way births
+deaths distribution, $d_x$; e.g. $P_{e_1}$ is incremented by $d_1 \cdot B$, and
+so forth for all ages, adding a new layer whose total over $e_x$ equals $B$. In this way births
 increment most heavily around the modal age at death, typically very high in the
 pyramid, between 60 and 80, depending on the year and population. Some are
 unfortunate and decrement out of the pyramid in the same year as they are
-incremented ($e_0$).
+incremented (births where $e_x = 0$).
 
-It is perhaps intuitive to see that the stable structure of the $e_x$ population
-is determined primarily by the $d_x$ distribution and the rate of growth of the
+\subsubsection{The stable age structure of an $e_x$-classified population}
+Given the renewal process described above, it is perhaps now intuitive to see
+that the stable structure of the $e_x$ population is determined primarily by 
+the $d_x$ distribution and the rate of growth of the
 population. Indeed, upon transforming fertility rates to the earlier-presented
 $e_x$-SFR, one is just a few short steps away from a full Lotka-type renewal
 model, namely (for females):
 
 \begin{align}
-1 &= \int _{y = 0}^\infty e^{-ry} d_{y'}^F \left(\;\int _{b = 0}^\infty
-F_b^{F-F} \dd b\right)  \dd y \\
-&= \frac{e_x\mathrm{-TFR}^F}{1 + \varsigma} \int _{y = 0}^\infty e^{-ry}
-d_{y'}^F \dd y
+1 &= \int _{a' = 0}^\infty e^{-ra'} d_{y}^F \left(\;\int _{b = 0}^\infty
+F_b^{F-F} \dd b\right)  \dd y' \\
+&= \frac{e_x\mathrm{-TFR}^F}{1 + \varsigma} \int _{y' = 0}^\infty e^{-ry'}
+d_{y}^F \dd y'
 \end{align}
-, where $e_x\mathrm{-TFR}^F$ is female $e_x$-TFR, $\varsigma$ is the sex
-ratio at birth, $y$ indexes remaining years of life, and $y'$ indexes age from
-lifetable deaths distribution, $d_x$. In this case $y' = y$. Likewise for males:
+, where $e_x\mathrm{-TFR}^F$ is female $e_x$-TFR \footnote{e.g. as in
+Equation~\eqref{eq:exTFR}, using births classified by mothers' $e_x$ and
+$e_x$-classified female exposures. $F_b^{F-F}$ would be the same kind of rate
+but calculated only with births of girls in the numerator.}, $\varsigma$ is the
+sex ratio at birth, $y$ indexes remaining years of life, and $y'$ indexes age from lifetable deaths distribution, $d_x$. In this case $y' = y$. Likewise for males:
 
 \begin{align}
 1 &= \frac{\varsigma \cdot e_x\mathrm{-TFR}^M}{1 + \varsigma} \int _{x =
 0}^\infty e^{-rx} d_{x'}^M \dd x
 \end{align}
+
+The key observation here is that
 
 
 
