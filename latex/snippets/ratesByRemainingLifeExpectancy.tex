@@ -133,7 +133,7 @@ The technique presented in Equation~\ref{eq:dxredist} and illustrated in
 Figures~\ref{fig:exPyrUS}~and~\ref{fig:exPyrES} can indeed be used to reclassify
 any age-distributed data, assuming that the appropriate lifetable is available.
 We now apply this redistribution technique in order to calculate male and 
-female $e_x$-specific fertility rates ($e_x$-SFR). For any rate, the numerator 
+female $e_x$-specific fertility rates ($e$-SFR). For any rate, the numerator 
 and denominator require a common referent, thus both births and exposures are 
 redistributed according to year $t$ mortality conditions. That
 is to say, we take the extra step of moving the age-specific vector
@@ -141,6 +141,7 @@ of birth counts (by mothers' or fathers' age) into $e_x$-specific birth
 vectors before dividing into $e_x$-specific exposures. Explicitly:
 
 \begin{align}
+\label{eq:eSFR}
 F_{a'} &= \frac{\int _{a = 0} ^{\infty} B_a \frac{d_{a + a'}}{\int _{b = a)}
 ^{\infty} d_b\, \dd b} \;\dd a}{\int _{a = 0} ^{\infty} F_a \frac{d_{a + a'}}{\int _{b = a} ^{\infty} d_b\, \dd b} \;\dd a} \\
  &= \frac{B_{a'}}{E_{a'}}

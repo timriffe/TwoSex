@@ -35,14 +35,16 @@ FxfUS1975 <- BxfUS1975 / ExfUS1975
 
 exOneSexMin <- function(r, dx, Fex, .a = .5:110.5){
     # get the overlapped / staggered dx structure
-    dxM  <- matrix(0,ncol=111,nrow=111)
-    dxi  <- rev(dx)
+    dxM  <- matrix(0, ncol = 111, nrow = 111)
+    # remaining years go down rows. ages over columns
+    dxi  <- dx
     for (i in 1:111){
-        dxM[i:111, i] <- dxi 
+        dxM[i, i:111] <- dxi 
         dxi <- dxi[1:(length(dxi)-1)]
     }     
-    (1 - sum(rowSums(dxM %col% (1 /  exp(-r * .a))) * Fex)) ^ 2
+    (1 - sum(rowSums(dxM %col% (1 / exp(-r * .a))) * Fex)) ^ 2
 }
+
 optimize(exOneSexMin, interval = c(-.2,.2), dx = dxfUS[, "1975"], Fex = FxfUS1975 * (1/2.05))$minimum
 optimize(exOneSexMin, interval = c(-.2,.2), dx = dxmUS[, "1975"], Fex = FxmUS1975 * (1.05/2.05))$minimum
 

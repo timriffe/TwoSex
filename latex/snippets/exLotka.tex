@@ -53,27 +53,23 @@ Given the renewal process described above, it is perhaps now intuitive to see
 that the stable structure of the $e_x$ population is determined primarily by 
 the $d_x$ distribution and the rate of growth of the
 population. Indeed, upon transforming fertility rates to the earlier-presented
-$e_x$-SFR, one is just a few short steps away from a full Lotka-type renewal
+$e$SFR, one is just a few short steps away from a full Lotka-type renewal
 model, namely (for females):
 
 \begin{align}
-1 &= \int _{a' = 0}^\infty e^{-ra'} d_{y}^F \left(\;\int _{b = 0}^\infty
-F_b^{F-F} \dd b\right)  \dd y' \\
-&= \frac{e_x\mathrm{-TFR}^F}{1 + \varsigma} \int _{y' = 0}^\infty e^{-ry'}
-d_{y}^F \dd y'
+1 &= \int _{y'=0}^\infty \int _{a'=y'}^\infty e^{-ra'} d_{a'}^F f_{y'}^{F-F} \dd
+a' \dd y'
 \end{align}
-, where $e_x\mathrm{-TFR}^F$ is female $e_x$-TFR \footnote{e.g. as in
-Equation~\eqref{eq:exTFR}, using births classified by mothers' $e_x$ and
-$e_x$-classified female exposures. $F_b^{F-F}$ would be the same kind of rate
-but calculated only with births of girls in the numerator.}, $\varsigma$ is the
-sex ratio at birth, $y$ indexes remaining years of life, and $y'$ indexes age from lifetable deaths distribution, $d_x$. In this case $y' = y$. Likewise for males:
+, where $a'$ indexes female age, $y'$ indexes female remaining years of life,
+$d_{a'}^F$ is the age-distribution of female deaths from the radix-1 period
+lifetable, and $f_{y'}^{F-F}$ are exact female-female (mother-daughter)
+fertility probablilities by remaining years of life ($e$SFR, see Equation~\eqref{eq:eSFR}). Likewise for males:
 
 \begin{align}
-1 &= \frac{\varsigma \cdot e_x\mathrm{-TFR}^M}{1 + \varsigma} \int _{x =
-0}^\infty e^{-rx} d_{x'}^M \dd x
+1 &= \int _{y=0}^\infty \int _{a=y}^\infty e^{-ra} d_a^M f_y^{M-M} \dd a \dd y
 \end{align}
 
-The key observation here is that
+
 
 
 
