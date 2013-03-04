@@ -199,7 +199,7 @@ ExpectedDxMxFmatrix <- function(Mat, dxm, dxf){
     MemEx
 }
 
-PyramidOutline <- function(males, females, prop = TRUE, ...){
+PyramidOutline <- function(males, females, prop = TRUE, gap = 0, ...){
     N       <- length(males)
     Total   <- sum(c(males, females), na.rm = TRUE)
     widths  <- rep(1, N)
@@ -210,8 +210,8 @@ PyramidOutline <- function(males, females, prop = TRUE, ...){
         females <- 100 * females / Total
     }
     
-    polygon(x = c(0, rep(females, each = 2) + 0, 0), 
+    polygon(x = c(0, rep(females, each = 2) + 0, 0) - gap / 2, 
             y =  c(rep(c(age, u.age), each = 2)), ...)
-    polygon(x = c(-0, rep(-males, each = 2) - 0, -0), 
+    polygon(x = c(-0, rep(-males, each = 2) - 0, -0) + gap / 2, 
             y =  c(rep(c(age, u.age), each = 2)), ...)
 }
