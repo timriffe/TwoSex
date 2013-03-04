@@ -50,13 +50,14 @@ incremented (births where $e_x = 0$).
 
 \subsubsection{The stable age structure of an $e_x$-classified population}
 Given the renewal process described above, it is perhaps now intuitive to see
-that the stable structure of the $e_x$ population is determined primarily by 
-the $d_x$ distribution and the rate of growth of the
+that the stable structure of the $e_x$-structured population is determined
+primarily by the deaths distribution and the rate of growth of the
 population. Indeed, upon transforming fertility rates to the earlier-presented
 $e$SFR, one is just a few short steps away from a full Lotka-type renewal
 model, namely (for females):
 
 \begin{align}
+\label{eq:exLotkafemales}
 1 &= \int _{y'=0}^\infty \int _{a'=y'}^\infty e^{-ra'} d_{a'}^F f_{y'}^{F-F} \dd
 a' \dd y'
 \end{align}
@@ -69,10 +70,115 @@ fertility probablilities by remaining years of life ($e$SFR, see Equation~\eqref
 1 &= \int _{y=0}^\infty \int _{a=y}^\infty e^{-ra} d_a^M f_y^{M-M} \dd a \dd y
 \end{align}
 
+Equation~\ref{eq:exLotkafemales} is indeed similar to the
+original age-structured Lotka equation:
 
+\begin{align}
+\label{eq:lotkaorig}
+1 &= \int _{a=0}^\infty e^{-ra}l_a f_a \dd a
+\end{align}
+, where $l_a$ is the survival curve and $f_a$ the fertility curve. First, note
+that $l_a$ inside Equation~\ref{eq:lotkaorig} can also be expressed in terms of
+$d_a$ (current livings are the sum of future deaths):
 
+\begin{equation}
+l_a = \int _{x = a} ^\infty d_x \dd x
+\end{equation}
+, in which case Equation~\ref{eq:lotkaorig} can be rewritten as:
 
+\begin{align}
+\label{eq:lotkadx}
+1 &= \int _{a=0}^\infty \int _{b = a}^\infty e^{-ra} d_b f_a \dd b \dd a
+\end{align}
 
+All we have changed in in order to derive Equation~\ref{eq:exLotkafemales}
+is to turn $l_a$ and $f_a$ sideways, so to speak, multiplying the two vectors
+together where they coincide in terms of remaining years instead of in terms of age. This
+transformation is a simple change of perspective. $r$ still applies to sucessive 
+time steps, but in terms of remaining years of life, it must be applied incrementally 
+over the newcomers to
+each grouping of remaining years of life, i.e. over the time-layers of the
+$e_x$-structured pyramid.
 
+\paragraph{An iterative approach to find $r$}
 
+\citet{coale1957new} offers a fast-converging iterative approach to estimate the
+instrinsic growth rate for age-structured populations. For the $e_x$ structured
+renewal equation, a similar approach may be designed, with some slight
+modifications. The following steps can be followed to estimate $r$ from
+Equation~\ref{eq:exLotkafemales}:
 
+\begin{enumerate}
+  \item Derive a first rough estimate of the mean remaining years of life at
+  reproduction, $\widehat{T^y}$, akin to Lotka's mean generation time, $T$. If
+  one assumes a growth rate of $0$, then a good guess will be:
+\begin{equation}
+\widehat{T^y} = \frac{\int _{y=0}^\infty \int _{a=y}^\infty a d_a f_y \dd a
+\dd y}{\int _{y=0}^\infty \int _{a=y}^\infty d_a f_y \dd a \dd y}
+\end{equation}
+ This value appears to range between 50 and 70\footnote{True $T^y$ is around 10
+ years lower, ranging from 40-50.}
+  \item A first rough guess at the net reproduction rate, $R_0$ is given by:
+ \begin{equation}
+  R_0 = \int _{y=0}^\infty \int _{a=y}^\infty d_a f_y \dd a
+\dd y
+\end{equation}
+  \item A first rough estimate of $r$, $r^0$, is given by:
+   \begin{equation}
+   r^0 = \frac{ln(R_0)}{\widehat{T^y}}
+   \end{equation}
+  \item plug $r^0$ into Equation~\ref{eq:exLotkafemales} to calculate a
+  residual, $\delta^0$
+  \item use $\delta^0$ and $\widehat{T^y}$ to calibrate the estimate of $r$
+  using:
+  \begin{equation}
+  r^{1} = r^0 + \frac{\delta^0}{\widehat{T^y} - \frac{\delta^0}{r^0}}
+  \end{equation}
+  \item repeat step (3) to to derive a new $\delta^i$, then step (4) to refine
+  $r^i$, until converging on a stable $r$ after some 30 iterations,
+  depending on the degree of precision desired. ($\widehat{T^y}$ is not updated
+  in this process).
+\end{enumerate}
+
+The above procedure is both faster and more precise than minimizing the absolute
+residual of Equation~\ref{eq:exLotkafemales} using a generic
+optimizer\footnote{Use of a Newton-Raphson optimizer with analytic objective
+and gradient functions may prove even more efficient, but I have not tried
+this, since the present routine is more than efficient enough for practical
+purposes.}. 
+
+\paragraph{Other reproduction parameters}
+A final calculation of $T^y$ is given by:
+
+\begin{equation}
+ T^y =  \frac{\int _{y=0}^\infty \int _{a=y}^\infty a e^{-ra} d_a f_y \dd a
+\dd y}{\int _{y=0}^\infty \int _{a=y}^\infty e^{-ra} d_a f_y \dd a \dd y}
+\end{equation}
+, using $r$ from the iterative procedure. The net reproduction rate, $R_0$ is
+related by, e.g.:
+
+\begin{equation}
+R_0 = e^{r T^y}
+\end{equation}
+
+The birth rate, $b$, is given by:
+
+\begin{equation}
+b = \frac{1}{\int _{y=0}^\infty \int _{a=y}^\infty e^{-ra} d_a \dd a
+\dd y}
+\end{equation}
+
+The stable age structure, $c$, where $c_y$ is the
+proportion of the stable population with remaining years to live $y$, is given
+by:
+
+\begin{equation}
+c_y = b \int _{a=y}^\infty e^{-ra} d_a \dd a
+\end{equation}
+
+Other possibly interesting stable parameters may be estimated by translating the
+various definitions in the glossary of \textit{coale1972growth} to this manner
+of calculation. Before presenting results or extending the present one-sex
+renewal formula to two-sex linear and non-linear situations, the heart of this thesis, we first
+describe the construction of the Leslie matrix that corresponds to the
+present model.
