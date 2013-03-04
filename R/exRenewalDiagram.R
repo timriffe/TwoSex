@@ -62,7 +62,7 @@ PyramidOutline(males = EM,
         x.shift = -3, y.shift = 25)
 segments(-4.5,seq(0,100,by = 10) + 25, -4, seq(0,100,by = 10) + 25)
 segments(-1.5,seq(0,100,by = 10) + 25, -2, seq(0,100,by = 10) + 25)
-text(-3, seq(0,100,by = 10) + 25,seq(0,100,by = 10),cex = .5)
+text(-3, seq(0,100,by = 10) + 25,seq(0,100,by = 10),cex = .6)
 # ex
 text(-3,115 + 25, expression(e[x]), xpd =TRUE)
 
@@ -73,7 +73,7 @@ rect(EF[1]-1.5,25,-1.5,26,col="yellow")
 ASP <- 4
 polygon(c(c(0,0:110,110) / ASP) + 12, c(0,FxfUS1975 * 500,0) + 70, col = "lightblue")
 segments(seq(0,110,by = 10)/ASP + 12, 70,seq(0,110,by = 10)/ASP + 12,68)
-text(seq(0,110,by = 10)/ASP + 12, 70,seq(0,110,by = 10), pos = 1, cex = .5, xpd = TRUE)
+text(seq(0,110,by = 10)/ASP + 12, 70,seq(0,110,by = 10), pos = 1, cex = .6, xpd = TRUE)
 text(27,80,expression(F["y,t"]))
 
 # times
@@ -82,7 +82,7 @@ text(13.5,52,expression(NULL %*% NULL), cex = 2, lwd = 2)
 # exposure
 polygon(c(c(0,0:110,110) / ASP) + 12, c(0,EF*ASP,0) + 20, col = "lightblue")
 segments(seq(0,110,by = 10)/ASP + 12, 20,seq(0,110,by = 10)/ASP + 12,18)
-text(seq(0,110,by = 10)/ASP + 12, 20,seq(0,110,by = 10), pos = 1, cex = .5, xpd = TRUE)
+text(seq(0,110,by = 10)/ASP + 12, 20,seq(0,110,by = 10), pos = 1, cex = .6, xpd = TRUE)
 text(27,30,expression(E["y,t"]))
 # equals
 text(13.5,4.2,expression(NULL == NULL), cex = 2, lwd = 2)
@@ -90,7 +90,7 @@ text(13.5,4.2,expression(NULL == NULL), cex = 2, lwd = 2)
 # births
 polygon(c(c(0,0:110,110) / ASP) + 12, c(0,EF*FxfUS1975,0) * 30 - 10, col = "lightblue")
 segments(seq(0,110,by = 10)/ASP + 12, -10,seq(0,110,by = 10)/ASP + 12,-12)
-text(seq(0,110,by = 10)/ASP + 12, -10,seq(0,110,by = 10), pos = 1, cex = .5, xpd = TRUE)
+text(seq(0,110,by = 10)/ASP + 12, -10,seq(0,110,by = 10), pos = 1, cex = .6, xpd = TRUE)
 text(27,-3,expression(B["y,t"]))
 
 # sum Byt
@@ -105,8 +105,8 @@ text(8,-48, expression(B[t]%*%NULL), cex = 1.5)
 
 polygon(c(c(0,0:110,110) / ASP) + 12, c(0,dxfUS[, "1975"] * 30,0) * 30 - 55, col = "lightblue")
 segments(seq(0,110,by = 10)/ASP + 12, -55,seq(0,110,by = 10)/ASP + 12,-57)
-text(27,-40,expression(d["a,t"]))
-text(seq(0,110,by = 10)/ASP + 12, -55,seq(0,110,by = 10), pos = 1, cex = .5, xpd = TRUE)
+text(27,-38,expression(d["a,t"]))
+text(seq(0,110,by = 10)/ASP + 12, -55,seq(0,110,by = 10), pos = 1, cex = .6, xpd = TRUE)
 
 # deaths
 #text(-12,1,"Year t deaths", pos = 4, xpd =TRUE)
@@ -118,17 +118,9 @@ text(27,120,"Increment", cex = 2)
 # decrement
 text(-13,2,"decrement", cex = 2,pos= 4)
 
-text(16,-35,"(redistribute)", xpd = TRUE)
+text(15.5,-30,"(redistribute using period lifetable)", xpd = TRUE)
 
 dev.off()
-
-
-
-
-
-
-
-
 
 
 

@@ -34,6 +34,9 @@ LxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
 LxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata"))) / 1e5
 LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) / 1e5
 #------------------------------------------------------------
+
+# Function Definitions:
+#------------------------------------------------------------
 # minimizer function for 1 sex ex-perspective renewal function:
 # use with: optimize()
 exOneSexMin <- function(r, dx, Fex, .a = .5:110.5){
@@ -207,21 +210,21 @@ abline(h=0)
 
 
 
-pdf("/home/triffe/git/DISS/latex/Figures/rmfExvsLotkaUS.pdf", height = 5, width = 5)
-par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
-plot(yearsUS, R0mfUS[, 1], type = 'l', ylim = c(.5, 1.45), xlim = c(1968,2010), axes = FALSE,
-        col = gray(.2), lwd = 2, xlab = "", ylab = "",
-        panel.first = list(rect(1968,.5,2010,1.45,col = gray(.95), border=NA),
-                abline(h = seq(.5,1.4,by = .1), col = "white"),
-                abline(v = seq(1970, 2010, by = 5), col = "white"),
-                text(1968, seq(.5, 1.4, by = .1),seq(.5, 1.4, by = .1), pos = 2, cex = .8, xpd = TRUE),
-                text(seq(1970, 2010, by = 10),.5, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
-                text(1990, .45, "Year", cex = 1, pos = 1, xpd = TRUE),
-                text(1966,1.5, expression(R[0]), cex = 1, xpd = TRUE)))
-lines(yearsUS, R0mfUS[, 2], lwd = 2.5, col = gray(.5))
-lines(yearsES, R0mfES[, 1], lwd = 2, col = gray(.2), lty = 5)
-lines(yearsES, R0mfES[, 2], lwd = 2.5, col = gray(.5), lty = 5)
-
-legend(1993,1.45, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
-        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
-dev.off()
+#pdf("/home/triffe/git/DISS/latex/Figures/rmfExvsLotkaUS.pdf", height = 5, width = 5)
+#par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
+#plot(yearsUS, R0mfUS[, 1], type = 'l', ylim = c(.5, 1.45), xlim = c(1968,2010), axes = FALSE,
+#        col = gray(.2), lwd = 2, xlab = "", ylab = "",
+#        panel.first = list(rect(1968,.5,2010,1.45,col = gray(.95), border=NA),
+#                abline(h = seq(.5,1.4,by = .1), col = "white"),
+#                abline(v = seq(1970, 2010, by = 5), col = "white"),
+#                text(1968, seq(.5, 1.4, by = .1),seq(.5, 1.4, by = .1), pos = 2, cex = .8, xpd = TRUE),
+#                text(seq(1970, 2010, by = 10),.5, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+#                text(1990, .45, "Year", cex = 1, pos = 1, xpd = TRUE),
+#                text(1966,1.5, expression(R[0]), cex = 1, xpd = TRUE)))
+#lines(yearsUS, R0mfUS[, 2], lwd = 2.5, col = gray(.5))
+#lines(yearsES, R0mfES[, 1], lwd = 2, col = gray(.2), lty = 5)
+#lines(yearsES, R0mfES[, 2], lwd = 2.5, col = gray(.5), lty = 5)
+#
+#legend(1993,1.45, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
+#        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
+#dev.off()
