@@ -122,15 +122,15 @@ diffsESaPred <- do.call(rbind,lapply(1:(length(yearsES)-1), function(i, .BxES, .
                     c(Diff = Diff, RDiff = RDiff, RMS = RMS)
                 },  .BxES = BxES, .ExES = ExES))
 
-plot(1970:2009, diffsUSaPred[,2], type = 'l', col = "blue", ylim = c(-.011,.011))
-lines(1970:2009, diffsUSexPred[,2], col = "red")
-lines(1976:2009, diffsESaPred[,2], col = "blue", lty = 5)
-lines(1976:2009, diffsESexPred[,2], col = "red", lty = 5)
-abline(h=0)
-abline(h = mean(diffsUSaPred[,2]),col = "blue")
-abline(h = mean(diffsUSexPred[,2]),col = "red")
-abline(h = mean(diffsESaPred[,2]),col = "blue",lty=2)
-abline(h = mean(diffsESexPred[,2]),col = "red",lty=2)
+#plot(1970:2009, diffsUSaPred[,2], type = 'l', col = "blue", ylim = c(-.011,.011))
+#lines(1970:2009, diffsUSexPred[,2], col = "red")
+#lines(1976:2009, diffsESaPred[,2], col = "blue", lty = 5)
+#lines(1976:2009, diffsESexPred[,2], col = "red", lty = 5)
+#abline(h=0)
+#abline(h = mean(diffsUSaPred[,2]),col = "blue")
+#abline(h = mean(diffsUSexPred[,2]),col = "red")
+#abline(h = mean(diffsESaPred[,2]),col = "blue",lty=2)
+#abline(h = mean(diffsESexPred[,2]),col = "red",lty=2)
 
 # for the US, predicting year t+1 births from year t single sex rates 
 # reduces the RMS by half, and has a mean relative error closer to 0 than
@@ -260,15 +260,15 @@ diffsESaPred5 <- do.call(rbind,lapply(1:(length(yearsES)-5), function(i, .BxES, 
                     c(Diff = Diff, RDiff = RDiff, RMS = RMS)
                 },  .BxES = BxES, .ExES = ExES))
 
-plot(1974:2009, diffsUSaPred5[,2], type = 'l', col = "blue", ylim = c(-.05,.05))
-lines(1974:2009, diffsUSexPred5[,2], col = "red")
-lines(1980:2009, diffsESaPred5[,2], col = "blue", lty = 5)
-lines(1980:2009, diffsESexPred5[,2], col = "red", lty = 5)
-abline(h=0)
-abline(h = mean(diffsUSaPred5[,2]),col = "blue")
-abline(h = mean(diffsUSexPred5[,2]),col = "red")
-abline(h = mean(diffsESaPred5[,2]),col = "blue",lty=2)
-abline(h = mean(diffsESexPred5[,2]),col = "red",lty=2)
+#plot(1974:2009, diffsUSaPred5[,2], type = 'l', col = "blue", ylim = c(-.05,.05))
+#lines(1974:2009, diffsUSexPred5[,2], col = "red")
+#lines(1980:2009, diffsESaPred5[,2], col = "blue", lty = 5)
+#lines(1980:2009, diffsESexPred5[,2], col = "red", lty = 5)
+#abline(h=0)
+#abline(h = mean(diffsUSaPred5[,2]),col = "blue")
+#abline(h = mean(diffsUSexPred5[,2]),col = "red")
+#abline(h = mean(diffsESaPred5[,2]),col = "blue",lty=2)
+#abline(h = mean(diffsESexPred5[,2]),col = "red",lty=2)
 
 
 
@@ -327,15 +327,15 @@ diffsESaPred10 <- do.call(rbind,lapply(1:(length(yearsES)-10), function(i, .BxES
                     c(Diff = Diff, RDiff = RDiff, RMS = RMS)
                 },  .BxES = BxES, .ExES = ExES))
 
-plot(1979:2009, diffsUSaPred10[,2], type = 'l', col = "blue", ylim = c(-.1,.1))
-lines(1979:2009, diffsUSexPred10[,2], col = "red")
-lines(1985:2009, diffsESaPred10[,2], col = "blue", lty = 10)
-lines(1985:2009, diffsESexPred10[,2], col = "red", lty = 10)
-abline(h=0)
-abline(h = mean(diffsUSaPred10[,2]),col = "blue")
-abline(h = mean(diffsUSexPred10[,2]),col = "red")
-abline(h = mean(diffsESaPred10[,2]),col = "blue",lty=2)
-abline(h = mean(diffsESexPred10[,2]),col = "red",lty=2)
+#plot(1979:2009, diffsUSaPred10[,2], type = 'l', col = "blue", ylim = c(-.1,.1))
+#lines(1979:2009, diffsUSexPred10[,2], col = "red")
+#lines(1985:2009, diffsESaPred10[,2], col = "blue", lty = 10)
+#lines(1985:2009, diffsESexPred10[,2], col = "red", lty = 10)
+#abline(h=0)
+#abline(h = mean(diffsUSaPred10[,2]),col = "blue")
+#abline(h = mean(diffsUSexPred10[,2]),col = "red")
+#abline(h = mean(diffsESaPred10[,2]),col = "blue",lty=2)
+#abline(h = mean(diffsESexPred10[,2]),col = "red",lty=2)
 
 # 15-year jumps
 BxPredMUSt15 <- lapply(1:(length(yearsUS)-15), function(i, .FxExmUS, .ExExmUS){
@@ -393,15 +393,15 @@ diffsESaPred15 <- do.call(rbind,lapply(1:(length(yearsES)-15), function(i, .BxES
                     c(Diff = Diff, RDiff = RDiff, RMS = RMS)
                 },  .BxES = BxES, .ExES = ExES))
 
-plot(1984:2009, diffsUSaPred15[,2], type = 'l', col = "blue", ylim = c(-.15,.15))
-lines(1984:2009, diffsUSexPred15[,2], col = "red")
-lines(1990:2009, diffsESaPred15[,2], col = "blue", lty = 15)
-lines(1990:2009, diffsESexPred15[,2], col = "red", lty = 15)
-abline(h=0)
-abline(h = mean(diffsUSaPred15[,2]),col = "blue")
-abline(h = mean(diffsUSexPred15[,2]),col = "red")
-abline(h = mean(diffsESaPred15[,2]),col = "blue",lty=2)
-abline(h = mean(diffsESexPred15[,2]),col = "red",lty=2)
+#plot(1984:2009, diffsUSaPred15[,2], type = 'l', col = "blue", ylim = c(-.15,.15))
+#lines(1984:2009, diffsUSexPred15[,2], col = "red")
+#lines(1990:2009, diffsESaPred15[,2], col = "blue", lty = 15)
+#lines(1990:2009, diffsESexPred15[,2], col = "red", lty = 15)
+#abline(h=0)
+#abline(h = mean(diffsUSaPred15[,2]),col = "blue")
+#abline(h = mean(diffsUSexPred15[,2]),col = "red")
+#abline(h = mean(diffsESaPred15[,2]),col = "blue",lty=2)
+#abline(h = mean(diffsESexPred15[,2]),col = "red",lty=2)
 
 
 # -----------------------------------------------------------------------------
