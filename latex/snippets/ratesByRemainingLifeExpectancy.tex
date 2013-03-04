@@ -36,16 +36,16 @@ $e_x$-specific totals:
 
 \begin{align}
 \label{eq:dxredist}
-P_{a'} &= \int _{a = 0} ^{\infty} P_a \frac{d_{a + a'}}{\int _{b
+P_{y} &= \int _{a = 0} ^{\infty} P_a \frac{d_{a + y}}{\int _{b
 = a} ^{\infty} d_b\, \dd b} \;\dd a
 \\
-&= \mathbf{E}(D_{t+a'}) \notag
+&= \mathbf{E}(D_{t+y}) \notag
 \end{align}
 where $P_a$ is the population of age $a$, $d_a$ is the
-lifetable density function and $\mathbf{E}(D_{t+a'})$ is the expected number of
-deaths $a'$ years after the present year $t$, also understood as a vector of the
+lifetable density function and $\mathbf{E}(D_{t+y})$ is the expected number of
+deaths $y$ years after the present year $t$, also understood as a vector of the
 current population, redistributed into categories of remaining life expectancy,
-$P_{a'}$, our newly reclassified data.
+$P_{y}$, our newly reclassified data.
 
 The function of this formula is not totally original, as \citet{vaupel2009life}
 made use of a similar identity in the proof for the statement that:
@@ -73,7 +73,7 @@ Equation~\ref{eq:dxredist} is equivalent to:
 \begin{equation}
 P_n = \int _{a=0} ^\infty P_a \mu_{a+n} \frac{l_{a+n}}{l_a} da
 \end{equation}
-, where $n$ is treated as $a'$ in \ref{eq:dxredist}.
+, where $n$ is treated as $y$ in \ref{eq:dxredist}.
 The use of either in the way
 presented in this section is to this author's knowledge novel.
 
@@ -89,7 +89,7 @@ John MacInnes, and appears in \citep{MacInnes2013pop} (unpublished) using a
 different method.} for the years 1975 and 2009 in the US and Spain. As a helpful
 pointer, note that the population at the base of the pyramid is expected to decrement
 within the \textit{next year}, thus the vertical axis can also can also be
-thought of as year $t+x$, although $e_x$ more clearly identifies the pyramid
+thought of as year $t+y$, although $e_x$ more clearly identifies the pyramid
 with year $t$ mortality conditions. The pyramid should not be
 taken out of context as a forecast. Note that this pyramid represents the exact same
 population as an age-classified pyramid: Underlying males sum to the correct total on 
@@ -100,7 +100,7 @@ starting from death. For individuals, this feat would be impossible, but given
  redistribute population aggregates accoridng to $e_x$\footnote{To undertake
  the same but assumping future mortality changes (improvements) one might
  better undertake a fertility-free cohort component projection and collect the
- deaths from each future year $t+x$ until extinction. This possibility is not
+ deaths from each future year $t+y$ until extinction. This possibility is not
  treated in the present dissertation.}. Both pyramids have been rescaled
  to sum to 100, in order to more comparably represent population structure\footnote{Incidentally, 
  a time series of remaining life expectancy pyramids for any given Western country will show 
@@ -133,7 +133,7 @@ The technique presented in Equation~\ref{eq:dxredist} and illustrated in
 Figures~\ref{fig:exPyrUS}~and~\ref{fig:exPyrES} can indeed be used to reclassify
 any age-distributed data, assuming that the appropriate lifetable is available.
 We now apply this redistribution technique in order to calculate male and 
-female $e_x$-specific fertility rates ($e$-SFR). For any rate, the numerator 
+female $e_x$-specific fertility rates ($e$SFR). For any rate, the numerator 
 and denominator require a common referent, thus both births and exposures are 
 redistributed according to year $t$ mortality conditions. That
 is to say, we take the extra step of moving the age-specific vector
@@ -142,26 +142,26 @@ vectors before dividing into $e_x$-specific exposures. Explicitly:
 
 \begin{align}
 \label{eq:eSFR}
-F_{a'} &= \frac{\int _{a = 0} ^{\infty} B_a \frac{d_{a + a'}}{\int _{b = a)}
-^{\infty} d_b\, \dd b} \;\dd a}{\int _{a = 0} ^{\infty} F_a \frac{d_{a + a'}}{\int _{b = a} ^{\infty} d_b\, \dd b} \;\dd a} \\
- &= \frac{B_{a'}}{E_{a'}}
+F_{y} &= \frac{\int _{a = 0} ^{\infty} B_a \frac{d_{a + y}}{\int _{b = a)}
+^{\infty} d_b\, \dd b} \;\dd a}{\int _{a = 0} ^{\infty} F_a \frac{d_{a + y}}{\int _{b = a} ^{\infty} d_b\, \dd b} \;\dd a} \\
+ &= \frac{B_{y}}{E_{y}}
 \end{align}
-, where $a'$ indexes remaining years of life and $a$ indexes age, $B_a$ are
-age-clsasified births, and $E_a$ are age-classified exposures. Such a rate
-cannot be directly compared with a typical age-specific rate, since the time 
-scales are different, but we 
+, where $y$ indexes remaining years of life and $a$ indexes age, $B_a$ are
+age-clsasified births, and $E_a$ are age-classified exposures. Remaining years
+of life-specific rates cannot be directly compared with a typical age-specific
+rate, since the time scales are different, but we 
 can indeed apply some familiar tools in order to analyze this new curve.
 
 \paragraph{The $e_x$-pattern of fertility}
 
 The $e_x$-pattern of fertility is distinct from the age-pattern of fertility. 
-In contemporary Western populations, female $e_x$-SFR curves will be
+In contemporary Western populations, female $e$SFR curves will be
 further to the right than male curves for two reasons: 1) Female mortality is
 almost universally lower than male mortality at (and beyond) any given age,
 thus associating births at a given age with higher remaining life expectancies; 2)
 female fertility is more tightly concentrated over young ages, partly due to the
 upper bound defined by menopause, and partly due to prevailing hypergamy.
-Figure~\ref{fig:eSFR2009} shows an example $e_x$-SFR from 2009, for both the US and Spain.
+Figure~\ref{fig:eSFR2009} shows an example $e$SFR from 2009, for both the US and Spain.
 
 \begin{figure}[ht!]
         \centering  
@@ -227,7 +227,7 @@ reproductivity of an \textit{entire} population, not just part of it. The
 reproductive span was an outcome of evolution, varies greatly between
 individuals and populations, and is mutable, both due to ongoing
 population-level genetic, nutritional and hormonal changes and direct human
-intervention. We will for the time being, be content to work with the cruder $e_x$-SFR, and note
+intervention. We will for the time being, be content to work with the cruder $e$SFR, and note
 that this rate, as any other, is amenable to further disaggregation and
 decomponsition.
 
@@ -235,13 +235,13 @@ decomponsition.
         \centering
         \begin{subfigure}
                 \centering
-                \caption{Male and Female $e_x$-SFR surfaces, 1969-2009, USA}
+                \caption{Male and Female $e$SFR surfaces, 1969-2009, USA}
                 \includegraphics[scale = .8]{Figures/eSFRsurfacesUS}
                 \label{fig:exSFRsurfUS}
         \end{subfigure}
         \begin{subfigure}
                 \centering
-                \caption{Male and Female $e_x$-SFR surfaces, 1975-2009, Spain}
+                \caption{Male and Female $e$SFR surfaces, 1975-2009, Spain}
                 \includegraphics[scale = .8]{Figures/eSFRsurfacesES} 
                 \label{fig:exSFRsurfES}
         \end{subfigure}
@@ -252,17 +252,17 @@ $e_x$-SFR has changed its level and undergone a gradual displacement over
 time toward higher $e_x$ levels, an altogether propitious development
 with respect to human altriciality. The interpretation of this displacement is
 entirely different from that of postponement in ASFR. Observed fertility 
-postponement should shift $e_x$-SFR unfavorably to higher mortality 
+postponement should shift $e$SFR unfavorably to higher mortality 
 levels (lower $e_x$ levels), however mortality improvements have tended to 
 offset this effect, acting to move the curve to higher
 remaining life expectancies. This evolution in rates can, as with ASFR, also be
-summarized with an indicator akin to TFR, which we here call $e_x$-TFR:
+summarized with an indicator akin to TFR, which we here call $e$TFR:
 
 \begin{equation}
 \label{eq:exTFR}
-e_x\mathrm{-TFR} = \int _{a'=0}^\infty F_a' \dd a'
+e\mathrm{TFR} = \int _{y=0}^\infty F_y \dd y
 \end{equation}
-, where $a'$ indexes remaining years of life. A time series of this indicator
+, where $y$ indexes remaining years of life. A time series of this indicator
 for the period studied is displayed in Figure~\ref{fig:exTFR}.
 
 \begin{figure}[ht!]
@@ -279,7 +279,7 @@ Canonical TFR can conveniently be imagined as the total number of
 offspring that that an average female (male) will have in a lifetime assuming
 perfect survival and constant fertility rates of the present year.
 Since a lifetime measured in age counting from birth is the same length as a
-lifetime measured in age counting backward from death, $e_x$-TFR in fact has the
+lifetime measured in age counting backward from death, $e$TFR in fact has the
 same intrepretation. Why is this? Age-classified rates are of course
 heterogenous within age with respect to remaining life expectancy, and here we have produced
 an synthetic index based on the reverse idea. The age-classified
@@ -288,7 +288,7 @@ pattern to fertility rates). $e_x$-reclassifying these data not only changes the
 center of gravity of numerator and denominator distributions, but asymmetrically
 shifts underlying schedules, uniquely reshaping the pattern of
 fertility. Summing over $e_x$-rates will almost yield a different total, our
-synthetic $e_x$-TFR. 
+synthetic $e$TFR. 
 
 Figures~\ref{fig:exSFRsurfES}~and~\ref{fig:exTFR} are reproduced according to
 various definitions of the reproductive span in
