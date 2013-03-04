@@ -13,13 +13,13 @@ periodic reversion to the familar ground of age-structured populations.
 Intuitively, imagine the two varieties of pyramid that correspond to the
 (closed) population in question. 
 
-\subsubsection{visualizing age-structured renewal}
+\subsubsection{Age-structured renewal}
 The age-structured pyramid shifts upward by 1 year with
 each passing year, with some decrement occurring in each age of life, such that
 the essential shape, primarily the fruit of past fertility\footnote{Credit is
 owed to Kirk Scott for first imparting me with this heuristic.}, takes two or
 more generations to be erased from memory\footnote{Credit is
-owed to Anna Cabr for first imparting me with this heuristic.}. Births from the
+owed to Anna Cabre for first imparting me with this heuristic.}. Births from the
 age structured population fall to the bottom of the pyramid, and are grouped 
 together into a cohort. This cohort is heterogenous with respect to future 
 age (year) at death, but is
@@ -27,7 +27,7 @@ homogenous with respect to the year of birth. We are familiar with
 the way the age-structured population model unfolds, as it
 reflects both our experience of life and history of demography.
 
-\subsubsection{visualizing $e_x$-structured renewal}
+\subsubsection{$e_x$-structured renewal}
 The $e_x$ structured pyramid (see Figures~\ref{fig:exPyrUS},~\ref{fig:exPyrES})
 shifts down by one year each year. There are no deaths, except for in 
 the bottommost layer, those whose $e_x = 0$. Those with a life
@@ -46,7 +46,16 @@ so forth for all ages, adding a new layer whose total over $e_x$ equals $B$. In 
 increment most heavily around the modal age at death, typically very high in the
 pyramid, between 60 and 80, depending on the year and population. Some are
 unfortunate and decrement out of the pyramid in the same year as they are
-incremented (births where $e_x = 0$).
+incremented (births where $e_x = 0$). See Figure~\ref{fig:exrenewal} for a
+schematic visualization of $e_x$-structured population renewal.
+
+%\begin{landscape}
+\begin{figure}
+\caption{Schematic renewal diagram for an $e_x$-structured population}
+\label{fig:exrenewal}
+\includegraphics[scale = .8]{Figures/exRenovationDiagram.pdf}
+\end{figure}
+%\end{landscape}
 
 \subsubsection{The stable age structure of an $e_x$-classified population}
 Given the renewal process described above, it is perhaps now intuitive to see
@@ -176,9 +185,10 @@ by:
 c_y = b \int _{a=y}^\infty e^{-ra} d_a \dd a
 \end{equation}
 
-Other possibly interesting stable parameters may be estimated by translating the
-various definitions in the glossary of \textit{coale1972growth} to this manner
-of calculation. Before presenting results or extending the present one-sex
-renewal formula to two-sex linear and non-linear situations, the heart of this thesis, we first
-describe the construction of the Leslie matrix that corresponds to the
+Other possibly interesting stable parameters may be estimated by
+similarly translating the various definitions in the glossary of
+\citet{coale1972growth} to the present perspective. Before presenting 
+results or extending the present one-sex renewal
+formula to two-sex linear and non-linear situations, the heart of this 
+thesis, we first describe the construction of the Leslie matrix that corresponds to the
 present model.
