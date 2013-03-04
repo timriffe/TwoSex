@@ -1,11 +1,19 @@
 source("/home/triffe/git/DISS/R/UtilityFunctions.R")
 source("/home/triffe/git/DISS/R/MeanFunctions.R")
 
-# BxES is 0:110, years 1975:2009
+yearsUS <- 1969:2009
+yearsES <- 1975:2009
+
+# Bxy totals  (not used()
 BxUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
 BxES  <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
-# exposures, as such, straiht from HMD, all ages 0-110, long form
+# repeated below for better SRB assumptions
+BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+names(BxymfES) <- yearsES
+names(BxymfUS) <- yearsUS
+# exposures, as such, straight from HMD, all ages 0-110, long form
 ExUS  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
 ExES  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
 # get Lx estimates for R0, r
@@ -13,72 +21,207 @@ dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata")))
 dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
 dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
 dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
-
+# make sum to 1
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
 dxmES <- dxmES %col% colSums(dxmES)
 dxfES <- dxfES %col% colSums(dxfES)
 
-yearsUS <- 1969:2009
-yearsES <- 1975:2009
-
-
-ExmUS1975 <- rowSums(ExpectedDx( with(ExUS, Male[Year == 1975]), dxmUS[, "1975"]))
-BxmUS1975 <- rowSums(ExpectedDx( rowSums(BxUS[["1975"]]), dxmUS[, "1975"]))
-ExfUS1975 <- rowSums(ExpectedDx( with(ExUS, Female[Year == 1975]), dxfUS[, "1975"]))
-BxfUS1975 <- rowSums(ExpectedDx( colSums(BxUS[["1975"]]), dxfUS[, "1975"]))
-
-FxmUS1975 <- BxmUS1975 / ExmUS1975
-FxfUS1975 <- BxfUS1975 / ExfUS1975
-
+#------------------------------------------------------------
+# compare with Lotka:
+LxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
+LxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
+LxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata"))) / 1e5
+LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) / 1e5
+#------------------------------------------------------------
 # minimizer function for 1 sex ex-perspective renewal function:
-
+# use with: optimize()
 exOneSexMin <- function(r, dx, Fex, .a = .5:110.5){
     # get the overlapped / staggered dx structure
-    dxM  <- matrix(0, ncol = 111, nrow = 111)
+    N               <- length(Fex)
+    dxM  <- matrix(0, ncol = N, nrow = N)
     # remaining years go down rows. ages over columns
     dxi  <- dx
-    for (i in 1:111){
-        dxM[i, i:111] <- dxi 
-        dxi <- dxi[1:(length(dxi)-1)]
+    for (i in 1:N){
+        dxM[i, 1:length(dxi)  ] <- dxi 
+        dxi <- dxi[2:length(dxi) ]
     }     
     (1 - sum(rowSums(dxM %col% (1 / exp(-r * .a))) * Fex)) ^ 2
 }
 
-optimize(exOneSexMin, interval = c(-.2,.2), dx = dxfUS[, "1975"], Fex = FxfUS1975 * (1/2.05))$minimum
-optimize(exOneSexMin, interval = c(-.2,.2), dx = dxmUS[, "1975"], Fex = FxmUS1975 * (1.05/2.05))$minimum
-
-
-exOneSexCoaleR <- function(Fex, dx, .a = .5:110.5, maxit = 1e2, tol = 1e-15, T.guess, r.start = .01){  
-    N               <- length(Fex)
-    dxM             <- matrix(0,ncol=N,nrow=N)
-    dxi             <- rev(dx)
-    for (i in 1:N){
-        dxM[i:N, i] <- dxi 
-        dxi         <- dxi[1:(length(dxi)-1)]
-    } 
+exOneSexCoaleR <- function(Fex, dx, .a = .5:110.5, maxit = 1e2, tol = 1e-15, r.start = 0.001){  
     
-    if(missing(T.guess)) {
-        T.guess     <- wmean(.a, rowSums(dxM) * Fex)
-    }
-    ri              <- r.start
+    N    <- length(Fex)
+    dxM  <- matrix(0, ncol = N, nrow = N)
+    dxi  <- dx
+    for (i in 1:N){
+        dxM[i, 1:length(dxi)  ] <- dxi 
+        dxi <- dxi[2:length(dxi) ]
+    }     
+    R0      <- sum(dxM*Fex)
+    T.guess <- wmean(.a,rowSums(dxM)*Fex) # assuming r = 0
+    r2      <- log(R0) / T.guess
+   
     # be careful to discount Fex by SRB appropriately for males / females
     # prior to specification
     # Based on Coale (1957)
     for (i in 1:maxit){ # 15 is more than enough!
-        deltai <- 1 - sum(rowSums(dxM %col% (1 /  exp(-ri * .a))) * Fex)
+       #cat(r2,i,"\n")
+        r1 <- r2
+        deltai <- 1 - sum(rowSums(dxM %col% (1 / exp(-r1 * .a))) * Fex)
         # the mean generation time self-corrects 
         # according to the error produced by the Lotka equation
-        ri <- ri + (deltai / (T.guess - (deltai / ri)))     
+        r2 <- r1 - (deltai / (T.guess - (deltai / r1))) 
+        if (abs(r2 - r1) <= tol | zapsmall(abs(deltai)) <= tol){
+            break
+        }
     }
-    return(ri)  
+    return(r2)  
+}
+
+ex1SexStableAge <- function(r, Fex, dx, .a = .5:110.5){
+    N    <- length(Fex)
+    dxM  <- matrix(0, ncol = N, nrow = N)
+    dxi  <- dx
+    for (i in 1:N){
+        dxM[i, 1:length(dxi)  ] <- dxi 
+        dxi <- dxi[2:length(dxi) ]
+    }  
+    # birth rate
+    b <- 1 / sum(rowSums(dxM %col% (1 / exp(-r * .a))))
+    b * rowSums(dxM %col% (1 / exp(-r * .a)))
+}
+
+exOneSexTy <- function(r, Fex, dx, .a = .5:110.5){
+    N    <- length(Fex)
+    dxM  <- matrix(0, ncol = N, nrow = N)
+    dxi  <- dx
+    for (i in 1:N){
+        dxM[i, 1:length(dxi)  ] <- dxi 
+        dxi <- dxi[2:length(dxi) ]
+    }     
+    wmean(.a, rowSums(dxM %col% (1 / exp(-r * .a))) * Fex)
 }
 
 
-exOneSexCoaleR(FxfUS1975 * (1/2.05),dxfUS[, "1975"], T.guess = 30, r.start = .001)
+rmUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .dx, MF, rc,Bxymf){       
+                    Ex <- .Ex[.Ex$Year == as.integer(yr),MF]
+                    .ey <- rowSums(ExpectedDx(Ex, .dx[, yr]))
+                    .by <-  rowSums(ExpectedDx(rc(.Bx[[yr]][[Bxymf]], na.rm = TRUE), .dx[, yr]))
+                    .fy <- .by / .ey
+                    r <- exOneSexCoaleR(Fex = .fy  , dx =.dx[, yr], tol =1e-12)
+                    c(r = r, Ty = exOneSexTy(r, Fex = .fy  * .ps, dx =.dx[, yr]))
+                }, .Bx = BxymfUS, .Ex = ExUS, .dx = dxmUS, Bxymf = "Bxym", MF = "Male", rc = rowSums))
+
+rfUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .dx, MF, rc,Bxymf){       
+                    Ex <- .Ex[.Ex$Year == as.integer(yr),MF]
+                    .ey <- rowSums(ExpectedDx(Ex, .dx[, yr]))
+                    .by <-  rowSums(ExpectedDx(rc(.Bx[[yr]][[Bxymf]], na.rm = TRUE), .dx[, yr]))
+                    .fy <- .by / .ey
+                    r <- exOneSexCoaleR(Fex = .fy  , dx =.dx[, yr], tol =1e-12)
+                    c(r = r, Ty = exOneSexTy(r, Fex = .fy  , dx =.dx[, yr]))
+                }, .Bx = BxymfUS, .Ex = ExUS, .dx = dxfUS, Bxymf = "Bxyf", MF = "Female", rc = colSums))
+
+rmES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bx, .Ex, .dx, MF, rc,Bxymf){       
+                    Ex <- .Ex[.Ex$Year == as.integer(yr),MF]
+                    .ey <- rowSums(ExpectedDx(Ex, Mna0(.dx[, yr])))
+                    .by <-  rowSums(ExpectedDx(rc(.Bx[[yr]][[Bxymf]], na.rm = TRUE), Mna0(.dx[, yr])))
+                    .fy <-  Minf0(Mna0(.by / .ey))
+                    r <- exOneSexCoaleR(Fex = .fy ,  dx =.dx[, yr], tol =1e-12)
+                    c(r = r, Ty = exOneSexTy(r, Fex = .fy  , dx =.dx[, yr]))
+                }, .Bx = BxymfES, .Ex = ExES, .dx = dxmES,  Bxymf = "Bxym",MF = "Male", rc = rowSums))
+
+rfES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bx, .Ex, .dx, MF, rc,Bxymf){       
+                    Ex <- .Ex[.Ex$Year == as.integer(yr),MF]
+                    .ey <- rowSums(ExpectedDx(Ex,  Mna0(.dx[, yr])))
+                    .by <-  rowSums(ExpectedDx(rc(.Bx[[yr]][[Bxymf]], na.rm = TRUE),  Mna0(.dx[, yr])))
+                    .fy <- .by / .ey
+                    r <- exOneSexCoaleR(Fex = .fy  , dx =.dx[, yr], tol =1e-12)
+                    c(r = r, Ty = exOneSexTy(r, Fex = .fy  , dx =.dx[, yr]))
+                }, .Bx = BxymfES, .Ex = ExES, .dx = dxfES,Bxymf = "Bxyf", MF = "Female", rc = colSums))
+
+#--------------------------------------------------------------
+# Tables for appendix 'zAppendix.exSingleSexLotka.tex'
+exRepUSm <- cbind(rmUS, R0 = exp(rmUS[,1]*rmUS[,2]) )
+exRepUSf <- cbind(rfUS, R0 = exp(rfUS[,1]*rfUS[,2]) )
+exRepESm <- cbind(rmES, R0 = exp(rmES[,1]*rmES[,2]) )
+exRepESf <- cbind(rfES, R0 = exp(rfES[,1]*rfES[,2]) )
+colnames(exRepESf) <-colnames(exRepESm) <-colnames(exRepUSf) <-colnames(exRepUSm) <- c("$r$","$T^y$","$R_0$")
+rownames(exRepUSm) <- rownames(exRepUSf) <- yearsUS
+rownames(exRepESm) <- rownames(exRepESf) <- yearsES
+
+print(xtable(exRepUSm, digits = c(0,4,2,3), align = c("c","c","c","c")),
+        sanitize.colnames.function = identity, 
+        file = "/home/triffe/git/DISS/latex/xtables/exRepUSm.tex",floating=FALSE)
+print(xtable(exRepUSf, digits = c(0,4,2,3), align = c("c","c","c","c")),
+        sanitize.colnames.function = identity, 
+        file = "/home/triffe/git/DISS/latex/xtables/exRepUSf.tex",floating=FALSE)
+print(xtable(exRepESm, digits = c(0,4,2,3), align = c("c","c","c","c")),
+        sanitize.colnames.function = identity, 
+        file = "/home/triffe/git/DISS/latex/xtables/exRepESm.tex",floating=FALSE)
+print(xtable(exRepESf, digits = c(0,4,2,3), align = c("c","c","c","c")),
+        sanitize.colnames.function = identity, 
+        file = "/home/triffe/git/DISS/latex/xtables/exRepESf.tex",floating=FALSE)
+#--------------------------------------------------------------
+# calculate age-classified Lotka r:
+
+rmLUS <- unlist(lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Lx, Bxymf, MF, rc){       
+                    Fx  <- Minf0(Mna0(rc(.Bx[[yr]][[Bxymf]], na.rm = TRUE) / .Ex[.Ex$Year == as.integer(yr),MF]))
+                    LotkaRCoale(Fx, Lx = .Lx[,yr], x = .5:110.5)
+                }, .Bx = BxymfUS, .Ex = ExUS, .Lx = LxmUS, Bxymf = "Bxym", MF = "Male", rc = rowSums))
+
+rfLUS <- unlist(lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Lx, Bxymf, MF, rc){       
+                    Fx  <- Minf0(Mna0(rc(.Bx[[yr]][[Bxymf]], na.rm = TRUE) / .Ex[.Ex$Year == as.integer(yr),MF]))
+                    LotkaRCoale(Fx, Lx = .Lx[,yr], x = .5:110.5)
+                }, .Bx = BxymfUS, .Ex = ExUS, .Lx = LxfUS, Bxymf = "Bxyf", MF = "Female", rc = colSums))
+
+rmLES <- unlist(lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Lx, Bxymf, MF, rc){       
+                    Fx  <- Minf0(Mna0(rc(.Bx[[yr]][[Bxymf]], na.rm = TRUE) / .Ex[.Ex$Year == as.integer(yr),MF]))
+                    LotkaRCoale(Fx, Lx = .Lx[,yr], x = .5:110.5)
+                }, .Bx = BxymfES, .Ex = ExES, .Lx = LxmES, Bxymf = "Bxym", MF = "Male", rc = rowSums))
+
+rfLES <- unlist(lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Lx, Bxymf, MF, rc){       
+                    Fx  <- Minf0(Mna0(rc(.Bx[[yr]][[Bxymf]], na.rm = TRUE) / .Ex[.Ex$Year == as.integer(yr),MF]))
+                    LotkaRCoale(Fx, Lx = .Lx[,yr], x = .5:110.5)
+                }, .Bx = BxymfES, .Ex = ExES, .Lx = LxfES, Bxymf = "Bxyf", MF = "Female", rc = colSums))
+
+
+plot(yearsUS, exRepUSm[,2], type = 'l', col = "blue", ylim = c(40,60))
+lines(yearsUS, exRepUSm[,2], col ="red")
+lines(yearsES, exRepUSm[,2], col ="red", lty = 2)
+lines(yearsES, exRepUSm[,2], col ="blue", lty = 2)
+
+plot(yearsUS,R0mUS, type = 'l', ylim = c(.8,1.4))
+lines(yearsUS, exp(rfUS[,1]*rfUS[,2])  , type = 'l')
+
+plot(yearsUS, exRepUSm[,1], type = 'l', col = "blue", ylim = c(-.02,.015))
+lines(yearsUS, exRepUSf[,1], col ="red")
+lines(yearsES, exRepESf[,1], col ="red", lty = 2)
+lines(yearsES, exRepESm[,1], col ="blue", lty = 2)
+abline(h=0)
+lines(yearsUS, rmLUS, col = "royalblue", lwd = 2)
+lines(yearsUS, rfLUS, col ="pink", lwd = 2)
+lines(yearsES, rfLES, col ="pink", lty = 2, lwd = 2)
+lines(yearsES, rmLES, col ="royalblue", lty = 2, lwd = 2)
+abline(h=0)
 
 
 
+pdf("/home/triffe/git/DISS/latex/Figures/rmfExvsLotkaUS.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
+plot(yearsUS, R0mfUS[, 1], type = 'l', ylim = c(.5, 1.45), xlim = c(1968,2010), axes = FALSE,
+        col = gray(.2), lwd = 2, xlab = "", ylab = "",
+        panel.first = list(rect(1968,.5,2010,1.45,col = gray(.95), border=NA),
+                abline(h = seq(.5,1.4,by = .1), col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(.5, 1.4, by = .1),seq(.5, 1.4, by = .1), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10),.5, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, .45, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1966,1.5, expression(R[0]), cex = 1, xpd = TRUE)))
+lines(yearsUS, R0mfUS[, 2], lwd = 2.5, col = gray(.5))
+lines(yearsES, R0mfES[, 1], lwd = 2, col = gray(.2), lty = 5)
+lines(yearsES, R0mfES[, 2], lwd = 2.5, col = gray(.5), lty = 5)
 
-
-
+legend(1993,1.45, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
+        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
+dev.off()
