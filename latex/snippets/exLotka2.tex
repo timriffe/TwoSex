@@ -12,8 +12,10 @@ Section~\ref{sec:exstructuredrenewal}:
 \begin{enumerate}
   \item A linear extension, assuming fixed weights for males and female,
   inspired by \citet{goodman1967age}. 
+  \item A non-linear extension, following the example in
+  \citet{gupta1978alternative}.
+  \item another non-linear extension? might need to break out sections\ldots
 \end{enumerate}
-
 
 \subsubsection{A linear two-sex extension to the $e_x$-structured population
 model} 
@@ -46,15 +48,92 @@ that the proportional difference in results from one choice of model weights
 over another is simply diminished. This being so, the comparative advantage of a
 more sophisticated or realistic model is to some degree diminished. 
 
-\paragraph{Formal definition of the Lotka-type renewal equation}
+\paragraph{Formal definition of the Lotka-type renewal equation:}
 
+As mentioned, choose some weight, $\sigma$, between 0 and 1 to apply to male
+rates, where the female weight is defined as $1 - \sigma$. When $\sigma = 1$
+there is perfect male dominance, and when $\sigma = 0$ there is perfect female
+dominance. Of course, births to girls are subject to female mortality and births
+to boys are subject to male mortality. As with
+Equation~\eqref{eq:exLotkafemales}, this mortality enters in the equation by way
+of the $d_x$ distribution used to distribute births over life expectancies. The
+final renewal formula takes is defined as such:
 
+\begin{equation}
+\label{eq:lineartwosexrenewal}
+\begin{split}
+2 = (1 - \sigma) \left(\;\;
+            \int _{y'=0}^\infty \int _{a'=y'}^\infty e^{-ra'}
+                      d_{a'}^F f_{y'}^{F-F} \dd a' \dd y' + 
+            \int _{y'=0}^\infty \int _{a=y'}^\infty e^{-ra}
+                      d_{a}^M f_{y'}^{F-M} \dd a \dd y'\right) + \\ 
+     \sigma \left(\;\;
+            \int _{y=0}^\infty \int _{a'=y}^\infty e^{-ra'}
+                      d_{a'}^F f_{y}^{M-F} \dd a' \dd y + 
+            \int _{y=0}^\infty \int _{a=y}^\infty e^{-ra}
+                      d_{a}^M f_{y}^{M-M} \dd a \dd y \right)
+\end{split}
+\end{equation}
 
-Data that would permit empirical studies of the two-sex problem are
-typically sufficiently rich to allow for cross-tabulations by age of both
-parents as well as sex of birth. Therefore, formulas in continuation assume that
-rates are available by sex of progenitor, birth (4 combinations) and age (to be
-transformed to remaining years)
+Where $a'$, $y'$, $a$ and $y$ index female age, female remaining years, male age
+and male remaining years, respectively. Fertility superscripts identify sex of
+progentitor followed by sex of offspring, and $d_x$ must accord with the sex of
+offspring. Such specific rates are chosen because data that would permit
+empirical studies of the two-sex problem are typically sufficiently rich to 
+allow for cross-tabulations by age of both parents as well as sex of birth.
+Therefore, Equation~\eqref{eq:lineartwosexrenewal} assumes that rates are
+available by sex of progenitor, birth (4 combinations) and age (to be transformed to remaining years), 
+and no additional variable is required for the sex ratio at birth. 
 
-\paragraph{Construction of the corresponding projection matrix}
+\paragraph{An iterative approach to find $r$:}
+\label{sec:exrenewalit2}
+Steps to practically solve Equation~\eqref{eq:lineartwosexrenewal} for $r$ are
+similar to those presented for the one-sex case in
+Section~\ref{sec:exrenewalit}
+\begin{enumerate}
+  \item Derive a first rough estimate of the both-sex mean remaining years of
+  life at reproduction, $\widehat{T^\upsilon}$, akin to Lotka's mean generation time,
+  $T$. If one assumes a growth rate of $0$, then a good-enough guess will be:
+
+\begin{equation}
+\widehat{T^\upsilon} = \frac{\int _{y'=0}^\infty \int _{a'=y'}^\infty a'
+d_{a'}^F f_{y'}^F \dd a' \dd y' + \int _{y=0}^\infty \int _{a=y}^\infty a
+d_{a}^M f_{y}^M \dd a \dd y}{\int _{y'=0}^\infty \int _{a'=y'}^\infty
+d_{a'}^F f_{y'}^F \dd a' \dd y' + \int _{y=0}^\infty \int _{a=y}^\infty
+d_{a}^M f_{y}^M \dd a \dd y}
+\end{equation}
+
+  \item A first rough estimate of the net reproduction rate, $R_0$ is given by:
+ \begin{equation}
+ \begin{split}
+ \frac{(1 - \sigma)}{2} \left(\;\;
+            \int _{y'=0}^\infty \int _{a'=y'}^\infty 
+                      d_{a'}^F f_{y'}^{F-F} \dd a' \dd y' + 
+            \int _{y'=0}^\infty \int _{a=y'}^\infty 
+                      d_{a}^M f_{y'}^{F-M} \dd a \dd y'\right) + \\ 
+     \frac{\sigma}{2} \left(\;\;
+            \int _{y=0}^\infty \int _{a'=y}^\infty 
+                      d_{a'}^F f_{y}^{M-F} \dd a' \dd y + 
+            \int _{y=0}^\infty \int _{a=y}^\infty 
+                      d_{a}^M f_{y}^{M-M} \dd a \dd y \right)
+ \end{split}
+ \end{equation}
+  \item A first rough estimate of $r$, $r^0$, is given by:
+   \begin{equation}
+   r^0 = \frac{ln(R_0)}{\widehat{T^\upsilon}}
+   \end{equation}
+  \item plug $r^0$ into Equation~\ref{eq:lineartwosexrenewal} to calculate a
+  residual, $\delta^0$
+  \item use $\delta^0$ and $\widehat{T^\upsilon}$ to calibrate the estimate of $r$
+  using:
+  \begin{equation}
+  r^{1} = r^0 + \frac{\delta^0}{\widehat{T^\upsilon} - \frac{\delta^0}{r^0}}
+  \end{equation}
+  \item repeat step (3) to to derive a new $\delta^i$, then step (4) to refine
+  $r^i$, until converging on a stable $r$ after some 30 iterations,
+  depending on the degree of precision desired. ($\widehat{T^\upsilon}$ is not updated
+  in this process).
+\end{enumerate}
+
+\paragraph{Construction of the corresponding projection matrix:}
 

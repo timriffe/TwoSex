@@ -112,17 +112,17 @@ rmUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .dx, 
                     .ey <- rowSums(ExpectedDx(Ex, .dx[, yr]))
                     .by <-  rowSums(ExpectedDx(rc(.Bx[[yr]][[Bxymf]], na.rm = TRUE), .dx[, yr]))
                     .fy <- .by / .ey
-                    r <- exOneSexCoaleR(Fex = .fy  , dx =.dx[, yr], tol =1e-12)
-                    c(r = r, Ty = exOneSexTy(r, Fex = .fy  * .ps, dx =.dx[, yr]))
+                    r <- exOneSexCoaleR(Fex = .fy, dx =.dx[, yr], tol =1e-12)
+                    c(r = r, Ty = exOneSexTy(r, Fex = .fy, dx =.dx[, yr]))
                 }, .Bx = BxymfUS, .Ex = ExUS, .dx = dxmUS, Bxymf = "Bxym", MF = "Male", rc = rowSums))
 
 rfUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .dx, MF, rc,Bxymf){       
                     Ex <- .Ex[.Ex$Year == as.integer(yr),MF]
                     .ey <- rowSums(ExpectedDx(Ex, .dx[, yr]))
                     .by <-  rowSums(ExpectedDx(rc(.Bx[[yr]][[Bxymf]], na.rm = TRUE), .dx[, yr]))
-                    .fy <- .by / .ey
-                    r <- exOneSexCoaleR(Fex = .fy  , dx =.dx[, yr], tol =1e-12)
-                    c(r = r, Ty = exOneSexTy(r, Fex = .fy  , dx =.dx[, yr]))
+                    .fy <- Minf0(Mna0(.by / .ey))
+                    r <- exOneSexCoaleR(Fex = .fy  , dx = Mna0(.dx[, yr]), tol =1e-12)
+                    c(r = r, Ty = exOneSexTy(r, Fex = .fy, dx = Mna0(.dx[, yr])))
                 }, .Bx = BxymfUS, .Ex = ExUS, .dx = dxfUS, Bxymf = "Bxyf", MF = "Female", rc = colSums))
 
 rmES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bx, .Ex, .dx, MF, rc,Bxymf){       
@@ -130,17 +130,17 @@ rmES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bx, .Ex, .dx, 
                     .ey <- rowSums(ExpectedDx(Ex, Mna0(.dx[, yr])))
                     .by <-  rowSums(ExpectedDx(rc(.Bx[[yr]][[Bxymf]], na.rm = TRUE), Mna0(.dx[, yr])))
                     .fy <-  Minf0(Mna0(.by / .ey))
-                    r <- exOneSexCoaleR(Fex = .fy ,  dx =.dx[, yr], tol =1e-12)
-                    c(r = r, Ty = exOneSexTy(r, Fex = .fy  , dx =.dx[, yr]))
+                    r <- exOneSexCoaleR(Fex = .fy, dx =.dx[, yr], tol =1e-12)
+                    c(r = r, Ty = exOneSexTy(r, Fex = .fy, dx = Mna0(.dx[, yr])))
                 }, .Bx = BxymfES, .Ex = ExES, .dx = dxmES,  Bxymf = "Bxym",MF = "Male", rc = rowSums))
 
 rfES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bx, .Ex, .dx, MF, rc,Bxymf){       
                     Ex <- .Ex[.Ex$Year == as.integer(yr),MF]
                     .ey <- rowSums(ExpectedDx(Ex,  Mna0(.dx[, yr])))
                     .by <-  rowSums(ExpectedDx(rc(.Bx[[yr]][[Bxymf]], na.rm = TRUE),  Mna0(.dx[, yr])))
-                    .fy <- .by / .ey
+                    .fy <-  Minf0(Mna0(.by / .ey))
                     r <- exOneSexCoaleR(Fex = .fy  , dx =.dx[, yr], tol =1e-12)
-                    c(r = r, Ty = exOneSexTy(r, Fex = .fy  , dx =.dx[, yr]))
+                    c(r = r, Ty = exOneSexTy(r, Fex = .fy, dx = Mna0(.dx[, yr])))
                 }, .Bx = BxymfES, .Ex = ExES, .dx = dxfES,Bxymf = "Bxyf", MF = "Female", rc = colSums))
 
 #--------------------------------------------------------------
