@@ -1,11 +1,62 @@
 \chapter{Construction of the standard one-sex Leslie matrix}
 \label{Appendix:Caswell}
-The Leslie matrix is a tool used for age-structured cohort component population
-projections. Here we present the elements that correspond to a simple one-sex
-age-structured population. More details on each point presented here can be
-found in \cite{caswell2001matrix}.
+The Leslie matrix\citep{leslie1945use} is a tool used for age-structured cohort 
+component population projections. Here we offer a very abbreviated presentation of the elements that
+correspond to a simple one-sex age-structured population. More details on 
+each element presented here can be found in \cite{caswell2001matrix}.
 
-Say we have a population with $n$ age-classes. Call the vector of age-specific
-population counts $\textbf{p}$
+Say we have a population with $n$ discrete age-classes. Call the vector of
+age-specific population counts $\textbf{p}$. The Leslie matrix, $\textbf{L}$, is a $n \times
+n$ square matrix that contains probabilities of survival from age $n$ to age
+$n+1$ (assuming single age population counts) in the subdiagonal with age
+advancing down and to the right. The top row contains age specific fertility
+rates, discounted somewhat for those births in the year that do not survive
+until the end of the year. The rest of the matrix consists in zeros, and the
+lower right corner contains a zero too, in order to close out the lifetable and
+not accumulate population in the open age group.
+
+Once constructed, $\textbf{p}_t$ can be projected forward one year by matrix
+multiplying $\textbf{L}$ from the left:
+
+\begin{equation}
+\textbf{p}_{t+1} = \textbf{L}\textbf{p}_{t} 
+\end{equation}
+
+Say we have a population with 6 age classes, where
+$S_x$ denotes survival probabilities from age $x$ to age $x+1$, $f_x$ denotes
+the fertility probability for age $x$, and $\lambda$ is a discount for the part
+of infant mortality to births in year $t$ that do not survive to be counted as
+age 0 at the begining of year $t+1$. Assume we have fertility in ages 1-4 only.
+
+\begin{figure}
+\centering
+\caption*{An example one-sex Leslie matrix with 6 age categories}
+$\bordermatrix{{ }      & a0_t & a1_t     & a2_t &  a3_t & a4_t & a5_t\cr
+                a0_{t+1} & 0 & \lambda f_1 & \lambda f_2 & \lambda f_3 & \lambda f_4 & 0\cr 
+                a1_{t+1} & S_0  &  0       & 0    & 0     & 0   & 0   \cr
+                a2_{t+1} & 0    &  S_1     & 0    & 0     & 0    & 0   \cr 
+                a3_{t+1} & 0    &  0       & S_2  & 0     & 0    & 0   \cr 
+                a4_{t+1} & 0    &  0       & 0    & S_3   & 0    & 0   \cr
+                a5_{t+1} & 0    &  0       & 0    & 0     & S_4  & 0   }$
+\end{figure}
+
+Roughly, and for the sake of intuition, imagine that the population aged $2$
+in year $t$, $p_{2,t}$, enters the matrix from the top of the \nth{3} column from
+the left $a2_t$. This population then travels down the column. When the
+ population runs into a probability entry, these two values
+are multiplied together, and the product exits the matrix at that exact row to
+the left. As $p_{2,t}$ enters the matrix from the top, it first multiplies into $\lambda
+f_2$, the product of which is the contribution to births surviving to year
+$t+1$ of $p_{2,t}$, the new age 0 in year $t+1$. $p_{2,t}$ then continues down
+the column, multiplying into $S_2$ in the \nth{4} row and exiting out the left
+to age 3, discounted by the survival probability $S_2$.
+
+In this way, $\textbf{L}$ contains all of the information necessary to project a
+fixed set of rates forward any number of years, eventually arriving at the stable
+age-structure of the population. Indeed, there are ways to extract the intrinsic
+growth rate and stable age structure directly from the matrix without
+carrying projection computations. For details on how to calculate the individual
+matrix elements, please refer to \cite{caswell2001matrix}, as mentioned before.
+
 
 
