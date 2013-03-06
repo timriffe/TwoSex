@@ -208,23 +208,25 @@ lines(yearsES, rfLES, col ="pink", lty = 2, lwd = 2)
 lines(yearsES, rmLES, col ="royalblue", lty = 2, lwd = 2)
 abline(h=0)
 
+# -----------------------------------------------------
+# Figure
+pdf("/home/triffe/git/DISS/latex/Figures/exLotka1sex.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+plot(yearsUS, rmUS[, 1], type = 'n', ylim = c(-.016,.01),xlim = c(1968,2010), axes = FALSE,
+        xlab = "", ylab = "",
+        panel.first = list(rect(1968,-.016,2010,.01,col = gray(.95), border=NA),
+                abline(h = seq(-.016,.01,by = .002), col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(-.016,.01,by = .002),seq(-.016,.01,by = .002), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10),-.016, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, -.0175, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1966,.0115, "r", cex = 1, xpd = TRUE)))
 
+lines(yearsUS, rmUS[, 1],col = gray(.2), lwd = 2)
+lines(yearsUS, rfUS[, 1],col = gray(.5), lwd = 2.5)
+lines(yearsES, rmES[, 1],col = gray(.2), lwd = 2, lty = 5)
+lines(yearsES, rfES[, 1],col = gray(.5), lwd = 2.5, lty = 5)
 
-#pdf("/home/triffe/git/DISS/latex/Figures/rmfExvsLotkaUS.pdf", height = 5, width = 5)
-#par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
-#plot(yearsUS, R0mfUS[, 1], type = 'l', ylim = c(.5, 1.45), xlim = c(1968,2010), axes = FALSE,
-#        col = gray(.2), lwd = 2, xlab = "", ylab = "",
-#        panel.first = list(rect(1968,.5,2010,1.45,col = gray(.95), border=NA),
-#                abline(h = seq(.5,1.4,by = .1), col = "white"),
-#                abline(v = seq(1970, 2010, by = 5), col = "white"),
-#                text(1968, seq(.5, 1.4, by = .1),seq(.5, 1.4, by = .1), pos = 2, cex = .8, xpd = TRUE),
-#                text(seq(1970, 2010, by = 10),.5, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
-#                text(1990, .45, "Year", cex = 1, pos = 1, xpd = TRUE),
-#                text(1966,1.5, expression(R[0]), cex = 1, xpd = TRUE)))
-#lines(yearsUS, R0mfUS[, 2], lwd = 2.5, col = gray(.5))
-#lines(yearsES, R0mfES[, 1], lwd = 2, col = gray(.2), lty = 5)
-#lines(yearsES, R0mfES[, 2], lwd = 2.5, col = gray(.5), lty = 5)
-#
-#legend(1993,1.45, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
-#        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
-#dev.off()
+legend(1970,-.01, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
+        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
+dev.off()
