@@ -1,4 +1,4 @@
-
+\label{sec:exLotka2linear}
 It has been noted that divergence between the sexes, in terms of predicted birth
 counts, is often dampened when projected using rates and populations that are
 structured according to remaining years. This does not, however, mean that the
@@ -62,30 +62,64 @@ final renewal formula takes is defined as such:
 \begin{equation}
 \label{eq:lineartwosexrenewal}
 \begin{split}
-2 = (1 - \sigma) \left(\;\;
+1 = \frac{1 - \sigma}{2} \left(\;\;
             \int _{y'=0}^\infty \int _{a'=y'}^\infty e^{-ra'}
                       d_{a'}^F f_{y'}^{F-F} \dd a' \dd y' + 
             \int _{y'=0}^\infty \int _{a=y'}^\infty e^{-ra}
                       d_{a}^M f_{y'}^{F-M} \dd a \dd y'\right) + \\ 
-     \sigma \left(\;\;
+     \frac{\sigma}{2} \left(\;\;
             \int _{y=0}^\infty \int _{a'=y}^\infty e^{-ra'}
                       d_{a'}^F f_{y}^{M-F} \dd a' \dd y + 
             \int _{y=0}^\infty \int _{a=y}^\infty e^{-ra}
                       d_{a}^M f_{y}^{M-M} \dd a \dd y \right)
 \end{split}
 \end{equation}
-
-Where $a'$, $y'$, $a$ and $y$ index female age, female remaining years, male age
-and male remaining years, respectively. Fertility superscripts identify sex of
+, where $a'$, $y'$, $a$ and $y$ index female age, female remaining years, male
+age and male remaining years, respectively. Fertility superscripts identify sex of
 progentitor followed by sex of offspring, and $d_x$ must accord with the sex of
 offspring. Such specific rates are chosen because data that would permit
-empirical studies of the two-sex problem are typically sufficiently rich to 
-allow for cross-tabulations by age of both parents as well as sex of birth.
+empirical studies of the two-sex problem are typically sufficiently rich to allow 
+for cross-tabulations by age of both parents as well as sex of birth. 
 Therefore, Equation~\eqref{eq:lineartwosexrenewal} assumes that rates are
 available by sex of progenitor, birth (4 combinations) and age (to be transformed to remaining years), 
 and no additional variable is required for the sex ratio at birth. 
 
-\paragraph{An iterative approach to find $r$:}
+Weights, $\sigma$ and $1-\sigma$ are divided by 2 because
+total births are counted twice in total (males and females from males \&
+males and females from females). One could just as easily optimize to a sum of
+2 on the left-hand side rather than discount weights.
+
+The linear two-sex $r$, $r^\upsilon$ given by~\eqref{eq:lineartwosexrenewal} is
+\textit{not} guaranteed to be bounded by the $e_x$-structured $r^f$ and $r^m$,
+and indeed $r^f$ and $r^m$ may not be recovered by setting $\sigma$ to 0 or 1,
+respectively. This is so because the model includes births of both sexes to
+progenitors of each sex, and the births of each sex are then subject to
+sex-specific death distributions. That is to say, manipulation of $\sigma$ is
+insufficient to make the one-sex model a degenerate case of the present model, save for the
+exceptionally degenerate case where males and females have identical mortality.
+Other authors in the past have been content to work with single-sex ($M-M$ and
+$F-F$) fertility only, but this appears unncessesary and unintuitive.
+\footnote{\citet{pollard1948measurement} took this idea even further by swapping
+sexes: The fertility functions in this paper are based on the births of boys to mothers 
+and girls to fathers, i.e. $M-F$ and $F-M$ fertility. This is parsimonious 
+in terms of getting quick results that are guaranteed to fall within reasonable bounds, but is less
+intuitively appealing}. The later choice would both reduce the complexity of
+Equation~\ref{eq:lineartwosexrenewal} and guarantee exact bounds of $r^f$ and $r^m$ 
+when $\sigma$ is set to 0 and 1, respectively. This author does not recognize 
+the theoretical or practical merits of the single-sex modelling choice, as it 
+is not the case that males are responsible for the birth of boys and females 
+for the birth of girls. This stance couples with the author's choice to not
+include an explicit, let alone constant, variable for the sex ratio at birth.
+
+It must be
+noted that the value of $r^\upsilon$ is dependant upon the choice of $\sigma$, and that no guidelines are provided for choosing a good value of $\sigma$. This ambiguity also exists in the age-structured variant of the present model. For $e_x$-structured models, it has been claimed that sex-divergence is lesser than is the case for
+age-structured models. Recall that this was the case for predictions of birth
+counts, and not for the growth parameter, $r^\upsilon$. The
+difference between the $e_x$-structured $r^f$ and $r^m$ is not necessarily lesser than is the case for
+the age-structured $r^f$ and $r^m$. This will be discussed further along with
+empirical results for the two populations considered in this dissertation.
+
+\paragraph{An iterative approach to find $r^\upsilon$:}
 \label{sec:exrenewalit2}
 Steps to practically solve Equation~\eqref{eq:lineartwosexrenewal} for $r$ are
 similar to those presented for the one-sex case in
@@ -96,8 +130,8 @@ Section~\ref{sec:exrenewalit}
   $T$. If one assumes a growth rate of $0$, then a good-enough guess will be:
 
 \begin{equation}
-\widehat{T^\upsilon} = \frac{\int _{y'=0}^\infty \int _{a'=y'}^\infty a'
-d_{a'}^F f_{y'}^F \dd a' \dd y' + \int _{y=0}^\infty \int _{a=y}^\infty a
+\widehat{T^\upsilon} = \frac{\int _{y'=0}^\infty \int _{a'=y'}^\infty y'
+d_{a'}^F f_{y'}^F \dd a' \dd y' + \int _{y=0}^\infty \int _{a=y}^\infty y
 d_{a}^M f_{y}^M \dd a \dd y}{\int _{y'=0}^\infty \int _{a'=y'}^\infty
 d_{a'}^F f_{y'}^F \dd a' \dd y' + \int _{y=0}^\infty \int _{a=y}^\infty
 d_{a}^M f_{y}^M \dd a \dd y}
@@ -134,6 +168,54 @@ d_{a}^M f_{y}^M \dd a \dd y}
   depending on the degree of precision desired. ($\widehat{T^\upsilon}$ is not updated
   in this process).
 \end{enumerate}
+
+This procedure has been applied to the data from the US and Spain with $\sigma
+= [0,.5,1]$, which correspond to the cases of pseudo female-dominace, an
+intermediate value, and pseudo male-dominance, and can be seen in
+Figure~\ref{fig:rupsilonlinear2sex}
+
+\begin{figure}[!ht]
+  \centering
+    \caption{Two-sex linear intrinsic growth rate, $r^\upsilon$, according to
+    renewal Equation~\eqref{eq:lineartwosexrenewal}, with $\sigma = [0, .5, 1]$ US 
+    and Spain, 1969-2009.}
+     % figure produced in /R/ExLotka2Sex.R
+     \includegraphics{Figures/exLotka2sexlinear}
+     \label{fig:rupsilonlinear2sex}
+\end{figure}
+
+Patterns accord with trends generally known from the age-classified $r^f$ and
+$r^m$, but values of $r^\upsilon$ are shown to be higher than in any year
+
+\paragraph{Other reproduction parameters:}
+
+Once two-sex linear $r^\upsilon$ has been found for the given $\sigma$, one may
+proceed to find the corrsponding both-sex $T^\upsilon$, using the same strategy as in
+Equation~\eqref{eq:Ty}, but with Equation~\eqref{eq:lineartwosexrenewal} in the
+numerator and denominator. In this case, simply insert $y$ and $y'$,
+respectively within the four integrals of the numerator\footnote{Writing out the
+equation for $T^\upsilon$ would introduce unnecessary clutter, ocuppying twice the space as
+Equation~\eqref{eq:lineartwosexrenewal}\ldots}. Follow
+Equation~\eqref{eq:R0fromTy} to derive $R_0^\upsilon$ from $r^\upsilon$ and
+$T^\upsilon$.
+
+The both-sex birth rate, $b^\upsilon$ is given by:
+\begin{equation}
+b^\upsilon = \frac{1}{
+            \int _{y'=0}^\infty \int _{a'=y'}^\infty e^{-r^\upsilon a'}
+                      d_{a'}^F \dd a' \dd y' + 
+            \int _{y=0}^\infty \int _{a=y}^\infty e^{-r^\upsilon a}
+                      d_{a}^M \dd a \dd y}                     
+\end{equation}
+
+The female stable age structure is given by:
+
+\begin{equation}
+c_{y'} = b^\upsilon \int _{a'=y'}^\infty e^{-ra'} d_{a'}^F \dd a'
+\end{equation}
+, and the male stable age structure is given similarly.
+
+
 
 \paragraph{Construction of the corresponding projection matrix:}
 
