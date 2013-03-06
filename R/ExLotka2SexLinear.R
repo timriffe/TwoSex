@@ -378,6 +378,7 @@ text(1978,-0.006,expression(sigma == 0))
 segments(1978,-0.0055,1976,US["1976", 1])
 segments(1978,-0.0055,1982,ES["1982", 1])
 
+
 # sigma = 1
 text(c(1996,1995),c(0.003,-.008),expression(sigma == 1))
 segments(1996,0.0025,1995,US["1995", 3])
@@ -390,7 +391,48 @@ dev.off()
 
 
 
+sum(rmUS[,1] < US[,3])
+yearsUS[26]
+
+rfUS[,1] > US[,1]
+rfES[,1] > ES[,1]
+plot(yearsES, rfES[,1] , type = 'l', col = "blue")
+lines(yearsES, ES[,1], col = "red")
+
+rmUS[,1] < US[,1]
 
 
 
+r <- US[1,2]
+
+N               <- length(FexFF)
+dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
+# remaining years go down rows. ages over columns
+dxmi            <- dxm
+dxfi            <- dxf
+for (i in 1:N){
+    dxM[i, 1:length(dxmi)  ] <- dxmi 
+    dxmi                     <- dxmi[2:length(dxmi) ]
+    
+    dxF[i, 1:length(dxfi)  ] <- dxfi 
+    dxfi                     <- dxfi[2:length(dxfi) ]
+}     
+
+
+b <-       1 / sum( sigma * rowSums(dxM %col% (1 / exp(-r * .a))) + 
+                sigma * rowSums(dxF %col% (1 / exp(-r * .a))) +
+                (1 - sigma) * rowSums(dxM %col% (1 / exp(-r * .a))) +
+                (1 - sigma) * rowSums(dxF %col% (1 / exp(-r * .a)))  )
+b <-       1 / sum(rowSums(dxM %col% (1 / exp(-r * .a))) + 
+               rowSums(dxF %col% (1 / exp(-r * .a))) )
+
+plot(0:110, b *  rowSums(dxF %col% (1 / exp(-r * .a))), type = 'l', col = "red")
+lines(0:110,b *  rowSums(dxM %col% (1 / exp(-r * .a))),col = "blue")
+sum(rowSums(dxF %col% (1 / exp(-r * .a)))) / sum(rowSums(dxM %col% (1 / exp(-r * .a))))
+sigma <- .5
+boys <- sum(sigma * rowSums(dxM %col% (1 / exp(-r * .a))) * FexMM) + 
+        sum((1-sigma) * rowSums(dxF %col% (1 / exp(-r * .a))) * FexFM)
+girls <- sum(sigma * rowSums(dxM %col% (1 / exp(-r * .a))) * FexMF) + 
+        sum((1-sigma) * rowSums(dxF %col% (1 / exp(-r * .a))) * FexFF)
+boys / girls
 
