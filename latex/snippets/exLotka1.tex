@@ -157,19 +157,34 @@ residual of Equation~\ref{eq:exLotkafemales} using a generic
 optimizer\footnote{Use of a Newton-Raphson optimizer with analytic objective
 and gradient functions may prove even more efficient, but I have not tried
 this, since the present routine is more than efficient enough for practical
-purposes.}. 
+purposes.}. When applied to the data from the US and Spain, we see the trends
+displayed in Figure~\ref{fig:rex1sex}. In all years studied, $e_x$-structured
+$r$ has been higher than the age-structured $r$, though the overall patterns of
+change have been very similar. In that case of US males, in no year studied
+has the $e_x$-structured $r^m$ dropped below 0.
+
+\begin{figure}[!ht]
+  \centering
+    \caption{One-sex intrinsic growth rates, $r^m$ and $r^f$, according to
+    renewal Equation~\eqref{eq:exLotkafemales}, US and Spain, 1969-2009.}
+     % figure produced in /R/ExLotka1Sex.R
+     \includegraphics{Figures/exLotka1sex}
+     \label{fig:rex1sex}
+\end{figure}
 
 \paragraph{Other reproduction parameters}
 A final calculation of $T^y$ is given by:
 
 \begin{equation}
- T^y =  \frac{\int _{y=0}^\infty \int _{a=y}^\infty a e^{-ra} d_a f_y \dd a
+\label{eq:Ty}
+ T^y =  \frac{\int _{y=0}^\infty \int _{a=y}^\infty y e^{-ra} d_a f_y \dd a
 \dd y}{\int _{y=0}^\infty \int _{a=y}^\infty e^{-ra} d_a f_y \dd a \dd y}
 \end{equation}
 , using $r$ from the iterative procedure. The net reproduction rate, $R_0$ is
 related by, e.g.:
 
 \begin{equation}
+\label{eq:R0fromTy}
 R_0 = e^{r T^y}
 \end{equation}
 
