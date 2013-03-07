@@ -28,7 +28,7 @@ trade-offs: 1) one must (arbitrarily) choose weights, and 2) these weights are
 constant. The fact of having constant weights keeps the solution linear
 (interaction-free), but less realistic. The final result is bracketed by the
 cases of male and female dominance, but the gap between these two extremes 
-also measures the demgographer's subjective leeway, which we would like the
+also measures the demgographer's subjective leeway, which we would like to
 minimize. Both of these drawbacks may be reduced in the case of $e_x$-structured
 populations, since: 
 \begin{enumerate}
@@ -57,21 +57,17 @@ dominance. Of course, births to girls are subject to female mortality and births
 to boys are subject to male mortality. As with
 Equation~\eqref{eq:exLotkafemales}, this mortality enters in the equation by way
 of the $d_x$ distribution used to distribute births over life expectancies. The
-final renewal formula takes is defined as such:
+final renewal formula is defined as follows:
 
 \begin{equation}
 \label{eq:lineartwosexrenewal}
 \begin{split}
-1 = \frac{1 - \sigma}{2} \left(\;\;
+1 = \frac{1 - \sigma}{2} 
             \int _{y'=0}^\infty \int _{a'=y'}^\infty e^{-ra'}
-                      d_{a'}^F f_{y'}^{F-F} \dd a' \dd y' + 
-            \int _{y'=0}^\infty \int _{a=y'}^\infty e^{-ra}
-                      d_{a}^M f_{y'}^{F-M} \dd a \dd y'\right) + \\ 
-     \frac{\sigma}{2} \left(\;\;
-            \int _{y=0}^\infty \int _{a'=y}^\infty e^{-ra'}
-                      d_{a'}^F f_{y}^{M-F} \dd a' \dd y + 
+                      d_{a'}^F \left(f_{y'}^{F-F} + f_{y'}^{F-M}\right) \dd a'
+                      \dd y' \\ + \;\frac{\sigma}{2}
             \int _{y=0}^\infty \int _{a=y}^\infty e^{-ra}
-                      d_{a}^M f_{y}^{M-M} \dd a \dd y \right)
+                      d_{a}^M  \left(f_{y}^{M-M} + f_{y}^{M-F}\right)\dd a \dd y
 \end{split}
 \end{equation}
 , where $a'$, $y'$, $a$ and $y$ index female age, female remaining years, male
@@ -82,37 +78,41 @@ empirical studies of the two-sex problem are typically sufficiently rich to allo
 for cross-tabulations by age of both parents as well as sex of birth. 
 Therefore, Equation~\eqref{eq:lineartwosexrenewal} assumes that rates are
 available by sex of progenitor, birth (4 combinations) and age (to be transformed to remaining years), 
-and no additional variable is required for the sex ratio at birth. 
+and no additional variable is required for the sex ratio at birth. Indeed,
+Equation~\ref{eq:lineartwosexrenewal} does not require such specific rates,
+since rates of reach progenitor sex are simply summed, but sex-sex-specific
+rates will be needed downstream for the calculation of other stable quantities,
+so it is advisable to treat them as inputs from the start.
 
 Weights, $\sigma$ and $1-\sigma$ are divided by 2 because
 total births are counted twice in total (males and females from males \&
 males and females from females). One could just as easily optimize to a sum of
 2 on the left-hand side rather than discount weights.
 
-The linear two-sex $r$, $r^\upsilon$ given by~\eqref{eq:lineartwosexrenewal} is
-\textit{not} guaranteed to be bounded by the $e_x$-structured $r^f$ and $r^m$,
+The linear two-sex $r$, $r^\upsilon$, extracted from~\eqref{eq:lineartwosexrenewal} 
+is \textit{not} guaranteed to be bounded by the $e_x$-structured $r^f$ and $r^m$,
 and indeed $r^f$ and $r^m$ may not be recovered by setting $\sigma$ to 0 or 1,
 respectively. This is so because the model includes births of both sexes to
-progenitors of each sex, and the births of each sex are then subject to
-sex-specific death distributions. That is to say, manipulation of $\sigma$ is
-insufficient to make the one-sex model a degenerate case of the present model, save for the
-exceptionally degenerate case where males and females have identical mortality.
-Other authors in the past have been content to work with single-sex ($M-M$ and
-$F-F$) fertility only, but this appears unncessesary and unintuitive.
-\footnote{\citet{pollard1948measurement} took this idea even further by swapping
-sexes: The fertility functions in this paper are based on the births of boys to mothers 
-and girls to fathers, i.e. $M-F$ and $F-M$ fertility. This is parsimonious 
-in terms of getting quick results that are guaranteed to fall within reasonable bounds, but is less
-intuitively appealing}. The later choice would both reduce the complexity of
+progenitors of each sex, which changes the age-specific fertility curves
+somewhat. That is to say, manipulation of $\sigma$ is insufficient to make the
+one-sex model a degenerate case of the present model. $\sigma$ can only be
+understood as indicative of the balance of dominance in fertility rates between
+the sexes. The later choice would both reduce the complexity of
 Equation~\ref{eq:lineartwosexrenewal} and guarantee exact bounds of $r^f$ and $r^m$ 
 when $\sigma$ is set to 0 and 1, respectively. This author does not recognize 
 the theoretical or practical merits of the single-sex modelling choice, as it 
 is not the case that males are responsible for the birth of boys and females 
-for the birth of girls. This stance couples with the author's choice to not
+for the birth of girls\footnote{\citet{pollard1948measurement} took this idea
+even further by swapping sexes: The fertility functions in this paper are based on the births of boys to mothers and girls to fathers, i.e. $M-F$ and $F-M$ fertility. This is parsimonious 
+in terms of getting quick results that are guaranteed to fall within reasonable bounds, but is less
+intuitively appealing}. This stance couples with the author's choice to not
 include an explicit, let alone constant, variable for the sex ratio at birth.
 
 It must be
-noted that the value of $r^\upsilon$ is dependant upon the choice of $\sigma$, and that no guidelines are provided for choosing a good value of $\sigma$. This ambiguity also exists in the age-structured variant of the present model. For $e_x$-structured models, it has been claimed that sex-divergence is lesser than is the case for
+noted that the value of $r^\upsilon$ is dependant upon the choice of $\sigma$, 
+and that no guidelines are provided for choosing a good value of $\sigma$. 
+This ambiguity also exists in the age-structured variant of the present model. 
+For $e_x$-structured models, it has been claimed that sex-divergence is lesser than is the case for
 age-structured models. Recall that this was the case for predictions of birth
 counts, and not for the growth parameter, $r^\upsilon$. The
 difference between the $e_x$-structured $r^f$ and $r^m$ is not necessarily lesser than is the case for
@@ -130,32 +130,31 @@ Section~\ref{sec:exrenewalit}
   $T$. If one assumes a growth rate of $0$, then a good-enough guess will be:
 
 \begin{equation}
-\widehat{T^\upsilon} = \frac{\int _{y'=0}^\infty \int _{a'=y'}^\infty y'
-d_{a'}^F f_{y'}^F \dd a' \dd y' + \int _{y=0}^\infty \int _{a=y}^\infty y
-d_{a}^M f_{y}^M \dd a \dd y}{\int _{y'=0}^\infty \int _{a'=y'}^\infty
-d_{a'}^F f_{y'}^F \dd a' \dd y' + \int _{y=0}^\infty \int _{a=y}^\infty
-d_{a}^M f_{y}^M \dd a \dd y}
+\widehat{T^\upsilon} = \frac{\splitfrac{
+   \big((1 - \sigma)  \int _{y'=0}^\infty \int_{a'=y'}^\infty 
+       a' d_{a'}^F \left( f_{y'}^{F-F} + f_{y'}^{F-M} \right) \dd a'\dd y'}{ + 
+   \sigma \int_{y=0}^\infty \int _{a=y}^\infty a d_{a}^M  \left( f_{y}^{M-M}+
+   f_{y}^{M-F} \right) \dd a \dd y \big)}}{\splitfrac{\big( (1 - \sigma) 
+   \int_{y'=0}^\infty \int_{a'=y'}^\infty d_{a'}^F \left( f_{y'}^{F-F} +
+   f_{y'}^{F-M} \right) \dd a'\dd y'}{ +\sigma \int _{y=0}^\infty
+   \int_{a=y}^\infty d_{a}^M \left( f_{y}^{M-M} + f_{y}^{M-F} \right) \dd a \dd
+   y \big)}}
 \end{equation}
 
-  \item A first rough estimate of the net reproduction rate, $R_0$ (assuming
+  \item A first rough estimate of the net reproduction rate, $\widehat{R_0}$ (assuming
   $r=0$) is given by:
+
  \begin{equation}
  \begin{split}
- \frac{(1 - \sigma)}{2} \left(\;\;
-            \int _{y'=0}^\infty \int _{a'=y'}^\infty 
-                      d_{a'}^F f_{y'}^{F-F} \dd a' \dd y' + 
-            \int _{y'=0}^\infty \int _{a=y'}^\infty 
-                      d_{a}^M f_{y'}^{F-M} \dd a \dd y'\right) + \\ 
-     \frac{\sigma}{2} \left(\;\;
-            \int _{y=0}^\infty \int _{a'=y}^\infty 
-                      d_{a'}^F f_{y}^{M-F} \dd a' \dd y + 
-            \int _{y=0}^\infty \int _{a=y}^\infty 
-                      d_{a}^M f_{y}^{M-M} \dd a \dd y \right)
+ \widehat{R_0} = \frac{(1 - \sigma)}{2}  \int _{y'=0}^\infty \int_{a'=y'}^\infty 
+                d_{a'}^F \left(f_{y'}^{F-F} + f_{y'}^{F-M}\right) \dd a'\dd y'
+                \\ + \frac{\sigma}{2}  \int _{y=0}^\infty \int _{a=y}^\infty 
+               d_{a}^M  \left(f_{y}^{M-M}+ f_{y}^{M-F}\right) \dd a \dd y
  \end{split}
  \end{equation}
   \item A first rough estimate of $r$, $r^0$, is given by:
    \begin{equation}
-   r^0 = \frac{ln(R_0)}{\widehat{T^\upsilon}}
+   r^0 = \frac{ln(\widehat{R_0})}{\widehat{T^\upsilon}}
    \end{equation}
   \item plug $r^0$ into Equation~\ref{eq:lineartwosexrenewal} to calculate a
   residual, $\delta^0$
@@ -171,70 +170,165 @@ d_{a}^M f_{y}^M \dd a \dd y}
 \end{enumerate}
 
 This procedure has been applied to the data from the US and Spain with $\sigma
-= [0,.5,1]$, which correspond to the cases of pseudo female-dominace, an
-intermediate value, and pseudo male-dominance, and can be seen in
-Figure~\ref{fig:rupsilonlinear2sex}
+= [0,.5,1]$, which correspond to the cases of female-dominace, an
+intermediate value, and male-dominance, and can be seen in
+Figure~\ref{fig:rupsilonlinear2sex}\footnote{The data in
+    Figure~\ref{fig:rupsilonlinear2sex} are available in
+    Tables~\ref{tab:ex2linRepES}~and~\ref{tab:ex2linRepUS} of
+    Appendix~\ref{appendix:ex2sexlinear}, along with the stable parameters
+    $R_0^\upsilon$ and $T^\upsilon$.}
 
 \begin{figure}[!ht]
   \centering
     \caption{Two-sex linear intrinsic growth rate, $r^\upsilon$, according to
     renewal Equation~\eqref{eq:lineartwosexrenewal}, with $\sigma = [0, .5, 1]$ US 
-    and Spain, 1969-2009.}
+    and Spain, 1969-2009}
      % figure produced in /R/ExLotka2Sex.R
      \includegraphics{Figures/exLotka2sexlinear}
      \label{fig:rupsilonlinear2sex}
 \end{figure}
 
 Patterns accord with trends generally known from the age-classified $r^f$ and
-$r^m$, but values of $r^\upsilon$ are shown to be higher than in any of the
-years studied. To illustrate that $r^\upsilon$ is not bounded by the
-$e_x$-structured $r^f$ and $r^m$, note that in 10 years the US $r^{\upsilon
-(1)}$ was higher than $r^m(y)$ and in 31 years it was lower, having experienced 
-a total of 4 crossovers (1972,1979,1994,1997). The US $r^{\upsilon (0)}$ was lower than
-the $e_x$-structured $r^f(y')$ in \textit{every} year. Spanish females
-experienced just one such crossover, in 1983, when $r^{\upsilon (0)}$ dropped
-below $r^f{y'}$. Again, this is because each sex of offspring is subject to
-sex-specific death distributions, and each sex of parents gives birth to both
-sexes of offspring. I posit that there exists a formal identity to relate these
-various results (e.g. $r^f{y'}$ to $r^{\upsilon (0)}$), just as
-\citet[pp. 56]{coale1972growth} relates the age-structured $r^m$ and $r^f$,
-but this thesis does not undertake to follow that branch.
+$r^m$, but values of $r^\upsilon$ are higher than the
+age-classified intrinsic growth rates in all of the years studied. In all years
+tested here, $r^\upsilon$ was indeed bounded by the $e_x$-structured $r^f$ and $r^m$. There have been some notable crossovers in
+which was the greater $r^\upsilon$ derived from the border cases of $\sigma = 0$
+and  $\sigma = 1$. Notably, in the US male dominance produced a higher
+$r^\upsilon$ than female dominance from the start of observation until
+1985, after which time there was a crossover that has persisted. Spain has
+undergone two such crossovers, with female dominace producing a higher
+$r^\upsilon$ than male dominace until 1980, and again recently starting in 2007.
+Note that the spread between the border cases of male and female dominance is
+tighter than between the single-sex cases. This fact helps to put the
+demographer at ease in deciding the degree of dominance to assign via $\sigma$,
+and makes it particularly easy to accept an intermediate value such as $.5$.
+There have been series of years in both the US and Spain where swapping dominace
+would have made virtually no difference in results or conclusions!
+
+I posit that there exists a formal identity to relate these various results
+(e.g. $r^f{y'}$ to $r^{\upsilon (0)}$), just as \citet[pp. 56]{coale1972growth} relates 
+the age-structured $r^m$ and $r^f$, but this fruit will be left on the tree
+for the time being.
 
 \paragraph{Other reproduction parameters:}
 
 Once two-sex linear $r^\upsilon$ has been found for the given $\sigma$, one may
-proceed to find the corrsponding both-sex $T^\upsilon$, using the same strategy as in
-Equation~\eqref{eq:Ty}, but with Equation~\eqref{eq:lineartwosexrenewal} in the
-numerator and denominator. In this case, simply insert $y$ and $y'$,
-respectively within the four integrals of the numerator\footnote{Writing out the
-equation for $T^\upsilon$ would introduce unnecessary clutter, ocuppying twice the space as
-Equation~\eqref{eq:lineartwosexrenewal}\ldots}. Follow
-Equation~\eqref{eq:R0fromTy} to derive $R_0^\upsilon$ from $r^\upsilon$ and
-$T^\upsilon$.
+proceed to find the corrsponding both-sex $T^\upsilon$ using:
+\begin{equation}
+\widehat{T^\upsilon} = \frac{\splitfrac{
+   \big((1 - \sigma)  \int _{y'=0}^\infty \int_{a'=y'}^\infty 
+       a'e^{-ra'} d_{a'}^F \left( f_{y'}^{F-F} + f_{y'}^{F-M} \right) \dd a'\dd
+       y'}{ + \sigma \int_{y=0}^\infty \int _{a=y}^\infty a e^{-ra}d_{a}^M 
+       \left( f_{y}^{M-M}+ f_{y}^{M-F} \right) \dd a \dd y \big)}}{\splitfrac{\big( (1 - \sigma) 
+   \int_{y'=0}^\infty \int_{a'=y'}^\infty e^{-ra'} d_{a'}^F \left( f_{y'}^{F-F}
+   + f_{y'}^{F-M} \right) \dd a'\dd y'}{ +\sigma \int _{y=0}^\infty
+   \int_{a=y}^\infty e^{-ra} d_{a}^M \left( f_{y}^{M-M} + f_{y}^{M-F} \right)
+   \dd a \dd y \big)}}
+\end{equation}
 
-The both-sex stable birth rate, $b^\upsilon$ is given by:
+Follow Equation~\eqref{eq:R0fromTy} to derive $R_0^\upsilon$ from $r^\upsilon$
+and $T^\upsilon$. 
+
+Arriving at sex-specific stable parameters from the two-sex parameters is
+somewhat tricky. One might first estimate the stable total births to boys,
+$\widehat{B^M}$ as:
+\begin{equation}
+\begin{split}
+\label{eq:bboys0}
+\widehat{B^M} = \frac{(1-\sigma)}{2} \int _{y'=0}^\infty \int _{a'=y'}^\infty
+e^{-r^\upsilon a'} d_{a'}^F f_{y'}^{F-M} \dd a' \dd y' \\
++ \frac{\sigma}{2} \int _{y=0}^\infty \int _{a=y}^\infty e^{-r^\upsilon a}
+d_{a}^M f_{y}^{M-M} \dd a \dd y
+\end{split}
+\end{equation}
+, and a first estimate of births to girls,$\widehat{B^F}$, by:
+\begin{equation}
+\begin{split}
+\label{eq:bgirls0}
+\widehat{B^F} = \frac{(1-\sigma)}{2} \int _{y'=0}^\infty \int _{a'=y'}^\infty
+e^{-r^\upsilon a'} d_{a'}^F f_{y'}^{F-F} \dd a' \dd y' \\
++ \frac{\sigma}{2} \int _{y=0}^\infty \int _{a=y}^\infty e^{-r^\upsilon a}
+d_{a}^M f_{y}^{M-F} \dd a \dd y
+\end{split}
+\end{equation}
+, but one notices that the stable population exposures, captured in
+``$e^{-r^\upsilon a'} d_{a'}^F$'' and ``$e^{-r^\upsilon a}d_{a}^M$'' do not
+adequately reflect the fact that males and females are born into the populations with a particular ratio, $\hat{S}$,
+which is approximately (but not exactly) $\frac{\widehat{B^M}}{\widehat{B^F}}$ from
+Equations~\eqref{eq:bboys0}~and~\eqref{eq:bgirls0}. This initial ratio is thus
+an approximation of $S$. $\hat{S}$ can then be entered into the equations,
+replacing the number 2 in the denominator of $\sigma$, as follows:
+\begin{equation}
+\begin{split}
+\label{eq:bboys0}
+B^M = (1-\sigma) \frac{1}{1+\hat{S}} \int _{y'=0}^\infty \int
+_{a'=y'}^\infty e^{-r^\upsilon a'} d_{a'}^F f_{y'}^{F-M} \dd a' \dd y' \\
++ \sigma \frac{\hat{S}}{1+\hat{S}} \int _{y=0}^\infty \int _{a=y}^\infty
+e^{-r^\upsilon a} d_{a}^M f_{y}^{M-M} \dd a \dd y
+\end{split}
+\end{equation}
+and analagously for girls:
+\begin{equation}
+\begin{split}
+\label{eq:bgirls0}
+B^F = (1-\sigma)\frac{1}{1+\hat{S}}\int _{y'=0}^\infty \int _{a'=y'}^\infty
+e^{-r^\upsilon a'} d_{a'}^F f_{y'}^{F-F} \dd a' \dd y' \\
++ \sigma \frac{\hat{S}}{1+\hat{S}}\int _{y=0}^\infty \int _{a=y}^\infty
+e^{-r^\upsilon a} d_{a}^M f_{y}^{M-F} \dd a \dd y
+\end{split}
+\end{equation}
+, giving the stable sex ratio at birth, $S$, as:
+\begin{equation}
+S = \frac{B^M}{B^F}
+\end{equation}
+$S$ only differs from $\hat{S}$ in the \nth{6} digit, and after the single
+iteration just described obtains a constant value\footnote{The author offers
+no proof of this single-iteration stability, but it was consistently observed
+in numerical tests. There is very little ``wiggle-room'' for the sex ratio at
+birth, despite the fact that the model allows $S$ to vary by $e_x$ of mother and
+$e_x$ of father. Indeed, there are consistent sex-specific patterns in the sex ratio
+at birth, both by mothers' and of fathers' $e_x$, but the
+variariation in these is insufficient to move the stable value in continued
+recursions of the above-described iteration.}. $S$ allows us to calculate the
+remaining stable parameters. The both-sex stable birth rate, $b^\upsilon$ is given by:
 \begin{equation}
 b^\upsilon = \frac{1}{
-            \int _{y'=0}^\infty \int _{a'=y'}^\infty e^{-r^\upsilon a'}
-                      d_{a'}^F \dd a' \dd y' + 
-            \int _{y=0}^\infty \int _{a=y}^\infty e^{-r^\upsilon a}
-                      d_{a}^M \dd a \dd y}                     
+            \splitfrac{\big(\frac{S}{1+S} \int _{y'=0}^\infty \int _{a'=y'}^\infty
+            e^{-r^\upsilon a'} d_{a'}^F \dd a' \dd y'}{ + 
+             \frac{1}{1+S} \int _{y=0}^\infty \int _{a=y}^\infty e^{-r^\upsilon a}
+                      d_{a}^M \dd a \dd y\big)}  }                   
 \end{equation}
+, which can be used to derive the stable $e_x$-structure of males and females,
+$c_y^\upsilon$ and $c_{y'}^\upsilon$, respectively:
 
-The female stable age structure is given by:
 \begin{equation}
-c_{y'} = b^\upsilon \int _{a'=y'}^\infty e^{-ra'} d_{a'}^F \dd a'
+c_{y'} = b^\upsilon \frac{1}{1+S} \int _{a'=y'}^\infty e^{-ra'} d_{a'}^F \dd
+a'
 \end{equation}
-, and the male stable age structure is given similarly:
+, and
 \begin{equation}
-c_{y} = b^\upsilon \int _{a=y}^\infty e^{-ra} d_{a}^F \dd a
+c_{y} = b^\upsilon \frac{S}{1+S} \int _{a=y}^\infty e^{-ra} d_{a}^M \dd
+a'
 \end{equation}
-,where:
+, where:
 \begin{equation}
 1 = \int c_{y'} \dd y' + \int c_{y} \dd y
 \end{equation}
+, the sex ratio in any given age, $S_y$, is:
+\begin{equation}
+S_y = \frac{c_{y}}{c_{y'}}
+\end{equation}
+, and the the overall sex ratio,$S^T$ will be:
+\begin{equation}
+S^T= \frac{\int c_{y} \dd y}{\int c_{y'} \dd y'}
+\end{equation}
 
-The stable population sex-ratio cannot, however be derived
-
-\paragraph{Construction of the corresponding projection matrix:}
+\paragraph{Construction of the corresponding projection matrix:} 
+These formal relations establish coherence, but are less relevant in the
+discrete world of applied demography, which best replicates the above with
+projection matrices, modelled on that offered for the single-sex
+$e_x$-structured case. The two-sex linear projection matrix combines the
+projection of each sex jointly in a single instrument, the construction of which
+is more involved than the single-sex case: Four times more involved to be
+precise. Recall
 
