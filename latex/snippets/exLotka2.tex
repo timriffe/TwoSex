@@ -49,7 +49,7 @@ over another is simply diminished. This being so, the comparative advantage of a
 more sophisticated or realistic model is to some degree diminished. 
 
 \paragraph{Formal definition of the Lotka-type renewal equation:}
-
+\label{sec:2sexlinearmain}
 As mentioned, choose some weight, $\sigma$, between 0 and 1 to apply to male
 rates, where the female weight is defined as $1 - \sigma$. When $\sigma = 1$
 there is perfect male dominance, and when $\sigma = 0$ there is perfect female
@@ -211,11 +211,11 @@ the age-structured $r^m$ and $r^f$, but this fruit will be left on the tree
 for the time being.
 
 \paragraph{Other reproduction parameters:}
-
+\label{sec:2sexlinearother}
 Once two-sex linear $r^\upsilon$ has been found for the given $\sigma$, one may
 proceed to find the corrsponding both-sex $T^\upsilon$ using:
 \begin{equation}
-\widehat{T^\upsilon} = \frac{\splitfrac{
+T^\upsilon = \frac{\splitfrac{
    \big((1 - \sigma)  \int _{y'=0}^\infty \int_{a'=y'}^\infty 
        a'e^{-ra'} d_{a'}^F \left( f_{y'}^{F-F} + f_{y'}^{F-M} \right) \dd a'\dd
        y'}{ + \sigma \int_{y=0}^\infty \int _{a=y}^\infty a e^{-ra}d_{a}^M 
@@ -277,9 +277,9 @@ e^{-r^\upsilon a'} d_{a'}^F f_{y'}^{F-F} \dd a' \dd y' \\
 e^{-r^\upsilon a} d_{a}^M f_{y}^{M-F} \dd a \dd y
 \end{split}
 \end{equation}
-, giving the stable sex ratio at birth, $S$, as:
+, giving the stable sex ratio at birth, $S^\upsilon$, as:
 \begin{equation}
-S = \frac{B^M}{B^F}
+S^\upsilon = \frac{B^M}{B^F}
 \end{equation}
 $S$ only differs from $\hat{S}$ in the \nth{6} digit, and after the single
 iteration just described obtains a constant value\footnote{The author offers
@@ -293,42 +293,33 @@ recursions of the above-described iteration.}. $S$ allows us to calculate the
 remaining stable parameters. The both-sex stable birth rate, $b^\upsilon$ is given by:
 \begin{equation}
 b^\upsilon = \frac{1}{
-            \splitfrac{\big(\frac{S}{1+S} \int _{y'=0}^\infty \int _{a'=y'}^\infty
-            e^{-r^\upsilon a'} d_{a'}^F \dd a' \dd y'}{ + 
-             \frac{1}{1+S} \int _{y=0}^\infty \int _{a=y}^\infty e^{-r^\upsilon a}
-                      d_{a}^M \dd a \dd y\big)}  }                   
+            \splitfrac{\big(\frac{S^\upsilon}{1+S^\upsilon} \int _{y'=0}^\infty
+            \int _{a'=y'}^\infty e^{-r^\upsilon a'} d_{a'}^F \dd a' \dd y'}{ + 
+             \frac{1}{1+S^\upsilon} \int _{y=0}^\infty \int _{a=y}^\infty
+             e^{-r^\upsilon a} d_{a}^M \dd a \dd y\big)}  }                   
 \end{equation}
 , which can be used to derive the stable $e_x$-structure of males and females,
 $c_y^\upsilon$ and $c_{y'}^\upsilon$, respectively:
 
 \begin{equation}
-c_{y'} = b^\upsilon \frac{1}{1+S} \int _{a'=y'}^\infty e^{-ra'} d_{a'}^F \dd
-a'
+c_{y'}^\upsilon = b^\upsilon \frac{1}{1+S^\upsilon} \int _{a'=y'}^\infty
+e^{-ra'} d_{a'}^F \dd a'
 \end{equation}
 , and
 \begin{equation}
-c_{y} = b^\upsilon \frac{S}{1+S} \int _{a=y}^\infty e^{-ra} d_{a}^M \dd
-a'
+c_{y}^\upsilon = b^\upsilon \frac{S^\upsilon}{1+S^\upsilon} \int _{a=y}^\infty
+e^{-ra} d_{a}^M \dd a'
 \end{equation}
 , where:
 \begin{equation}
-1 = \int c_{y'} \dd y' + \int c_{y} \dd y
+1 = \int c_{y'}^\upsilon \dd y' + \int c_{y}^\upsilon \dd y
 \end{equation}
 , the sex ratio in any given age, $S_y$, is:
 \begin{equation}
-S_y = \frac{c_{y}}{c_{y'}}
+S_y^\upsilon = \frac{c_{y}^\upsilon}{c_{y'}^\upsilon}
 \end{equation}
 , and the the overall sex ratio,$S^T$ will be:
 \begin{equation}
-S^T= \frac{\int c_{y} \dd y}{\int c_{y'} \dd y'}
+S^T= \frac{\int c_{y}^\upsilon \dd y}{\int c_{y'}^\upsilon \dd y'}
 \end{equation}
-
-\paragraph{Construction of the corresponding projection matrix:} 
-These formal relations establish coherence, but are less relevant in the
-discrete world of applied demography, which best replicates the above with
-projection matrices, modelled on that offered for the single-sex
-$e_x$-structured case. The two-sex linear projection matrix combines the
-projection of each sex jointly in a single instrument, the construction of which
-is more involved than the single-sex case: Four times more involved to be
-precise. Recall
 
