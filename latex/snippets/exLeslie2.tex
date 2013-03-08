@@ -23,10 +23,14 @@ $\textbf{Y}$ is divided into four main blocks. The top left block is
 nearly identical to the male single-sex case, and the bottom left block is
 nearly identical to the female single-sex case. Both of these two submatrices
 contain survival (all 1s) in the superdiagonal. Fertility is analagous, but must
-be weighted according to $\sigma$ ($-\sigma$). The lower left submatrix
+be weighted according to $\sigma$ ($1-\sigma$). The lower left submatrix
 contains $M-F$ fertility weighted by $\sigma$ and distributed over female death probabilities,
 $d_a^f$, and the upper right matrix contains $F-M$ fertility, weighted by
-$1-\sigma$ and distributed according to male death probabilities.
+$1-\sigma$ and distributed according to male death probabilities. As with the
+single-sex projection matrix, fertility destined to die in the first year of
+life must be further discounted by $\lambda$ to account for the part of infant
+mortality that occurs before Dec. \nth{31} of the calendar birth year. In this
+case $\lambda$ may optionally be entered separately for males and females.
 
 % need to adjust spacing big-time!
 \vspace{1em}

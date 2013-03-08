@@ -69,7 +69,7 @@ $\bordermatrix{{e_y } & 0_t & 1_t & 2_t & 3_t & 4_t & 5_t\cr
  around 1990, since which time it has steadily risen to around $0.87$. That is
  to say, lambda has varied, but not drastically. Likewise for Spain, $\lambda$
  fell from around $0.885$ in 1975 to $0.86$ in the mid 1990s, since which time it
- has risen another .5\%. In Spain  $\lambda$ has been around .5\%
+ has risen another \textonehalf\%. In Spain  $\lambda$ has been around \textonehalf\%
  higher for males than females. These numbers are just meant to give a feel
  for the ranges that $\lambda$ can be expected to receive. If the demographer
  does not have information to derive $\lambda$ directly, ad hoc semidirect
@@ -112,14 +112,22 @@ $\textbf{Y} = \bordermatrix{
    5_{t+1} \vspace{.6em}& \tfrac{f_0d_5}{2} & f_1d_5 & f_2d_5 & f_3d_5 & f_4d_5 & 0 }$
 \end{matrix}
 
-Remaining years classes will ideally go as high as data permits. For the data
-used in this dissertation, there are 111 total age classes, which translate
-to 111 total remaining years classes (0-110+). In practice $\textbf{Y}$ becomes
-as 111$\times$111 matrix, with most entries non-zero. Construction may for this
-reason appear tedious. However, note that the bulk of fertility entries can be
-derived as the outer (tensor) product $d_x \otimes f_y$, leaving only the first
-row and first column discounting and the addition of the survival superdiagonal.
-In most statistical programming languages constructing $\textbf{Y}$ entails only
+Remaining years classes should ideally terminate at the highest value permitted
+by data. For the data used in this dissertation, there are 111 total age
+classes, which translate to 111 total remaining years classes (0-110+). In practice 
+$\textbf{Y}$ becomes
+as 111$\times$111 matrix, with most entries non-zero. Construction may appear
+tedious for this reason . However, note that the bulk of fertility entries can
+be derived as the outer (tensor) product $d_x \otimes f_y$, leaving only the 
+first row and first column discounting followed by the addition of the survival
+superdiagonal. In most statistical programming languages constructing $\textbf{Y}$ entails only
 a couple more lines of code than constructing a Leslie matrix.
+
+As with Leslie matrices, the above projection matrix may be manipulated using
+generic matrix techniques in order to extract such information as the intrinsic
+growth rate, or the stable $e_x$ structure. The former is the natural log of the
+largest real eigenvalue, and the later is the real part of the eigenvector that
+corresponds to the largest real eigenvalue, rescaled to sum to 1\footnote{see
+\citet[pp 86-87]{caswell2001matrix}}.
 
 

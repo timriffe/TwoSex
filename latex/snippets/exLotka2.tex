@@ -11,7 +11,8 @@ extensions of the $e_x$-structured population model introduced in
 Section~\ref{sec:exstructuredrenewal}:
 \begin{enumerate}
   \item A linear extension, assuming fixed weights for males and female,
-  inspired by \citet{goodman1967age}. 
+  similar in design to the age-structured two-sex model found in
+  \citet{goodman1967age}.
   \item A non-linear extension, following the example in
   \citet{gupta1978alternative}.
   \item another non-linear extension? might need to break out sections\ldots
@@ -169,6 +170,8 @@ Section~\ref{sec:exrenewalit}
   in this process).
 \end{enumerate}
 
+\paragraph{The two-sex linear $e_x$-structured model applied to data:}
+
 This procedure has been applied to the data from the US and Spain with $\sigma
 = [0,.5,1]$, which correspond to the cases of female-dominace, an
 intermediate value, and male-dominance, and can be seen in
@@ -181,7 +184,7 @@ Figure~\ref{fig:rupsilonlinear2sex}\footnote{The data in
 \begin{figure}[!ht]
   \centering
     \caption{Two-sex linear intrinsic growth rate, $r^\upsilon$, according to
-    renewal Equation~\eqref{eq:lineartwosexrenewal}, with $\sigma = [0, .5, 1]$ US 
+    renewal Equation~\eqref{fig:rupsilonlinear2sex}, with $\sigma = [0, .5, 1]$ US 
     and Spain, 1969-2009}
      % figure produced in /R/ExLotka2Sex.R
      \includegraphics{Figures/exLotka2sexlinear}
@@ -199,16 +202,11 @@ $r^\upsilon$ than female dominance from the start of observation until
 undergone two such crossovers, with female dominace producing a higher
 $r^\upsilon$ than male dominace until 1980, and again recently starting in 2007.
 Note that the spread between the border cases of male and female dominance is
-tighter than between the single-sex cases. This fact helps to put the
+tighter than between the single-sex cases. This observation should put the
 demographer at ease in deciding the degree of dominance to assign via $\sigma$,
 and makes it particularly easy to accept an intermediate value such as $.5$.
 There have been series of years in both the US and Spain where swapping dominace
 would have made virtually no difference in results or conclusions!
-
-I posit that there exists a formal identity to relate these various results
-(e.g. $r^f{y'}$ to $r^{\upsilon (0)}$), just as \citet[pp. 56]{coale1972growth} relates 
-the age-structured $r^m$ and $r^f$, but this fruit will be left on the tree
-for the time being.
 
 \paragraph{Other reproduction parameters:}
 \label{sec:2sexlinearother}
@@ -323,3 +321,53 @@ S_y^\upsilon = \frac{c_{y}^\upsilon}{c_{y'}^\upsilon}
 S^T= \frac{\int c_{y}^\upsilon \dd y}{\int c_{y'}^\upsilon \dd y'}
 \end{equation}
 
+\paragraph{Reflections on the $e_x$-structured linear two-sex model:}
+I posit that there exists a formal identity to relate the various results
+(e.g. $r^f{y'}$ to $r^{\upsilon (0)}$), just as \citet[pp. 56]{coale1972growth} relates 
+the age-structured $r^m$ and $r^f$, but this fruit will be left on the tree
+for the time being.
+
+Most important, as is visible in Figure~\ref{fig:rupsilonlinear2sex}, there is
+simply very little spread in growth rates between the positions of extreme
+dominance. One intuitively wishes to see a non-linear two-sex model that
+accounts for interactions between both sexes and remaining years of life, just
+as one wishes, in an age-structured model to allow for fluid interactions
+between sex and age. In such a model, the laws of supply and demand would move
+$\sigma$ according to the relative weight of male and female exposure. However,
+the distance between male and female dominance represents around twice the
+maximum difference in $r$ that one would observe upon applying the more
+sophisticated model. This statement assumes 1) that the interactive model is
+bounded by the dominant cases presented here, and 2) that one is comparing with
+the case of $\sigma = 0.5$, a prudent choice. 
+
+As a secondary point, notice also that the present linear model holds rates
+constant with respect to remaining life expectancy, but \textit{not} with
+respect to age. From year to year the population structure with
+respect to remaining life expectancy changes, as does the underlying age
+structure. One could re-derive age-specific fertility rates from the
+$e_x$-specific fertility rates used here, and would note that since the
+weighting variable has changed with time, so too would the weighted sum of
+the $e_x$-specific rates inherent in any age-specific rate. This observation
+heeds \citet{stolnitz1949recent}, who point out several ways in which
+fertility rates are indeed simply weighted sums of even more specific weights.
+Prior to the formulation of the present model we have pointed out another
+dimension in which age (parity-race-class) -specific rates are weighted sums, and we have exploited
+that, short of holding very cross-classified rates constant, one observes
+greater stability over time with $e_x$-classified rates. Holding
+$e_x$-classified rates constant will force underlying age-specific rates to fold
+and adapt with each passing year (albeit not much). Forcing age to adjust in
+accord with constant $e_x$-specific rates appears to this author to be just as
+palatable as forcing $e_x$-specific rates to change under the constraint of
+constant age-specific rates-- perhaps moreso. This judegment is passed on having
+compared the observed volatility in the two kinds of specific rates and deciding
+$e_x$-specific rates are more reconciliable with the stable population
+assumption of fixed rates. This difference is not necessarily large, and may in
+any case be an accident of history, as we have not pondered upon why it is that
+$e_x$-specific rates would hold more constant over time than age-specific rates.
+Part of this may owe to inadequancies in the method used to redistribute
+age-classified data to $e_x$-classified data, as the method is new, and has not
+undergone scrutiny beyond this very dissertation.
+
+
+
+\subsection{}
