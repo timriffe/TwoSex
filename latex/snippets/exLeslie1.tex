@@ -51,16 +51,20 @@ $\bordermatrix{{e_y } & 0_t & 1_t & 2_t & 3_t & 4_t & 5_t\cr
  $d_x$, indeed with no further translation, since the $d_x$ column refers to age
  0, as such. Thus the fertility entry in row $m$ and column $n$ of $\textbf{Y}$
  will be $f_n \cdot d_m$. We assume that those dying over the course of year
- $t$ are exposed to fertility for \textonehalf of the year, and so discount the
- fertility entry accordingly. Further, infant mortality, $f_y \cdot d_0$,
- located in the first row, must also be discounted, since part of the mortality
- will occur in the same year $t$ and the rest in year $t+1$. Since most infant
- mortality occurs in the period lower triangle, it makes sense to discount the
- first by more than \textonehalf, though this is a matter of judgement for the
- demographer. Here we will discount by a factor of 4, implying that 80\% of
- infant mortality is located in the lower lexis triangle. This later assumption
- could be more empirically informed, of course. The fertility component of
- $\textbf{Y}$ then looks something like this:
+ $t$ (the first column) are exposed to fertility for \textonehalf of the
+ year\footnote{One might be tempted to not allow for fertility at all for
+ females dying in year $t$, but recall that fertility is measured in the moment of
+ birth, and not conception.},
+ and so discount the fertility entry accordingly. Further, infant mortality, 
+ $f_y \cdot d_0$, located in the first row, must also be discounted, since part
+ ]of the mortality will occur in the same year $t$ and the rest in year $t+1$. 
+ The first row of fertility must be further discounted by a factor, $\lambda$ in 
+ order to account for the fact that infant mortality is higher in the lower Lexis 
+ triangle than in the upper, i.e.
+ of those infants that die in the first year of life, a proportion equal to
+ $\lambda$ do not make it to December \nth{31} of the calendar year in which
+ they were born. The fertility component of $\textbf{Y}$ then looks something
+ like this:
 
 \begin{figure}[h!]
 \centering
@@ -68,8 +72,8 @@ $\bordermatrix{{e_y } & 0_t & 1_t & 2_t & 3_t & 4_t & 5_t\cr
 ($e_y$)-structured projection matrix, $\textbf{Y}$} 
 $\bordermatrix{
   {e_y } \vspace{.6em}&                0_t  & 1_t  & 2_t  & 3_t  & 4_t  & 5_t\cr 
-   0_{t+1} \vspace{.6em}& \tfrac{f_0d_0}{2 \times 4} &
-   \tfrac{f_1d_0}{4} & \tfrac{f_2d_0}{4} & \tfrac{f_3d_0}{4} & \tfrac{f_4d_0}{4}& 0 \cr 
+   0_{t+1} \vspace{.6em}& \lambda \tfrac{f_0d_0}{2} & \lambda f_1d_0 & \lambda
+   f_2d_0 & \lambda f_3d_0 & \lambda f_4d_0 & 0 \cr 
    1_{t+1} \vspace{.6em}& \tfrac{f_0d_1}{2} & f_1d_1 & f_2d_1 & f_3d_1 & f_4d_1
    & 0   \cr 2_{t+1} \vspace{.6em}& \tfrac{f_0d_2}{2} & f_1d_2 & f_2d_2 & f_3d_2 & f_4d_2
    & 0   \cr 3_{t+1} \vspace{.6em}& \tfrac{f_0d_3}{2} & f_1d_3 & f_2d_3 & f_3d_3 & f_4d_3
@@ -87,13 +91,13 @@ thus the full 6$\times$6 matrix consists in:
 matrix, $\textbf{Y}$} 
 $\textbf{Y} = \bordermatrix{
   {e_y } \vspace{.6em} & 0_t  & 1_t  & 2_t  & 3_t  & 4_t  & 5_t\cr 
-  0_{t+1} \vspace{.6em}& \tfrac{f_0d_0}{2 \times 4} &
-   \tfrac{f_1d_0}{4} + 1 & \tfrac{f_2d_0}{4} & \tfrac{f_3d_0}{4} &
-   \tfrac{f_4d_0}{4}& 0 \cr 1_{t+1} \vspace{.6em}& \tfrac{f_0d_1}{2} & f_1d_1 & f_2d_1 + 1 & f_3d_1 &
-   f_4d_1 & 0 \cr 2_{t+1} \vspace{.6em}& \tfrac{f_0d_2}{2} & f_1d_2 & f_2d_2 & f_3d_2 + 1 &
-   f_4d_2 & 0 \cr 3_{t+1} \vspace{.6em}& \tfrac{f_0d_3}{2} & f_1d_3 & f_2d_3 & f_3d_3 & f_4d_3
-   + 1 & 0 \cr 4_{t+1} \vspace{.6em}& \tfrac{f_0d_4}{2} & f_1d_4 & f_2d_4 &
-   f_3d_4 & f_4d_4 & 1 \cr 5_{t+1} \vspace{.6em}& \tfrac{f_0d_5}{2} & f_1d_5 & f_2d_5 & f_3d_5 & f_4d_5 & 0 }$
+  0_{t+1} \vspace{.6em}&  \lambda \tfrac{f_0d_0}{2} & \lambda f_1d_0 + 1 & \lambda f_2d_0 & \lambda f_3d_0 &
+    \lambda f_4d_0 & 0 \cr 
+    1_{t+1} \vspace{.6em}& \tfrac{f_0d_1}{2} & f_1d_1 & f_2d_1 + 1 & f_3d_1 & f_4d_1 & 0 \cr 
+    2_{t+1} \vspace{.6em}& \tfrac{f_0d_2}{2} & f_1d_2 & f_2d_2 & f_3d_2 + 1 & f_4d_2 & 0 \cr 
+   3_{t+1} \vspace{.6em}& \tfrac{f_0d_3}{2} & f_1d_3 & f_2d_3 & f_3d_3 & f_4d_3 + 1 & 0 \cr 
+   4_{t+1} \vspace{.6em}& \tfrac{f_0d_4}{2} & f_1d_4 & f_2d_4 & f_3d_4 & f_4d_4 & 1 \cr 
+   5_{t+1} \vspace{.6em}& \tfrac{f_0d_5}{2} & f_1d_5 & f_2d_5 & f_3d_5 & f_4d_5 & 0 }$
 \end{figure}
 
 Remaining years classes will ideally go as high as data permits. For the data
@@ -104,6 +108,6 @@ reason appear tedious. However, note that the bulk of fertility entries can be
 derived as the outer (tensor) product $d_x \otimes f_y$, leaving only the first
 row and first column discounting and the addition of the survival superdiagonal.
 In most statistical programming languages constructing $\textbf{Y}$ entails only
-slightly more code than constructing the Leslie matrix, $\textbf{L}$.
+a couple more lines of code than constructing a Leslie matrix.
 
 
