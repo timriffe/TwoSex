@@ -1,11 +1,11 @@
 
 The formal relations presented in
 Sections~\ref{sec:2sexlinearmain}~and~\ref{sec:2sexlinearother} establish
-coherence, and some merits have been presented, but these equations are perhaps
-less relevant in the discrete world of applied demography. The model contianed
-in Equation~\ref{eq:lineartwosexrenewal} is best replicated with a projection,
-similar in concept to that offered for the single-sex $e_x$-structured case in
-Section~\ref{sec:ex1sexleslie}. The two-sex linear projection matrix combines
+coherence, and some merits have been presented. This section offers tools
+more relevant to the discrete world of applied demography. The model contained
+in Equation~\ref{eq:lineartwosexrenewal} is best replicated with a projection
+matrix, similar in concept to that offered for the single-sex $e_x$-structured
+case in Section~\ref{sec:ex1sexleslie}. The two-sex linear projection matrix combines
 the projection of each sex jointly in a single instrument, the construction of 
 which is more involved than the single-sex case: Four times more involved to be precise. 
 
@@ -13,29 +13,30 @@ Assuming $n$ $e_x$-classes each for males and females, the dimensions of the
 present matrix will be $2n \times 2n$, where male and female
 $e_x$-classified population vectors by be joined, for instance end-to-end in a
 single population vector. The convention used in this description will place
-males, ordered by remaining years in positions $1:n$ of the vector $\textbf{p}$
-and females ordered by remaing years in positions $(n+1):(2n)$ of $\textbf{p}$.
-This being so, the projection matrix $\textbf{Y}$ must conform with these
-locations of males and females, locating survival and fertility appropriately.
+males, ordered by remaining years of life in positions $1:n$ of the vector
+$\textbf{p}$ and females ordered by remaing years in positions $(n+1):(2n)$ of
+$\textbf{p}$, i.e. end-to-end. This being so, the projection matrix $\textbf{Y}$
+must conform with these locations of males and females, locating survival and 
+fertility appropriately.
 
 $\textbf{Y}$ is divided into four main blocks. The top left block is
 nearly identical to the male single-sex case, and the bottom left block is
 nearly identical to the female single-sex case. Both of these two submatrices
-contain survival (all 1s) in the superdiagonal. Fertility is analagous, but
-weighted according to $\sigma$. The lower left submatrix contains $M-F$
-fertility weighted by $\sigma$ and distributed over female death probabilities,
+contain survival (all 1s) in the superdiagonal. Fertility is analagous, but must
+be weighted according to $\sigma$ ($-\sigma$). The lower left submatrix
+contains $M-F$ fertility weighted by $\sigma$ and distributed over female death probabilities,
 $d_a^f$, and the upper right matrix contains $F-M$ fertility, weighted by
 $1-\sigma$ and distributed according to male death probabilities.
 
 % need to adjust spacing big-time!
-
-\begin{figure}[h!]
+\vspace{1em}
+\begin{matrix}[h!]
+\caption{A full two-sex remaining years ($e_y$)-structured
+projectionmatrix, $\textbf{Y}$} 
  \begin{adjustwidth}{-1.5in}{-.5in}
-\centering
-\caption*{Example: A full two-sex remaining years ($e_y$)-structured projection
-matrix, $\textbf{Y}$} 
+ \centering
 \tiny{
-$\textbf{Y} = \bordermatrix{
+$\bordermatrix{
   {e_y }    \vspace{.6em} & 0_t^M                                             & 1_t^M                                       & 2_t^M                                    & 3_t^M   & 0_t^F                                                & 1_t^F                                          & 2_t^F                                       & 3_t^F  \cr 
   0_{t+1}^M \vspace{.6em} & \sigma  \lambda^M\tfrac{f_0^{M-M}d_0^M}{2}        &
   \sigma \lambda^Mf_1^{M-M}d_0^M + 1          & \sigma \lambda^Mf_2^{M-M}d_0^M           &  0      & (1-\sigma)\lambda^M\tfrac{f_0^{F-M}d_0^M}{2}         & (1-\sigma)\lambda^Mf_1^{F-M}d_0^M             & (1-\sigma\lambda^Mf_2^{F-M}d_0^M &  0     \cr 1_{t+1}^M \vspace{.6em} & \sigma \tfrac{f_0^{M-M}d_1^M}{2}                  & \sigma f_1^{M-M}d_1^M                       & \sigma f_2^{M-M}d_1^M + 1                &  0      & (1-\sigma) \tfrac{f_0^{F-M}d_1^M}{2}                 & (1-\sigma)f_1^{F-M}d_1^M                      & (1-\sigma)f_2^{F-M}d_1^M                    &  0     \cr 
@@ -47,6 +48,6 @@ $\textbf{Y} = \bordermatrix{
   3_{t+1}^F \vspace{.6em} & \sigma \tfrac{f_0^{M-F}d_3^F}{2}                  & \sigma f_1^{M-F}d_3^F                       & \sigma f_2^{M-F}d_3^F                    &  0      & (1-\sigma) \tfrac{f_0^{F-F}d_3^F}{2}                 & (1-\sigma)f_1^{F-F}d_3^F                      & (1-\sigma)f_2^{F-F}d_3^F                    &  0 
  }$}
   \end{adjustwidth}
-\end{figure}
+\end{matrix}
 
 

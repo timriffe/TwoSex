@@ -27,9 +27,9 @@ Appendix~\ref{Appendix:Caswell}, we illustrate using a 6$\times$6 matrix. The
 survival component of $\textbf{Y}$ looks like this:
 
 
-\begin{figure}[h!]
+\begin{matrix}[h!]
 \centering
-\caption*{Example: Survival component of one-sex remaining years
+\caption{Survival component of one-sex remaining years
 ($e_y$)-structured projection matrix, $\textbf{Y}$} 
 
 $\bordermatrix{{e_y } & 0_t & 1_t & 2_t & 3_t & 4_t & 5_t\cr 
@@ -39,7 +39,7 @@ $\bordermatrix{{e_y } & 0_t & 1_t & 2_t & 3_t & 4_t & 5_t\cr
                 3_{t+1} & 0    &  0   & 0    & 0    & 1    & 0   \cr 
                 4_{t+1} & 0    &  0   & 0    & 0    & 0    & 1   \cr
                 5_{t+1} & 0    &  0   & 0    & 0    & 0    & 0   }$
-\end{figure}
+\end{matrix}
 
  Fertility inputs to the matrix are derived from $e$SFR and the lifetable $d_x$
  distribution, where $x$ indexes age, but is translated to $y$, remaining years
@@ -66,9 +66,9 @@ $\bordermatrix{{e_y } & 0_t & 1_t & 2_t & 3_t & 4_t & 5_t\cr
  they were born. The fertility component of $\textbf{Y}$ then looks something
  like this:
 
-\begin{figure}[h!]
+\begin{matrix}[h!]
 \centering
-\caption*{Example: Fertility component of one-sex remaining years
+\caption{Fertility component of one-sex remaining years
 ($e_y$)-structured projection matrix, $\textbf{Y}$} 
 $\bordermatrix{
   {e_y } \vspace{.6em}&                0_t  & 1_t  & 2_t  & 3_t  & 4_t  & 5_t\cr 
@@ -80,14 +80,14 @@ $\bordermatrix{
    & 0   \cr 4_{t+1} \vspace{.6em}& \tfrac{f_0d_4}{2} & f_1d_4 & f_2d_4 & f_3d_4 & f_4d_4
    & 0   \cr 5_{t+1} \vspace{.6em}& \tfrac{f_0d_5}{2} & f_1d_5 & f_2d_5 & f_3d_5 & f_4d_5
    & 0   }$
-\end{figure}
+\end{matrix}
 
 The survival and fertility components of $\textbf{Y}$ add together elementwise,
 thus the full 6$\times$6 matrix consists in:
 
-\begin{figure}[h!]
+\begin{matrix}[h!]
 \centering
-\caption*{Example: A full one-sex remaining years ($e_y$)-structured projection
+\caption{A full one-sex remaining years ($e_y$)-structured projection
 matrix, $\textbf{Y}$} 
 $\textbf{Y} = \bordermatrix{
   {e_y } \vspace{.6em} & 0_t  & 1_t  & 2_t  & 3_t  & 4_t  & 5_t\cr 
@@ -98,7 +98,7 @@ $\textbf{Y} = \bordermatrix{
    3_{t+1} \vspace{.6em}& \tfrac{f_0d_3}{2} & f_1d_3 & f_2d_3 & f_3d_3 & f_4d_3 + 1 & 0 \cr 
    4_{t+1} \vspace{.6em}& \tfrac{f_0d_4}{2} & f_1d_4 & f_2d_4 & f_3d_4 & f_4d_4 & 1 \cr 
    5_{t+1} \vspace{.6em}& \tfrac{f_0d_5}{2} & f_1d_5 & f_2d_5 & f_3d_5 & f_4d_5 & 0 }$
-\end{figure}
+\end{matrix}
 
 Remaining years classes will ideally go as high as data permits. For the data
 used in this dissertation, there are 111 total age classes, which translate
