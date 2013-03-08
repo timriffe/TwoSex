@@ -473,3 +473,19 @@ save(muxmUS, file = "/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata")
 save(muxfUS, file = "/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata")
 save(muxmES, file = "/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata")
 save(muxfES, file = "/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata")
+
+library(HMDget)
+
+head(LxmES)
+PxES <- HMDget(countries = c("ESP"), wanteditems = c("Population"), 
+        years = list(Population = c(1975:2009)), drop.tadj = TRUE, format = 1, 
+        username = username, password = password)
+colnames(PxES) <- c("Year","Age","Female","Male","Total")
+
+PxUS <- HMDget(countries = c("USA"), wanteditems = c("Population"), 
+        years =  list(Population = c(1969:2009)), drop.tadj = TRUE, format = 1, 
+        username = username, password = password)
+colnames(PxUS) <- c("Year","Age","Female","Male","Total")
+save(PxES, file = "/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")
+save(PxUS, file = "/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")
+
