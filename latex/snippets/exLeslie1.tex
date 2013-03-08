@@ -24,14 +24,14 @@ Thus, instead of in the subdiagonal, we place survival in the superdiagonal, and
 indeed all survival values are 1, since there is no decrement, and the
 upper-left corner contains no entry for survival. As in
 Appendix~\ref{Appendix:Caswell}, we illustrate using a 6$\times$6 matrix. The
-survival component of $\textbf{Y}$ looks like this:
-
+survival component of $\textbf{Y}$ is organized as in
+Matrix~\ref{matrix:ex1sexsurvival}.
 
 \begin{matrix}[h!]
 \centering
 \caption{Survival component of one-sex remaining years
 ($e_y$)-structured projection matrix, $\textbf{Y}$} 
-
+\label{matrix:ex1sexsurvival}
 $\bordermatrix{{e_y } & 0_t & 1_t & 2_t & 3_t & 4_t & 5_t\cr 
                 0_{t+1} & 0    &  1   & 0    & 0    & 0    & 0   \cr
                 1_{t+1} & 0    &  0   & 1    & 0    & 0    & 0   \cr 
@@ -63,13 +63,14 @@ $\bordermatrix{{e_y } & 0_t & 1_t & 2_t & 3_t & 4_t & 5_t\cr
  triangle than in the upper, i.e.
  of those infants that die in the first year of life, a proportion equal to
  $\lambda$ do not make it to December \nth{31} of the calendar year in which
- they were born. The fertility component of $\textbf{Y}$ then looks something
- like this:
+ they were born. The fertility component of $\textbf{Y}$ is then composed as in
+ Matrix~\ref{matrix:ex1sexfertility}.
 
 \begin{matrix}[h!]
 \centering
 \caption{Fertility component of one-sex remaining years
 ($e_y$)-structured projection matrix, $\textbf{Y}$} 
+\label{matrix:ex1sexfertility}
 $\bordermatrix{
   {e_y } \vspace{.6em}&                0_t  & 1_t  & 2_t  & 3_t  & 4_t  & 5_t\cr 
    0_{t+1} \vspace{.6em}& \lambda \tfrac{f_0d_0}{2} & \lambda f_1d_0 & \lambda
@@ -83,12 +84,13 @@ $\bordermatrix{
 \end{matrix}
 
 The survival and fertility components of $\textbf{Y}$ add together elementwise,
-thus the full 6$\times$6 matrix consists in:
+thus the full 6$\times$6 matrix is composed as in Matrix~\ref{matrix:ex1sex}.
 
 \begin{matrix}[h!]
 \centering
 \caption{A full one-sex remaining years ($e_y$)-structured projection
 matrix, $\textbf{Y}$} 
+\label{matrix:ex1sex}
 $\textbf{Y} = \bordermatrix{
   {e_y } \vspace{.6em} & 0_t  & 1_t  & 2_t  & 3_t  & 4_t  & 5_t\cr 
   0_{t+1} \vspace{.6em}&  \lambda \tfrac{f_0d_0}{2} & \lambda f_1d_0 + 1 & \lambda f_2d_0 & \lambda f_3d_0 &
