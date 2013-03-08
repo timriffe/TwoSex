@@ -107,25 +107,25 @@ MakeLExTwoSexProjMatrix <- function(dxm, dxf, FexFF, FexFM, FexMM, FexMF, lambda
         
         # upper left block
         # male-male fert
-        sigma * outer(dxm, Fexm, "*") + 
+        sigma * outer(dxm, FexMM, "*") + 
         # add element-wise
         # male survival 
         rbind(cbind(0, diag(N - 1)),0),
         
         # lower left block
         # male- female fert
-        sigma * outer(dxf, Fexm, "*") 
+        sigma * outer(dxf, FexMF, "*") 
       ),
     # --------------------------------------------
       # Female side (right half)
         rbind(
         # upper right block
         # female- male fert
-        (1 - sigma) * outer(dxm, Fexf, "*"), 
+        (1 - sigma) * outer(dxm, FexFM, "*"), 
     
         # lower right block
         # female survival and female-female fert
-        (1 - sigma) * outer(dxf, Fexf, "*") + 
+        (1 - sigma) * outer(dxf, FexFF, "*") + 
         rbind(cbind(0, diag(N - 1)), 0)
       )
     )
@@ -197,6 +197,10 @@ lmax<-which.max(Re(ev$values))
 lmax
 Re(ev$values)[lmax]
 log(max(Re(ev$values)))
+names(ev)
+plot(Re(ev$vectors)[,lmax])
+
+
 rES1sex <- do.call(rbind,lapply(Y_1sexES, function(x){
             c(r.f = log(max(Re(eigen(x[["Yf"]])$values))),
             r.m = log(max(Re(eigen(x[["Ym"]])$values))))
@@ -211,5 +215,53 @@ lines(yearsUS, rUS1sex[,"r.m"], col = "blue")
 lines(yearsES, rES1sex[,"r.f"], col = "red",lty=2)
 lines(yearsES, rES1sex[,"r.m"], col = "blue",lty=2)
 
+# make 2-sex matrices
+Y_2sexUS <- lapply(as.character(yearsUS), function(yr, .dxm, .dxf, .Ex, .Bxymf, .lambdaf, .lambdam, .sigma){
+            yri     <- as.integer(yr)
+            .dxm.   <- .dxm[, yr]
+            .dxf.   <- .dxf[, yr]
+            ExM     <- rowSums(ExpectedDx( with(.Ex, Male[Year == yri]), .dxm.))
+            BxMM    <- rowSums(ExpectedDx( rowSums(.Bxymf[[yr]][["Bxym"]], na.rm = TRUE), .dxm.))
+            BxMF    <- rowSums(ExpectedDx( rowSums(.Bxymf[[yr]][["Bxyf"]], na.rm = TRUE), .dxm.))
+            
+            ExF     <- rowSums(ExpectedDx( with(.Ex, Female[Year == yri]), .dxf.))
+            BxFF    <- rowSums(ExpectedDx( colSums(.Bxymf[[yr]][["Bxyf"]], na.rm = TRUE), .dxf.))
+            BxFM    <- rowSums(ExpectedDx( colSums(.Bxymf[[yr]][["Bxym"]], na.rm = TRUE), .dxf.))
+            
+            # sex-sex-ex- specific rates:
+            FxMM    <- Mna0(Minf0(BxMM / ExM))
+            FxFF    <- Mna0(Minf0(BxFF / ExF))
+            FxMF    <- Mna0(Minf0(BxMF / ExM))
+            FxFM    <- Mna0(Minf0(BxFM / ExF))
+            
+            MakeLExTwoSexProjMatrix(dxm = .dxm., dxf = .dxf., 
+                    FexFF = FxFF, FexFM = FxFM, 
+                    FexMM = FxMM, FexMF = FxMF, 
+                    lambdaM = .lambdam[yr], lambdaF = .lambdaf[yr], sigma = .sigma)
+        },
+        .dxm = dxmUS, .dxf = dxfUS,
+        .Ex = ExUS, .Bxymf = BxymfUS, 
+        .lambdaf = lambdafUS, .lambdam = lambdafES, .sigma= .5)
 
-
+names(Y_1sexUS) <- yearsUS
+# repeat for Spain
+Y_1sexES <- lapply(as.character(yearsES), function(yr, .dxm, .dxf, .Ex, .Bxymf, .lambdaf, .lambdam){
+            yri     <- as.integer(yr)
+            .dxm.   <- .dxm[, yr]
+            .dxf.   <- .dxf[, yr]
+            ExM     <- rowSums(ExpectedDx( with(.Ex, Male[Year == yri]), .dxm.))
+            BxMM    <- rowSums(ExpectedDx( rowSums(.Bxymf[[yr]][["Bxym"]], na.rm = TRUE), .dxm.))
+            
+            ExF     <- rowSums(ExpectedDx( with(.Ex, Female[Year == yri]), .dxf.))
+            BxFF    <- rowSums(ExpectedDx( colSums(.Bxymf[[yr]][["Bxyf"]], na.rm = TRUE), .dxf.))
+            
+            # sex-sex-ex- specific rates:
+            FxMM    <- BxMM / ExM
+            FxFF    <- BxFF / ExF
+            
+            
+            list(Yf = MakeLExOneSexProjMatrix(FxFF, .dxf., .lambdaf[yr]),
+                    Ym = MakeLExOneSexProjMatrix(FxMM, .dxm., .lambdam[yr]))
+        }, .dxm = dxmES, .dxf = dxfES, 
+        .Ex = ExES, .Bxymf = BxymfES, 
+        .lambdaf = lambdafES, .lambdam = lambdafES)
