@@ -489,3 +489,18 @@ colnames(PxUS) <- c("Year","Age","Female","Male","Total")
 save(PxES, file = "/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")
 save(PxUS, file = "/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")
 
+
+DTLTUES <- HMDget(countries = c("ESP"), wanteditems = c("Deaths_lexis"), 
+        years = list(Deaths_lexis = c(1975:2009)), drop.tadj = TRUE, format = 1, 
+        username = username, password = password)
+colnames(DTLTUES) <- c("Year","Age","Cohort","Female","Male","Total")
+
+DTLTUUS <- HMDget(countries = c("USA"), wanteditems = c("Deaths_lexis"), 
+        years =  list(Deaths_lexis = c(1969:2009)), drop.tadj = TRUE, format = 1, 
+        username = username, password = password)
+
+colnames(DTLTUUS) <- c("Year","Age","Cohort","Female","Male","Total")
+
+
+save(DTLTUES, file = "/home/triffe/git/DISS/Data/HMD_TLTU/DTLTUES.Rdata")
+save(DTLTUUS, file = "/home/triffe/git/DISS/Data/HMD_TLTU/DTLTUUS.Rdata")
