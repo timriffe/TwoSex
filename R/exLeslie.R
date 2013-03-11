@@ -75,7 +75,7 @@ lines(lowess(lambdamUS~yearsUS), col = "blue")
 MakeLExOneSexProjMatrix <- function(Fx, dx, lambda){
     N       <- length(Fx)
     # discount for part of infant mortality not surviving until end of year
-    dx[1]   <- dx[1] * lambda
+    dx[1]   <- dx[1] * (1 - lambda)
     
     # NxN matrix
                # fertility component
@@ -95,8 +95,8 @@ MakeLExOneSexProjMatrix <- function(Fx, dx, lambda){
 
 MakeLExTwoSexProjMatrix <- function(dxm, dxf, FexFF, FexFM, FexMM, FexMF, lambdaM, lambdaF, sigma = .5){
     N <- length(dxm)
-    dxm[1] <- dxm[1] * lambdaM
-    dxf[1] <- dxf[1] * lambdaF
+    dxm[1] <- dxm[1] * (1 - lambdaM)
+    dxf[1] <- dxf[1] * (1 - lambdaF)
     
     # define matrix, then discount first column for year t mortality
     Y <-
