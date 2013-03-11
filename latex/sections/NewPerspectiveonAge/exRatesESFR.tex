@@ -1,0 +1,125 @@
+The technique presented in Equation~\ref{eq:dxredist} and illustrated in
+Figures~\ref{fig:exPyrUS}~and~\ref{fig:exPyrES} can indeed be used to reclassify
+any age-distributed data, assuming that the appropriate lifetable is available.
+We now apply this redistribution technique in order to calculate male and 
+female $e_x$-specific fertility rates ($e$SFR). For any rate, the numerator 
+and denominator require a common referent, thus both births and exposures are 
+redistributed according to year $t$ mortality conditions. That
+is to say, we take the extra step of moving the age-specific vector
+of birth counts (by mothers' or fathers' age) into $e_x$-specific birth
+vectors before dividing into $e_x$-specific exposures. Explicitly:
+
+\begin{align}
+\label{eq:eSFR}
+F_{y} &= \frac{\int _{a = 0} ^{\infty} B_a \frac{d_{a + y}}{\int _{b = a)}
+^{\infty} d_b\, \dd b} \;\dd a}{\int _{a = 0} ^{\infty} F_a \frac{d_{a + y}}{\int _{b = a} ^{\infty} d_b\, \dd b} \;\dd a} \\
+ &= \frac{B_{y}}{E_{y}}
+\end{align}
+, where $y$ indexes remaining years of life and $a$ indexes age, $B_a$ are
+age-clsasified births, and $E_a$ are age-classified exposures. Remaining years
+of life-specific rates cannot be directly compared with a typical age-specific
+rate, since the time scales are different, but we 
+can indeed apply some familiar tools in order to analyze this new curve.
+
+The $e_x$-pattern of fertility is distinct from the age-pattern of fertility. 
+In contemporary Western populations, female $e$SFR curves will be
+further to the right than male curves for two reasons: 1) Female mortality is
+almost universally lower than male mortality at (and beyond) any given age,
+thus associating births at a given age with higher remaining life expectancies; 2)
+female fertility is more tightly concentrated over young ages, partly due to the
+upper bound defined by menopause, and partly due to prevailing hypergamy.
+Figure~\ref{fig:eSFR2009} shows an example $e$SFR from 2009, for both the US and Spain.
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Male and Female $e_x$-specific fertility rates, 2009, USA and
+          Spain}
+           % figure produced in
+           % /R/Parents_ex.R
+           \includegraphics{Figures/eSFR2009}
+          \label{fig:eSFR2009}
+\end{figure}
+
+One may question whether the curves shown in Figure~\ref{fig:eSFR2009} properly
+represent rates. This author argues that the same definition of events in the
+numerator and exposures in the denominator has been applied, only the
+structuring variable has changed from \textit{time since birth} to \textit{time
+until death} (of progenitor here). In this way, age-classified and
+$e_x$-classified populations have structure in the same sense. As with any
+demographic variable, we may wish to analyze the intensity of demographic
+phenomena removed of the distorting effects of population structure.
+Working with event-exposure rates are just one way of doing so, simple
+decomposition is another, and indeed such rates and decompositions are possible
+in the aggregate both with respect to age and with respect to
+$e_x$.
+
+This is, in the best case, a rough calculation, for several reasons. The
+assumption of homogenous mortality is particularly consequential in the case of 
+fertility, where health selection is self-evident, but not easily measureable.
+It is for this reason to be expected that the left tails in
+Figure~\ref{fig:eSFR2009} are too thick. 
+
+Furthermore, exposure is taken from the \textit{entire} population, not merely
+the populaton within reproductive ages. The rates could be thusly recalculated,
+for instance using female ages $13-50$ and male age $15-65$, and would look like 
+Figure~\ref{fig:eSFR2009limits}, in some isntances a more reasonable if less
+intelligible result\footnote{Rate surfaces based on $e_x$-specific fertility
+data are calculated under a variety of reproductive spans in
+Appendix~\ref{Appendix:reprospans}}.
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Male and Female $e_x$-specific fertility rates, 2009, USA and
+          Spain, with exposures redistributed using only female ages $13-50$ and
+          male ages $15-65$}
+           % figure produced in
+           % /R/Parents_ex.R
+          \includegraphics{Figures/eSFR2009limits}
+          \label{fig:eSFR2009limits}
+\end{figure}
+
+Comparing Figures~\ref{fig:eSFR2009} and~\ref{fig:eSFR2009limits} reminds of the
+comments of \citet{gupta1978alternative} and \citet{mitra1976effect} on the difficulty of
+defining an \textit{effective} population for use in exposures. Clearly, persons
+outside the reproductive age range will conventionally be excluded from
+exposures. Other kinds of risk heterogeneity are known to exist, such as age
+patterns in fecundability, contraceptive use and sexual intercourse, that are
+unaccounted for in standard fertility measures. 
+
+With no claim of superiority over the more
+restrictive exposures used for Figure~\ref{fig:eSFR2009limits}, we will proceed
+in this section by using exposures derived from all ages. One could weakly
+defend this choice by noting that we are attempting to measure the period
+reproductivity of an \textit{entire} population, not just part of it. The
+reproductive span was an outcome of evolution, varies greatly between
+individuals and populations, and is mutable, both due to ongoing
+population-level genetic, nutritional and hormonal changes and direct human
+intervention. We will for the time being, be content to work with the cruder $e$SFR, and note
+that this rate, as any other, is amenable to further disaggregation and
+decomponsition.
+
+\begin{figure}
+        \centering
+        \begin{subfigure}
+                \centering
+                \caption{Male and Female $e$SFR surfaces, 1969-2009, USA}
+                \includegraphics[scale = .8]{Figures/eSFRsurfacesUS}
+                \label{fig:exSFRsurfUS}
+        \end{subfigure}
+        \begin{subfigure}
+                \centering
+                \caption{Male and Female $e$SFR surfaces, 1975-2009, Spain}
+                \includegraphics[scale = .8]{Figures/eSFRsurfacesES} 
+                \label{fig:exSFRsurfES}
+        \end{subfigure}
+\end{figure}
+
+As is visible in Figures~\ref{fig:exSFRsurfUS}~and~\ref{fig:exSFRsurfES}, 
+$e_x$-SFR has changed its level and undergone a gradual displacement over 
+time toward higher $e_x$ levels, an altogether propitious development
+with respect to human altriciality. The interpretation of this displacement is
+entirely different from that of postponement in ASFR. Observed fertility 
+postponement should shift $e$SFR unfavorably to higher mortality 
+levels (lower $e_x$ levels), however mortality improvements have tended to 
+offset this effect, acting to move the curve to higher
+remaining life expectancies. 

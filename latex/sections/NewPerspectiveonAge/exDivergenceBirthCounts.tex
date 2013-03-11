@@ -1,0 +1,102 @@
+\label{sec:exdivergence}
+It has been noted that the observed and expected distributions of births by
+remaining years of life of mothers and fathers very closely resemble each other
+(See Figure~\ref{fig:TotalVarobsexpex}), almost enough so that we could
+approximate the observed distribution by a random distribution given only the
+marginal distributions. In any case, the result would be a much closer fit to
+observed data than would be the same excercise if undertaken with typical
+age-classified data. 
+
+Further, it has been noted that the population pyramid is
+much more (6 times more) stable from year to year when classified by remaining
+years of life than when classified by age. This is so because the
+$e_x$-classified pyramid does not uniformly decrement in single-year steps, due
+to well known and apparently stable trends of year-on-year mortality improvement
+that have thus far shown no signs of abatement. Intuitively, the central bulge
+in an $e_x$-classified population pyramid does not plummet to the base of the pyramid at a rate of 1
+year per year, but rather much more slowly and smoothly, always leaving a
+tapered base to the pyramid (the population expected to decrement soon). In this
+way, the $e_x$-pyramid, at least in popualations that have radically reduced
+infant and child mortality and have late-transition fertility
+levels\footnote{These two characteristics typically co-occur
+\citep{macinnes2009reproductive}, and both conditions hold for the US and Spain
+in the years presented here}, tends to vary within a narrow range of what may,
+with little room for discussion, be called a characteristic \textit{leaf} shape.
+
+Since the $e_x$ population distribution can be predicted
+with nearly equal facility and precision as the age-distributed population in
+year $t+1$, one may ask whether, given the relative stability of underlying
+exposures for both male and females, $e_x$-specific fertility rates are also more stable than
+age-specific fertility rates from year to year. If this is so, then predicting 
+birth counts $n$ years hence separately for the sexes based
+on year $t$ $e_x$-SFR and year $t + n$ $e_x$-classified exposures has the
+potential to entail lower disagreement in predicted birth counts derived
+from male and female rates and exposures than does the age
+anologue of this same exercise.
+
+If results show that projected divergence in predicted birth counts, holding
+single-sex fertility rates constant, is lesser for the $e_x$-classified data
+than for age-classified data, then we can safely say that the two-sex problem
+has been reduced in size, albeit not solved. In the case that the magnitude of
+the problem has been reduced by this simple transformation, one further
+concludes that whatever empirical or axiomatic drawbacks entailed by 
+two-sex adjustment procedures presently in the literature will also be reduced,
+thereby making the two-sex problem in practice less problematic. 
+
+This exercise has been carried out for both the US and Spain with $n$ equal to
+1, 5, 10 and 15. In summary, for the US (See Table~\ref{tab:USexDiscrepancy}),
+the sex-discrepancy entailed by $e_x$-classified data is on the order of 5 times 
+smaller than for age-classified
+data, a welcome improvement . Further, the
+$e_x$-method for the US entails sex discrepancies that vary roughly around zero, 
+whereas age-classfied data were
+always positively biased in the period studied. For Spain (See
+Table~\ref{tab:ESexDiscrepancy}), we notice no difference in the magnitude of 
+discrepancy, but indeed in the sign of
+discrepancy.
+
+% table of mean relative difference over whole span.
+% US
+\begin{table}
+\caption{Relative discrepancy between single-sex projected births $n$ years
+hence using $e_x$- vs age-classified data US, 1969-2009}
+\label{tab:USexDiscrepancy}
+\centering
+\makebox[0pt][c]{\parbox{1.1\textwidth}{%
+    \begin{minipage}[b]{0.45\hsize}
+    \centering
+        \caption*{Mean Relative Discrepancy}
+        \input{xtables/exDivergenceMeanTableUS.tex}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.55\hsize}
+    \centering
+        \caption*{Mean Absolute Relative Discrepancy}
+        \input{xtables/exDivergenceMeanAbsTableUS.tex}
+    \end{minipage}
+}}
+\end{table}
+
+% Spain
+\begin{table}
+\caption{Relative discrepancy between single-sex projected births $n$ years
+hence using $e_x$- vs age-classified data, Spain 1975-2009}
+\label{tab:ESexDiscrepancy}
+\centering
+\makebox[0pt][c]{\parbox{1.1\textwidth}{%
+    \begin{minipage}[b]{0.45\hsize}
+    \centering
+        \caption*{Mean Relative Discrepancy}
+        \input{xtables/exDivergenceMeanTableES.tex}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.55\hsize}
+    \centering
+        \caption*{Mean Absolute Relative Discrepancy}
+        \input{xtables/exDivergenceMeanAbsTableES.tex}
+    \end{minipage}
+}}
+\end{table}
+
+%file.exists("home/triffe/git/DISS/latex/xtables/exDivergenceMeanAbsTableES.tex")
+

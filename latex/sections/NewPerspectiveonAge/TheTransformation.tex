@@ -1,0 +1,58 @@
+The steps required to carry out the present data transformation are conceptually
+simple, and easy to implement once understood. From a given
+population and year extract the $d_x$ column from the corresponding lifetable of
+radix ($l_0$) equal to 1\footnote{If the lifetable was calculcated with a
+different radix, then simply divide the $d_x$ column by $l_0$}. Note that in
+this case the $d_x$ column sums to 1, and is therefore a proper density function. 
+$d_x$ can now be thought of as the probability of dying in any given age from the
+ perspective of a 0-year-old, according to the given year's mortality experience. 
+ It follows that the observed population of age 0 can be redistribted according to
+  $d_x$ and interpreted either as the expected death counts in each future year
+$t+x$, or more intuitively as the distribution of persons currently-aged 0 according 
+to remaining life expectancy. This can be done similarly for age 1, by ignoring the 
+mortality experience of age 0, and rescaling $d_x$ to
+sum to 1, or more generally redistributing each age and then summing to
+$e_x$-specific totals:
+
+\begin{align}
+\label{eq:dxredist}
+P_{y} &= \int _{a = 0} ^{\infty} P_a \frac{d_{a + y}}{\int _{b
+= a} ^{\infty} d_b\, \dd b} \;\dd a
+\\
+&= \mathbf{E}(D_{t+y}) \notag
+\end{align}
+where $P_a$ is the population of age $a$, $d_a$ is the
+lifetable density function and $\mathbf{E}(D_{t+y})$ is the expected number of
+deaths $y$ years after the present year $t$, also understood as a vector of the
+current population, redistributed into categories of remaining life expectancy,
+$P_{y}$, our newly reclassified data.
+
+The function of this formula is not totally original, as \citet{vaupel2009life}
+made use of a similar identity in the proof for the statement that:
+\begin{quotation}
+if an individual is chosen at random from a stationary population with a positive force
+of mortality at all ages, then the probability the individual is one who has lived $a$ years
+equals the probability the individual is one who has that number of years left to live.
+\end{quotation}
+, which takes this shape:
+\begin{equation}
+\label{eq:vaupelredist}
+f(n | a) = \mu (a+n) \frac{l(a+n}{l(a)}
+\end{equation}
+, where $f(n | a) $ is the probability of dying $n$ years in the future given
+survival to age $a$, and $\mu$ is the force of mortality.
+Formula~\eqref{eq:vaupelredist} can thus be used to weight age-classified data
+as well, and when then integrated over age is equal to
+Equation~\eqref{eq:dxredist}. Formula~\eqref{eq:dxredist} is more convenient when 
+discretized\footnote{Formula~\eqref{eq:dxredist} is more convenient due 1) to lifetable 
+close-out issues and 2) because only one column from the lifetable is required instead 
+of 3 columns ($\mu_x$, $l_x$, $L_x$) in
+Equation~\eqref{eq:vaupelredist} }, although both are equally valid.
+Equation~\ref{eq:dxredist} is equivalent to:
+
+\begin{equation}
+P_n = \int _{a=0} ^\infty P_a \mu_{a+n} \frac{l_{a+n}}{l_a} da
+\end{equation}
+, where $n$ is treated as $y$ in \ref{eq:dxredist}.
+The use of either in the way
+presented in this section is to this author's knowledge novel.
