@@ -33,28 +33,29 @@ mortality that occurs before Dec. \nth{31} of the calendar birth year. In this
 case $\lambda$ may optionally be entered separately for males and females.
 
 % need to adjust spacing big-time!
-\vspace{1em}
+\begin{landscape}
 \begin{matrix}[h!]
 \caption{A full two-sex remaining years ($e_y$)-structured
 projectionmatrix, $\textbf{Y}$} 
 \label{matrix:ex2sex}
- \begin{adjustwidth}{-1.5in}{-.5in}
+ \begin{adjustwidth}{-.2in}{-.5in}
  \centering
-\tiny{
+\footnotesize{
 $\bordermatrix{
-  {e_y }    \vspace{.6em} & 0_t^M                                             & 1_t^M                                       & 2_t^M                                    & 3_t^M   & 0_t^F                                                & 1_t^F                                          & 2_t^F                                       & 3_t^F  \cr 
-  0_{t+1}^M \vspace{.6em} & \sigma  \lambda^M\tfrac{f_0^{M-M}d_0^M}{2}        &
-  \sigma \lambda^Mf_1^{M-M}d_0^M + 1          & \sigma \lambda^Mf_2^{M-M}d_0^M           &  0      & (1-\sigma)\lambda^M\tfrac{f_0^{F-M}d_0^M}{2}         & (1-\sigma)\lambda^Mf_1^{F-M}d_0^M             & (1-\sigma\lambda^Mf_2^{F-M}d_0^M &  0     \cr 1_{t+1}^M \vspace{.6em} & \sigma \tfrac{f_0^{M-M}d_1^M}{2}                  & \sigma f_1^{M-M}d_1^M                       & \sigma f_2^{M-M}d_1^M + 1                &  0      & (1-\sigma) \tfrac{f_0^{F-M}d_1^M}{2}                 & (1-\sigma)f_1^{F-M}d_1^M                      & (1-\sigma)f_2^{F-M}d_1^M                    &  0     \cr 
-  2_{t+1}^M \vspace{.6em} & \sigma \tfrac{f_0^{M-M}d_2^M}{2}                  & \sigma f_1^{M-M}d_2^M                       & \sigma f_2^{M-M}d_2^M                    &  1      & (1-\sigma) \tfrac{f_0^{F-M}d_2^M}{2}                 & (1-\sigma)f_1^{F-M}d_2^M                      & (1-\sigma)f_2^{F-M}d_2^M                    &  0     \cr 
-  3_{t+1}^M \vspace{.6em} & \sigma \tfrac{f_0^{M-M}d_3^M}{2}                  & \sigma f_1^{M-M}d_3^M                       & \sigma f_2^{M-M}d_3^M                    &  0      & (1-\sigma) \tfrac{f_0^{F-M}d_3^M}{2}                 & (1-\sigma)f_1^{F-M}d_3^M                      & (1-\sigma)f_2^{F-M}d_3^M                    &  0     \cr 
-  0_{t+1}^F \vspace{.6em} & \sigma  \lambda^F\tfrac{f_0^{M-F}d_0^F}{2}        & \sigma \lambda^Ff_1^{M-F}d_0^F              & \sigma \lambda^Ff_2^{M-F}d_0^F           &  0      & (1-\sigma) \lambda^F\tfrac{f_0^{F-F}d_0^F}{2}        & (1-\sigma)\lambda^Ff_1^{F-F}d_0^F +1          & (1-\sigma)\lambda^Ff_2^{F-F}d_0^F           &  0     \cr 
-  1_{t+1}^F \vspace{.6em} & \sigma \tfrac{f_0^{M-F}d_1^F}{2}                  & \sigma f_1^{M-F}d_1^F                       & \sigma f_2^{M-F}d_1^F                    &  0      & (1-\sigma) \tfrac{f_0^{F-F}d_1^F}{2}                 & (1-\sigma)f_1^{F-F}d_1^F                      & (1-\sigma)f_2^{F-F}d_1^F +1                 &  0     \cr 
-  2_{t+1}^F \vspace{.6em} & \sigma \tfrac{f_0^{M-F}d_2^F}{2}                  & \sigma f_1^{M-F}d_2^F                       & \sigma f_2^{M-F}d_2^F                    &  0      & (1-\sigma) \tfrac{f_0^{F-F}d_2^F}{2}                 & (1-\sigma)f_1^{F-F}d_2^F                      & (1-\sigma)f_2^{F-F}d_2^F                    &  1     \cr 
-  3_{t+1}^F \vspace{.6em} & \sigma \tfrac{f_0^{M-F}d_3^F}{2}                  & \sigma f_1^{M-F}d_3^F                       & \sigma f_2^{M-F}d_3^F                    &  0      & (1-\sigma) \tfrac{f_0^{F-F}d_3^F}{2}                 & (1-\sigma)f_1^{F-F}d_3^F                      & (1-\sigma)f_2^{F-F}d_3^F                    &  0 
- }$}
+  {e_y }    \vspace{1.2em} & 0_t^M                                             &
+  1_t^M                                       & 2_t^M                                    & 3_t^M   & 0_t^F                                                & 1_t^F                                          & 2_t^F                                       & 3_t^F  \cr 0_{t+1}^M \vspace{1.2em} & \sigma  (1-\lambda^M)\tfrac{f_0^{M-M}d_0^M}{2}       
+  & \sigma (1-\lambda^M)f_1^{M-M}d_0^M + 1          & \sigma (1-\lambda^M)f_2^{M-M}d_0^M           &  0      & (1-\sigma)(1-\lambda^M)\tfrac{f_0^{F-M}d_0^M}{2}         & (1-\sigma)(1-\lambda^M)f_1^{F-M}d_0^M             & (1-\sigma(1-\lambda^M)f_2^{F-M}d_0^M &  0     \cr 
+  1_{t+1}^M \vspace{1.2em} & \sigma \tfrac{f_0^{M-M}d_1^M}{2}                  &
+  \sigma f_1^{M-M}d_1^M                       & \sigma f_2^{M-M}d_1^M + 1                &  0      & (1-\sigma) \tfrac{f_0^{F-M}d_1^M}{2}                 & (1-\sigma)f_1^{F-M}d_1^M                      & (1-\sigma)f_2^{F-M}d_1^M                    &  0     \cr 2_{t+1}^M \vspace{1.2em} & \sigma \tfrac{f_0^{M-M}d_2^M}{2}                  &
+  \sigma f_1^{M-M}d_2^M                       & \sigma f_2^{M-M}d_2^M                    &  1      & (1-\sigma) \tfrac{f_0^{F-M}d_2^M}{2}                 & (1-\sigma)f_1^{F-M}d_2^M                      & (1-\sigma)f_2^{F-M}d_2^M                    &  0     \cr 3_{t+1}^M \vspace{1.2em} & \sigma \tfrac{f_0^{M-M}d_3^M}{2}                  &
+  \sigma f_1^{M-M}d_3^M                       & \sigma f_2^{M-M}d_3^M                    &  0      & (1-\sigma) \tfrac{f_0^{F-M}d_3^M}{2}                 & (1-\sigma)f_1^{F-M}d_3^M                      & (1-\sigma)f_2^{F-M}d_3^M                    &  0     \cr 0_{t+1}^F \vspace{1.2em} & \sigma (1-\lambda^F)\tfrac{f_0^{M-F}d_0^F}{2}     &
+  \sigma (1-\lambda^F)f_1^{M-F}d_0^F          & \sigma (1-\lambda^F)f_2^{M-F}d_0^F       &  0      & (1-\sigma) (1-\lambda^F)\tfrac{f_0^{F-F}d_0^F}{2}    & (1-\sigma)(1-\lambda^F)f_1^{F-F}d_0^F +1          & (1-\sigma)(1-\lambda^F)f_2^{F-F}d_0^F           &  0     \cr 1_{t+1}^F \vspace{1.2em} & \sigma \tfrac{f_0^{M-F}d_1^F}{2}                  &
+  \sigma f_1^{M-F}d_1^F                       & \sigma f_2^{M-F}d_1^F                    &  0      & (1-\sigma) \tfrac{f_0^{F-F}d_1^F}{2}                 & (1-\sigma)f_1^{F-F}d_1^F                      & (1-\sigma)f_2^{F-F}d_1^F +1                 &  0     \cr 2_{t+1}^F \vspace{1.2em} & \sigma \tfrac{f_0^{M-F}d_2^F}{2}                  &
+  \sigma f_1^{M-F}d_2^F                       & \sigma f_2^{M-F}d_2^F                    &  0      & (1-\sigma) \tfrac{f_0^{F-F}d_2^F}{2}                 & (1-\sigma)f_1^{F-F}d_2^F                      & (1-\sigma)f_2^{F-F}d_2^F                    &  1     \cr 3_{t+1}^F \vspace{1.2em} & \sigma \tfrac{f_0^{M-F}d_3^F}{2}                  &
+  \sigma f_1^{M-F}d_3^F                       & \sigma f_2^{M-F}d_3^F                    &  0      & (1-\sigma) \tfrac{f_0^{F-F}d_3^F}{2}                 & (1-\sigma)f_1^{F-F}d_3^F                      & (1-\sigma)f_2^{F-F}d_3^F                    &  0 }$}
   \end{adjustwidth}
 \end{matrix}
-
+\end{landscape}
 Matrix~\ref{matrix:ex2sex} is a schematic representation of a two-sex
 $e_x$-structured projection matrix. This example contains four classes of life
 expectancy in order to economize space (as opposed to the six shown in
