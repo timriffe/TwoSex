@@ -65,63 +65,132 @@
  \label{chap:Intro}
  \input{sections/04.Intro.tex}
  
+\chapter{Measuring the Two-Sex Problem}
 
- \section{Snippet Tests}
- 
-\subsection{DistributionHomogamy}
- \input{snippets/DistributionHomogamy.tex}
- 
-\subsection{island}
- \input{snippets/island.tex}
- 
-\subsection{MatingvsMarriage}
- \input{snippets/MatingvsMarriage.tex}
+  \section{Magnitude of the two-sex problem}
+
+    \subsection{Divergence}
+      \subsubsection{Exponential separation}
+        \input{sections/MeasuringTheTSP/Divergence.tex}
+      \subsubsection{Doubling of the sex ratio}
+        \input{sections/MeasuringTheTSP/DivergenceDoubling.tex}
+      \subsubsection{Disagreement in predicted birth counts}
+        \input{sections/MeasuringTheTSP/DivergenceBirthCounts.tex}
+      
+  \section{Primary factors contributing to the two-sex problem}
+
+    \subsection{Dimorphism}
+      \input{sections/MeasuringTheTSP/IllustrationDimorphism.tex}
+
+    \subsection{Decomposition}
+     Not written, this would be very nice.
+  \section{Secondary factors contributing to the two-sex problem}
+
+    \subsection{Heterogamy}
+      \input{sections/MeasuringTheTSP/DistributionHomogamy.tex}
+      
+\chapter{Modelling approaches to the two-sex problem}
+
+  \section{Primary axioms}
   
-\subsection{Motivation Divergence} 
- \input{snippets/Motivation_divergence.tex}
- 
-\subsection{Illustration Divergence} 
- \input{snippets/IllustrationDivergence.tex}
- 
-\subsection{Sexual dimorphism in vital rates} 
- \input{snippets/IllustrationDimorphism.tex}
+  \section{Analytic approaches}
+  
+    \subsection{Linear methods}
+     e.g. Goodman.
+    
+    \subsection{Non-linear methods}
+     This section is potentially large. Need to find a way to summarize methods
+     that involve feedback - endogeneity. Mitra is written, but is very large.
+     Das Gupta, Schoen for sure need to enter
+     
+  \section{Iterative approaches}
+  
+    \subsection{Iterative proportional fitting}
+     Implemented, nothing written
+    
+    \subsection{Panmictic circles}
+     Implemented, nothing written
+    
+  \section{Agent-based modelling}
+     Nothing written on this, should be mentioned
+   
+\chapter{The treatment of Age in Two-Sex Models}
+  Ignoring, fixed single-age heterogamy, fixed age-combinations
+  \section{Age-matching}
+  
+  \section{Preference and competition}
+  
+\chapter{A new perspective on age}
 
+  \section{Transforming time since birth to time until death}
+  
+  \section{$e_x$-structured population pyramids}
+    Show stability
+  
+  \section{$e_x$-structured rates}
+    
+    \subsection{Fertility be remaining years}
+      % Break this into more subsection chunks to \input
+      \input{snippets/ratesByRemainingLifeExpectancy.tex}
+    
+    \subsection{A synthetic rate based on remaining years}
+    
+    \subsection{Heterogamy by remaining years}
+
+    \subsection{Divergence in predicted birth counts}
+      \input{snippets/exDivergence.tex}
+\chapter{Renewal in $e_x$-structured populations}
+
+  \section{Differences in the concept of renewal}
+  
+    \subsection{Age-structured renewal}
+    
+    \subsection{$e_x$-structured renewal}
+    
+\chapter{The single-sex renewal equation}
+   % break sections out here for separate \input
+    \section{The renewal equation}
+    \input{snippets/exLotka1.tex}
+    
+    
+    \subsection{The single-sex $e_x$-structured projection matrix}
+      \input{snippets/exLeslie1.tex}
+
+\chapter{Two-sex renewal in $e_x$-structured populations}
+
+  \section{A linear model for two-sex $e_x$-structured renewal}
+    \subsection{The equation}
+      \input{snippets/exLotka2.tex}
+    \subsection{A linear two-sex $e_x$-structured projection matrix}
+      \input{snippets/exLeslie2.tex}
+
+
+\chapter{Reflections}
+  \section{A New Problem?}
+    \input{snippets/NewProblem.tex}
+
+
+
+
+\chapter{Unassigned Chunks}
+\subsection{island}
+\input{snippets/island.tex}
+\subsection{MatingvsMarriage}
+\input{snippets/MatingvsMarriage.tex}
+\subsection{Motivation Divergence} 
+\input{snippets/Motivation_divergence.tex}
 \subsection{Years as Units}
 \input{snippets/YearsAsUnitsofPopulation.tex}
-
-\subsection{Redistributing population by remaining years}
-\input{snippets/ratesByRemainingLifeExpectancy.tex}
-
-\subsection{Single-sex predictions based on $e_x$-classified data}
-\input{snippets/exDivergence.tex}
-
-\subsection{Renewal in one-sex $e_x$-structured populations}
-\input{snippets/exLotka1.tex}
-
-\subsection{Projection matrices for one-sex $e_x$-structured populations}
-\input{snippets/exLeslie1.tex}
-
-\subsection{Renewal in a linear two-sex $e_x$-structured population model}
-\input{snippets/exLotka2.tex}
-
-\subsection{Projection matrix for a linear two-sex $e_x$-structured population
-model}
-\input{snippets/exLeslie2.tex}
-
 \subsection{SpanishData}
  \input{snippets/SpanishData.tex}
-
 \subsection{StolnitzRyder}
  \input{snippets/StolnitzRyder.tex}
-
 \subsection{VariationSexRatios}
  \input{snippets/VariationSexRatios.tex}
-
 \subsection{Unbounded by the Male and Female rates?}
  \input{snippets/Unbounded.tex}
   
-\subsection{A New Problem}
- \input{snippets/NewProblem.tex}
+
   
 % ----------------------------------------------------
 
