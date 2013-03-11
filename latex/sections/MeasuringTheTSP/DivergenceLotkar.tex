@@ -1,0 +1,73 @@
+
+%* all figs here produced in IllustrateDivergence.R
+Divergence in this dissertation refers to the exponentially
+increasing disagreement between single-sex male and female models that unfolds when
+simultaneously projected into the future. The magnitude of separation increases
+exponentially because males and females obtain different intrinsic growth rates,
+$r$, that follow from Lotka's fundamental equation \citep{sharpe1911problem}:
+
+\begin{equation}
+\label{eq:lotkaeq}
+1 = \int _0 ^\infty e^{-ra}p_a m_a \dd a 
+\end{equation}
+where $p_a$ are age-specific survival probabilities, $m_a$ are age-specific
+single-sex fertility probabilities, and $r$ is the growth parameter to be
+estimated. By ``single-sex'' it is meant that $m_a$ may either be specified
+as the fertilty of girls born to mothers or of boys born to fathers.
+\citet{yellin1977comparison} prove that divergence is to be expected, as forced
+agreement between the male and female versions of
+ Equation~\eqref{eq:lotkaeq} would imply an overdetermined system. 
+At the root of the problem is that the total numbers of births predicted
+by the equations ought to, but never do, agree, aside from in the jump-off year
+from which rates are initially derived, which is a tautology. In any instance
+where single-sex $r$ estimates differ, projecting separately will result in sex
+ratios that either grow toward infinity in the limit if $r^m
+> r^f$ or decline to zero if $r^m < r^f$. If the gap between rates is large, this happens
+quickly, if small, divergence is slower. This is in either case a modelling
+problem of practical significance, and the crux of the two-sex problem. 
+
+Single-sex intrinsic growth rates, $r^m$ and $r^f$, can be 
+estimated from data. In looking at time series (see Figure~\ref{fig:rmf}) of 
+ growth rates, observe that the sex-gap has varied over 
+time, that the male rate is typcally higher than the female rate (aided greatly 
+by the sex ratio at birth), and that there have been crossovers in the USA: 
+$r^f > r^m$ in 1994-1996, and again briefly in 2001. 
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Male and Female intrinsic growth rates, Spain and US,
+          1969-2009}
+           % figure produced in
+           % /R/rm_rf_divergence
+           \makebox[\textwidth]{\includegraphics{Figures/rmf}}
+          \label{fig:rmf}
+\end{figure}
+
+Perhaps even more curious are occassions when $r^m$ and $r^f$ have been on
+opposite sides of zero, i.e. exponential growth and exponential decay at the
+same time. In the USA, this has happened many times in the period studied:
+1972-1973, 1990, 2004-2005, and again recently in 2008. In Spain rates were 
+briefly on opposites of zero in 1981-1982, in the middle of a period of sharp
+decline in fertility. In all of these cases male growth rates were positive
+while female growth rates were negative. Note that this does not mean that 
+\textit{observed} year $t$ natural growth rates were of opposite sign, but
+rather the intrinsic rate the characterizes the male and female stable
+population models.
+
+\citet[p. 57]{coale1972growth} points out that when $r^m > r^f$, as was
+typically the case here, multiplying male exposures at each age by a factor equal to
+$e^{(r^m - r^f)T^m}$, where $T^m$ is the male mean length of
+generation\footnote{where $T^m$ can be estimated as:
+$\frac{log(R_0^m)}{r^m}$}, will bring $r^m$ in line with $r^f$. Alternatively,
+$r^f$ can be aligned with $r^m$ by multiplying female exposures by a factor equal
+ to $e^{-(r^m - r^f)T^f}$. This works in reverse when $r^f > r^m$.
+
+
+
+
+
+
+
+
+
+

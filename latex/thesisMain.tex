@@ -70,52 +70,69 @@
   \section{Magnitude of the two-sex problem}
 
     \subsection{Divergence}
+      
       \subsubsection{Exponential separation}
-        \input{sections/MeasuringTheTSP/Divergence.tex}
-      \subsubsection{Doubling of the sex ratio}
+        \input{sections/MeasuringTheTSP/DivergenceLotkar.tex}
+      
+      \subsubsection{Time until an unreasonable sex ratio}
         \input{sections/MeasuringTheTSP/DivergenceDoubling.tex}
+      
       \subsubsection{Disagreement in predicted birth counts}
         \input{sections/MeasuringTheTSP/DivergenceBirthCounts.tex}
       
   \section{Primary factors contributing to the two-sex problem}
 
     \subsection{Dimorphism}
-      \input{sections/MeasuringTheTSP/IllustrationDimorphism.tex}
-
+      %\input{sections/MeasuringTheTSP/IllustrationDimorphism.tex}
+      \input{sections/MeasuringTheTSP/DimorphismOpeningParagraphs.tex}
+      
+      \subsubsection{Fertility rates}
+        \input{sections/MeasuringTheTSP/DimorphismASFR.tex}
+      
+      \subsubsection{The sex-ratio at birth}
+        \input{sections/MeasuringTheTSP/DimorphismSRB.tex}
+      
+      \subsubsection{Mortality}
+        \input{sections/MeasuringTheTSP/DimorphismMortality.tex}
+      %e_0 differences, dx overlap
     \subsection{Decomposition}
-     Not written, this would be very nice.
+      \todo{Not written, this would be very nice.}
   \section{Secondary factors contributing to the two-sex problem}
-
+      \todo{explain why might be relevant to TSP}
     \subsection{Heterogamy}
       \input{sections/MeasuringTheTSP/DistributionHomogamy.tex}
       
+
+% chapter is not really composed
 \chapter{Modelling approaches to the two-sex problem}
+  \input{sections/ModellingApproaches/OpeningParagraphs.tex}
 
   \section{Primary axioms}
-  
+    \input{sections/ModellingApproaches/PrimaryAxioms.tex}
+    
   \section{Analytic approaches}
   
     \subsection{Linear methods}
      e.g. Goodman.
     
     \subsection{Non-linear methods}
-     This section is potentially large. Need to find a way to summarize methods
-     that involve feedback - endogeneity. Mitra is written, but is very large.
-     Das Gupta, Schoen for sure need to enter
+     \todo{This section is potentially large. Need to find a way to summarize
+     methods that involve feedback - endogeneity. Mitra is written, but is very large.
+     Das Gupta, Schoen for sure need to enter}
      
   \section{Iterative approaches}
   
     \subsection{Iterative proportional fitting}
-     Implemented, nothing written
+     \todo{Implemented, nothing written}
     
     \subsection{Panmictic circles}
-     Implemented, nothing written
+     \todo{Implemented, nothing written}
     
   \section{Agent-based modelling}
-     Nothing written on this, should be mentioned
+     \todo{Nothing written on this, should be mentioned}
    
 \chapter{The treatment of Age in Two-Sex Models}
-  Ignoring, fixed single-age heterogamy, fixed age-combinations
+  \todo{Ignoring, fixed single-age heterogamy, fixed age-combinations}
   \section{Age-matching}
   
   \section{Preference and competition}
@@ -129,7 +146,7 @@
   
   \section{$e_x$-structured rates}
     
-    \subsection{Fertility be remaining years}
+    \subsection{Fertility by remaining years}
       % Break this into more subsection chunks to \input
       \input{snippets/ratesByRemainingLifeExpectancy.tex}
     
@@ -139,30 +156,58 @@
 
     \subsection{Divergence in predicted birth counts}
       \input{snippets/exDivergence.tex}
+      
 \chapter{Renewal in $e_x$-structured populations}
-
-  \section{Differences in the concept of renewal}
-  
-    \subsection{Age-structured renewal}
+  \input{sections/exRenewalExplained/OpeningParagraphs.tex}
+    \section{Age-structured renewal}
+      \input{sections/exRenewalExplained/AgeStructuredRenewal.tex}
+    \section{$e_x$-structured renewal}
+    % this includes the diagram
+      \input{sections/exRenewalExplained/exStructuredRenewal.tex}
     
-    \subsection{$e_x$-structured renewal}
-    
-\chapter{The single-sex renewal equation}
+\chapter{The single-sex $e_x$-structured renewal equation}
+    \input{sections/exSingleSexRenewal/ex1sexOpeningParagraphs.tex}
    % break sections out here for separate \input
     \section{The renewal equation}
-    \input{snippets/exLotka1.tex}
+      \input{sections/exSingleSexRenewal/ex1sexTheEquation.tex}
+      
+      \subsection{An iterative approach to find $r$}
+        \input{sections/exSingleSexRenewal/ex1sexFindRIterative.tex}
     
-    
-    \subsection{The single-sex $e_x$-structured projection matrix}
-      \input{snippets/exLeslie1.tex}
+      \subsection{The method applied to US and Spain}
+        \input{sections/exSingleSexRenewal/ex1sexTrendsInr.tex}
+        
+      \subsection{Other stable parameters}
+        \input{sections/exSingleSexRenewal/ex1sexOtherStableParameters.tex}
+      
+      \subsection{The single-sex $e_x$-structured projection matrix}
+        \input{sections/exSingleSexRenewal/ex1sexProjMat.tex}
 
 \chapter{Two-sex renewal in $e_x$-structured populations}
-
-  \section{A linear model for two-sex $e_x$-structured renewal}
-    \subsection{The equation}
-      \input{snippets/exLotka2.tex}
-    \subsection{A linear two-sex $e_x$-structured projection matrix}
-      \input{snippets/exLeslie2.tex}
+  \input{sections/exTwoSexRenewal/ex2sexOpeningParagraphs.tex}
+  
+  \section{A linear model of two-sex $e_x$-structured renewal}
+    \input{sections/exTwoSexRenewal/ex2sexLinOpeningParagraphs.tex}
+    
+    \subsection{The renewal equation}
+      \input{sections/exTwoSexRenewal/ex2sexLinTheEquation.tex}
+      
+    \subsection{An iterative approach to find $r$}
+        \input{sections/exTwoSexRenewal/ex2sexLinFindRIterative.tex}
+    
+    \subsection{The method applied to US and Spain}
+        \input{sections/exTwoSexRenewal/ex2sexLinTrendsInr.tex}
+        
+    \subsection{Other stable parameters}
+        \input{sections/exTwoSexRenewal/ex2sexLinOtherStableParameters.tex}
+    
+    \subsection{The linear $e_x$-structured two-sex projection matrix}
+      \input{sections/exTwoSexRenewal/ex2sexLinProjMat.tex}
+    
+    \subsection{Reflections}
+        \input{sections/exTwoSexRenewal/ex2sexLinReflections.tex}
+        
+    
 
 
 \chapter{Reflections}

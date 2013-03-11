@@ -1,0 +1,48 @@
+\label{sec:exrenewalit2}
+Steps to practically solve Equation~\eqref{eq:lineartwosexrenewal} for $r$ are
+similar to those presented for the one-sex case in
+Section~\ref{sec:exrenewalit}
+\begin{enumerate}
+  \item Derive a first rough estimate of the both-sex mean remaining years of
+  life at reproduction, $\widehat{T^\upsilon}$, akin to Lotka's mean generation time,
+  $T$. If one assumes a growth rate of $0$, then a good-enough guess will be:
+
+\begin{equation}
+\widehat{T^\upsilon} = \frac{\splitfrac{
+   \big((1 - \sigma)  \int _{y'=0}^\infty \int_{a'=y'}^\infty 
+       a' d_{a'}^F \left( f_{y'}^{F-F} + f_{y'}^{F-M} \right) \dd a'\dd y'}{ + 
+   \sigma \int_{y=0}^\infty \int _{a=y}^\infty a d_{a}^M  \left( f_{y}^{M-M}+
+   f_{y}^{M-F} \right) \dd a \dd y \big)}}{\splitfrac{\big( (1 - \sigma) 
+   \int_{y'=0}^\infty \int_{a'=y'}^\infty d_{a'}^F \left( f_{y'}^{F-F} +
+   f_{y'}^{F-M} \right) \dd a'\dd y'}{ +\sigma \int _{y=0}^\infty
+   \int_{a=y}^\infty d_{a}^M \left( f_{y}^{M-M} + f_{y}^{M-F} \right) \dd a \dd
+   y \big)}}
+\end{equation}
+
+  \item A first rough estimate of the net reproduction rate, $\widehat{R_0}$ (assuming
+  $r=0$) is given by:
+
+ \begin{equation}
+ \begin{split}
+ \widehat{R_0} = \frac{(1 - \sigma)}{2}  \int _{y'=0}^\infty \int_{a'=y'}^\infty 
+                d_{a'}^F \left(f_{y'}^{F-F} + f_{y'}^{F-M}\right) \dd a'\dd y'
+                \\ + \frac{\sigma}{2}  \int _{y=0}^\infty \int _{a=y}^\infty 
+               d_{a}^M  \left(f_{y}^{M-M}+ f_{y}^{M-F}\right) \dd a \dd y
+ \end{split}
+ \end{equation}
+  \item A first rough estimate of $r$, $r^0$, is given by:
+   \begin{equation}
+   r^0 = \frac{ln(\widehat{R_0})}{\widehat{T^\upsilon}}
+   \end{equation}
+  \item plug $r^0$ into Equation~\ref{eq:lineartwosexrenewal} to calculate a
+  residual, $\delta^0$
+  \item use $\delta^0$ and $\widehat{T^\upsilon}$ to calibrate the estimate of $r$
+  using:
+  \begin{equation}
+  r^{1} = r^0 + \frac{\delta^0}{\widehat{T^\upsilon} - \frac{\delta^0}{r^0}}
+  \end{equation}
+  \item repeat step (3) to to derive a new $\delta^i$, then step (4) to refine
+  $r^i$, until converging on a stable $r$ after some 30 iterations,
+  depending on the degree of precision desired. ($\widehat{T^\upsilon}$ is not updated
+  in this process).
+\end{enumerate}

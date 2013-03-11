@@ -1,0 +1,111 @@
+\label{sec:2sexlinearother}
+Once two-sex linear $r^\upsilon$ has been found for the given $\sigma$, one may
+proceed to find the corrsponding both-sex $T^\upsilon$ using:
+\begin{equation}
+T^\upsilon = \frac{\splitfrac{
+   \big((1 - \sigma)  \int _{y'=0}^\infty \int_{a'=y'}^\infty 
+       a'e^{-ra'} d_{a'}^F \left( f_{y'}^{F-F} + f_{y'}^{F-M} \right) \dd a'\dd
+       y'}{ + \sigma \int_{y=0}^\infty \int _{a=y}^\infty a e^{-ra}d_{a}^M 
+       \left( f_{y}^{M-M}+ f_{y}^{M-F} \right) \dd a \dd y \big)}}{\splitfrac{\big( (1 - \sigma) 
+   \int_{y'=0}^\infty \int_{a'=y'}^\infty e^{-ra'} d_{a'}^F \left( f_{y'}^{F-F}
+   + f_{y'}^{F-M} \right) \dd a'\dd y'}{ +\sigma \int _{y=0}^\infty
+   \int_{a=y}^\infty e^{-ra} d_{a}^M \left( f_{y}^{M-M} + f_{y}^{M-F} \right)
+   \dd a \dd y \big)}}
+\end{equation}
+
+Follow Equation~\eqref{eq:R0fromTy} to derive $R_0^\upsilon$ from $r^\upsilon$
+and $T^\upsilon$. 
+
+Arriving at sex-specific stable parameters from the two-sex parameters is
+somewhat tricky. One might first estimate the stable total births to boys,
+$\widehat{B^M}$ as:
+\begin{equation}
+\begin{split}
+\label{eq:bboys0}
+\widehat{B^M} = \frac{(1-\sigma)}{2} \int _{y'=0}^\infty \int _{a'=y'}^\infty
+e^{-r^\upsilon a'} d_{a'}^F f_{y'}^{F-M} \dd a' \dd y' \\
++ \frac{\sigma}{2} \int _{y=0}^\infty \int _{a=y}^\infty e^{-r^\upsilon a}
+d_{a}^M f_{y}^{M-M} \dd a \dd y
+\end{split}
+\end{equation}
+, and a first estimate of births to girls,$\widehat{B^F}$, by:
+\begin{equation}
+\begin{split}
+\label{eq:bgirls0}
+\widehat{B^F} = \frac{(1-\sigma)}{2} \int _{y'=0}^\infty \int _{a'=y'}^\infty
+e^{-r^\upsilon a'} d_{a'}^F f_{y'}^{F-F} \dd a' \dd y' \\
++ \frac{\sigma}{2} \int _{y=0}^\infty \int _{a=y}^\infty e^{-r^\upsilon a}
+d_{a}^M f_{y}^{M-F} \dd a \dd y
+\end{split}
+\end{equation}
+, but one notices that the stable population exposures, captured in
+``$e^{-r^\upsilon a'} d_{a'}^F$'' and ``$e^{-r^\upsilon a}d_{a}^M$'' do not
+adequately reflect the fact that males and females are born into the populations with a particular ratio, $\hat{S}$,
+which is approximately (but not exactly) $\frac{\widehat{B^M}}{\widehat{B^F}}$ from
+Equations~\eqref{eq:bboys0}~and~\eqref{eq:bgirls0}. This initial ratio is thus
+an approximation of $S$. $\hat{S}$ can then be entered into the equations,
+replacing the number 2 in the denominator of $\sigma$, as follows:
+\begin{equation}
+\begin{split}
+\label{eq:bboys0}
+B^M = (1-\sigma) \frac{1}{1+\hat{S}} \int _{y'=0}^\infty \int
+_{a'=y'}^\infty e^{-r^\upsilon a'} d_{a'}^F f_{y'}^{F-M} \dd a' \dd y' \\
++ \sigma \frac{\hat{S}}{1+\hat{S}} \int _{y=0}^\infty \int _{a=y}^\infty
+e^{-r^\upsilon a} d_{a}^M f_{y}^{M-M} \dd a \dd y
+\end{split}
+\end{equation}
+and analagously for girls:
+\begin{equation}
+\begin{split}
+\label{eq:bgirls0}
+B^F = (1-\sigma)\frac{1}{1+\hat{S}}\int _{y'=0}^\infty \int _{a'=y'}^\infty
+e^{-r^\upsilon a'} d_{a'}^F f_{y'}^{F-F} \dd a' \dd y' \\
++ \sigma \frac{\hat{S}}{1+\hat{S}}\int _{y=0}^\infty \int _{a=y}^\infty
+e^{-r^\upsilon a} d_{a}^M f_{y}^{M-F} \dd a \dd y
+\end{split}
+\end{equation}
+, giving the stable sex ratio at birth, $S^\upsilon$, as:
+\begin{equation}
+S^\upsilon = \frac{B^M}{B^F}
+\end{equation}
+$S$ only differs from $\hat{S}$ in the \nth{6} digit, and after the single
+iteration just described obtains a constant value\footnote{The author offers
+no proof of this single-iteration stability, but it was consistently observed
+in numerical tests. There is very little ``wiggle-room'' for the sex ratio at
+birth, despite the fact that the model allows $S$ to vary by $e_x$ of mother and
+$e_x$ of father. Indeed, there are consistent sex-specific patterns in the sex ratio
+at birth, both by mothers' and of fathers' $e_x$, but the
+variariation in these is insufficient to move the stable value in continued
+recursions of the above-described iteration.}. $S$ allows us to calculate the
+remaining stable parameters. The both-sex stable birth rate, $b^\upsilon$ is given by:
+\begin{equation}
+b^\upsilon = \frac{1}{
+            \splitfrac{\big(\frac{S^\upsilon}{1+S^\upsilon} \int _{y'=0}^\infty
+            \int _{a'=y'}^\infty e^{-r^\upsilon a'} d_{a'}^F \dd a' \dd y'}{ + 
+             \frac{1}{1+S^\upsilon} \int _{y=0}^\infty \int _{a=y}^\infty
+             e^{-r^\upsilon a} d_{a}^M \dd a \dd y\big)}  }                   
+\end{equation}
+, which can be used to derive the stable $e_x$-structure of males and females,
+$c_y^\upsilon$ and $c_{y'}^\upsilon$, respectively:
+
+\begin{equation}
+c_{y'}^\upsilon = b^\upsilon \frac{1}{1+S^\upsilon} \int _{a'=y'}^\infty
+e^{-ra'} d_{a'}^F \dd a'
+\end{equation}
+, and
+\begin{equation}
+c_{y}^\upsilon = b^\upsilon \frac{S^\upsilon}{1+S^\upsilon} \int _{a=y}^\infty
+e^{-ra} d_{a}^M \dd a'
+\end{equation}
+, where:
+\begin{equation}
+1 = \int c_{y'}^\upsilon \dd y' + \int c_{y}^\upsilon \dd y
+\end{equation}
+, the sex ratio in any given age, $S_y$, is:
+\begin{equation}
+S_y^\upsilon = \frac{c_{y}^\upsilon}{c_{y'}^\upsilon}
+\end{equation}
+, and the the overall sex ratio,$S^T$ will be:
+\begin{equation}
+S^T= \frac{\int c_{y}^\upsilon \dd y}{\int c_{y'}^\upsilon \dd y'}
+\end{equation}

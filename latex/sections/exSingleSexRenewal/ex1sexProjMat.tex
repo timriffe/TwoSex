@@ -1,0 +1,133 @@
+\label{sec:ex1sexleslie}
+This section explains the construction of the projection matrix that corresponds
+to the one-sex $e_x$-structured population model presented above. The objective is
+to offer a practical discrete implementation of the prior
+formulas, which may aid in understanding main differences with the classic
+one-sex Lotka renewal model and be of practical use for projections.
+
+If the reader is not familar with the construction
+of age-structured Leslie matrices, a brief description may be found in
+Appendix~\ref{Appendix:Caswell}, which is essentially a paraphrase of the
+detailed description offered in \cite{caswell2001matrix}. As with
+age-structured Leslie matrices, $e_x$-structured projection matrices,
+$\textbf{Y}$, are square and of dimension $n \times n$, where $n$ is the number
+of remaining years classifications into which the population is divided. The matrix contains
+elements for survival and elements for fertility. Unlike Leslie matrices,
+$\textbf{Y}$ is not sparse, but is primarily populated with non-zero entries.
+
+Recall the description of renewal in an $e_x$-structured population offered in
+Section~\ref{sec:exrenewal} and illustrated in Figure~\ref{fig:exrenewal}. Of
+interest is that mortality only occurs in the population class with zero
+remaining years of life. Age 1 in year $t$ moves to age o in year $t+1$. In this
+way, populations shift \textit{down} rather than up with each time iteration.
+Thus, instead of in the subdiagonal, we place survival in the superdiagonal, and
+indeed all survival values are 1, since there is no decrement, and the
+upper-left corner contains no entry for survival. As in
+Appendix~\ref{Appendix:Caswell}, we illustrate using a 6$\times$6 matrix. The
+survival component of $\textbf{Y}$ is organized as in
+Matrix~\ref{matrix:ex1sexsurvival}.
+
+\begin{matrix}[h!]
+\centering
+\caption{Survival component of one-sex remaining years
+($e_y$)-structured projection matrix, $\textbf{Y}$} 
+\label{matrix:ex1sexsurvival}
+$\bordermatrix{{e_y } & 0_t & 1_t & 2_t & 3_t & 4_t & 5_t\cr 
+                0_{t+1} & 0    &  1   & 0    & 0    & 0    & 0   \cr
+                1_{t+1} & 0    &  0   & 1    & 0    & 0    & 0   \cr 
+                2_{t+1} & 0    &  0   & 0    & 1    & 0    & 0   \cr 
+                3_{t+1} & 0    &  0   & 0    & 0    & 1    & 0   \cr 
+                4_{t+1} & 0    &  0   & 0    & 0    & 0    & 1   \cr
+                5_{t+1} & 0    &  0   & 0    & 0    & 0    & 0   }$
+\end{matrix}
+
+ Fertility inputs to the matrix are derived from $e$SFR and the lifetable $d_x$
+ distribution, where $x$ indexes age, but is translated to $y$, remaining years
+ of life. Recall that fertility in an $e_y$-structured population occurs in all
+ but the highest remaining years classes. Say for our example, that fertility is
+ observed in classes 0-4, whereas the final class has no fertility. Where $f_y$
+ indicates the fertility probability for class $y$ in the year $t$ entering
+ population (in the matrix columns). Each $f_y$ is then distributed according to
+ $d_x$, indeed with no further translation, since the $d_x$ column refers to age
+ 0, as such. Thus the fertility entry in row $m$ and column $n$ of $\textbf{Y}$
+ will be $f_n \cdot d_m$. We assume that those dying over the course of year
+ $t$ (the first column) are exposed to fertility for \textonehalf of the
+ year\footnote{One might be tempted to not allow for fertility at all for
+ females dying in year $t$, but recall that fertility is measured in the moment of
+ birth, and not conception.},
+ and so discount the fertility entry accordingly. Further, infant mortality, 
+ $f_y \cdot d_0$, located in the first row, must also be discounted, since part
+ ]of the mortality will occur in the same year $t$ and the rest in year $t+1$. 
+ The first row of fertility must be further discounted by a factor, $\lambda$ in 
+ order to account for the fact that infant mortality is higher in the lower Lexis 
+ triangle than in the upper, i.e.
+ of those infants that die in the first year of life, a proportion equal to
+ $\lambda$ do not make it to December \nth{31} of the calendar year in which
+ they were born\footnote{$\lambda$ can be derived directly from death counts
+ data classified by Lexis triangles. In the US, lambda has behaved similarly
+ for males and females, falling steadily from around $0.9$ in 1969 to $0.86$
+ around 1990, since which time it has steadily risen to around $0.87$. That is
+ to say, lambda has varied, but not drastically. Likewise for Spain, $\lambda$
+ fell from around $0.885$ in 1975 to $0.86$ in the mid 1990s, since which time it
+ has risen another \textonehalf\%. In Spain  $\lambda$ has been around \textonehalf\%
+ higher for males than females. These numbers are just meant to give a feel
+ for the ranges that $\lambda$ can be expected to receive. If the demographer
+ does not have information to derive $\lambda$ directly, ad hoc semidirect
+ methods may be used to assign a reasonable proportion. } . The
+ fertility component of $\textbf{Y}$ is then composed as in Matrix~\ref{matrix:ex1sexfertility}.
+
+\begin{matrix}[h!]
+\centering
+\caption{Fertility component of one-sex remaining years
+($e_y$)-structured projection matrix, $\textbf{Y}$} 
+\label{matrix:ex1sexfertility}
+$\bordermatrix{
+  {e_y } \vspace{.6em}&                0_t  & 1_t  & 2_t  & 3_t  & 4_t  & 5_t\cr 
+   0_{t+1} \vspace{.6em}& (1-\lambda) \tfrac{f_0d_0}{2} & (1-\lambda) f_1d_0 & (1-\lambda)
+   f_2d_0 & (1-\lambda) f_3d_0 & (1-\lambda) f_4d_0 & 0 \cr 
+   1_{t+1} \vspace{.6em}& \tfrac{f_0d_1}{2} & f_1d_1 & f_2d_1 & f_3d_1 & f_4d_1
+   & 0   \cr 2_{t+1} \vspace{.6em}& \tfrac{f_0d_2}{2} & f_1d_2 & f_2d_2 & f_3d_2 & f_4d_2
+   & 0   \cr 3_{t+1} \vspace{.6em}& \tfrac{f_0d_3}{2} & f_1d_3 & f_2d_3 & f_3d_3 & f_4d_3
+   & 0   \cr 4_{t+1} \vspace{.6em}& \tfrac{f_0d_4}{2} & f_1d_4 & f_2d_4 & f_3d_4 & f_4d_4
+   & 0   \cr 5_{t+1} \vspace{.6em}& \tfrac{f_0d_5}{2} & f_1d_5 & f_2d_5 & f_3d_5 & f_4d_5
+   & 0   }$
+\end{matrix}
+
+The survival and fertility components of $\textbf{Y}$ add together elementwise,
+thus the full 6$\times$6 matrix is composed as in Matrix~\ref{matrix:ex1sex}.
+
+\begin{matrix}[h!]
+\centering
+\caption{A full one-sex remaining years ($e_y$)-structured projection
+matrix, $\textbf{Y}$} 
+\label{matrix:ex1sex}
+$\textbf{Y} = \bordermatrix{
+  {e_y } \vspace{.6em} & 0_t  & 1_t  & 2_t  & 3_t  & 4_t  & 5_t\cr 
+  0_{t+1} \vspace{.6em}&  (1-\lambda) \tfrac{f_0d_0}{2} & (1-\lambda) f_1d_0 + 1 &
+  (1-\lambda) f_2d_0 & (1-\lambda) f_3d_0 & (1-\lambda) f_4d_0 & 0 \cr 
+    1_{t+1} \vspace{.6em}& \tfrac{f_0d_1}{2} & f_1d_1 & f_2d_1 + 1 & f_3d_1 & f_4d_1 & 0 \cr 
+    2_{t+1} \vspace{.6em}& \tfrac{f_0d_2}{2} & f_1d_2 & f_2d_2 & f_3d_2 + 1 & f_4d_2 & 0 \cr 
+   3_{t+1} \vspace{.6em}& \tfrac{f_0d_3}{2} & f_1d_3 & f_2d_3 & f_3d_3 & f_4d_3 + 1 & 0 \cr 
+   4_{t+1} \vspace{.6em}& \tfrac{f_0d_4}{2} & f_1d_4 & f_2d_4 & f_3d_4 & f_4d_4 & 1 \cr 
+   5_{t+1} \vspace{.6em}& \tfrac{f_0d_5}{2} & f_1d_5 & f_2d_5 & f_3d_5 & f_4d_5 & 0 }$
+\end{matrix}
+
+Remaining years classes should ideally terminate at the highest value permitted
+by data. For the data used in this dissertation, there are 111 total age
+classes, which translate to 111 total remaining years classes (0-110+). In practice 
+$\textbf{Y}$ becomes
+as 111$\times$111 matrix, with most entries non-zero. Construction may appear
+tedious for this reason . However, note that the bulk of fertility entries can
+be derived as the outer (tensor) product $d_x \otimes f_y$, leaving only the 
+first row and first column discounting followed by the addition of the survival
+superdiagonal. In most statistical programming languages constructing $\textbf{Y}$ entails only
+a couple more lines of code than constructing a Leslie matrix.
+
+As with Leslie matrices, the above projection matrix may be manipulated using
+generic matrix techniques in order to extract such information as the intrinsic
+growth rate, or the stable $e_x$ structure. The former is the natural log of the
+largest real eigenvalue, and the later is the real part of the eigenvector that
+corresponds to the largest real eigenvalue, rescaled to sum to 1\footnote{see
+\citet[pp 86-87]{caswell2001matrix}}.
+
+

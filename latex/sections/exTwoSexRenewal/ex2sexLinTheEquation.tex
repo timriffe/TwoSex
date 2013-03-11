@@ -1,0 +1,69 @@
+\label{sec:2sexlinearmain}
+As mentioned, choose some weight, $\sigma$, between 0 and 1 to apply to male
+rates, where the female weight is defined as $1 - \sigma$. When $\sigma = 1$
+there is perfect male dominance, and when $\sigma = 0$ there is perfect female
+dominance. Of course, births to girls are subject to female mortality and births
+to boys are subject to male mortality. As with
+Equation~\eqref{eq:exLotkafemales}, this mortality enters in the equation by way
+of the $d_x$ distribution used to distribute births over life expectancies. The
+final renewal formula is defined as follows:
+
+\begin{equation}
+\label{eq:lineartwosexrenewal}
+\begin{split}
+1 = \frac{1 - \sigma}{2} 
+            \int _{y'=0}^\infty \int _{a'=y'}^\infty e^{-ra'}
+                      d_{a'}^F \left(f_{y'}^{F-F} + f_{y'}^{F-M}\right) \dd a'
+                      \dd y' \\ + \;\frac{\sigma}{2}
+            \int _{y=0}^\infty \int _{a=y}^\infty e^{-ra}
+                      d_{a}^M  \left(f_{y}^{M-M} + f_{y}^{M-F}\right)\dd a \dd y
+\end{split}
+\end{equation}
+, where $a'$, $y'$, $a$ and $y$ index female age, female remaining years, male
+age and male remaining years, respectively. Fertility superscripts identify sex of
+progentitor followed by sex of offspring, and $d_x$ must accord with the sex of
+offspring. Such specific rates are chosen because data that would permit
+empirical studies of the two-sex problem are typically sufficiently rich to allow 
+for cross-tabulations by age of both parents as well as sex of birth. 
+Therefore, Equation~\eqref{eq:lineartwosexrenewal} assumes that rates are
+available by sex of progenitor, birth (4 combinations) and age (to be transformed to remaining years), 
+and no additional variable is required for the sex ratio at birth. Indeed,
+Equation~\ref{eq:lineartwosexrenewal} does not require such specific rates,
+since rates of reach progenitor sex are simply summed, but sex-sex-specific
+rates will be needed downstream for the calculation of other stable quantities,
+so it is advisable to treat them as inputs from the start.
+
+Weights, $\sigma$ and $1-\sigma$ are divided by 2 because
+total births are counted twice in total (males and females from males \&
+males and females from females). One could just as easily optimize to a sum of
+2 on the left-hand side rather than discount weights.
+
+The linear two-sex $r$, $r^\upsilon$, extracted from~\eqref{eq:lineartwosexrenewal} 
+is \textit{not} guaranteed to be bounded by the $e_x$-structured $r^f$ and $r^m$,
+and indeed $r^f$ and $r^m$ may not be recovered by setting $\sigma$ to 0 or 1,
+respectively. This is so because the model includes births of both sexes to
+progenitors of each sex, which changes the age-specific fertility curves
+somewhat. That is to say, manipulation of $\sigma$ is insufficient to make the
+one-sex model a degenerate case of the present model. $\sigma$ can only be
+understood as indicative of the balance of dominance in fertility rates between
+the sexes. The later choice would both reduce the complexity of
+Equation~\ref{eq:lineartwosexrenewal} and guarantee exact bounds of $r^f$ and $r^m$ 
+when $\sigma$ is set to 0 and 1, respectively. This author does not recognize 
+the theoretical or practical merits of the single-sex modelling choice, as it 
+is not the case that males are responsible for the birth of boys and females 
+for the birth of girls\footnote{\citet{pollard1948measurement} took this idea
+even further by swapping sexes: The fertility functions in this paper are based on the births of boys to mothers and girls to fathers, i.e. $M-F$ and $F-M$ fertility. This is parsimonious 
+in terms of getting quick results that are guaranteed to fall within reasonable bounds, but is less
+intuitively appealing}. This stance couples with the author's choice to not
+include an explicit, let alone constant, variable for the sex ratio at birth.
+
+It must be
+noted that the value of $r^\upsilon$ is dependant upon the choice of $\sigma$, 
+and that no guidelines are provided for choosing a good value of $\sigma$. 
+This ambiguity also exists in the age-structured variant of the present model. 
+For $e_x$-structured models, it has been claimed that sex-divergence is lesser than is the case for
+age-structured models. Recall that this was the case for predictions of birth
+counts, and not for the growth parameter, $r^\upsilon$. The
+difference between the $e_x$-structured $r^f$ and $r^m$ is not necessarily lesser than is the case for
+the age-structured $r^f$ and $r^m$. This will be discussed further along with
+empirical results for the two populations considered in this dissertation.
