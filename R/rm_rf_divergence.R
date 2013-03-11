@@ -71,7 +71,7 @@ plot(yearsUS, rmfUS[, 1], type = 'l', ylim = c(-.02, .011), xlim = c(1968,2010),
                 abline(v = seq(1970, 2010, by = 5), col = "white"),
                 text(1968, seq(-.02,.011,by = .005),seq(-.02,.011,by = .005), pos = 2, cex = .8, xpd = TRUE),
                 text(seq(1970, 2010, by = 10),-.02, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
-                text(1990, -.0225, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1990, -.0220, "Year", cex = 1, pos = 1, xpd = TRUE),
                 text(1966,.012, "r", cex = 1, xpd = TRUE)))
 lines(yearsUS, rmfUS[, 2], lwd = 2.5, col = gray(.5))
 lines(yearsES, rmfES[, 1], lwd = 2, col = gray(.2), lty = 5)
