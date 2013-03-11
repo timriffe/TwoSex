@@ -47,7 +47,7 @@
 % Table of contents, list of figures, etc.
 \tableofcontents      % Required
 \listoffigures        % Required if there is more than one figure
-%\listoftables        % Required if there is more than one table
+\listoftables        % Required if there is more than one table
 %\listofmaps          % Required if there is more than one map
 %\listofappendices    % Required if there is more than one appendix
 %\listofabbreviations % Optional. Abbreviations should be stored in a file named abbr.tex
@@ -95,10 +95,13 @@
       \subsubsection{Mortality}
         \input{sections/MeasuringTheTSP/DimorphismMortality.tex}
       %e_0 differences, dx overlap
+    
     \subsection{Decomposition}
       \todo{Not written, this would be very nice.}
+  
   \section{Secondary factors contributing to the two-sex problem}
       \todo{explain why might be relevant to TSP}
+    
     \subsection{Heterogamy}
       \input{sections/MeasuringTheTSP/DistributionHomogamy.tex}
       
@@ -138,29 +141,37 @@
   \section{Preference and competition}
   
 \chapter{A new perspective on age}
-
+  \input{sections/NewPerspectiveonAge/OpeningParagraphs.tex}
+  
   \section{Transforming time since birth to time until death}
+    \input{sections/NewPerspectiveonAge/TheTransformation.tex}
+    
+  \section{Populations structured by remaining years}
+    \input{sections/NewPerspectiveonAge/PopulationStructure.tex}
+    \todo{Show stability comparison}
   
-  \section{$e_x$-structured population pyramids}
-    Show stability
-  
-  \section{$e_x$-structured rates}
+  \section{Fertility rates structured by remaining years}
+    \input{sections/NewPerspectiveonAge/exRatesOpeningParagraph.tex}
     
     \subsection{Fertility by remaining years}
-      % Break this into more subsection chunks to \input
-      \input{snippets/ratesByRemainingLifeExpectancy.tex}
-    
+      \input{sections/NewPerspectiveonAge/exRatesESFR.tex}
+      
     \subsection{A synthetic rate based on remaining years}
+      \input{sections/NewPerspectiveonAge/exRatesETFR.tex}
     
     \subsection{Heterogamy by remaining years}
-
+      \input{sections/NewPerspectiveonAge/exRatesHeterogamy.tex}
+      
     \subsection{Divergence in predicted birth counts}
-      \input{snippets/exDivergence.tex}
+      \input{sections/NewPerspectiveonAge/exDivergenceBirthCounts.tex}
+      \todo{apply same indicators of dimorphism and divergence?}
       
 \chapter{Renewal in $e_x$-structured populations}
   \input{sections/exRenewalExplained/OpeningParagraphs.tex}
+    
     \section{Age-structured renewal}
       \input{sections/exRenewalExplained/AgeStructuredRenewal.tex}
+    
     \section{$e_x$-structured renewal}
     % this includes the diagram
       \input{sections/exRenewalExplained/exStructuredRenewal.tex}
@@ -183,6 +194,10 @@
       \subsection{The single-sex $e_x$-structured projection matrix}
         \input{sections/exSingleSexRenewal/ex1sexProjMat.tex}
 
+      \subsection{Time until an unreasonable sex ratio}
+        \input{sections/exSingleSexRenewal/ex1sexDoublingSR.tex}
+        \todo{make Figure for doubling}
+        
 \chapter{Two-sex renewal in $e_x$-structured populations}
   \input{sections/exTwoSexRenewal/ex2sexOpeningParagraphs.tex}
   
@@ -207,7 +222,7 @@
     \subsection{Reflections}
         \input{sections/exTwoSexRenewal/ex2sexLinReflections.tex}
         
-    
+  \section{Incorporating feedback into a two-sex $e_x$-structured renewal model}
 
 
 \chapter{Reflections}
