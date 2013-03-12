@@ -176,64 +176,73 @@ legend(1993,1.45, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,
 dev.off()
 
 # -----------------------------------------------------------
-# SRB?
+# SRB
 
-# SRB varies over age: 1975:
-wlsSRBmf <- function(Bxyl, sex = "m", ages = 10:65){
+calcSRBmf <- function(Bxy, sex = "m"){
     if (sex == "m"){
-        SRB <- log(MinfNA(colSums(Bxyl[["Bxym"]]) / colSums(Bxyl[["Bxyf"]])))
-        return(lm(SRB ~ ages, weights = sqrt(colSums(Bxyl[["Bxym"]]) + colSums(Bxyl[["Bxyf"]]))))
+        SRB <- MinfNA(rowSums(Bxy[["Bxym"]]) / rowSums(Bxy[["Bxyf"]]))
     } else {
-        SRB <- log(MinfNA(rowSums(Bxyl[["Bxym"]]) / rowSums(Bxyl[["Bxyf"]])))
-        return(lm(SRB ~ ages, weights = sqrt(rowSums(Bxyl[["Bxym"]]) + rowSums(Bxyl[["Bxyf"]]))))
-    }
-}
-
-
-calcSRBmf <- function(Bxyl, sex = "m"){
-    if (sex == "m"){
-        SRB <- log(MinfNA(colSums(Bxyl[["Bxym"]]) / colSums(Bxyl[["Bxyf"]])))
-        SRB[colSums(Bxyl[["Bxym"]]) + colSums(Bxyl[["Bxyf"]]) < 100] <- NA
-    } else {
-        SRB <- log(MinfNA(rowSums(Bxyl[["Bxym"]]) / rowSums(Bxyl[["Bxyf"]])))
-        SRB[rowSums(Bxyl[["Bxym"]]) + rowSums(Bxyl[["Bxyf"]]) < 100] <- NA
+        SRB <- MinfNA(colSums(Bxy[["Bxym"]]) / colSums(Bxy[["Bxyf"]]))
     }
     SRB
 }
 
-SRBfUS <- calcSRBmf(BxymfUS[["1975"]], "f")
-SRBmUS <- calcSRBmf(BxymfUS[["1975"]], "m")
-SRBfES <- calcSRBmf(BxymfES[["1975"]], "f")
-SRBmES <- calcSRBmf(BxymfES[["1975"]], "m")
 
 
-# TODO: finish SRB plot
-# log SRB x age, m, f:
-#pdf("/home/triffe/git/DISS/latex/Figures/SRBagemf.pdf", height = 5, width = 5)
-#par(mar = c(5, 2, 2, 2),xaxp = "i", yaxp = "i")
-#ylim <- c(-.3,.3)
-#plot(ages, SRBmUS, type = 'l', ylim = ylim, xlim = c(10,65), axes = FALSE,
-#        col = gray(.2), lwd = 2, xlab = "", ylab = "",
-#        panel.first = list(rect(10,ylim[1],65,ylim[2],col = gray(.95), border=NA),
-#                abline(h = seq(ylim[1], ylim[2], by = .1), col = "white"),
-#                abline(v = seq(10, 65, by = 5), col = "white"),
-#                text(10, zapsmall(seq(ylim[1], ylim[2], by = .1)), zapsmall(seq(ylim[1], ylim[2], by = .1)), pos = 2, cex = .8, xpd = TRUE),
-#                text(seq(10, 60, by = 10),ylim[1], seq(10, 60, by = 10), pos = 1, cex = .8, xpd = TRUE),
-#                text(35, -.65, "Year", cex = 1, pos = 1, xpd = TRUE),
-#                text(9,.65, "TFR", cex = 1, xpd = TRUE)))
-#abline(wlsSRBmf(BxymfUS[["1975"]], "m"), col = "red")
-#
-#lines(ages, SRBfUS, lwd = 2.5, col = gray(.5))
-#abline(wlsSRBmf(BxymfUS[["1975"]], "f"), col = "blue")
-#
-#lines(ages, SRBmES, lwd = 2, col = gray(.2), lty = 5)
-#abline(wlsSRBmf(BxymfES[["1975"]], "m"), col = "orange")
-#
-#lines(ages, SRBfES, lwd = 2.5, col = gray(.5), lty = 5)
-#abline(wlsSRBmf(BxymfES[["1975"]], "f"), col = "pink")
-#abline(h = log(1.05), col = "red")
-#legend(4,-.7, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
-#        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE, horiz = TRUE,
-#        cex = .8)
-#
-#dev.off()
+BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+names(BxymfES) <- yearsES
+SRBfUS <- calcSRBmf(BxymfUS[["1975"]], sex ="f")
+SRBmUS <- calcSRBmf(BxymfUS[["1975"]], sex ="m")
+SRBfES <- calcSRBmf(BxymfES[["1975"]], sex ="f")
+SRBmES <- calcSRBmf(BxymfES[["1975"]], sex ="m")
+
+pdf("/home/triffe/git/DISS/latex/Figures/SRB1975.pdf", height = 5, width = 5)
+age <- .5:110.5
+ind <- age >14 & age < 50
+par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+ylim <- c(.8,1.25)
+plot(NULL, type = 'n', ylim = ylim, xlim = range(age[ind]), axes = FALSE,
+       xlab = "", ylab = "",
+        panel.first = list(rect(10,ylim[1],65,ylim[2],col = gray(.95), border=NA),
+                abline(h = seq(ylim[1], ylim[2], by = .05), col = "white"),
+                abline(v = seq(15, 50, by = 5), col = "white"),
+                text(min(age[ind]), seq(ylim[1], ylim[2], by = .05), seq(ylim[1], ylim[2], by = .05), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(15, 50, by = 5),ylim[1], seq(15, 50, by = 5), pos = 1, cex = .8, xpd = TRUE),
+                text(32, .77, "Age", cex = 1, pos = 1, xpd = TRUE),
+                text(13,1.29, "SRB", cex = 1, xpd = TRUE)))
+lines(age[ind], SRBmUS[ind], lwd = 2, col = gray(.2))
+lines(age[ind], SRBfUS[ind], lwd = 2.5, col = gray(.5))
+lines(age[ind], SRBmES[ind], lwd = 2, col = gray(.2), lty = 5)
+lines(age[ind], SRBfES[ind], lwd = 2.5, col = gray(.5), lty = 5)
+
+legend(15,.9, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
+        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
+dev.off()
+
+# total SRB over time
+
+SRBUS <- unlist(lapply(as.character(yearsUS), function(yr, .Bxymf){
+             sum(.Bxymf[[yr]][["Bxym"]]) / sum(.Bxymf[[yr]][["Bxyf"]]) 
+        }, .Bxymf = BxymfUS))
+SRBES <- unlist(lapply(as.character(yearsES), function(yr, .Bxymf){
+                    sum(.Bxymf[[yr]][["Bxym"]]) / sum(.Bxymf[[yr]][["Bxyf"]]) 
+                }, .Bxymf = BxymfES))
+
+pdf("/home/triffe/git/DISS/latex/Figures/SRByear.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+ylim <- c(1.04,1.1)
+plot(NULL, type = 'n', ylim = ylim, xlim = c(1968,2010), axes = FALSE,
+        xlab = "", ylab = "",
+        panel.first = list(rect(1968,ylim[1],2010,ylim[2],col = gray(.95), border=NA),
+                abline(h = seq(ylim[1], ylim[2], by = .01), col = "white"),
+                abline(v = seq(1970, 2005, by = 5), col = "white"),
+                text(1968, seq(ylim[1], ylim[2], by = .01), seq(ylim[1], ylim[2], by = .01), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2005, by = 5),ylim[1], seq(1970, 2005, by = 5), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, 1.036, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1966,1.105, "SRB", cex = 1, xpd = TRUE)))
+lines(yearsUS, SRBUS, lwd = 2, col = gray(.2))
+lines(yearsES, SRBES, lwd = 2.5, col = gray(.5), lty=5)
+legend(1995,1.1, lty = c(1,5), col = gray(c(.2,.5)), lwd = c(2,2.5),bty = "n",
+        legend = c("US", "Spain"), xpd = TRUE)
+dev.off()
