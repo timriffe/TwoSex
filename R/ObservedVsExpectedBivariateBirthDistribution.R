@@ -189,8 +189,8 @@ plot(as.integer(names(BxUS)), TotalVarUS, type = 'l', ylim = c(.33,.48), xlim = 
                            text(seq(1970, 2010, by = 5), .33, seq(1970, 2010, by = 5), pos = 1 ,cex = .7, xpd = TRUE),
                            text(1967, seq(.35, .45, by = .05), seq(.35, .45, by = .05), pos = 2, cex = .7, xpd = TRUE)
                            ))
-lines(as.integer(names(BxES)), TotalVarES, col = gray(.4), lwd = 3, lty = 3)
-legend("bottomleft", col = gray(c(.2,.4)), lwd = c(2,3), lty = c(1,3),
+lines(as.integer(names(BxES)), TotalVarES, col = gray(.4), lwd = 3, lty = 5)
+legend("bottomleft", col = gray(c(.2,.4)), lwd = c(2,3), lty = c(1,5),
     legend = c(expression(paste(theta," USA")), expression(paste(theta," ES"))), bty = "n")
 dev.off()
 
@@ -247,9 +247,9 @@ plot(USyrs, HypergamyUS[,"structural"], type = 'l', ylim = c(0,8), xlim = c(1967
 lines(USyrs, HypergamyUS[,"total"], col = gray(.1), lwd = 1, lty = 1)
 lines(USyrs, HypergamyUS[,"excess"], col = gray(.2), lwd = 3, lty = 1)
 
-lines(ESyrs, HypergamyES[,"structural"], col = gray(.2), lwd = 2, lty = 2)
-lines(ESyrs, HypergamyES[,"total"], col = gray(.1), lwd = 1, lty = 2)
-lines(ESyrs, HypergamyES[,"excess"], col = gray(.2), lwd = 3, lty = 2)
+lines(ESyrs, HypergamyES[,"structural"], col = gray(.2), lwd = 2, lty = 5)
+lines(ESyrs, HypergamyES[,"total"], col = gray(.1), lwd = 1, lty = 5)
+lines(ESyrs, HypergamyES[,"excess"], col = gray(.2), lwd = 3, lty = 5)
 
 text(1966,1,"structural hypergamy", cex = .8, pos = 4)
 text(1966,4.5,"excess hypergamy", cex = .8, pos = 4)
