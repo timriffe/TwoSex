@@ -4,7 +4,8 @@ any given year varies greatly from the distribution that would be expected if
 age and mother and age of father were selected randomly according to the two
 single-sex distributions.
 
-The expected cross-classified age distribution $\textbf{E}B(x,y)$ is defined as:
+The expected cross-classified age distribution $\textbf{E}(B(x,y))$ is defined
+as:
 
 \begin{equation}
 \label{eq:expected}
@@ -36,8 +37,8 @@ simple difference coefficient, $\theta$, namely:
 \label{eq:coefdiff}
 \theta = 1 - \int \;\int min(f_1, f_2)
 \end{equation}
-,where $f_1$ is $B_{xy}$ and $f_2$ is $\textbf{E}B_{xy}$, both scaled to sum to
-1. $\theta$ is constrained to fall between 0 and 1, where 1 indicates that the
+,where $f_1$ is $B_{xy}$ and $f_2$ is $\textbf{E}(B_{xy})$, both scaled to sum
+to 1. $\theta$ is constrained to fall between 0 and 1, where 1 indicates that the
 two distributions are separate and 0 indicates identical distributions. In 1970 USA,
 $\theta$ was equal to $0.47$, a value which can be understood to stand as the
 degree of residual preference.
@@ -62,7 +63,9 @@ of $B_{xy}$ contains births due to age-hypergamous (father's age > mother's
 age)\footnote{Here I use heterogamy-related terms loosely, as we are not
 dealing directly with nuptiality, but rather with reproduction in general and
 fertility in particular.} parents and the upper triangle $U$ contains births due to
-age-hypogamous parents. Thus, a simple measure of total hypergamy, $\widehat{H}$, can be taken as a ratio of the total births in $L$ versus $U$, or in shorthand $\frac{B_{x>y}}{B_{x<y}}$, excluding single-age exact homogamy on the matrix diagonal.
+age-hypogamous parents. Thus, a simple measure of total hypergamy, $\widehat{H}$, 
+can be taken as a ratio of the total births in $L$ versus $U$, or in shorthand 
+$\frac{B_{x>y}}{B_{x<y}}$, excluding single-age exact homogamy on the matrix diagonal.
 
 \begin{equation}
 \widehat{H} = \frac{\sum L}{\sum U} 
@@ -70,12 +73,12 @@ age-hypogamous parents. Thus, a simple measure of total hypergamy, $\widehat{H}$
 
 In this case, the $\widehat{H}$ will be calculated for the observed and expected
 birth matrices. US data from 1970 yields and observed $\widehat{H}$ of $7.37$
-versus an expected $\textbf{E}\widehat{H}$ of $1.75$. The later value is
-possibly much higher than one would suspect, given that the $\textbf{E}B_{xy}$
+versus an expected $\textbf{E}(\widehat{H})$ of $1.75$. The later value is
+possibly much higher than one would suspect, given that the $\textbf{E}(B_{xy})$
 is purged of association. It is due, as mentioned above to differences in the
 shape and span of male and female single-sex fertility. For reference, I
-will call this structural or latent hypergamy, as opposed to the residual, or
-excess hypergamy, which is the ratio of observed (total) hypergamy to
+will call this ``structural'' or ``latent'' hypergamy, as opposed to the
+residual, or excess hypergamy, which is the ratio of observed (total) hypergamy to
 structural hypergamy, in this case $4.21$ times higher
 than structural hypergamy. While these types of values do not enter, per se, 
 into any of the thus-far proposed two-sex solutions, they characterize the 
@@ -95,6 +98,31 @@ Figure~\ref{fig:HypergamyStrength}:
      \label{fig:Theta}
 \end{figure}
 
+The bivariate age-distributions for both countries were rather far from being
+association-free over the duration of the period studied. Since around
+1979, Spain has undergone a roughly constant approach toward what would be the
+expected distribution of births, random with respect to age of
+partner. Since the shinking of the departure from randomness in Spain 
+may also be seen as closing a gap, one could just as
+easily transform the data as such and view the secular change as one of an
+\textit{accelerated} approach toward randomness\footnote{i.e. One could see the
+acceleration by taking the lofit of the trend in $\theta$ shown.}. The US
+underwent a similar approach toward randomness from 1969 until around 1985,
+since which time the trend has gradually wavered upward. In recent years, the
+departure from randomness has been considerably higher than in Spain.
+
+Developments with respect to our rough indicators of hypergamy have been more
+consistent between the two countries, both of which have undergone nearly
+monotonic declines\footnote{Or perhaps more clearly \textit{monotonic
+non-increases}} in all three hypergamy indicators, save for the US since the mid
+1990s, which has held constant. The greatest drivers of the larger downward trend have been declines in excess hypergamy: those more imaginably a result of
+behavior. In both countries, excess hypergamy is greater than latent hypergamy,
+though it would appear that this observation may not hold forever. The author
+ speculates that we may one day see a crossover, with latent hypergamy-- that
+which is more or less a product of sex-differences in the distribution, and
+which owes in part to evolved differences in the reproductive span-- obtaining a
+greater proportion of total hypergamy than excess hypergamy.
+
 \begin{figure}[!ht]
   \centering
     % figure produced in
@@ -105,8 +133,17 @@ Figure~\ref{fig:HypergamyStrength}:
     \label{fig:HypergamyStrength}
 \end{figure}
 
-
-
+These trends, of substantive interest in their own right, will also be of
+interest to the designer of two-sex reproductive models that incorporate
+ assumptions about age-combinations. Such models have been known to make all
+ manner of assumptions, from the simplicity of fixed age-matching, to
+ sophisticated combinations of age-preferences interacting with availability
+ conditions. Even the latent hypergamy indicator of
+ Figure~\ref{fig:HypergamyStrength} does not contain information about how much
+ of observed change is due to preference, say, in the age at childbearing, or
+ relations between males and females with respect to the timing of childbirth.
+ Nonetheless, it should be clear that the bivariate distribution with respect to
+ ages of progenitors is far from random and often in a state of flux.
 
 
 
