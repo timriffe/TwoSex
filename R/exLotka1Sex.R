@@ -230,3 +230,6 @@ lines(yearsES, rfES[, 1],col = gray(.5), lwd = 2.5, lty = 5)
 legend(1970,-.01, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
         legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
 dev.off()
+
+
+
