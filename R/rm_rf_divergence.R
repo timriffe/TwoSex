@@ -61,6 +61,7 @@ rmfES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .BxymfES, .ExE
                 }, .BxymfES = BxymfES, .ExES = ExES, .LxmES = LxmES, .LxfES = LxfES))
 rownames(rmfES) <- yearsES
 
+# 1) the rates as such
 # plot it:
 pdf("/home/triffe/git/DISS/latex/Figures/rmf.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
@@ -80,6 +81,36 @@ lines(yearsES, rmfES[, 2], lwd = 2.5, col = gray(.5), lty = 5)
 legend(1993,.009, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
         legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
 dev.off()
+
+
+# 2) the difference in rates; the gap:
+
+pdf("/home/triffe/git/DISS/latex/Figures/rmfGap.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+plot(yearsUS, rmfUS[, 1] - rmfUS[, 2] , type = 'l', ylim = c(-.001, .005), xlim = c(1968,2010), axes = FALSE,
+        col = gray(.2), lwd = 2, xlab = "", ylab = "",
+        panel.first = list(rect(1968,-.001,2010,.005,col = gray(.95), border=NA),
+                abline(h = seq(-.001, .005,by = .0005), col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(-.001, .005,by = .001),seq(-.001, .005,by = .001), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10),-.001, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, -.00135, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1966,.0055, "gap in r", cex = 1, xpd = TRUE)))
+
+lines(yearsES, rmfES[, 1] - rmfES[, 2], lwd = 2.5, col = gray(.5), lty = 5)
+
+legend(1969,0, lty = c(1,5), col = gray(c(.2,.5)), lwd = c(2,2.5),bty = "n",
+        legend = c("US", "Spain"), xpd = TRUE)
+dev.off()
+
+
+
+
+
+
+
+
+
 
 fem.ind <- rmfUS[,1] < rmfUS[,2]
 # 1994 - 1996 ; 2001
