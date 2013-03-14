@@ -132,11 +132,8 @@ diffsESaPred15 <- do.call(rbind,lapply(1:(length(yearsES)-15), function(i, .BxES
                 },  .BxES = BxES, .ExES = ExES, .yearsES = yearsES))
 
 # -----------------------------------------------------------------------------
-blues <- RColorBrewer::brewer.pal(6,"Blues")[2:5]
-reds <- RColorBrewer::brewer.pal(6,"Reds")[2:5]
 
-pdf("/home/triffe/git/DISS/latex/Figures/BirthCountDivergenceAge.pdf", height = 5, width = 5)
-par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+pdf("/home/triffe/git/DISS/latex/Figures/BirthCountDivergenceAge.pdf", height = 5, width = 5)par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(1969:2008, diffsUSaPred[, "RDiff"], type = 'n', ylim = c(-.03,.13), xlim = c(1968, 2009),
         axes = FALSE, xlab = "", ylab = "",
         panel.first = list(rect(1968, -.03, 2010, .13, col = gray(.95), border=NA),
@@ -154,6 +151,36 @@ lines(1969:(2009-10), diffsUSaPred10[, "RDiff"], col = blues[3], lwd = 2)
 lines(1975:(2009-10),diffsESaPred10[, "RDiff"], col = reds[3], lwd = 2)
 lines(1969:(2009-15), diffsUSaPred15[, "RDiff"], col = blues[4], lwd = 1)
 lines(1975:(2009-15),diffsESaPred15[, "RDiff"], col = reds[4], lwd = 1)
+text(1969, c(diffsUSaPred[1, "RDiff"],diffsUSaPred5[1, "RDiff"],diffsUSaPred10[1, "RDiff"],diffsUSaPred15[1, "RDiff"]) +
+                c(.005, 0 , - .0025, 0),
+        c("US t+1", "US t+5","US t+10","US t+15"), pos = 4)
+text(2009 - c(1,5,10,15) + c(-3,0,0,0), 
+        c(diffsESaPred[34, "RDiff"],diffsESaPred5[30, "RDiff"],diffsESaPred10[25, "RDiff"],diffsESaPred15[20, "RDiff"]) +
+                c(.01,0,0,0),
+        c("ES t+1", "ES t+5","ES t+10","ES t+15"), pos = 4, xpd =TRUE)
+dev.off()
+
+
+
+pdf("/home/triffe/git/DISS/latex/Figures/BirthCountDivergenceAge.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+plot(1969:2008, diffsUSaPred[, "RDiff"], type = 'n', ylim = c(-.03,.13), xlim = c(1968, 2009),
+        axes = FALSE, xlab = "", ylab = "",
+        panel.first = list(rect(1968, -.03, 2010, .13, col = gray(.95), border=NA),
+                abline(h = seq(-.03,.12,by=.01), col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(-.03,.13,by=.01), seq(-.03,.13,by=.01), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10), -.03, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, -.04, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1962, .142, "Rel. Diff", cex = 1, xpd = TRUE, pos = 4)))
+lines(1969:2008,diffsUSaPred[, "RDiff"], col = gray(.2), lwd = 4)
+lines(1975:2008,diffsESaPred[, "RDiff"], col = gray(.4), lwd = 4,lty=5)
+lines(1969:(2009-5), diffsUSaPred5[, "RDiff"], col = gray(.2), lwd = 3)
+lines(1975:(2009-5),diffsESaPred5[, "RDiff"], col = gray(.4), lwd = 3,lty=5)
+lines(1969:(2009-10), diffsUSaPred10[, "RDiff"], col = gray(.2), lwd = 2)
+lines(1975:(2009-10),diffsESaPred10[, "RDiff"], col = gray(.4), lwd = 2,lty=5)
+lines(1969:(2009-15), diffsUSaPred15[, "RDiff"], col = gray(.2), lwd = 1)
+lines(1975:(2009-15),diffsESaPred15[, "RDiff"], col = gray(.4), lwd = 1,lty=5)
 text(1969, c(diffsUSaPred[1, "RDiff"],diffsUSaPred5[1, "RDiff"],diffsUSaPred10[1, "RDiff"],diffsUSaPred15[1, "RDiff"]) +
                 c(.005, 0 , - .0025, 0),
         c("US t+1", "US t+5","US t+10","US t+15"), pos = 4)
