@@ -246,3 +246,108 @@ lines(yearsES, SRBES, lwd = 2.5, col = gray(.5), lty=5)
 legend(1995,1.1, lty = c(1,5), col = gray(c(.2,.5)), lwd = c(2,2.5),bty = "n",
         legend = c("US", "Spain"), xpd = TRUE)
 dev.off()
+
+
+# --------------------------------------------------------------------
+# reproductive spans, self-sufficient code
+yearsES <- 1975:2009
+yearsUS <- 1969:2009
+BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+names(BxymfES) <- yearsES
+ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+
+
+
+Bounds99US <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .Ex, .a = .5:110.5){
+           
+            Fxm <- Mna0(Minf0(rowSums(.Bxy[[yr]][[1]] + .Bxy[[yr]][[1]] ) / 
+                                    with(.Ex, Male[Year == as.integer(yr)])))
+            Fxf <- Mna0(Minf0(colSums(.Bxy[[yr]][[1]] + .Bxy[[yr]][[1]] ) / 
+                                    with(.Ex, Female[Year == as.integer(yr)])))
+            
+            keep <- .a <= 85        
+            
+            .anew     <- seq(min(.a[keep]),max(.a[keep]),by = .01)
+            Fxminterp <- approx(x=.a[keep], y=Fxm[keep], xout =  .anew)
+            Fxfinterp <- approx(x=.a[keep], Fxf[keep], xout =  .anew)
+
+            csfFxm    <- cumsum(Fxminterp$y / sum(Fxminterp$y))
+            csfFxf    <- cumsum(Fxfinterp$y / sum(Fxfinterp$y))
+            
+            c(m.lower = rev(.anew[csfFxm <= .005])[1],
+            m.upper = rev(.anew[csfFxm <= .995])[1],
+            m.med = rev(.anew[csfFxm <= .5])[1],
+            f.lower = rev(.anew[csfFxf <= .005])[1],
+            f.upper = rev(.anew[csfFxf <= .995])[1],
+            f.med = rev(.anew[csfFxf <= .5])[1])
+            
+        },  .Bxy = BxymfUS, .Ex = ExUS))
+Bounds99ES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .Ex, .a = .5:110.5){
+            
+            Fxm <- Mna0(Minf0(rowSums(.Bxy[[yr]][[1]] + .Bxy[[yr]][[1]] ) / 
+                                            with(.Ex, Male[Year == as.integer(yr)])))
+            Fxf <- Mna0(Minf0(colSums(.Bxy[[yr]][[1]] + .Bxy[[yr]][[1]] ) / 
+                                            with(.Ex, Female[Year == as.integer(yr)])))
+            keep <- .a <= 85        
+                    
+            .anew     <- seq(min(.a[keep]),max(.a[keep]),by = .01)
+            Fxminterp <- approx(x=.a[keep], y=Fxm[keep], xout =  .anew)
+            Fxfinterp <- approx(x=.a[keep], Fxf[keep], xout =  .anew)
+                    
+            csfFxm    <- cumsum(Fxminterp$y / sum(Fxminterp$y))
+            csfFxf    <- cumsum(Fxfinterp$y / sum(Fxfinterp$y))
+                    
+            c(m.lower = rev(.anew[csfFxm <= .005])[1],
+                    m.upper = rev(.anew[csfFxm <= .995])[1],
+                    m.med = rev(.anew[csfFxm <= .5])[1],
+                    f.lower = rev(.anew[csfFxf <= .005])[1],
+                    f.upper = rev(.anew[csfFxf <= .995])[1],
+                    f.med = rev(.anew[csfFxf <= .5])[1])
+                    
+                }, .Bxy = BxymfES, .Ex = ExES))
+
+
+pdf("/home/triffe/git/DISS/latex/Figures/ASFRbounds.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .5, .5), xaxs = "i", yaxs = "i")
+ylim <- c(10,67)
+plot(NULL, type = 'n', ylim = ylim, xlim = c(1968,2010), axes = FALSE,
+        xlab = "", ylab = "",
+        panel.first = list(rect(1968,ylim[1],2010,ylim[2],col = gray(.95), border=NA),
+                abline(h = seq(ylim[1], ylim[2], by = 5), col = "white"),
+                abline(v = seq(1970, 2005, by = 5), col = "white"),
+                text(1968, seq(ylim[1], ylim[2], by = 5), seq(ylim[1], ylim[2], by = 5), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2005, by = 5),ylim[1], seq(1970, 2005, by = 5), pos = 1, cex = .8, xpd = TRUE),
+                text(1988, 7, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1966,71, "Age", cex = 1, xpd = TRUE)))
+lines(yearsUS, Bounds99US[, "f.lower"], lwd = 1.5, col = gray(.1))
+lines(yearsUS, Bounds99US[, "f.upper"], lwd = 1.5, col = gray(.1))
+lines(yearsUS, Bounds99US[, "f.med"], lwd = 1.5, col = gray(.1))
+lines(yearsUS, Bounds99US[, "m.lower"], lwd = 2.9, col = gray(.5))
+lines(yearsUS, Bounds99US[, "m.upper"], lwd = 2.9, col = gray(.5))
+lines(yearsUS, Bounds99US[, "m.med"], lwd = 2.9, col = gray(.5))
+
+lines(yearsES, Bounds99ES[, "f.lower"], lwd = 1.5, col = gray(.1), lty=4)
+lines(yearsES, Bounds99ES[, "f.upper"], lwd = 1.5, col = gray(.1), lty=4)
+lines(yearsES, Bounds99ES[, "f.med"], lwd = 1.5, col = gray(.1), lty=4)
+lines(yearsES, Bounds99ES[, "m.lower"], lwd = 2.9, col = gray(.5), lty=4)
+lines(yearsES, Bounds99ES[, "m.upper"], lwd = 2.9, col = gray(.5), lty=4)
+lines(yearsES, Bounds99ES[, "m.med"], lwd = 2.9, col = gray(.5), lty=4)
+
+
+text(2009.2,c(16.5,30,48),c("0.5%","50%","99.5%"), pos=4,xpd=TRUE)
+segments(c(2010,2010),c(48,48),c(2006,2006),c(45,52))
+
+legend(1968,69, lty = c(1,1,4,4), col = gray(c(.1,.5,.1,.5)), lwd = c(1.5,2.9,1.5,2.9),bty = "n",
+        legend = c("US females", "US males", "ES females","ES males"), xpd = TRUE)
+dev.off()
+
+
+
+
+
+
+
+
+
