@@ -19,7 +19,7 @@ in the age-pattern of male and female fertility, comparing the effective
 age-bounds of male and female fertility, and creating a summary index of
 distribution similarity between male and female fertility.
 
-TFR is among the most well-known and understood demographic indicators, and all
+TFR is among the most well-known and understood demographic indicators, and
 demographers have intuition about how it has developed in recent decades. These
 two statements are more true for female TFR than for male TFR, though the study
 of male fertility is said to be on the increase in recent years.
@@ -35,9 +35,9 @@ of male fertility is said to be on the increase in recent years.
 \end{figure}
 
 Figure~\ref{fig:TFRseries} shows in parallel the trends in male and female TFR
-in the years studied for Spain and the US. Notes that
-in the years of continuous decline, $TFR^M$ was higher than $TFR^F$, and in the years 
-of gradual increase, $TFR^F$ crossed over to lead the way. In the United States,
+in the years studied for Spain and the US. Note that
+in the years of continuous decline, $TFR^M$ tended to be higher than $TFR^F$,
+and in the years of gradual increase, $TFR^F$ tended to be higher than $TFR^M$. In the United States,
 this crossover was observed around 1988, and in Spain around 1998. 
 
 % ASFR for 1975, both countries
@@ -50,19 +50,95 @@ this crossover was observed around 1988, and in Spain around 1998.
           \label{fig:ASFR1975}
 \end{figure}
 
-\todo{add rate surfaces}
-
-\todo{distribution overlap}
+The distribution of fertility rates over age also differs between males and
+females. Figure~\ref{fig:ASFR1975} displays ASFR in 1975 for both Spain and the
+US. The distributions have moved over time, but some stylized observations will
+pertain in any year. Namely, the steep increase in fertility rates over young
+ages follows a similar pattern for males and females, but begins some 4-6 years
+later for males than for females in these two populations. Peak male fertility
+will be around 7 years later than peak female fertility, and this spread widens
+over the ages in which fertility declines, creating a longer and fatter
+right-side tail for male ASFR than for female ASFR. 
 
 % ASFR bounds
 \begin{figure}[ht!]
         \centering  
           \caption{Male and female fertility rate quantiles, 1969-2009, USA and
           Spain}
-           % figure produced in
-           % /R/IllstrateDivergence.R
+           % figure produced in /R/IllstrateDivergence.R
            \includegraphics{Figures/ASFRbounds}
           \label{fig:TFRboundsseries}
 \end{figure}
+
+The physiological bounds to fertility, menarche and menopause for
+females -- spermarche and andropause for males -- are well known. These may be
+considered semi-rigid bounds. One might also derive bounds based on the ages
+where fertility crosses some decided-upon threshold\footnote{i.e. take a
+strategy similar to that proposed in \citet{coale1971age} for choosing the
+starting age of marriage.}. Figure~\ref{fig:TFRboundsseries} displays the
+results of choosing lower and upper bounds as those ages that contain 99\% of
+all fertility, along with the median age\footnote{In other words, quantiles are
+taken from the ASFR distribution, not observed birth counts. Non-integer results are derived from
+discrete single-age ASFR by taking quantiles from ASFR after linear
+interpolation between single-age midpoints, all assumed to be mid-interval.}. 
+These statistical bounds fall within the physiological bounds, necessarily. 
+
+In general, we note that the central ages of fertility have tended to shift more
+over time than the upper and lower statistical bounds, particularly swiftly for
+both males and females in Spain in the 1990s, though the upper bound for
+Spanish males increased in parallel to the median over the same period. The
+statistical upper bound applied here has been increasing in recent years for
+both US and Spanish females, and by 2009 was about a half year higher than in
+1969. The upper bound for Spanish females decreased about 2 years from 1975
+to 1995, and has since increased to be just half a year lower than in 1975. Over
+the period studied, median ages of ASFR have increased by around 5 years for
+males and females in both countries. It is particularly noteworthy that Spanish
+male and female mdeian ages and upper bounds diverged for much of the period
+examined, much moreso than for the US.
+
+One way to judge the overall dissimilarity of these two distributions is to
+calculate a simple difference coefficient, $\theta$, namely:
+
+\begin{equation}
+\label{eq:coefdiff}
+\theta = 1 - \int \;\int min(f_1, f_2)
+\end{equation}
+,where $f_1$ is male ASFR and $f_2$ is female ASFR, both scaled to sum
+to 1. $\theta$ is constrained to fall between 0 and 1, where 1 indicates that the
+two distributions are separate and 0 indicates identical distributions.
+Figure~\ref{fig:ASFRdissimilarity} displays the results of applying this
+indicator to each year of data for the US and Spain. $\theta$ has followed
+a wave pattern in both the US and Spain in the years studied here, though 
+quite differently between the two countries. US male and female fertiltiy rate
+distributions are on the whole more similar than Spanish males and females. The
+US underwent overall divergence until around 1980, then rates converged until
+around 2003, since which time they have slowly begun to diverge again. Spanish
+rates converged until 1980, then began to diverge until the early 1990s, since
+which time they have begun again to converge. If simplistic visual biases are to
+be given any weight, and without consulting other sources of information, one
+might presume that male and female rates in both countries will begin to diverge
+again over the next decade. However, it is unknown at this time whether the
+longer pattern in this indicator would indeed be sinusoidal\footnote{Births by
+age of mother and father are indeed available for a further 3 or so decades
+before the start of this series, but these have not been converted to data by
+this author.}.
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Dissimilarity between male and female ASFR, 1969-2009, USA
+          and Spain}
+           % figure produced in /R/IllstrateDivergence.R
+           \includegraphics{Figures/ASFRdissimilarity}
+          \label{fig:ASFRdissimilarity}
+\end{figure}
+
+To reiterate, Figures~\ref{fig:ASFRdissimilarity}~and~\ref{fig:TFRboundsseries}
+say nothing of relative levels of fertility between males and females, but
+rather of distributions. These marginal distributions, will exert influence on
+two-sex divergence even if all other factors, including TFR, are equal between
+males and females. This is because fertility will be weighted differently along
+the sex-specific survival curves. In the decomposition of the sex-gap in
+intrinsic growth rates to be presented in a later section, we do not, however,
+differentiate between fertility levels and fertility distributions, per se. 
 
  \FloatBarrier
