@@ -232,4 +232,26 @@ legend(1970,-.01, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,
 dev.off()
 
 
+# --------------------------------------------------------------
+# year T ex-structure with its own stable structure. Stability:
 
+rownames(rmUS) <- yearsUS
+rownames(rfUS) <- yearsUS
+rownames(rmES) <- yearsES
+rownames(rfES) <- yearsES
+
+
+# TODO: complete stability comparison with stable population.
+# compare also with Lotka...
+ex1SexStableAge()
+PxUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")))
+PxES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
+
+StabmUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .dx, rmat){       
+                    Ex <- .Ex[.Ex$Year == as.integer(yr),MF]
+                    .ey <- rowSums(ExpectedDx(Ex, .dx[, yr]))
+                    .by <-  rowSums(ExpectedDx(rowSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE), .dx[, yr]))
+                    Fex <-  Minf0(Mna0(.by / .ey))
+                    cy <- ex1SexStableAge(r = rmat[yr,"r"], Fex = Fex, dx=.dx[, yr])
+                    
+                }, .Bx = BxymfUS, .Ex = ExUS, .Px = PxUS, .dx = dxmUS, rmat = rmUS))
