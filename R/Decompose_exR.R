@@ -175,6 +175,54 @@ exOneSexCoaleRdec1 <- compiler::cmpfun(function(rates, .a = .5:110.5, maxit = 2e
 #				exOneSexCoaleRdec1 = exOneSexCoaleRdec1))
 #stopCluster(cl)
 
+USdecompR <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/USdecompExR.Rdata")))
+ESdecompR <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/ESdecompExR.Rdata")))
+# determine axes compatible with output from both countries
+Neg <- USdecompR
+Neg[Neg > 0] <- 0
+Pos <- USdecompR
+Pos[Pos < 0] <- 0
+
+pdf("/home/triffe/git/DISS/latex/Figures/DecomprExUS.pdf", height = 5, width = 5)
+par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
+plot(NULL, type = "n", xlab = "", ylab = "", xlim = c(-1, 42), ylim = c(-.004,.007), 
+        axes = FALSE)
+rect(-1,-.004,42,.007,col = gray(.95),border = NA)
+abline(h = seq(-.004,.007,by=.001), col = "white")
+abline(v = seq(1,41,by=5), col = "white")
+barplot(t(Neg), add = TRUE, space = 0, border = NA, col = paste0(gray(c(.6,.4,.2)),"BB"),width = 1,axes = FALSE)
+barplot(t(Pos), add = TRUE, space = 0, border = NA, col = paste0(gray(c(.6,.4,.2)),"BB"),width = 1,axes = FALSE)
+
+text(seq(1,41,by=5),-.004,seq(1970,2010,by=5),pos=1,cex=.8,xpd=TRUE)
+text(-1,seq(-.004,.007,by=.001),seq(-.004,.007,by=.001),cex=.8,pos=2,xpd=TRUE)
+text(10,c(-0.0008636214, 0.0004774893,  0.0019927703), c("Mortality","Fertility","SRB"), cex = 1.5,pos = 4, col = "white")
+
+text(20,-.005,"Year",xpd=TRUE)
+text(-2,.0075,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
+dev.off()
+
+# Spain
+Neg <- ESdecompR
+Neg[Neg > 0] <- 0
+Pos <- ESdecompR
+Pos[Pos < 0] <- 0
+
+pdf("/home/triffe/git/DISS/latex/Figures/DecomprExES.pdf", height = 5, width = 5)
+par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
+plot(NULL, type = "n", xlab = "", ylab = "", xlim = c(-7, 36), ylim = c(-.004,.007), 
+        axes = FALSE)
+rect(-7,-.004,36,.007,col = gray(.95),border = NA)
+abline(h = seq(-.004,.007,by=.001), col = "white")
+abline(v = seq(-5,35,by=5), col = "white")
+barplot(t(Neg), add = TRUE, space = 0, border = NA, col = paste0(gray(c(.6,.4,.2)),"BB"),width = 1,axes = FALSE)
+barplot(t(Pos), add = TRUE, space = 0, border = NA, col = paste0(gray(c(.6,.4,.2)),"BB"),width = 1,axes = FALSE)
+
+text(seq(-5,35,by=5),-.004,seq(1970,2010,by=5),pos=1,cex=.8,xpd=TRUE)
+text(-7,seq(-.004,.007,by=.001),seq(-.004,.007,by=.001),cex=.8,pos=2,xpd=TRUE)
+text(16,c(-0.0009714755,  0.0003887940 , 0.0023813013), c("Mortality","Fertility","SRB"), cex = 1.5,pos = 4, col = "white")
+text(15,-.005,"Year",xpd=TRUE)
+text(-9,.0075,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
+dev.off()
 
 
 
