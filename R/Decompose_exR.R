@@ -197,7 +197,7 @@ barplot(t(Pos), add = TRUE, space = 0, border = NA, col = paste0(gray(c(.6,.4,.2
 
 text(seq(1,41,by=5),-.004,seq(1970,2010,by=5),pos=1,cex=.8,xpd=TRUE)
 text(-1,seq(-.004,.007,by=.001),seq(-.004,.007,by=.001),cex=.8,pos=2,xpd=TRUE)
-text(10,c(-0.0008636214, 0.0004774893,  0.0019927703), c("Mortality","Fertility","SRB"), cex = 1.5,pos = 4, col = "white")
+text(10,c(-0.0008636214, 0.0004774893, 0.0033583963), c("Mortality","Fertility","SRB"), cex = 1.5,pos = 4, col = "white")
 
 text(20,-.005,"Year",xpd=TRUE)
 text(-2,.0075,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
@@ -221,7 +221,7 @@ barplot(t(Pos), add = TRUE, space = 0, border = NA, col = paste0(gray(c(.6,.4,.2
 
 text(seq(-5,35,by=5),-.004,seq(1970,2010,by=5),pos=1,cex=.8,xpd=TRUE)
 text(-7,seq(-.004,.007,by=.001),seq(-.004,.007,by=.001),cex=.8,pos=2,xpd=TRUE)
-text(16,c(-0.0009714755,  0.0003887940 , 0.0023813013), c("Mortality","Fertility","SRB"), cex = 1.5,pos = 4, col = "white")
+text(16,c(-0.001009793,  0.001825698,  0.005216793), c("Mortality","Fertility","SRB"), cex = 1.5,pos = 4, col = "white")
 text(15,-.005,"Year",xpd=TRUE)
 text(-10,.0075,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
 dev.off()
