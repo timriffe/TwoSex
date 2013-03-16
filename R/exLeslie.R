@@ -1,10 +1,6 @@
 source("/home/triffe/git/DISS/R/UtilityFunctions.R")
 source("/home/triffe/git/DISS/R/MeanFunctions.R")
 
-# BxES is 0:110, years 1975:2009
-BxUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-BxES  <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
-
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
@@ -265,3 +261,123 @@ Y_1sexES <- lapply(as.character(yearsES), function(yr, .dxm, .dxf, .Ex, .Bxymf, 
         }, .dxm = dxmES, .dxf = dxfES, 
         .Ex = ExES, .Bxymf = BxymfES, 
         .lambdaf = lambdafES, .lambdam = lambdafES)
+
+
+
+# exercise: measure time to one sex is double size of other:
+names(Y_1sexUS[[1]])
+.Y_1sex <- Y_1sexUS
+yr <- "1975"
+doubleUS <- unlist(lapply(as.character(yearsUS), function(yr, .Y_1sex, .Px, .dxm, .dxf, maxit = 1e4){
+            
+           Pyfi <-  ExpectedDx( with(.Px, Female[Year == as.integer(yr)]), .dxf[,yr])
+           Pymi <-  ExpectedDx( with(.Px, Male[Year == as.integer(yr)]), .dxm[,yr])
+            
+           for (i in 1:maxit){
+               Pyfi <- .Y_1sex[[yr]][["Yf"]] %*% Pyfi
+               Pymi <- .Y_1sex[[yr]][["Ym"]] %*% Pymi
+               SR <- sum(Pymi) / sum(Pyfi)
+               if (SR > 2 | SR < .5){
+                   break
+               }
+           }
+           i
+        }, .Y_1sex = Y_1sexUS, .dxm = dxmUS, .dxf = dxfUS, .Px = PxUS))
+doubleES <- unlist(lapply(as.character(yearsES), function(yr, .Y_1sex, .Px, .dxm, .dxf, maxit = 1e4){
+                    
+                    Pyfi <-  ExpectedDx( with(.Px, Female[Year == as.integer(yr)]), .dxf[,yr])
+                    Pymi <-  ExpectedDx( with(.Px, Male[Year == as.integer(yr)]), .dxm[,yr])
+                    
+                    for (i in 1:maxit){
+                        Pyfi <- .Y_1sex[[yr]][["Yf"]] %*% Pyfi
+                        Pymi <- .Y_1sex[[yr]][["Ym"]] %*% Pymi
+                        SR <- sum(Pymi) / sum(Pyfi)
+                        if (SR > 2 | SR < .5){
+                            break
+                        }
+                    }
+                    i
+                }, .Y_1sex = Y_1sexES, .dxm = dxmES, .dxf = dxfES, .Px = PxES))
+
+# repeating for Lotka divergence:
+pxmUS <- apply(dxmUS, 2, dx2pxLes)
+pxfUS <- apply(dxfUS, 2, dx2pxLes)
+pxmES <- apply(dxmES, 2, dx2pxLes)
+pxfES <- apply(dxfES, 2, dx2pxLes)
+yrs2double <- compiler::cmpfun(function(Pxm, Pyf, Lf, Lm, maxit = 5000){
+            Pxmi  <- Pxm
+            Pyfi  <- Pyf
+            SR    <- sum(Pxmi) / sum(Pyfi) 
+            yrt   <- 0
+            while (SR < 2 & SR > .5 & yrt < maxit){
+                Pxmi <- c(Lm %*% Pxmi)
+                Pyfi <- c(Lf %*% Pyfi)
+                SR   <- sum(Pxmi) / sum(Pyfi) 
+                yrt  <- yrt + 1
+            }
+            yrt
+        })
+
+doubleESL <- unlist(lapply(as.character(yearsES), function(yr, .BxymfES, .PxES, .ExES = ExES, .pxmES, .pxfES, age = 0:110){        
+                    Bxym <- Mna0(.BxymfES[[yr]][["Bxym"]])
+                    Bxyf <- Mna0(.BxymfES[[yr]][["Bxyf"]])
+                    Exm  <- with(.ExES, Male[Year == as.integer(yr)])
+                    Eyf  <- with(.ExES, Female[Year == as.integer(yr)])
+                    Pxm  <- with(.PxES, Male[Year == as.integer(yr)])
+                    Pyf  <- with(.PxES, Female[Year == as.integer(yr)])
+                    
+                    mm   <- Mna0(rowSums(Bxym) / Exm)
+                    mf   <- Mna0(colSums(Bxyf) / Eyf)
+                    
+                    yrs2double(Pxm, Pyf, Lf = Leslie(mf, pxfUS[,yr]), Lm = Leslie(mm, pxmUS[,yr]), maxit = 500000)
+                }, .BxymfES = BxymfES, .PxES = PxES, .ExES = ExES, .pxmES = pxmES, .pxfES = pxfES))
+doubleUSL <- unlist(lapply(as.character(yearsUS), function(yr, .BxymfUS, .PxUS, .ExUS = ExUS, .pxmUS, .pxfUS, age = 0:110){        
+                    Bxym <- Mna0(.BxymfUS[[yr]][["Bxym"]])
+                    Bxyf <- Mna0(.BxymfUS[[yr]][["Bxyf"]])
+                    Exm  <- with(.ExUS, Male[Year == as.integer(yr)])
+                    Eyf  <- with(.ExUS, Female[Year == as.integer(yr)])
+                    Pxm  <- with(.PxUS, Male[Year == as.integer(yr)])
+                    Pyf  <- with(.PxUS, Female[Year == as.integer(yr)])
+                    
+                    mm   <- Mna0(rowSums(Bxym) / Exm)
+                    mf   <- Mna0(colSums(Bxyf) / Eyf)
+                    
+                    yrs2double(Pxm, Pyf, Lf = Leslie(mf, pxfUS[,yr]), Lm = Leslie(mm, pxmUS[,yr]), maxit = 500000)
+                }, .BxymfUS = BxymfUS, .PxUS = PxUS, .ExUS = ExUS, .pxmUS = pxmUS, .pxfUS = pxfUS))
+
+
+
+TicksMaj <- 10 ^ (2:5)
+TicksMagLab <- c("100","1000","10000","10000")
+TickMin     <- log(c(t(outer(TicksMaj, 2:9))))
+
+pdf("/home/triffe/git/DISS/latex/Figures/ExrSRdoubling.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+plot(yearsUS, log(doubleUS), type = 'l', ylim = log(c(100,150000)), xlim = c(1968, 2010),
+        axes = FALSE, xlab = "", ylab = "", col = gray(.2), lwd = 2, 
+        panel.first = list(rect(1968, log(100), 2010, log(150000), col = gray(.95), border=NA),
+                abline(h = log(TicksMaj), col = "white"),
+                segments(1968, TickMin, 1969, TickMin,col = "white"),
+                segments(2009, TickMin, 2010, TickMin,  col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, log(TicksMaj), TicksMagLab, pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10), log(100), seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, 4.1, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1962, 12.4, "years to\nSR > 2 or < .5", cex = 1, xpd = TRUE, pos = 4)))
+lines(yearsES, log(doubleES), lty = 1, col = gray(.5), lwd = 2.5)
+lines(yearsUS, log(doubleUSL), lty = 5, col = gray(.2), lwd = 2)
+lines(yearsES, log(doubleESL), lty = 5, col = gray(.5), lwd = 2.5)
+legend(1970,11.7, lty = c(1,5,1,5), col = gray(c(.2,.2,.5,.5)), lwd = c(2,2,2.5,2.5),bty = "n",
+        legend = c(expression(US~e[x]), "US age",expression(ES~e[x]), "ES age"), xpd = TRUE)
+dev.off()
+mean(doubleES)
+mean(doubleUS)
+
+
+
+
+        
+        
+        
+        
+        

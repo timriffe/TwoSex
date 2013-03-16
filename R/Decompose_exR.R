@@ -104,76 +104,78 @@ exOneSexCoaleRdec1 <- compiler::cmpfun(function(rates, .a = .5:110.5, maxit = 2e
 # which fires up r sessions that need to be fed all relevant materials.
 # executed on WORLDFAM server. Takes several hours to run, but produces small error. 
 #cl <- makeCluster(4)
-#USdecompExR <- do.call(rbind, parLapply(cl, as.character(yearsUS), 
-#				function(yr, .Bxymf, .Ex, .mxm, .mxf,  mx2dxHMD, Mna0, Minf0, wmean, ExpectedDx, exOneSexCoaleRdec1, DecompContinuousOrig){
-#					N <- 111
-#					
-#					# 1) get mx for year
-#					.mxf.     <- .mxf[,yr]
-#					.mxm.     <- .mxm[,yr]
-#					
-#					dxf1      <- mx2dxHMD(.mxf.,Mna0)
-#					dxm1      <- mx2dxHMD(.mxm., Mna0)
-#					
-#					BexMM     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxym"]]), dxm1)) 
-#					BexMF     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxyf"]]), dxf1))
-#					.Fexm.    <- Mna0(Minf0((BexMM+BexMF) /  rowSums(ExpectedDx(.Ex$Male[.Ex$Year == as.integer(yr)], dxm1))))
-#					.sigexm.  <- Mna0(Minf0(BexMM / (BexMM + BexMF)))
-#					
-#					
-#					BexFM     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxym"]]), dxm1)) 
-#					BexFF     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxyf"]]), dxf1))
-#					.Fexf.    <- Mna0(Minf0((BexFM+BexFF) /  rowSums(ExpectedDx(.Ex$Female[.Ex$Year == as.integer(yr)], dxf1))))
-#					.sigexf.  <- Mna0(Minf0(BexFF / (BexFF + BexFM)))
-#					rates2    <- c(.Fexm., .sigexm., .mxm.)
-#					rates1    <- c(.Fexf., .sigexf., .mxf.)
-#					
-#					Dec <- DecompContinuousOrig(func = exOneSexCoaleRdec1, 
-#							rates2 = rates2, 
-#							rates1 = rates1, N = 300, 
-#							mx2dxHMD = mx2dxHMD, Mna0 = Mna0, wmean = wmean)
-#					c(Fert = sum(Dec[1:N]), SRB = sum(Dec[(N+1):(2*N)]), Mort = sum(Dec[(2*N+1):(3*N)]))
-#				}, .Bxymf = BxymfUS, .Ex = ExUS, .mxm = mxmUS, .mxf = mxfUS, 
-#				mx2dxHMD = mx2dxHMD, Mna0 = Mna0, Minf0 = Minf0, wmean = wmean, 
-#				ExpectedDx = ExpectedDx, DecompContinuousOrig = DecompContinuousOrig, 
-#				exOneSexCoaleRdec1 = exOneSexCoaleRdec1))
-#stopCluster(cl)
+USdecompExR <- do.call(rbind, parLapply(cl, as.character(yearsUS), 
+				function(yr, .Bxymf, .Ex, .mxm, .mxf,  mx2dxHMD, Mna0, Minf0, wmean, ExpectedDx, exOneSexCoaleRdec1, DecompContinuousOrig){
+					N <- 111
+					
+					# 1) get mx for year
+					.mxf.     <- .mxf[,yr]
+					.mxm.     <- .mxm[,yr]
+					
+					dxf1      <- mx2dxHMD(.mxf.,Mna0)
+					dxm1      <- mx2dxHMD(.mxm., Mna0)
+					
+                   # these differ because dxm used to distribute girl births: compared to male stable exposure: not redistributed
+                   # by female dx. Vice versa below
+					BexMM     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxym"]]), dxm1)) 
+					BexMF     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxyf"]]), dxm1))
+					.Fexm.    <- Mna0(Minf0((BexMM+BexMF) /  rowSums(ExpectedDx(.Ex$Male[.Ex$Year == as.integer(yr)], dxm1))))
+					.sigexm.  <- Mna0(Minf0(BexMM / (BexMM + BexMF)))
+					
+					
+					BexFM     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxym"]]), dxf1)) 
+					BexFF     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxyf"]]), dxf1))
+					.Fexf.    <- Mna0(Minf0((BexFM+BexFF) /  rowSums(ExpectedDx(.Ex$Female[.Ex$Year == as.integer(yr)], dxf1))))
+					.sigexf.  <- Mna0(Minf0(BexFF / (BexFF + BexFM)))
+					rates2    <- c(.Fexm., .sigexm., .mxm.)
+					rates1    <- c(.Fexf., .sigexf., .mxf.)
+					
+					Dec <- DecompContinuousOrig(func = exOneSexCoaleRdec1, 
+							rates2 = rates2, 
+							rates1 = rates1, N = 300, 
+							mx2dxHMD = mx2dxHMD, Mna0 = Mna0, wmean = wmean)
+					c(Fert = sum(Dec[1:N]), SRB = sum(Dec[(N+1):(2*N)]), Mort = sum(Dec[(2*N+1):(3*N)]))
+				}, .Bxymf = BxymfUS, .Ex = ExUS, .mxm = mxmUS, .mxf = mxfUS, 
+				mx2dxHMD = mx2dxHMD, Mna0 = Mna0, Minf0 = Minf0, wmean = wmean, 
+				ExpectedDx = ExpectedDx, DecompContinuousOrig = DecompContinuousOrig, 
+				exOneSexCoaleRdec1 = exOneSexCoaleRdec1))
+stopCluster(cl)
 #
-#cl <- makeCluster(4)
-#ESdecompExR <- do.call(rbind, parLapply(cl, as.character(yearsES), 
-#				function(yr, .Bxymf, .Ex, .mxm, .mxf,  mx2dxHMD, Mna0, Minf0, wmean, ExpectedDx, exOneSexCoaleRdec1, DecompContinuousOrig){
-#					N <- 111
+cl <- makeCluster(4)
+ESdecompExR <- do.call(rbind, parLapply(cl, as.character(yearsES), 
+				function(yr, .Bxymf, .Ex, .mxm, .mxf,  mx2dxHMD, Mna0, Minf0, wmean, ExpectedDx, exOneSexCoaleRdec1, DecompContinuousOrig){
+					N <- 111
+					
+					# 1) get mx for year
+					.mxf.     <- .mxf[,yr]
+					.mxm.     <- .mxm[,yr]
+					
+					dxf1      <- mx2dxHMD(.mxf.,Mna0)
+					dxm1      <- mx2dxHMD(.mxm., Mna0)
+					
+					BexMM     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxym"]]), dxm1)) 
+					BexMF     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxyf"]]), dxm1))
+					.Fexm.    <- Mna0(Minf0((BexMM+BexMF) /  rowSums(ExpectedDx(.Ex$Male[.Ex$Year == as.integer(yr)], dxm1))))
+					.sigexm.  <- Mna0(Minf0(BexMM / (BexMM + BexMF)))
 #					
-#					# 1) get mx for year
-#					.mxf.     <- .mxf[,yr]
-#					.mxm.     <- .mxm[,yr]
-#					
-#					dxf1      <- mx2dxHMD(.mxf.,Mna0)
-#					dxm1      <- mx2dxHMD(.mxm., Mna0)
-#					
-#					BexMM     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxym"]]), dxm1)) 
-#					BexMF     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxyf"]]), dxf1))
-#					.Fexm.    <- Mna0(Minf0((BexMM+BexMF) /  rowSums(ExpectedDx(.Ex$Male[.Ex$Year == as.integer(yr)], dxm1))))
-#					.sigexm.  <- Mna0(Minf0(BexMM / (BexMM + BexMF)))
-#					
-#					
-#					BexFM     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxym"]]), dxm1)) 
-#					BexFF     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxyf"]]), dxf1))
-#					.Fexf.    <- Mna0(Minf0((BexFM+BexFF) /  rowSums(ExpectedDx(.Ex$Female[.Ex$Year == as.integer(yr)], dxf1))))
-#					.sigexf.  <- Mna0(Minf0(BexFF / (BexFF + BexFM)))
-#					rates2    <- c(.Fexm., .sigexm., .mxm.)
-#					rates1    <- c(.Fexf., .sigexf., .mxf.)
-#					
-#					Dec <- DecompContinuousOrig(func = exOneSexCoaleRdec1, 
-#							rates2 = rates2, 
-#							rates1 = rates1, N = 300, 
-#							mx2dxHMD = mx2dxHMD, Mna0 = Mna0, wmean = wmean)
-#					c(Fert = sum(Dec[1:N]), SRB = sum(Dec[(N+1):(2*N)]), Mort = sum(Dec[(2*N+1):(3*N)]))
-#				}, .Bxymf = BxymfES, .Ex = ExES, .mxm = mxmES, .mxf = mxfES, 
-#				mx2dxHMD = mx2dxHMD, Mna0 = Mna0, Minf0 = Minf0, wmean = wmean, 
-#				ExpectedDx = ExpectedDx, DecompContinuousOrig = DecompContinuousOrig, 
-#				exOneSexCoaleRdec1 = exOneSexCoaleRdec1))
-#stopCluster(cl)
+					
+					BexFM     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxym"]]), dxf1)) 
+					BexFF     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxyf"]]), dxf1))
+					.Fexf.    <- Mna0(Minf0((BexFM+BexFF) /  rowSums(ExpectedDx(.Ex$Female[.Ex$Year == as.integer(yr)], dxf1))))
+					.sigexf.  <- Mna0(Minf0(BexFF / (BexFF + BexFM)))
+					rates2    <- c(.Fexm., .sigexm., .mxm.)
+					rates1    <- c(.Fexf., .sigexf., .mxf.)
+					
+					Dec <- DecompContinuousOrig(func = exOneSexCoaleRdec1, 
+							rates2 = rates2, 
+							rates1 = rates1, N = 300, 
+							mx2dxHMD = mx2dxHMD, Mna0 = Mna0, wmean = wmean)
+					c(Fert = sum(Dec[1:N]), SRB = sum(Dec[(N+1):(2*N)]), Mort = sum(Dec[(2*N+1):(3*N)]))
+				}, .Bxymf = BxymfES, .Ex = ExES, .mxm = mxmES, .mxf = mxfES, 
+				mx2dxHMD = mx2dxHMD, Mna0 = Mna0, Minf0 = Minf0, wmean = wmean, 
+				ExpectedDx = ExpectedDx, DecompContinuousOrig = DecompContinuousOrig, 
+				exOneSexCoaleRdec1 = exOneSexCoaleRdec1))
+stopCluster(cl)
 
 USdecompR <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/USdecompExR.Rdata")))
 ESdecompR <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/ESdecompExR.Rdata")))
@@ -221,20 +223,22 @@ text(seq(-5,35,by=5),-.004,seq(1970,2010,by=5),pos=1,cex=.8,xpd=TRUE)
 text(-7,seq(-.004,.007,by=.001),seq(-.004,.007,by=.001),cex=.8,pos=2,xpd=TRUE)
 text(16,c(-0.0009714755,  0.0003887940 , 0.0023813013), c("Mortality","Fertility","SRB"), cex = 1.5,pos = 4, col = "white")
 text(15,-.005,"Year",xpd=TRUE)
-text(-9,.0075,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
+text(-10,.0075,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
 dev.off()
 
 
 
+# confirm that decomposition adds properly: 
+#(rmUS[,1] - rfUS[,1]) - rowSums(USdecompR)
+#(rmES[,1] - rfES[,1]) - rowSums(ESdecompR)
 
+plot(yearsUS, USdecompR[,1], type = 'l', col = "#11FF33", lwd =2, ylim = c(-.005,.005))
+lines(yearsUS, USdecompR[,2], col = "#AABBFF", lwd = 2)
+lines(yearsUS, USdecompR[,3], col = "#FF1111", lwd = 2)
 
-
-
-
-
-
-
-
+lines(yearsES, ESdecompR[,1],  col = "#11FF33", lwd =2, lty = 4)
+lines(yearsES, ESdecompR[,2], col = "#AABBFF", lwd = 2, lty = 4)
+lines(yearsES, ESdecompR[,3], col = "#FF1111", lwd = 2, lty = 4)
 
 
 
