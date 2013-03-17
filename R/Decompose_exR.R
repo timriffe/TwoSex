@@ -223,9 +223,20 @@ text(seq(-5,35,by=5),-.004,seq(1970,2010,by=5),pos=1,cex=.8,xpd=TRUE)
 text(-7,seq(-.004,.007,by=.001),seq(-.004,.007,by=.001),cex=.8,pos=2,xpd=TRUE)
 text(16,c(-0.001009793,  0.001825698,  0.005216793), c("Mortality","Fertility","SRB"), cex = 1.5,pos = 4, col = "white")
 text(15,-.005,"Year",xpd=TRUE)
-text(-10,.0075,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
+text(-8,.0075,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
 dev.off()
 
+plot(rowSums(abs(ESdecompR)))
+USdecompRL <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/USdecompmxR.Rdata")))
+ESdecompRL <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/ESdecompmxR.Rdata")))
+
+plot(yearsUS, rowSums(abs(USdecompRL)), type = 'l', col = "blue", ylim = c(0,.01))
+lines(yearsES, rowSums(abs(ESdecompRL)), col = "red")
+lines(yearsUS, rowSums(abs(USdecompR)), col = "blue", lty = 2)
+lines(yearsES, rowSums(abs(ESdecompR)), col = "red", lty = 2)
+
+
+plot(yearsUS, USdecompRL[,1], type = 'l', col = "blue", ylim = c(0,.01))
 
 
 # confirm that decomposition adds properly: 
@@ -235,10 +246,14 @@ dev.off()
 plot(yearsUS, USdecompR[,1], type = 'l', col = "#11FF33", lwd =2, ylim = c(-.005,.005))
 lines(yearsUS, USdecompR[,2], col = "#AABBFF", lwd = 2)
 lines(yearsUS, USdecompR[,3], col = "#FF1111", lwd = 2)
-
+#
 lines(yearsES, ESdecompR[,1],  col = "#11FF33", lwd =2, lty = 4)
 lines(yearsES, ESdecompR[,2], col = "#AABBFF", lwd = 2, lty = 4)
 lines(yearsES, ESdecompR[,3], col = "#FF1111", lwd = 2, lty = 4)
+#
 
-
+plot(yearsUS, USdecompR[,"Fert"] + USdecompR[,"Mort"], type = 'l', ylim = c(-.003,.004))
+lines(yearsUS, USdecompRL[,"Fert"] + USdecompRL[,"Mort"])
+cor(diff(USdecompR[,"Fert"] + USdecompR[,"Mort"]), diff(USdecompRL[,"Fert"]))
+cor(USdecompR[,"Fert"], USdecompR[,"Mort"])
 

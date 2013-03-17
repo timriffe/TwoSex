@@ -241,3 +241,8 @@ text(10,c(-0.000275,0.001,0.003), c("Mortality","Fertility","SRB"), cex = 1.5,po
 text(15,-.0032,"Year",xpd=TRUE)
 text(-9,.0065,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
 dev.off()
+
+
+plot(rowSums(abs(ESdecompR)))
+plot(rowSums(abs(USdecompR)))
+
