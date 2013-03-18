@@ -3,7 +3,8 @@
 First, note that the observed bivariate $e_x$-distribution of birth counts is
 very nearly identical to the expected distribution\footnote{The expected
 distribution is defined as in Equation~\eqref{eq:expected}}.
-Figure~\ref{fig:US1970obsexpex} compares these two distributions for birth counts in the USA in 1970 (compare with Figure~\ref{fig:US1970obsexp}). 
+Figure~\ref{fig:US1970obsexpex} compares these two distributions for birth 
+counts in the USA in 1970 (compare with Figure~\ref{fig:US1970obsexp}). 
 
 \begin{figure}[ht!]
         \centering  
@@ -22,15 +23,30 @@ separation, $\theta$\footnote{See Equation~\eqref{eq:coefdiff}. Recall that 0 si
 perfect overlap and 1 signifies perfect separation between the two
 distributions}, just as for age-classified births (Compare with
 Figure~\ref{fig:Theta}). One provisionally concludes that $e_x$-matching of
-parents, at least with this level of approximation, appears to be very close to random.
+parents, at least with this level of approximation, appears to be very close to
+random\footnote{While confidence bands would help make a stronger case in this
+instance, the author did not have ready access to an implementation for
+calulating variance for the present statistic difference coefficient. For an
+idea of the degree of significance, though, we can look to the
+Kolmogorov-Smirnov test significance
+for an idea of whether the two matrices might plausibly come from different
+theoretical distributions. In this case, the null hypothesis is that
+the two samples
+come from the same distribution, where low p-values indicate
+that there is evidence to the contrary. P-values for the present data were
+high, in the range of 0.98, in both countries, such that we cannot conclude
+that the observed and expected distributions come from different theoretical
+distributions. We therefore may as well operate as if it were the case
+that the bivariate
+distribution of $e_x$-classified birth counts is roughly the same as the
+expected distribution.}.
 
 \begin{figure}[ht!]
         \centering  
           \caption{Departure from association-free bivariate distribution of
           birth counts cross-classified by $e_x$ of mother and father. USA,
           1969-2010 and Spain, 1975-2009}
-           % figure produced in
-           % /R/Parents_exCross.R
+           % figure produced in /R/Parents_exCross.R
            \includegraphics{Figures/TotalVariationObsvsExpectedexUSES}
           \label{fig:TotalVarobsexpex}
 \end{figure}
