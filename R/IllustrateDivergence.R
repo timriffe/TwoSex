@@ -346,11 +346,13 @@ dev.off()
 
 
 TotASFRUS <- unlist(lapply(as.character(yearsUS), function(yr, .Bxy, .Ex, .a = .5:110.5){
-                    Fxm <- Mna0(Minf0(rowSums(.Bxy[[yr]][[1]] + .Bxy[[yr]][[1]] ) / 
+                    Bxy <- .Bxy[[yr]][[1]] + .Bxy[[yr]][[1]]
+                    Fxm <- Mna0(Minf0(rowSums(Bxy) / 
                                             with(.Ex, Male[Year == as.integer(yr)])))
-                    Fxf <- Mna0(Minf0(colSums(.Bxy[[yr]][[1]] + .Bxy[[yr]][[1]] ) / 
+                    Fxf <- Mna0(Minf0(colSums(Bxy) / 
                                             with(.Ex, Female[Year == as.integer(yr)])))
                     
+ 
                     keep <- .a <= 85        
                     
                     .anew     <- seq(min(.a[keep]),max(.a[keep]),by = .01)
@@ -360,9 +362,12 @@ TotASFRUS <- unlist(lapply(as.character(yearsUS), function(yr, .Bxy, .Ex, .a = .
                     fFxm    <- Fxminterp$y / sum(Fxminterp$y)
                     fFxf    <- Fxfinterp$y / sum(Fxfinterp$y)
                     
-                    1 - sum(pmin(fFxm,fFxf))
+                    theta <- 1 - sum(pmin(fFxm,fFxf))
                     
                 },  .Bxy = BxymfUS, .Ex = ExUS))
+
+
+
 TotASFRES <- unlist(lapply(as.character(yearsES), function(yr, .Bxy, .Ex, .a = .5:110.5){
                     Fxm <- Mna0(Minf0(rowSums(.Bxy[[yr]][[1]] + .Bxy[[yr]][[1]] ) / 
                                             with(.Ex, Male[Year == as.integer(yr)])))
@@ -382,6 +387,62 @@ TotASFRES <- unlist(lapply(as.character(yearsES), function(yr, .Bxy, .Ex, .a = .
                     
                 },  .Bxy = BxymfES, .Ex = ExES))
 
+# see below with added confidence bands. much better.
+#pdf("/home/triffe/git/DISS/latex/Figures/ASFRdissimilarity.pdf", height = 5, width = 5)
+#par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+#ylim <- c(.12,.22)
+#plot(NULL, type = 'n', ylim = ylim, xlim = c(1968,2010), axes = FALSE,
+#        xlab = "", ylab = "",
+#        panel.first = list(rect(1968,ylim[1],2010,ylim[2],col = gray(.95), border=NA),
+#                abline(h = seq(ylim[1], ylim[2], by = .02), col = "white"),
+#                abline(v = seq(1970, 2005, by = 5), col = "white"),
+#                text(1968, seq(ylim[1], ylim[2], by = .02), seq(ylim[1], ylim[2], by = .02), pos = 2, cex = .8, xpd = TRUE),
+#                text(seq(1970, 2005, by = 5),ylim[1], seq(1970, 2005, by = 5), pos = 1, cex = .8, xpd = TRUE),
+#                text(1988, .113, "Year", cex = 1, pos = 1, xpd = TRUE),
+#                text(1966,.229, expression(theta), cex = 1, xpd = TRUE)))
+#lines(yearsUS, TotASFRUS, lwd = 2, col = gray(.2))
+#lines(yearsES, TotASFRES, lwd = 3, col = gray(.4), lty=5)
+#
+#legend(1968,.14, lty = c(1,5), col = gray(c(.2,.4)), lwd = c(2,3),bty = "n",
+#        legend = c("US", "Spain"), xpd = TRUE)
+#dev.off()
+
+# same thing with monte-carlo confidence bands...
+# takes about 5 minutes to run. need to be described
+TotASFRUS95 <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .Ex, .a = .5:110.5){
+                    Bxy <- .Bxy[[yr]][[1]] + .Bxy[[yr]][[1]]
+                    Exf <- with(.Ex, Female[Year == as.integer(yr)])
+                    Exm <-  with(.Ex, Male[Year == as.integer(yr)])
+                    keep <- .a <= 85 
+                   
+                    quantile(replicate(1000,{
+                               Bxyi <- matrix(rpois(n=length(Bxy), lambda = Bxy), ncol = ncol (Bxy))
+                               Fxmi <- Mna0(Minf0(rowSums(Bxyi) / Exm))
+                               Fxfi <- Mna0(Minf0(colSums(Bxyi) / Exf))
+                               .anew     <- seq(min(.a[keep]),max(.a[keep]),by = .01)
+                               Fxminterp <- approx(x=.a[keep], y=Fxmi[keep], xout =  .anew)
+                               Fxfinterp <- approx(x=.a[keep], Fxfi[keep], xout =  .anew)
+                               1 - sum(pmin( Fxminterp$y / sum(Fxminterp$y),Fxfinterp$y / sum(Fxfinterp$y)))
+                           }), probs = c(.025, .975))          
+                },  .Bxy = BxymfUS, .Ex = ExUS))
+
+TotASFRES95 <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .Ex, .a = .5:110.5){
+                    Bxy <- .Bxy[[yr]][[1]] + .Bxy[[yr]][[1]]
+                    Exf <- with(.Ex, Female[Year == as.integer(yr)])
+                    Exm <-  with(.Ex, Male[Year == as.integer(yr)])
+                    keep <- .a <= 85 
+                    
+                    quantile(replicate(1000,{
+                                        Bxyi <- matrix(rpois(n=length(Bxy), lambda = Bxy), ncol = ncol (Bxy))
+                                        Fxmi <- Mna0(Minf0(rowSums(Bxyi) / Exm))
+                                        Fxfi <- Mna0(Minf0(colSums(Bxyi) / Exf))
+                                        .anew     <- seq(min(.a[keep]),max(.a[keep]),by = .01)
+                                        Fxminterp <- approx(x=.a[keep], y=Fxmi[keep], xout =  .anew)
+                                        Fxfinterp <- approx(x=.a[keep], Fxfi[keep], xout =  .anew)
+                                        1 - sum(pmin( Fxminterp$y / sum(Fxminterp$y),Fxfinterp$y / sum(Fxfinterp$y)))
+                                    }), probs = c(.025, .975))          
+                },  .Bxy = BxymfES, .Ex = ExES))
+
 pdf("/home/triffe/git/DISS/latex/Figures/ASFRdissimilarity.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 ylim <- c(.12,.22)
@@ -394,11 +455,11 @@ plot(NULL, type = 'n', ylim = ylim, xlim = c(1968,2010), axes = FALSE,
                 text(seq(1970, 2005, by = 5),ylim[1], seq(1970, 2005, by = 5), pos = 1, cex = .8, xpd = TRUE),
                 text(1988, .113, "Year", cex = 1, pos = 1, xpd = TRUE),
                 text(1966,.229, expression(theta), cex = 1, xpd = TRUE)))
+polygon(c(yearsUS,rev(yearsUS)), c(TotASFRUS95[,1],rev(TotASFRUS95[,2])), border = NA, col = gray(.6))
+polygon(c(yearsES,rev(yearsES)), c(TotASFRES95[,1],rev(TotASFRES95[,2])), border = NA, col = gray(.6))
 lines(yearsUS, TotASFRUS, lwd = 2, col = gray(.2))
 lines(yearsES, TotASFRES, lwd = 3, col = gray(.4), lty=5)
 
 legend(1968,.14, lty = c(1,5), col = gray(c(.2,.4)), lwd = c(2,3),bty = "n",
         legend = c("US", "Spain"), xpd = TRUE)
 dev.off()
-
-
