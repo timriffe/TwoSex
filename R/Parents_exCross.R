@@ -130,6 +130,12 @@ ExBxy <- ExpectedDxMxFmatrix( BxUS[["1970"]], dxmUS[,"1970"], dxfUS[,"1970"])
 
 expected    <- outer(rowSums(ExBxy), colSums(ExBxy), "*") / sum(ExBxy)
 
+ks.test(ExBxy,expected )
+
+expecteda    <- outer(rowSums(BxUS[["1970"]]), colSums(BxUS[["1970"]]), "*") / sum(BxUS[["1970"]])
+
+
+
 # takes a minute or two to run...
 ExBxyAallUS <- lapply(as.character(yearsUS), function(yr, .BxUS, .dxmUS, .dxfUS){
             ExpectedDxMxFmatrix( .BxUS[[yr]], .dxmUS[,yr], .dxfUS[,yr])
@@ -172,7 +178,66 @@ TotalVarES <- unlist(lapply(ExBxyAallES, function(.ExBxy){
                     expected    <- outer(rowSums(.ExBxy), colSums(.ExBxy), "*") / sum(.ExBxy)
                     sum(abs(.ExBxy / sum(.ExBxy) - expected / sum(expected))) / 2
                 }))
+ExpectedDx <- compiler::cmpfun(function(Px, dx){
+    dxi      <- dx / sum(dx, na.rm = TRUE)
+    N        <- length(dx)
+    EDx      <- matrix(0, nrow = N, ncol = N, dimnames = list(Ex = 0:(N-1), Age =  0:(N-1)))
+    # Population age loop
+    for (i in 1:N){
+        # distribute each age of Populatin over death times
+        EDx[1:length(dxi), i]    <- Px[i] * dxi
+        # remove firs element and rescale
+        dxi                      <- dxi[2:length(dxi)] / sum(dxi[2:length(dxi)], na.rm = TRUE)
+    }
+    EDx[is.na(EDx)] <- 0
+    EDx
+})
+ExpectedDxMxFmatrix <- compiler::cmpfun(function(Mat, dxm, dxf){
+    # first go over rows, redisitributing mother's age (in columns) by mother's ex.
+    # this is a male age x female age matrix still
+    FemEx <- t(apply(Mat, 1, function(.bx, .dxf){
+                        rowSums(ExpectedDx(Px = .bx, dx = .dxf))
+                    },.dxf = dxf))   
+    # now we do the same over columns, redisitributing male age (which is in rows)
+    MemEx <- t(apply(FemEx, 2, function(.bx, .dxm){
+                        rowSums(ExpectedDx(Px = .bx, dx = .dxm))
+                    }, .dxm = dxm))
+    dimnames(MemEx) <- dimnames(Mat)
+    MemEx
+})
+# would take many hours on laptop- like a day. do on galton with 4 cores.
+#thetaUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .BxUS, .dxmUS, .dxfUS){
+#            ExBxy       <- ExpectedDxMxFmatrix( .BxUS[[yr]], .dxmUS[,yr], .dxfUS[,yr])
+#            expected    <- outer(rowSums(ExBxy), colSums(ExBxy), "*") / sum(ExBxy)
+#            theta       <- 1 - sum(pmin(expected/ sum(expected), ExBxy / sum(ExBxy)))
+#            theta95 <- quantile(unlist(lapply(1:1000, function(x, .yr, .BxUS., .dxmUS., .dxfUS.){
+#                        OBxy      <- rpois(n=length(.BxUS.[[.yr]]), lambda = .BxUS.[[.yr]])
+#                        dim(OBxy) <- dim(.BxUS.[[yr]])
+#                        OexBxy    <- ExpectedDxMxFmatrix( OBxy, .dxmUS.[,.yr], .dxfUS.[,.yr])
+#                        expec     <-  outer(rowSums(OexBxy), colSums(OexBxy), "*") / sum(OexBxy)
+#                        1 - sum(pmin(expec / sum(expec), OexBxy / sum(OexBxy)))
+#                    }, .yr = yr, .BxUS. = .BxUS, .dxmUS. = .dxmUS, .dxfUS. = .dxfUS)), probs = c(0.025,.975))
+#            c(theta = theta, theta95)  
+#        }, .BxUS = BxUS, .dxmUS = dxmUS, .dxfUS = dxfUS))
+#save(thetaUS, file = "thetaUS.Rdata")
+#thetaES <- lapply(as.character(yearES), function(yr, .BxES, .dxmES, .dxfES){
+#            ExBxy       <- ExpectedDxMxFmatrix( .BxES[[yr]], .dxmES[,yr], .dxfES[,yr])
+#            expected    <- outer(rowSums(ExBxy), colSums(ExBxy), "*") / sum(ExBxy)
+#            theta       <- 1 - sum(pmin(expected/ sum(expected), ExBxy / sum(ExBxy)))
+#            theta95 <- quantile(unlist(lapply(1:1000, function(x, .yr, .BxES., .dxmES., .dxfES.){
+#                                        OBxy      <- rpois(n=length(.BxES.[[.yr]]), lambda = .BxES.[[.yr]])
+#                                        dim(OBxy) <- dim(.BxES.[[yr]])
+#                                        OexBxy    <- ExpectedDxMxFmatrix( OBxy, .dxmES.[,.yr], .dxfES.[,.yr])
+#                                        expec     <-  outer(rowSums(OexBxy), colSums(OexBxy), "*") / sum(OexBxy)
+#                                        1 - sum(pmin(expec / sum(expec), OexBxy / sum(OexBxy)))
+#                                    }, .yr = yr, .BxES. = .BxES, .dxmES. = .dxmES, .dxfES. = .dxfES)), probs = c(0.025,.975))
+#            c(theta = theta, theta95)  
+#        }, .BxES = BxES, .dxmES = dxmES, .dxfES = dxfES)
+#save(thetaES, file = "thetaES.Rdata")
 
+
+
+# confidence bands are so narrow, we should only plot bands and not center lines..
 # plot it
 pdf("/home/triffe/git/DISS/latex/Figures/TotalVariationObsvsExpectedexUSES.pdf", height = 4.5, width = 4.5)
 par(mai = c(.5,.4,.4,.2), xaxs = "i", yaxs = "i")
@@ -186,26 +251,24 @@ plot(yearsUS, TotalVarUS, type = 'l', ylim = c(.04,.07), xlim = c(1968,2010),
                 text(seq(1970,2010,by = 5),.04,seq(1970,2010,by = 5),pos = 1,cex = .7, xpd = TRUE),
                 text(1968,seq(.04,.07,by = .005),seq(.04,.07,by = .005), pos = 2,cex = .7, xpd = TRUE)
         ))
+polygon(c(yearsUS,rev(yearsUS)), c(sigUS[,1],rev(sigUS[,2])), col = "#AAAAAA40", border = NA)
 lines(yearsES, TotalVarES, col = gray(.4), lwd = 3, lty = 5)
 legend("topright", col = gray(c(.2,.4)), lwd = c(2,3), lty = c(1,5),
         legend = c(expression(paste(theta," USA")), expression(paste(theta," ES"))), bty = "n")
 dev.off()
 
 
+# to show that not plausibly from different distributions:
+ks.sig.US <- unlist(lapply(ExBxyAallUS, function(.ExBxy){
+                    expected    <- outer(rowSums(.ExBxy), colSums(.ExBxy), "*") / sum(.ExBxy)
+                    ks.test(.ExBxy, expected )$p.value
+                }))
 
+ks.sig.ES <- unlist(lapply(ExBxyAallES, function(.ExBxy){
+                    expected    <- outer(rowSums(.ExBxy), colSums(.ExBxy), "*") / sum(.ExBxy)
+                    ks.test(.ExBxy, expected )$p.value
+                }))
 
-
-
-
-
-
-
-(ToalVar <- sum(abs(ExBxy / sum(ExBxy) - expected / sum(expected))) / 2 )
-
-# overlap 
-(coefOverlap     <- sum(pmin(ExBxy / sum(ExBxy), expected / sum(expected))))
-
-# much more perfect distribution.
 
 
 
