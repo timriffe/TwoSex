@@ -188,9 +188,7 @@ TotalVarES <- unlist(lapply(as.character(yearsES), function(yr, .BxyES){
 # these take about 3 minutes each to run...
 # curse my not having an analytic solution!
 TotalVarUS95 <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .BxyUS){
-                    yr <- "1975"
                  x           <- Mna0(.BxyUS[[yr]])
-               
                  quantile(replicate(1000, {
                              X           <- matrix(rpois(n = length(x), lambda = x), ncol = ncol(x))
                              rowTotals   <- rowSums(X)
@@ -212,9 +210,7 @@ TotalVarES95 <- do.call(rbind,lapply(as.character(yearsES), function(yr, .BxyES)
                                     }) , probs = c(.025, .975)) 
                 }, .BxyES = BxyES)  )
 # --------------------------------------------
-# plot theta:
-yearsES <- 1975:2009
-yearsUS <- 1969:2009
+# plot theta with bands:
 
 pdf("/home/triffe/git/DISS/latex/Figures/TotalVariationObsvsExpectedUSES.pdf", height = 4.5, width = 4.5)
 par(mai = c(.4,.4,.4,.2), xaxs = "i", yaxs = "i")
@@ -228,11 +224,11 @@ plot(yearsUS, TotalVarUS, type = 'n', ylim = c(.33,.48), xlim = c(1967, 2012),
                            text(seq(1970, 2010, by = 5), .33, seq(1970, 2010, by = 5), pos = 1 ,cex = .7, xpd = TRUE),
                            text(1967, seq(.35, .45, by = .05), seq(.35, .45, by = .05), pos = 2, cex = .7, xpd = TRUE)
                            ))
-polygon(c(yearsUS,rev(yearsUS)), c(TotalVarUS95[,1],rev(TotalVarUS95[,2])), border = NA, col = gray(.6))
-polygon(c(yearsES,rev(yearsES)), c(TotalVarES95[,1],rev(TotalVarES95[,2])), border = NA, col = gray(.6))         
-lines(yearsUS, TotalVarUS, col = gray(.2), lwd = 2, lty = 1)                
-lines(yearsES, TotalVarES, col = gray(.4), lwd = 3, lty = 5)
-legend("bottomleft", col = gray(c(.2,.4)), lwd = c(2,3), lty = c(1,5),
+polygon(c(yearsUS,rev(yearsUS)), c(TotalVarUS95[,1],rev(TotalVarUS95[,2])), border = NA, col = gray(.7))
+polygon(c(yearsES,rev(yearsES)), c(TotalVarES95[,1],rev(TotalVarES95[,2])), border = NA, col = gray(.7))         
+lines(yearsUS, TotalVarUS, col = gray(.1), lwd = 1, lty = 1)                
+lines(yearsES, TotalVarES, col = gray(.3), lwd = 1, lty = 4)
+legend("bottomleft", col = gray(c(.1,.3)), lwd = c(1,1), lty = c(1,4),
     legend = c(expression(paste(theta," USA")), expression(paste(theta," ES"))), bty = "n")
 dev.off()
 
