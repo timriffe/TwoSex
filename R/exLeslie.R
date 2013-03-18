@@ -265,9 +265,7 @@ Y_1sexES <- lapply(as.character(yearsES), function(yr, .dxm, .dxf, .Ex, .Bxymf, 
 
 
 # exercise: measure time to one sex is double size of other:
-names(Y_1sexUS[[1]])
-.Y_1sex <- Y_1sexUS
-yr <- "1975"
+
 doubleUS <- unlist(lapply(as.character(yearsUS), function(yr, .Y_1sex, .Px, .dxm, .dxf, maxit = 1e4){
             
            Pyfi <-  ExpectedDx( with(.Px, Female[Year == as.integer(yr)]), .dxf[,yr])
@@ -370,8 +368,7 @@ lines(yearsES, log(doubleESL), lty = 5, col = gray(.5), lwd = 2.5)
 legend(1970,11.7, lty = c(1,5,1,5), col = gray(c(.2,.2,.5,.5)), lwd = c(2,2,2.5,2.5),bty = "n",
         legend = c(expression(US~e[x]), "US age",expression(ES~e[x]), "ES age"), xpd = TRUE)
 dev.off()
-mean(doubleES)
-mean(doubleUS)
+
 
 
 
