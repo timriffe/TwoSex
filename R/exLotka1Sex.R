@@ -247,11 +247,42 @@ ex1SexStableAge()
 PxUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")))
 PxES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
 
-StabmUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .dx, rmat){       
-                    Ex <- .Ex[.Ex$Year == as.integer(yr),MF]
-                    .ey <- rowSums(ExpectedDx(Ex, .dx[, yr]))
-                    .by <-  rowSums(ExpectedDx(rowSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE), .dx[, yr]))
-                    Fex <-  Minf0(Mna0(.by / .ey))
-                    cy <- ex1SexStableAge(r = rmat[yr,"r"], Fex = Fex, dx=.dx[, yr])
+yr <- "1975"
+DiffCoefryUSm <- unlist(lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .dx, rmat){  
                     
+                    Px      <- .Px$Male[.Px$Year == as.integer(yr)]
+                    Py      <- rowSums(ExpectedDx(Px, .dx[, yr]))
+                    Ex      <- .Ex$Male[.Ex$Year == as.integer(yr)]
+                    Ey      <- rowSums(ExpectedDx(Ex, .dx[, yr]))
+                    By      <- rowSums(ExpectedDx(rowSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE), .dx[, yr]))
+                    Fex     <- Minf0(Mna0(By / Ey))
+                    # stable structure
+                    cyst    <- ex1SexStableAge(r = rmat[yr,"r"], Fex = Fex, dx = .dx[, yr])
+                    
+                    # preesnt structure
+                    cy      <- Py / sum(Py)
+                    
+                    # difference coef
+                    1-sum(pmin(cyst, cy))
                 }, .Bx = BxymfUS, .Ex = ExUS, .Px = PxUS, .dx = dxmUS, rmat = rmUS))
+DiffCoefryUSf <- unlist(lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .dx, rmat){  
+                    
+                    Px      <- .Px$Female[.Px$Year == as.integer(yr)]
+                    Py      <- rowSums(ExpectedDx(Px, .dx[, yr]))
+                    Ex      <- .Ex$Female[.Ex$Year == as.integer(yr)]
+                    Ey      <- rowSums(ExpectedDx(Ex, .dx[, yr]))
+                    By      <- rowSums(ExpectedDx(colSums(.Bx[[yr]][["Bxyf"]], na.rm = TRUE), .dx[, yr]))
+                    Fex     <- Minf0(Mna0(By / Ey))
+                    # stable structure
+                    cyst    <- ex1SexStableAge(r = rmat[yr,"r"], Fex = Fex, dx = .dx[, yr])
+                    
+                    # preesnt structure
+                    cy      <- Py / sum(Py)
+                    
+                    # difference coef
+                    1-sum(pmin(cyst, cy))
+                }, .Bx = BxymfUS, .Ex = ExUS, .Px = PxUS, .dx = dxmUS, rmat = rfUS))
+
+
+
+
