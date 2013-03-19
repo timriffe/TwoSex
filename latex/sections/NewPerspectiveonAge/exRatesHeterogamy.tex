@@ -24,22 +24,20 @@ perfect overlap and 1 signifies perfect separation between the two
 distributions}, just as for age-classified births (Compare with
 Figure~\ref{fig:Theta}). One provisionally concludes that $e_x$-matching of
 parents, at least with this level of approximation, appears to be very close to
-random\footnote{While confidence bands would help make a stronger case in this
-instance, the author did not have ready access to an implementation for
-calulating variance for the present statistic difference coefficient. For an
-idea of the degree of significance, though, we can look to the
-Kolmogorov-Smirnov test significance
-for an idea of whether the two matrices might plausibly come from different
-theoretical distributions. In this case, the null hypothesis is that
-the two samples
-come from the same distribution, where low p-values indicate
-that there is evidence to the contrary. P-values for the present data were
-high, in the range of 0.98, in both countries, such that we cannot conclude
-that the observed and expected distributions come from different theoretical
-distributions. We therefore may as well operate as if it were the case
-that the bivariate
-distribution of $e_x$-classified birth counts is roughly the same as the
-expected distribution.}.
+random\footnote{Confidence bands used in Figure~\ref{fig:TotalVarobsexpex}, as
+elsewhere in this dissertaiton for difference coefficients, represent the
+central 95\% of randomly generated $\theta$ values using monte carlo
+simulations. The present case differs from earlier simulated confidence bands in
+that age-clssified death counts and age cross-classified birth counts 
+are first drawn from poisson distributions, with
+observed counts taken as $\lambda$. $\mu_x$ is then derived from the randomly
+generated $D_x$ using exposures from the HMD, and $d_x$ is derived from $\mu_x$.
+The simulated $d_x$ is then used to redistribute the randomly generated
+$B_{xy}$ distribution, which is then compared with its own expected
+distribution, producing the random $\theta$.}. When compared using the
+Kolmogorov-Smirnov test, in fact, one cannot under even the most generous level
+of significance, conclude that these two observed distributions come from
+different theoretical distributions.
 
 \begin{figure}[ht!]
         \centering  
@@ -56,3 +54,4 @@ to random, one could very closely replicate the full cross-classified matrix
 given only the two marginal
 $e_x$ birth distributions by applying Equation~\eqref{eq:expected}. 
 
+\FloatBarrier
