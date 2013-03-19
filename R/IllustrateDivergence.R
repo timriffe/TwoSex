@@ -493,3 +493,106 @@ text(c(1971, 1975), c(7.43, 5.65), c("gap USA", "gap ES"), pos = 4)
 dev.off()
 
 
+# -----------------------------
+# self-sufficient code for dx overlap:
+dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+
+dxmUS <- dxmUS %col% colSums(dxmUS)
+dxfUS <- dxfUS %col% colSums(dxfUS)
+dxmES <- dxmES %col% colSums(dxmES)
+dxfES <- dxfES %col% colSums(dxfES)
+
+
+mxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata"))) 
+mxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata"))) 
+mxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata"))) 
+mxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata"))) 
+
+ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+
+yearsUS <- 1969:2009
+yearsES <- 1975:2009
+
+# helper-function:
+mx2dxHMD <- compiler::cmpfun(function(mx){
+            mx                  <- Mna0(as.numeric(mx))
+            
+            # mean proportion of interval passed at death
+            ax                  <- mx * 0 + .5                      # ax = .5, pg 38 MPv5
+            
+            ax[1]   <- ((0.045 + 2.684 * mx[1]) + (0.053 + 2.800 * mx[1])) / 2 # hack, hard to pass in sex variable
+            
+            qx                  <- mx / (1 + (1 - ax) * mx)          # Eq 60 MPv5 (identity)
+# ---------------------------------------------------------------------------------
+# set open age qx to 1
+            i.openage           <- 111 # removed argument OPENAGE
+            qx[i.openage]       <- ifelse(is.na(qx[i.openage]), NA, 1)
+            ax[i.openage]       <- 1 / mx[i.openage]                   
+# ---------------------------------------------------------------------------------
+# define remaining lifetable columns:
+            px                  <- 1 - qx                                                                                 # Eq 64 MPv5
+            px[is.nan(px)]      <- 0 # skips BEL NAs, as these are distinct from NaNs
+# lx needs to be done columnwise over px, argument 2 refers to the margin.
+            lx                  <- c(1, cumprod(px[1:(i.openage-1)]))
+            # NA should only be possible if there was a death with no Exp below age 80- impossible, but just to be sure
+            # lx[is.na(lx)]   <- 0 # removed for BEL testing        
+            dx                  <- lx * qx                                                                                # Eq 66 MPv5
+            dx
+        })
+
+thetasUSst <- unlist(lapply(as.character(yearsUS), function(yr, .dxm, .dxf){
+                   1 - sum(pmin( .dxm[,yr],.dxf[,yr]))   
+                }, .dxm = dxmUS, .dxf = dxfUS))
+thetasESst <- unlist(lapply(as.character(yearsES), function(yr, .dxm, .dxf){
+                    1 - sum(pmin( .dxm[,yr],.dxf[,yr]))   
+                }, .dxm = dxmES, .dxf = dxfES))
+thetasUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .mxm, .mxf, .Ex){
+            .Exm <- .Ex$Male[.Ex$Year == as.integer(yr)]
+            .Exf <- .Ex$Female[.Ex$Year == as.integer(yr)]
+            
+            quantile(replicate(1000, {
+                      dxm <-  mx2dxHMD(Mna0(Minf0(rpois(n=length(.mxm[,yr]), lambda = .mxm[,yr] * .Exm) / .Exm)))
+                      dxf <-  mx2dxHMD(Mna0(Minf0(rpois(n=length(.mxf[,yr]), lambda = .mxf[,yr] * .Exf) / .Exf)))
+                      1 - sum(pmin( dxm / sum(dxm),dxf / sum(dxf)))   
+                    }), probs = c(.025, .975))
+
+        },  .mxm = mxmUS, .mxf = mxfUS, .Ex = ExUS))
+thetasES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .mxm, .mxf, .Ex){
+                    .Exm <- .Ex$Male[.Ex$Year == as.integer(yr)]
+                    .Exf <- .Ex$Female[.Ex$Year == as.integer(yr)]
+                    
+                    quantile(replicate(1000, {
+                                        dxm <-  mx2dxHMD(Mna0(Minf0(rpois(n=length(.mxm[,yr]), lambda = .mxm[,yr] * .Exm) / .Exm)))
+                                        dxf <-  mx2dxHMD(Mna0(Minf0(rpois(n=length(.mxf[,yr]), lambda = .mxf[,yr] * .Exf) / .Exf)))
+                                        1 - sum(pmin( dxm / sum(dxm),dxf / sum(dxf)))   
+                                    }), probs = c(.025, .975))
+                    
+                },  .mxm = mxmES, .mxf = mxfES, .Ex = ExES))
+
+
+pdf("/home/triffe/git/DISS/latex/Figures/dx_dissimilarity.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+ylim <- c(.13,.25)
+plot(NULL, type = 'n', ylim = ylim, xlim = c(1968,2010), axes = FALSE,
+        xlab = "", ylab = "",
+        panel.first = list(rect(1968,ylim[1],2010,ylim[2],col = gray(.95), border=NA),
+                abline(h = seq(ylim[1], ylim[2], by = .02), col = "white"),
+                abline(v = seq(1970, 2005, by = 5), col = "white"),
+                text(1968, seq(ylim[1], ylim[2], by = .02), seq(ylim[1], ylim[2], by = .02), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2005, by = 5),ylim[1], seq(1970, 2005, by = 5), pos = 1, cex = .8, xpd = TRUE),
+                text(1988, .123, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1966,.259, expression(theta), cex = 1, xpd = TRUE)))
+polygon(c(yearsUS,rev(yearsUS)), c(thetasUS[,1],rev(thetasUS[,2])), 
+        border = gray(.2), col ="#BBBBBB40", lty = 1, lwd = .5)
+polygon(c(yearsES,rev(yearsES)), c(thetasES[,1],rev(thetasES[,2])), 
+        border = gray(.2), col = "#BBBBBB40", lty = 1, lwd = .5)
+lines(yearsUS, thetasUSst, lwd = 1, col = gray(.2))
+lines(yearsES, thetasESst, lwd = 1, col = gray(.2), lty=4)
+text(c(1975, 1975),
+        c(0.235, .185),
+        c(expression(paste(theta," USA")), expression(paste(theta," ES"))))
+dev.off()
