@@ -457,3 +457,39 @@ text(c(1971, 1977),
 #legend(1968,.14, lty = c(1,5), col = gray(c(.2,.4)), lwd = c(2,3),bty = "n",
 #        legend = c("US", "Spain"), xpd = TRUE)
 dev.off()
+
+
+############################################################
+# self-sufficient ex gap code:
+
+e0ES <- local(get(load("/home/triffe/git/DISS/Data/HMD_e0period/e0perES.Rdata")))
+e0US <- local(get(load("/home/triffe/git/DISS/Data/HMD_e0period/e0perUS.Rdata")))
+
+yearsUS <- 1969:2009
+yearsES <- 1975:2009
+
+plot(yearsUS, with(e0US, Female[Year %in% yearsUS] - Male[Year %in% yearsUS]), type = 'l', ylim = c(4.5,8))
+lines(yearsES, with(e0ES, Female[Year %in% yearsES] - Male[Year %in% yearsES]))
+
+USgap <- with(e0US, Female[Year %in% yearsUS] - Male[Year %in% yearsUS])
+ESgap <-  with(e0ES, Female[Year %in% yearsES] - Male[Year %in% yearsES])
+
+pdf("/home/triffe/git/DISS/latex/Figures/e0gap.pdf", height = 4.5, width = 4.5)
+par(mai = c(.5,.4,.5,.2), xaxs = "i", yaxs = "i")
+plot(yearsUS, USgap, type = 'n', ylim = c(4.5,8), xlim = c(1968,2010), 
+        axes = FALSE, xlab = "", ylab = "",
+        panel.first = list(rect(1968,4.5,2010,8, col = gray(.95), border = NA),
+                abline(v = seq(1970,2010,by = 5),col = "white"),
+                abline(h = seq(4.5,8,by = .5),col = "white"),
+                text(1990, 4.1, "Year", xpd = TRUE),
+                text(1966, 8.3, expression(e[0]^F - e[0]^M), xpd = TRUE, pos = 4),
+                text(seq(1970,2010,by = 5),4.5,seq(1970,2010,by = 5),pos = 1,cex = .7, xpd = TRUE),
+                text(1968,seq(4.5,8,by = .5),seq(4.5,8,by = .5), pos = 2,cex = .7, xpd = TRUE)
+        ))
+lines(yearsUS, USgap, lwd = 2, lty = 1, col = gray(.2))
+lines(yearsES, ESgap, lwd = 3, lty = 4, col = gray(.4))
+
+text(c(1971, 1975), c(7.43, 5.65), c("gap USA", "gap ES"), pos = 4)
+dev.off()
+
+
