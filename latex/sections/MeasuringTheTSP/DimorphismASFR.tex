@@ -107,7 +107,28 @@ calculate a simple difference coefficient, $\theta$, namely:
 to 1. $\theta$ is constrained to fall between 0 and 1, where 1 indicates that the
 two distributions are separate and 0 indicates identical distributions.
 Figure~\ref{fig:ASFRdissimilarity} displays the results of applying this
-indicator to each year of data for the US and Spain. $\theta$ has followed
+indicator to each year of data for the US and Spain. 95\% simulated confidence
+bands are presented, along with the direct estimate of
+$\theta$. 
+
+The indicator of overlap/divergence, $\theta$ is
+used in several times in this dissertation. The author was unable to locate
+an analytic solution for produce confidence estimates of this measure, but
+some idea of variability presents complimentary information and may be of
+interest. To approximate the level of uncertainty that might be present in the
+data, the following procedure has been used: 1) Birth counts are drawn randomly
+with replacement 1000 times from the poission distribution, with the parameter
+$\lambda$ equal to the observed birth count. 2) Fertility rates are
+re-calculated for males and females by dividing the simulated births by
+exposures extracted from the HMD. 3) sex-specific ASFR is interpolated linearly
+in age-steps of .01. 4) The 1000 interpolated ASFR series are each scaled to sum
+to 1, and then compared (male vs female) using Equation~\ref{eq:coefdiff}, producing 1000 estimates of
+$\theta$. 5) The represented condidence bands are the .025 and .975 quantiles
+of the simualated $\theta$ distribution. This is the procedure used to represent
+uncertainty in all later instances of this statistic as well, with
+modifications noted accordingly. 
+
+In the case of the US, confidence bands are in fact very narrow. $\theta$ has followed
 a wave pattern in both the US and Spain in the years studied here, though 
 quite differently between the two countries. US male and female fertiltiy rate
 distributions are on the whole more similar than Spanish males and females. The
@@ -120,8 +141,8 @@ might presume that male and female rates in both countries will begin to diverge
 again over the next decade. However, it is unknown at this time whether the
 longer pattern in this indicator would indeed be sinusoidal\footnote{Births by
 age of mother and father are indeed available for a further 3 or so decades
-before the start of this series, but these have not been converted to data by
-this author.}.
+before the start of this series, but these have not been converted to
+useable data by this author.}.
 
 \begin{figure}[ht!]
         \centering  

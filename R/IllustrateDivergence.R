@@ -343,6 +343,16 @@ legend(1968,69, lty = c(1,1,4,4), col = gray(c(.1,.5,.1,.5)), lwd = c(1.5,2.9,1.
         legend = c("US females", "US males", "ES females","ES males"), xpd = TRUE)
 dev.off()
 
+# ----------------------------------------------
+# self-sufficient dissimilarity code:
+yearsES <- 1975:2009
+yearsUS <- 1969:2009
+BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+names(BxymfES) <- yearsES
+ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+
 
 
 TotASFRUS <- unlist(lapply(as.character(yearsUS), function(yr, .Bxy, .Ex, .a = .5:110.5){
@@ -386,26 +396,6 @@ TotASFRES <- unlist(lapply(as.character(yearsES), function(yr, .Bxy, .Ex, .a = .
                     1 - sum(pmin(fFxm,fFxf))
                     
                 },  .Bxy = BxymfES, .Ex = ExES))
-
-# see below with added confidence bands. much better.
-#pdf("/home/triffe/git/DISS/latex/Figures/ASFRdissimilarity.pdf", height = 5, width = 5)
-#par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
-#ylim <- c(.12,.22)
-#plot(NULL, type = 'n', ylim = ylim, xlim = c(1968,2010), axes = FALSE,
-#        xlab = "", ylab = "",
-#        panel.first = list(rect(1968,ylim[1],2010,ylim[2],col = gray(.95), border=NA),
-#                abline(h = seq(ylim[1], ylim[2], by = .02), col = "white"),
-#                abline(v = seq(1970, 2005, by = 5), col = "white"),
-#                text(1968, seq(ylim[1], ylim[2], by = .02), seq(ylim[1], ylim[2], by = .02), pos = 2, cex = .8, xpd = TRUE),
-#                text(seq(1970, 2005, by = 5),ylim[1], seq(1970, 2005, by = 5), pos = 1, cex = .8, xpd = TRUE),
-#                text(1988, .113, "Year", cex = 1, pos = 1, xpd = TRUE),
-#                text(1966,.229, expression(theta), cex = 1, xpd = TRUE)))
-#lines(yearsUS, TotASFRUS, lwd = 2, col = gray(.2))
-#lines(yearsES, TotASFRES, lwd = 3, col = gray(.4), lty=5)
-#
-#legend(1968,.14, lty = c(1,5), col = gray(c(.2,.4)), lwd = c(2,3),bty = "n",
-#        legend = c("US", "Spain"), xpd = TRUE)
-#dev.off()
 
 # same thing with monte-carlo confidence bands...
 # takes about 5 minutes to run. need to be described
@@ -455,11 +445,15 @@ plot(NULL, type = 'n', ylim = ylim, xlim = c(1968,2010), axes = FALSE,
                 text(seq(1970, 2005, by = 5),ylim[1], seq(1970, 2005, by = 5), pos = 1, cex = .8, xpd = TRUE),
                 text(1988, .113, "Year", cex = 1, pos = 1, xpd = TRUE),
                 text(1966,.229, expression(theta), cex = 1, xpd = TRUE)))
-polygon(c(yearsUS,rev(yearsUS)), c(TotASFRUS95[,1],rev(TotASFRUS95[,2])), border = NA, col = gray(.6))
-polygon(c(yearsES,rev(yearsES)), c(TotASFRES95[,1],rev(TotASFRES95[,2])), border = NA, col = gray(.6))
-lines(yearsUS, TotASFRUS, lwd = 2, col = gray(.2))
-lines(yearsES, TotASFRES, lwd = 3, col = gray(.4), lty=5)
-
-legend(1968,.14, lty = c(1,5), col = gray(c(.2,.4)), lwd = c(2,3),bty = "n",
-        legend = c("US", "Spain"), xpd = TRUE)
+polygon(c(yearsUS,rev(yearsUS)), c(TotASFRUS95[,1],rev(TotASFRUS95[,2])), 
+        border = gray(.2), col ="#BBBBBB40", lty = 1, lwd = .5)
+polygon(c(yearsES,rev(yearsES)), c(TotASFRES95[,1],rev(TotASFRES95[,2])), 
+        border = gray(.2), col = "#BBBBBB40", lty = 1, lwd = .5)
+lines(yearsUS, TotASFRUS, lwd = 1, col = gray(.2))
+lines(yearsES, TotASFRES, lwd = 1, col = gray(.2), lty=4)
+text(c(1971, 1977),
+        c(0.1647749, 0.1980414),
+        c(expression(paste(theta," USA")), expression(paste(theta," ES"))))
+#legend(1968,.14, lty = c(1,5), col = gray(c(.2,.4)), lwd = c(2,3),bty = "n",
+#        legend = c("US", "Spain"), xpd = TRUE)
 dev.off()
