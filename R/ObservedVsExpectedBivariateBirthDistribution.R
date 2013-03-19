@@ -224,12 +224,14 @@ plot(yearsUS, TotalVarUS, type = 'n', ylim = c(.33,.48), xlim = c(1967, 2012),
                            text(seq(1970, 2010, by = 5), .33, seq(1970, 2010, by = 5), pos = 1 ,cex = .7, xpd = TRUE),
                            text(1967, seq(.35, .45, by = .05), seq(.35, .45, by = .05), pos = 2, cex = .7, xpd = TRUE)
                            ))
-polygon(c(yearsUS,rev(yearsUS)), c(TotalVarUS95[,1],rev(TotalVarUS95[,2])), border = NA, col = gray(.7))
-polygon(c(yearsES,rev(yearsES)), c(TotalVarES95[,1],rev(TotalVarES95[,2])), border = NA, col = gray(.7))         
+polygon(c(yearsUS,rev(yearsUS)), c(TotalVarUS95[,1],rev(TotalVarUS95[,2])), 
+        border = gray(.2), lwd = .5, col = "#BBBBBB40")
+polygon(c(yearsES,rev(yearsES)), c(TotalVarES95[,1],rev(TotalVarES95[,2])), 
+        border = gray(.2), lwd = .5, col =  "#BBBBBB40")         
 lines(yearsUS, TotalVarUS, col = gray(.1), lwd = 1, lty = 1)                
 lines(yearsES, TotalVarES, col = gray(.3), lwd = 1, lty = 4)
-legend("bottomleft", col = gray(c(.1,.3)), lwd = c(1,1), lty = c(1,4),
-    legend = c(expression(paste(theta," USA")), expression(paste(theta," ES"))), bty = "n")
+text(c(1997, 1997), c(.441, .39),c(expression(paste(theta," USA")), expression(paste(theta," ES"))))
+
 dev.off()
 
 # --------------------------------------------
