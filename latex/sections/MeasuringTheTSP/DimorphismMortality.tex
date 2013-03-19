@@ -2,12 +2,87 @@
 Sexual dimorphism in mortality is of primary significance to human reproduction.
 Parents must survive in order to parent, and children must survive in order to
 become parents. This later element, survival until reproductive ages, enters
-directly into canoncial indicators such as the Net Reproduction Rate. Parental
-survival does not, to the knowledge of this author, enter into indicators of
-population reproductivity, except in the less-iluminating
-sense that parents must survive in order to progress birth parities. This section will briefly present 
-some novel methods and indicators for weighing mortality into measures of
-reproductivity.
+directly into summary indicators such as the intrinsic growth rate. Thus
+differences in survival will also account for part of the gap between male and
+female reproductivity, and are worth summarizing in light of sex-differences
+that may contribute to sex divergence in population models.
 
-\todo{$e_0$ differences}
-\todo{$d_x$ overlap}
+Life expectancy at birth, $e_0$, is a synthetic indicator interpreted as the
+average years that would be lived by the members of a cohort of individuals if
+the mortality conditions of the present year were to be repeated each year until extinction of
+the cohort. Sexual dimorphism in vital rates is commonly summarized using the
+gap in $e_0$, in this case $e_0^F - e_0^M$, since female life expectancy tends
+to be higher. For the data used in this dissertation, the gap is as displayed in
+Figure~ref{fig:e0gap}
+
+\begin{figure}[!ht]
+  \centering
+    \caption{Gap between female and male life expectancy. USA,
+    1969-2010 and Spain, 1975-2009.}
+     % figure produced in /R/IllustrateDivergence.R
+     \includegraphics{Figures/e0gap}
+     \label{fig:e0gap}
+\end{figure}
+
+The gap in Figure~\ref{fig:e0gap} is amenable to decomposition. Such analyses
+have been done for Spain \citep[pp 217-218 and 447]{amand2007thesis}. Blanes
+shows that over the period studied, the main components to the gap in
+Spain were roughly the same over the period studied: cancers, heart
+and circulatory disease, lung disease. The hump in the middle of
+Figre~\ref{fig:e0gap} for Spain is due to male excess mortality from external
+causes, traffic accidents and AIDs, but the gap has since narrowed. The gap
+component due to congential conditions has also decreased since the 1990s.
+
+\todo{make clearer statements based on data sent by Amand. Attribute data source
+appropriately}
+
+\todo{Find decomp of $e_0$-gap in USA, describe briefly}
+
+$e_0$ is just the sum of the survival function when $l_0 = 1$, where the
+negative unit change in the survival function gives the death distribution,
+$d_x$, and the ratio of these gives the mortality hazard, $\mu _x$. $\mu_x$ does
+not depend on what happens in other ages, whereas $l_x$ and $d_x$ do. Thus the
+most informative age-decomposition of $e_0$ should be based on differences in
+$\mu _x$, whereas the most informative comparison of the overal shape of
+survival, as it might pertain to the differences in measures of reproduction
+will be of overlap in the $l_x$ or $d_x$ distributions. We examine
+sex-differences in the deaths distribution using $d_x$ simply
+because it already sums to 1, which makes for simpler use of
+equation~\eqref{eq:coefdiff}. Thus the proportion of the two distributions that
+is not in common, $\theta$ is displayed in Figure~\ref{fig:dxtheta}.
+
+\begin{figure}[!ht]
+  \centering
+    \caption{Difference coefficient between male and female death distributions.
+    USA, 1969-2010 and Spain, 1975-2009.}
+     % figure produced in /R/IllustrateDivergence.R
+     \includegraphics{Figures/dx_dissimilarity}
+     \label{fig:dxtheta}
+\end{figure}
+
+It would appear that for the US, as the sex-specific $d_x$ distributions have
+approached each other, the sex-gap in $e_0$ from the previous
+Figure~\ref{fig:e0gap} has also narrowed. Likewise, for Spain, these two trends
+have been roughly, but not entirely synchronized. The remainder of the gap, the
+part not explained by the trend in Figure~\ref{fig:dxtheta}, will be due to the
+particular ages in which $d_x$-differences were observed, as $e_0$ may also be
+conceived of as the $d_x$-weighted average of the ages in which persons died. We
+will not investigate further into the age contributions that have led to this
+gap, but will be content for now to note that, in general, the
+contribution of mortality to the magnitude of the two sex problem in the US will
+have declined over the period studied here, while for Spain it tended to
+increase into the 1990s and has since tapered off. In following we will conduct
+a proper decomposition of the gap in intrinsic growth rates that will put the
+present and preceeding sections on dimorphism in vital rates in its context.
+
+%Parental survival does not, to the knowledge of this author,
+%enter into indicators of population reproductivity, except in the
+%less-iluminating
+%sense that parents must survive in order to progress birth parities. One
+%exception is the method of \citet{henry1965reflexions}, which creatively
+%weights
+%mothers' average years lived against daughters' average years lived, but is
+%difficult to calculate in practice because long series of cohort data are
+%required.
+
+ \FloatBarrier
