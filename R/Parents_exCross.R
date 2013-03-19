@@ -178,33 +178,7 @@ TotalVarES <- unlist(lapply(ExBxyAallES, function(.ExBxy){
                     expected    <- outer(rowSums(.ExBxy), colSums(.ExBxy), "*") / sum(.ExBxy)
                     sum(abs(.ExBxy / sum(.ExBxy) - expected / sum(expected))) / 2
                 }))
-ExpectedDx <- compiler::cmpfun(function(Px, dx){
-    dxi      <- dx / sum(dx, na.rm = TRUE)
-    N        <- length(dx)
-    EDx      <- matrix(0, nrow = N, ncol = N, dimnames = list(Ex = 0:(N-1), Age =  0:(N-1)))
-    # Population age loop
-    for (i in 1:N){
-        # distribute each age of Populatin over death times
-        EDx[1:length(dxi), i]    <- Px[i] * dxi
-        # remove firs element and rescale
-        dxi                      <- dxi[2:length(dxi)] / sum(dxi[2:length(dxi)], na.rm = TRUE)
-    }
-    EDx[is.na(EDx)] <- 0
-    EDx
-})
-ExpectedDxMxFmatrix <- compiler::cmpfun(function(Mat, dxm, dxf){
-    # first go over rows, redisitributing mother's age (in columns) by mother's ex.
-    # this is a male age x female age matrix still
-    FemEx <- t(apply(Mat, 1, function(.bx, .dxf){
-                        rowSums(ExpectedDx(Px = .bx, dx = .dxf))
-                    },.dxf = dxf))   
-    # now we do the same over columns, redisitributing male age (which is in rows)
-    MemEx <- t(apply(FemEx, 2, function(.bx, .dxm){
-                        rowSums(ExpectedDx(Px = .bx, dx = .dxm))
-                    }, .dxm = dxm))
-    dimnames(MemEx) <- dimnames(Mat)
-    MemEx
-})
+
 # would take many hours on laptop- like a day. do on galton with 4 cores.
 #thetaUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .BxUS, .dxmUS, .dxfUS){
 #            ExBxy       <- ExpectedDxMxFmatrix( .BxUS[[yr]], .dxmUS[,yr], .dxfUS[,yr])
@@ -235,14 +209,15 @@ ExpectedDxMxFmatrix <- compiler::cmpfun(function(Mat, dxm, dxf){
 #        }, .BxES = BxES, .dxmES = dxmES, .dxfES = dxfES)
 #save(thetaES, file = "thetaES.Rdata")
 
-
+ESExBxytheta <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/ESExBxytheta.Rdata")))
+USExBxytheta <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/USExBxytheta.Rdata")))
 
 # confidence bands are so narrow, we should only plot bands and not center lines..
 # plot it
 pdf("/home/triffe/git/DISS/latex/Figures/TotalVariationObsvsExpectedexUSES.pdf", height = 4.5, width = 4.5)
 par(mai = c(.5,.4,.4,.2), xaxs = "i", yaxs = "i")
-plot(yearsUS, TotalVarUS, type = 'l', ylim = c(.04,.07), xlim = c(1968,2010), 
-        col = gray(.2), lwd = 2, axes = FALSE, xlab = "", ylab = "",
+plot(yearsUS, TotalVarUS, type = 'n', ylim = c(.04,.07), xlim = c(1968,2010), 
+        axes = FALSE, xlab = "", ylab = "",
         panel.first = list(rect(1968,.04,2010,.07, col = gray(.95), border = NA),
                 abline(v = seq(1970,2010,by = 5),col = "white"),
                 abline(h = seq(.04,.07,by = .005),col = "white"),
@@ -251,10 +226,14 @@ plot(yearsUS, TotalVarUS, type = 'l', ylim = c(.04,.07), xlim = c(1968,2010),
                 text(seq(1970,2010,by = 5),.04,seq(1970,2010,by = 5),pos = 1,cex = .7, xpd = TRUE),
                 text(1968,seq(.04,.07,by = .005),seq(.04,.07,by = .005), pos = 2,cex = .7, xpd = TRUE)
         ))
-polygon(c(yearsUS,rev(yearsUS)), c(sigUS[,1],rev(sigUS[,2])), col = "#AAAAAA40", border = NA)
-lines(yearsES, TotalVarES, col = gray(.4), lwd = 3, lty = 5)
-legend("topright", col = gray(c(.2,.4)), lwd = c(2,3), lty = c(1,5),
-        legend = c(expression(paste(theta," USA")), expression(paste(theta," ES"))), bty = "n")
+polygon(c(yearsUS,rev(yearsUS)), c(USExBxytheta[,1],rev(USExBxytheta[,2])), col = "#BBBBBB40", border = gray(.2), lty = 1, lwd = .5)
+polygon(c(yearsES,rev(yearsES)), c(ESExBxytheta[,1],rev(ESExBxytheta[,2])), col = "#BBBBBB40", border = gray(.2), lty = 1, lwd = .5)
+lines(yearsUS, TotalVarUS, lwd = 1, col = gray(.2))
+lines(yearsES, TotalVarES, lwd = 1, col = gray(.2), lty=4)
+
+text(c(1972, 1977),
+        c(0.04961439, 0.06688247),
+        c(expression(paste(theta," USA")), expression(paste(theta," ES"))))
 dev.off()
 
 
@@ -271,12 +250,56 @@ ks.sig.ES <- unlist(lapply(ExBxyAallES, function(.ExBxy){
 
 
 
+###############################################################
+# design bigger monte carlo to be run on Galton today:
+# 1) make dx vary stochastically too.
+mxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata"))) 
+mxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata"))) 
+mxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata"))) 
+mxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata"))) 
+# this we can do with just Ex and mx
 
-
-
-
-
-
+# currently running on Galton with 6 cores
+# mx2dxHMD() already in server script at UCB
+#thetaUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .mxm, .mxf, .Exp){
+#           
+#            Bxy <- .Bxy[[yr]]
+#            mxm <- .mxm[, yr]
+#            mxf <- .mxf[, yr]
+#            Exm <- .Exp$Male[.Exp$Year == as.integer(yr)]
+#            Exf <- .Exp$Female[.Exp$Year == as.integer(yr)]
+#            
+#            quantile(replicate(20,{
+#                        OBxy      <- matrix(rpois(n=length(Bxy), lambda = Bxy), ncol = ncol(Bxy))
+#                        OexBxy    <- ExpectedDxMxFmatrix( 
+#                                           Mat = OBxy, 
+#                                           dxm = mx2dxHMD(Mna0(Minf0(rpois(n=length(mxm), lambda = mxm * Exm) / Exm))), 
+#                                           dxf =  mx2dxHMD(Mna0(Minf0(rpois(n=length(mxf), lambda = mxf * Exf) / Exf))))
+#                        expec     <-  outer(rowSums(OexBxy), colSums(OexBxy), "*") / sum(OexBxy)
+#                        1 - sum(pmin(expec / sum(expec), OexBxy / sum(OexBxy)))
+#                            }), probs = c(.025,.975))
+#                    
+#        }, .Bxy = BxUS, .mxm = mxmUS, .mxf = mxfUS, .Exp = ExUS))
+#
+#thetaES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .mxm, .mxf, .Exp){
+#           
+#            Bxy <- .Bxy[[yr]]
+#            mxm <- .mxm[, yr]
+#            mxf <- .mxf[, yr]
+#            Exm <- .Exp$Male[.Exp$Year == as.integer(yr)]
+#            Exf <- .Exp$Female[.Exp$Year == as.integer(yr)]
+#            
+#            quantile(replicate(20,{
+#                        OBxy      <- matrix(rpois(n=length(Bxy), lambda = Bxy), ncol = ncol(Bxy))
+#                        OexBxy    <- ExpectedDxMxFmatrix( 
+#                                           Mat = OBxy, 
+#                                           dxm = mx2dxHMD(Mna0(Minf0(rpois(n=length(mxm), lambda = mxm * Exm) / Exm))), 
+#                                           dxf =  mx2dxHMD(Mna0(Minf0(rpois(n=length(mxf), lambda = mxf * Exf) / Exf))))
+#                        expec     <-  outer(rowSums(OexBxy), colSums(OexBxy), "*") / sum(OexBxy)
+#                        1 - sum(pmin(expec / sum(expec), OexBxy / sum(OexBxy)))
+#                            }), probs = c(.025,.975))
+#                    
+#        }, .Bxy = BxES, .mxm = mxmES, .mxf = mxfES, .Exp = ExES))
 
 
 
