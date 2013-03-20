@@ -1,6 +1,6 @@
  \FloatBarrier
 Given the renewal process described above, it is perhaps now intuitive to see
-that the stable structure of the $e_x$-structured population is determined
+that the stable structure of the $e_y$-structured population is determined
 primarily by the deaths distribution and the rate of growth of the
 population. Indeed, upon transforming fertility rates to the earlier-presented
 $e$SFR, one is just a few short steps away from a full Lotka-type renewal
@@ -11,7 +11,7 @@ model, namely (for females):
 1 &= \int _{y'=0}^\infty \int _{a'=y'}^\infty e^{-ra'} d_{a'}^F f_{y'}^{F-F} \dd
 a' \dd y'
 \end{align}
-, where $a'$ indexes female age, $y'$ indexes female remaining years of life,
+where $a'$ indexes female age, $y'$ indexes female remaining years of life,
 $d_{a'}^F$ is the age-distribution of female deaths from the radix-1 period
 lifetable, and $f_{y'}^{F-F}$ are exact female-female (mother-daughter)
 fertility probablilities by remaining years of life ($e$SFR, see Equation~\eqref{eq:eSFR}). Likewise for males:
@@ -29,18 +29,18 @@ $d_a$ (current livings are the sum of future deaths):
 \begin{equation}
 p_a = \int _{x = a} ^\infty d_x \dd x
 \end{equation}
-, in which case Equation~\ref{eq:lotkaeq} can be rewritten as:
+in which case Equation~\ref{eq:lotkaeq} can be rewritten as:
 
 \begin{align}
 \label{eq:lotkadx}
 1 &= \int _{a=0}^\infty \int _{b = a}^\infty e^{-ra} d_b m_a \dd b \dd a
 \end{align}
 
-All we have changed in in order to derive Equation~\ref{eq:exLotkafemales}
+All we have changed in order to derive Equation~\ref{eq:exLotkafemales}
 is to turn $l_a$ and $m_a$ sideways, so to speak, multiplying the two vectors
 together where they coincide in terms of remaining years instead of in terms of age. This
 transformation is a simple change of perspective. $r$ still applies to sucessive 
 time steps, but in terms of remaining years of life, it must be applied incrementally 
 over the newcomers to
 each grouping of remaining years of life, i.e. over the time-layers of the
-$e_x$-structured pyramid.
+$e_y$-structured pyramid.

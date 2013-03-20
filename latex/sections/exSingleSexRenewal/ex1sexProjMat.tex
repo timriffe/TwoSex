@@ -1,26 +1,37 @@
  \FloatBarrier
 \label{sec:ex1sexleslie}
 This section explains the construction of the projection matrix that corresponds
-to the one-sex $e_x$-structured population model presented above. The objective is
+to the one-sex $e_y$-structured population model presented above. The objective is
 to offer a practical discrete implementation of the prior
-formulas, which may aid in understanding main differences with the classic
-one-sex Lotka renewal model and be of practical use for projections.
+formulas, which may aid the reader in understanding main differences with the
+classic one-sex Lotka renewal model and be of practical use for projections.
+Matrix-based projections, while not ubiquitous in the practice of demography,
+are nonetheless widespread and of high analytic utility. While the species of
+matrix presented here is indeed used in data excercises elsewhere in this
+dissertation (notably Section~\ref{sex:doublingex}), its properties will not be
+explored beyond the construction advise given in this section. It is hoped that
+the present section will facilitate exploration of the present stable system for
+the interested reader. The only computational requisite is a statistical
+environment that supports matrix operations, such as
+\texttt{R}\citep{Rcitation}\footnote{\texttt{R} is the language used behind the
+scenes for all computations and Figure production in this dissertaition} or
+\texttt{matlab}\citep{MATLAB:2010}.
 
 If the reader is not familar with the construction
 of age-structured Leslie matrices, a brief description may be found in
 Appendix~\ref{Appendix:Caswell}, which is essentially a paraphrase of the
 detailed description offered in \cite{caswell2001matrix}. As with
-age-structured Leslie matrices, $e_x$-structured projection matrices,
+age-structured Leslie matrices, $e_y$-structured projection matrices,
 $\textbf{Y}$, are square and of dimension $n \times n$, where $n$ is the number
 of remaining years classifications into which the population is divided. The matrix contains
 elements for survival and elements for fertility. Unlike Leslie matrices,
 $\textbf{Y}$ is not sparse, but is primarily populated with non-zero entries.
 
-Recall the description of renewal in an $e_x$-structured population offered in
+Recall the description of renewal in an $e_y$-structured population offered in
 Section~\ref{sec:exrenewal} and illustrated in Figure~\ref{fig:exrenewal}. Of
 interest is that mortality only occurs in the population class with zero
-remaining years of life. Age 1 in year $t$ moves to age o in year $t+1$. In this
-way, populations shift \textit{down} rather than up with each time iteration.
+remaining years of life. $e_y$-class 1 in year $t$ moves to 0 in year $t+1$.
+In this way, populations shift \textit{down} rather than up with each time iteration.
 Thus, instead of in the subdiagonal, we place survival in the superdiagonal, and
 indeed all survival values are 1, since there is no decrement, and the
 upper-left corner contains no entry for survival. As in
@@ -52,13 +63,13 @@ $\bordermatrix{{e_y } & 0_t & 1_t & 2_t & 3_t & 4_t & 5_t\cr
  $d_x$, indeed with no further translation, since the $d_x$ column refers to age
  0, as such. Thus the fertility entry in row $m$ and column $n$ of $\textbf{Y}$
  will be $f_n \cdot d_m$. We assume that those dying over the course of year
- $t$ (the first column) are exposed to fertility for \textonehalf of the
+ $t$ (the first column) are exposed to fertility for \textonehalf ~of the
  year\footnote{One might be tempted to not allow for fertility at all for
  females dying in year $t$, but recall that fertility is measured in the moment of
  birth, and not conception.},
  and so discount the fertility entry accordingly. Further, infant mortality, 
  $f_y \cdot d_0$, located in the first row, must also be discounted, since part
- ]of the mortality will occur in the same year $t$ and the rest in year $t+1$. 
+ of the mortality will occur in the same year $t$ and the rest in year $t+1$. 
  The first row of fertility must be further discounted by a factor, $\lambda$ in 
  order to account for the fact that infant mortality is higher in the lower Lexis 
  triangle than in the upper, i.e.
@@ -70,8 +81,8 @@ $\bordermatrix{{e_y } & 0_t & 1_t & 2_t & 3_t & 4_t & 5_t\cr
  around 1990, since which time it has steadily risen to around $0.87$. That is
  to say, lambda has varied, but not drastically. Likewise for Spain, $\lambda$
  fell from around $0.885$ in 1975 to $0.86$ in the mid 1990s, since which time it
- has risen another \textonehalf\%. In Spain  $\lambda$ has been around \textonehalf\%
- higher for males than females. These numbers are just meant to give a feel
+ has risen another \textonehalf~\%. In Spain  $\lambda$ has been around
+ \textonehalf\% higher for males than females. These numbers are just meant to give a feel
  for the ranges that $\lambda$ can be expected to receive. If the demographer
  does not have information to derive $\lambda$ directly, ad hoc semidirect
  methods may be used to assign a reasonable proportion. } . The
@@ -126,9 +137,9 @@ a couple more lines of code than constructing a Leslie matrix.
 
 As with Leslie matrices, the above projection matrix may be manipulated using
 generic matrix techniques in order to extract such information as the intrinsic
-growth rate, or the stable $e_x$ structure. The former is the natural log of the
+growth rate, or the stable $e_y$ structure. The former is the natural log of the
 largest real eigenvalue, and the later is the real part of the eigenvector that
 corresponds to the largest real eigenvalue, rescaled to sum to 1\footnote{see
 \citet[pp 86-87]{caswell2001matrix}}.
 
-
+ \FloatBarrier
