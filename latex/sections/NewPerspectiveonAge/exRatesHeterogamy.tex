@@ -1,17 +1,17 @@
  \FloatBarrier
 \label{sec:exobsexpected}
-First, note that the observed bivariate $e_x$-distribution of birth counts is
+First, note that the observed bivariate $e_y$-distribution of birth counts is
 very nearly identical to the expected distribution\footnote{The expected
-distribution is defined as in Equation~\eqref{eq:expected}}.
-Figure~\ref{fig:US1970obsexpex} compares these two distributions for birth 
-counts in the USA in 1970 (compare with Figure~\ref{fig:US1970obsexp}). 
+distribution is defined as in Equation~\eqref{eq:expected}, which assumes
+cross-proportionality between the male and female marginal distributions.}.
+Figure~\ref{fig:US1970obsexpex} compares these two distributions for 
+birth counts in the USA in 1970 (compare with Figure~\ref{fig:US1970obsexp}). 
 
 \begin{figure}[ht!]
         \centering  
           \caption{Observed versus expected bivariate distribution of birth
-          counts by $e_x$-distribution of parents, 1970, USA}
-           % figure produced in
-           % /R/Parents_exCross.R
+          counts by $e_y$-distribution of parents, 1970, USA}
+           % figure produced in /R/Parents_exCross.R
            \includegraphics{Figures/ObservedvsExpectedBexey}
           \label{fig:US1970obsexpex}
 \end{figure}
@@ -22,7 +22,7 @@ Figure~\ref{fig:US1970obsexpex}, however we can measure the degree of
 separation, $\theta$\footnote{See Equation~\eqref{eq:coefdiff}. Recall that 0 signifies
 perfect overlap and 1 signifies perfect separation between the two
 distributions}, just as for age-classified births (Compare with
-Figure~\ref{fig:Theta}). One provisionally concludes that $e_x$-matching of
+Figure~\ref{fig:Theta}). One provisionally concludes that $e_y$-matching of
 parents, at least with this level of approximation, appears to be very close to
 random\footnote{Confidence bands used in Figure~\ref{fig:TotalVarobsexpex}, as
 elsewhere in this dissertaiton for difference coefficients, represent the
@@ -31,10 +31,11 @@ simulations. The present case differs from earlier simulated confidence bands in
 that age-clssified death counts and age cross-classified birth counts 
 are first drawn from poisson distributions, with
 observed counts taken as $\lambda$. $\mu_x$ is then derived from the randomly
-generated $D_x$ using exposures from the HMD, and $d_x$ is derived from $\mu_x$.
-The simulated $d_x$ is then used to redistribute the randomly generated
-$B_{xy}$ distribution, which is then compared with its own expected
-distribution, producing the random $\theta$.}. When compared using the
+generated death counts using exposures from the HMD, and $d_x$ is derived from
+$\mu_x$. The simulated $d_x$ is then used to redistribute the randomly generated
+age cross-classified births distribution by remaining years of life, which is
+then compared with its own expected distribution, producing the random $\theta$.}. 
+When compared using the
 Kolmogorov-Smirnov test, in fact, one cannot under even the most generous level
 of significance, conclude that these two observed distributions come from
 different theoretical distributions.
@@ -42,7 +43,7 @@ different theoretical distributions.
 \begin{figure}[ht!]
         \centering  
           \caption{Departure from association-free bivariate distribution of
-          birth counts cross-classified by $e_x$ of mother and father. USA,
+          birth counts cross-classified by $e_y$ of mother and father. USA,
           1969-2010 and Spain, 1975-2009}
            % figure produced in /R/Parents_exCross.R
            \includegraphics{Figures/TotalVariationObsvsExpectedexUSES}
@@ -52,6 +53,6 @@ different theoretical distributions.
 Since the bivariate distribution by mothers' and fathers' $e_x$ is so close
 to random, one could very closely replicate the full cross-classified matrix 
 given only the two marginal
-$e_x$ birth distributions by applying Equation~\eqref{eq:expected}. 
+$e_y$ birth distributions by applying Equation~\eqref{eq:expected}. 
 
 \FloatBarrier
