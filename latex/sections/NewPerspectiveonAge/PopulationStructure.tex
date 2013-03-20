@@ -70,6 +70,7 @@ than the age-$\theta$. It will suffice to take the ratio of the two indicators,
 
 \begin{figure}
       \centering
+      % Figure made in PyramidStability.R
       \caption{Relative stability of $e_x$-structured populations to
                 age-structured populations, year $t$ vs $t+1$, ratio of
                 $\theta$, Spain and US, 1969-2009} 
@@ -90,3 +91,64 @@ compared with that from year $t+10$ will be much more stable than the same
 comparison for the standard population. This lesson will reap dividends
 throughout the remainder of this dissertation; we will exploit this observation
 without investigating much further into its causes.
+
+\paragraph{Uncertainty in $e_x$-structured population pyramids:} One may
+reasonably question whether the structure observed in
+Figures~\ref{fig:exPyrUS}~and~\ref{fig:exPyrES} is as certain as its graphical
+representation would imply-- There are namely no confidence intervals in the
+plot, despite the fact that we've used the deaths distribution $d_x$ to
+redistribute population counts, and $d_x$ is naturally subject to random
+fluctuations. Aside from typical sources of error for population estimates, and
+assuming that age in the first place is correctly recorded, we may wish to asses
+how much the present population structure could suffer distortion from noise in
+$d_x$. 
+
+To answer shed light on this question, the following exercise has been
+carried out: 1) for each age of original data, 1000 random deviates were drawn
+from the poisson distribution, using the observed death count as the parameter
+$\lambda$. 2) Dividing these simulated death counts by observed exposures gives
+simulated death rates $\mu_x$. 3) $d_x$ is derived from $\mu_x$ using the HMD
+methods protocol. 4) The population is redistributed 1000 times according to the
+1000 random $d_x$ disrtibutions. 5) From these simulated population structure,
+the 0.025 and 0.975 quantiles are extracted from each class of remaining years.
+This yields some rough 95\% uncertainty bands.
+
+It happens that uncertainty due to randomness in $d_x$ is so minor in both the
+US and Spanish populations that confidence bands on Figure~\ref{fig:exPyrUS}
+would not be visible to the naked eye. There is a pattern to uncertainty in
+$e_x$-structured populations, however, that we display in
+Figure~\ref{fig:PyramidUncertainty}. Confidence bands are larger for the Spanish
+population than for the US population due to difference in population size. The
+pattern over remaing years is for uncertainty to decrease from the lowest life
+expectancies until $e_y$ is around 40 or 50, and then to
+increase geometrically until the highest life expectancies. The highest
+uncertainty corresponds with the thinnest part of the pyramid, and the lowest
+uncertainty falls around the mode of the pyramid. Uncetainties for males and
+females is similar in low $e_y$, but tends to become higher for males and
+females as $e_y$ increases geometrically.
+
+\begin{figure}
+      \centering
+      % Figure made in PyramidStability.R
+      \caption{Width of 95\% uncertainty bands as percentage for each
+      remaining years category, Spain and US, 1975}
+         \includegraphics{Figures/exPyramiduncertainty1975}
+      \label{fig:PyramidUncertainty} 
+\end{figure}
+
+%\paragraph{Affects of mortality improvement on remaining-years classified
+%pyramids:} The pyramid, or leaf, structured by remaining years of life can be
+%conceived of as a period indicator, and is not necessarily a prediction about
+%the future, especially in the highest levels of $e_y$, many years away.
+%Expected deaths to the population presently living several decades from the
+%moment of observation are subject to greater uncertainty than that presented in
+%Figure~\ref{fig:PyramidUncertainty}, namely uncertainy about future changes in
+%mortality. Common experience of the past several decades, with few exceptions, 
+%is for mortality rates to have improved from year to year. Of course, different
+%ages may undergos differing rates of change\footnote{It is necessary to speak
+%of age herre because $d_x$ is an age-classified vector dervided from
+%age-specific mortality rates, $\mu_x$}, but on the whole the direction of
+%change has been one of improvement.
+
+
+
