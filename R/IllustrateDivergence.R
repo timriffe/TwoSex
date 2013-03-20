@@ -596,3 +596,26 @@ text(c(1975, 1975),
         c(0.235, .185),
         c(expression(paste(theta," USA")), expression(paste(theta," ES"))))
 dev.off()
+
+
+# --------------------------------
+# read in amand aggregates:
+Amand <- read.table("/home/triffe/git/DISS/Data/AmandDecomp/amandaggregates", 
+        sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+
+plot(seq(0,85,by=5),colSums(Amand[,3:ncol(Amand)]/100), type = "S")
+
+
+fields::image.plot(as.matrix(Amand[,3:ncol(Amand)]/100))
+
+AmandCube <- array(dim = c(13,18,7), dimnames = list(Amand$CauseCat[1:13], seq(0,85,by=5), seq(1971,2001,by=5)))
+for (i in 1:7){
+    AmandCube[,,i] <- as.matrix(Amand[Amand$Year == unique(Amand$Year)[i],3:ncol(Amand)])
+}
+
+AmandLong <- reshape2::melt(AmandCube)
+colnames(AmandLong) <- c("Cause","Age","Year","value")
+
+levelplot(value~Age*Year | Cause, data=AmandLong)
+levelplot(value~Age*Year | Cause, data=AmandLong)
+
