@@ -11,8 +11,8 @@ Section~\ref{sec:exrenewalit}
 \begin{equation}
 \widehat{T^\upsilon} = \frac{\splitfrac{
    \big((1 - \sigma)  \int _{y'=0}^\infty \int_{a'=y'}^\infty 
-       a' d_{a'}^F \left( f_{y'}^{F-F} + f_{y'}^{F-M} \right) \dd a'\dd y'}{ + 
-   \sigma \int_{y=0}^\infty \int _{a=y}^\infty a d_{a}^M  \left( f_{y}^{M-M}+
+       y' d_{a'}^F \left( f_{y'}^{F-F} + f_{y'}^{F-M} \right) \dd a'\dd y'}{ + 
+   \sigma \int_{y=0}^\infty \int _{a=y}^\infty y d_{a}^M  \left( f_{y}^{M-M}+
    f_{y}^{M-F} \right) \dd a \dd y \big)}}{\splitfrac{\big( (1 - \sigma) 
    \int_{y'=0}^\infty \int_{a'=y'}^\infty d_{a'}^F \left( f_{y'}^{F-F} +
    f_{y'}^{F-M} \right) \dd a'\dd y'}{ +\sigma \int _{y=0}^\infty
@@ -35,15 +35,15 @@ Section~\ref{sec:exrenewalit}
    \begin{equation}
    r^0 = \frac{ln(\widehat{R_0})}{\widehat{T^\upsilon}}
    \end{equation}
-  \item plug $r^0$ into Equation~\ref{eq:lineartwosexrenewal} to calculate a
+  \item Plug $r^0$ into Equation~\ref{eq:lineartwosexrenewal} to calculate a
   residual, $\delta^0$
-  \item use $\delta^0$ and $\widehat{T^\upsilon}$ to calibrate the estimate of $r$
+  \item Use $\delta^0$ and $\widehat{T^\upsilon}$ to calibrate the estimate of $r$
   using:
   \begin{equation}
   r^{1} = r^0 + \frac{\delta^0}{\widehat{T^\upsilon} - \frac{\delta^0}{r^0}}
   \end{equation}
-  \item repeat step (3) to to derive a new $\delta^i$, then step (4) to refine
+  \item Repeat step (3) to to derive a new $\delta^i$, then step (4) to refine
   $r^i$, until converging on a stable $r$ after some 30 iterations,
-  depending on the degree of precision desired. ($\widehat{T^\upsilon}$ is not updated
+  depending on the degree of precision desired ($\widehat{T^\upsilon}$ is not updated
   in this process).
 \end{enumerate}
