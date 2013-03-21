@@ -38,35 +38,10 @@ mxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata")))
 mxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata"))) 
 mxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata"))) 
 
+# mx2LxHMD is now in utilities!
 
-mx2LxHMD <- compiler::cmpfun(function(mx){
-    mx                  <- Mna0(as.numeric(mx))
-    
-    # mean proportion of interval passed at death
-    ax                  <- mx * 0 + .5                      # ax = .5, pg 38 MPv5
-    
-    ax[1]   <- ((0.045 + 2.684 * mx[1]) + (0.053 + 2.800 * mx[1])) / 2 # hack, hard to pass in sex variable
 
-    qx                  <- mx / (1 + (1 - ax) * mx)          # Eq 60 MPv5 (identity)
-# ---------------------------------------------------------------------------------
-# set open age qx to 1
-    i.openage           <- 111 # removed argument OPENAGE
-    qx[i.openage]       <- ifelse(is.na(qx[i.openage]), NA, 1)
-    ax[i.openage]       <- 1 / mx[i.openage]                   
-# ---------------------------------------------------------------------------------
-# define remaining lifetable columns:
-    px                  <- 1 - qx                                                                                 # Eq 64 MPv5
-    px[is.nan(px)]      <- 0 # skips BEL NAs, as these are distinct from NaNs
-# lx needs to be done columnwise over px, argument 2 refers to the margin.
-    lx                  <- c(1, cumprod(px[1:(i.openage-1)]))
-    # NA should only be possible if there was a death with no Exp below age 80- impossible, but just to be sure
-    # lx[is.na(lx)]   <- 0 # removed for BEL testing        
-    dx                  <- lx * qx                                                                                # Eq 66 MPv5
-    Lx                  <- lx - (1 - ax) * dx                                                         # Eq 67 MPv5
-    Lx[i.openage]       <- lx[i.openage] * ax[i.openage]
-    Lx
-})
-
+#-------------------------
 LotkardxFxSRB1 <- compiler::cmpfun(function(rates, .a = .5:110.5, T.guess = 30){
             N       <- length(.a)
            
