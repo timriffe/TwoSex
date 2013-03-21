@@ -231,6 +231,11 @@ legend(1970,-.01, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,
         legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
 dev.off()
 
+# Lotka stable age:
+
+LotkaStableAge <- compiler::cmpfun(function(r, Lx, Fx,.a = .5:110.5){
+    (1 / sum(exp(-r * .a) * Lx)) * exp(-r * .a) * Lx
+})
 
 # --------------------------------------------------------------
 # year t ex-structure with its own stable structure. Stability:
@@ -239,36 +244,24 @@ rownames(rmUS) <- yearsUS
 rownames(rfUS) <- yearsUS
 rownames(rmES) <- yearsES
 rownames(rfES) <- yearsES
-
+names(rmLUS) <- yearsUS
+names(rfLUS) <- yearsUS
+names(rmLES) <- yearsES
+names(rfLES) <- yearsES
 
 PxUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")))
 PxES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
 #-----------------------------
-DiffCoefryUSm <- unlist(lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .dx, rmat){  
-                    
+DiffCoefryUSm <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .dx, .Lx, rmat, rL){  
+                   
+               
+                    Bx      <- rowSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE)
                     Px      <- .Px$Male[.Px$Year == as.integer(yr)]
-                    Py      <- rowSums(ExpectedDx(Px, .dx[, yr]))
                     Ex      <- .Ex$Male[.Ex$Year == as.integer(yr)]
-                    Ey      <- rowSums(ExpectedDx(Ex, .dx[, yr]))
-                    By      <- rowSums(ExpectedDx(rowSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE), .dx[, yr]))
-                    Fex     <- Minf0(Mna0(By / Ey))
-                    # stable structure
-                    cyst    <- ex1SexStableAge(r = rmat[yr,"r"], Fex = Fex, dx = .dx[, yr])
                     
-                    # preesnt structure
-                    cy      <- Py / sum(Py)
-                    
-                    # difference coef
-                    1-sum(pmin(cyst, cy))
-                }, .Bx = BxymfUS, .Ex = ExUS, .Px = PxUS, .dx = dxmUS, rmat = rmUS))
-
-DiffCoefryUSf <- unlist(lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .dx, rmat){  
-                    
-                    Px      <- .Px$Female[.Px$Year == as.integer(yr)]
                     Py      <- rowSums(ExpectedDx(Px, .dx[, yr]))
-                    Ex      <- .Ex$Female[.Ex$Year == as.integer(yr)]
                     Ey      <- rowSums(ExpectedDx(Ex, .dx[, yr]))
-                    By      <- rowSums(ExpectedDx(colSums(.Bx[[yr]][["Bxyf"]], na.rm = TRUE), .dx[, yr]))
+                    By      <- rowSums(ExpectedDx(Bx, .dx[, yr]))
                     Fex     <- Minf0(Mna0(By / Ey))
                     # stable structure
                     cyst    <- ex1SexStableAge(r = rmat[yr,"r"], Fex = Fex, dx = .dx[, yr])
@@ -276,35 +269,45 @@ DiffCoefryUSf <- unlist(lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px
                     # preesnt structure
                     cy      <- Py / sum(Py)
                     
+                    cast    <- LotkaStableAge(r = rL[yr], Lx = .Lx[,yr], Fx = Bx / Ex)
+                    ca.now  <- Px / sum(Px)
                     # difference coef
-                    1-sum(pmin(cyst, cy))
-                }, .Bx = BxymfUS, .Ex = ExUS, .Px = PxUS, .dx = dxfUS, rmat = rfUS))
+                    c(extheta = 1-sum(pmin(cyst, cy)), Lotkatheta =  1-sum(pmin(cast, ca.now)))
+                }, .Bx = BxymfUS, .Ex = ExUS, .Px = PxUS, .Lx = LxmUS, .dx = dxmUS, rmat = rmUS, rL = rmLUS))
 
-DiffCoefryESm <- unlist(lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .dx, rmat){  
+DiffCoefryUSf <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .dx, .Lx, rmat, rL){  
+                   
+               
+                    Bx      <- colSums(.Bx[[yr]][["Bxyf"]], na.rm = TRUE)
+                    Px      <- .Px$Female[.Px$Year == as.integer(yr)]
+                    Ex      <- .Ex$Female[.Ex$Year == as.integer(yr)]
                     
+                    Py      <- rowSums(ExpectedDx(Px, .dx[, yr]))
+                    Ey      <- rowSums(ExpectedDx(Ex, .dx[, yr]))
+                    By      <- rowSums(ExpectedDx(Bx, .dx[, yr]))
+                    Fex     <- Minf0(Mna0(By / Ey))
+                    # stable structure
+                    cyst    <- ex1SexStableAge(r = rmat[yr,"r"], Fex = Fex, dx = .dx[, yr])
+                    
+                    # preesnt structure
+                    cy      <- Py / sum(Py)
+                    
+                    cast    <- LotkaStableAge(r = rL[yr], Lx = .Lx[,yr], Fx = Bx / Ex)
+                    ca.now  <- Px / sum(Px)
+                    # difference coef
+                    c(extheta = 1-sum(pmin(cyst, cy)), Lotkatheta =  1-sum(pmin(cast, ca.now)))
+                }, .Bx = BxymfUS, .Ex = ExUS, .Px = PxUS, .Lx = LxfUS, .dx = dxfUS, rmat = rfUS, rL = rfLUS))
+
+DiffCoefryESm <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .dx, .Lx, rmat, rL){  
+                   
+               
+                    Bx      <- rowSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE)
                     Px      <- .Px$Male[.Px$Year == as.integer(yr)]
-                    Py      <- rowSums(ExpectedDx(Px, .dx[, yr]))
                     Ex      <- .Ex$Male[.Ex$Year == as.integer(yr)]
-                    Ey      <- rowSums(ExpectedDx(Ex, .dx[, yr]))
-                    By      <- rowSums(ExpectedDx(rowSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE), .dx[, yr]))
-                    Fex     <- Minf0(Mna0(By / Ey))
-                    # stable structure
-                    cyst    <- ex1SexStableAge(r = rmat[yr,"r"], Fex = Fex, dx = .dx[, yr])
                     
-                    # preesnt structure
-                    cy      <- Py / sum(Py)
-                    
-                    # difference coef
-                    1-sum(pmin(cyst, cy))
-                }, .Bx = BxymfES, .Ex = ExES, .Px = PxES, .dx = dxmES, rmat = rmES))
-
-DiffCoefryESf <- unlist(lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .dx, rmat){  
-                    
-                    Px      <- .Px$Female[.Px$Year == as.integer(yr)]
                     Py      <- rowSums(ExpectedDx(Px, .dx[, yr]))
-                    Ex      <- .Ex$Female[.Ex$Year == as.integer(yr)]
                     Ey      <- rowSums(ExpectedDx(Ex, .dx[, yr]))
-                    By      <- rowSums(ExpectedDx(colSums(.Bx[[yr]][["Bxyf"]], na.rm = TRUE), .dx[, yr]))
+                    By      <- rowSums(ExpectedDx(Bx, .dx[, yr]))
                     Fex     <- Minf0(Mna0(By / Ey))
                     # stable structure
                     cyst    <- ex1SexStableAge(r = rmat[yr,"r"], Fex = Fex, dx = .dx[, yr])
@@ -312,9 +315,36 @@ DiffCoefryESf <- unlist(lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px
                     # preesnt structure
                     cy      <- Py / sum(Py)
                     
+                    cast    <- LotkaStableAge(r = rL[yr], Lx = .Lx[,yr], Fx = Bx / Ex)
+                    ca.now  <- Px / sum(Px)
                     # difference coef
-                    1-sum(pmin(cyst, cy))
-                }, .Bx = BxymfES, .Ex = ExES, .Px = PxES, .dx = dxfES, rmat = rfES))
+                    c(extheta = 1-sum(pmin(cyst, cy)), Lotkatheta =  1-sum(pmin(cast, ca.now)))
+                }, .Bx = BxymfES, .Ex = ExES, .Px = PxES, .Lx = LxmES, .dx = dxmES, rmat = rmES, rL = rmLES))
+
+DiffCoefryESf <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .dx, .Lx, rmat, rL){  
+                   
+               
+                    Bx      <- colSums(.Bx[[yr]][["Bxyf"]], na.rm = TRUE)
+                    Px      <- .Px$Female[.Px$Year == as.integer(yr)]
+                    Ex      <- .Ex$Female[.Ex$Year == as.integer(yr)]
+                    
+                    Py      <- rowSums(ExpectedDx(Px, .dx[, yr]))
+                    Ey      <- rowSums(ExpectedDx(Ex, .dx[, yr]))
+                    By      <- rowSums(ExpectedDx(Bx, .dx[, yr]))
+                    Fex     <- Minf0(Mna0(By / Ey))
+                    # stable structure
+                    cyst    <- ex1SexStableAge(r = rmat[yr,"r"], Fex = Fex, dx = .dx[, yr])
+                    
+                    # preesnt structure
+                    cy      <- Py / sum(Py)
+                    
+                    cast    <- LotkaStableAge(r = rL[yr], Lx = .Lx[,yr], Fx = Bx / Ex)
+                    ca.now  <- Px / sum(Px)
+                    # difference coef
+                    c(extheta = 1-sum(pmin(cyst, cy)), Lotkatheta =  1-sum(pmin(cast, ca.now)))
+                }, .Bx = BxymfES, .Ex = ExES, .Px = PxES, .Lx = LxfES, .dx = dxfES, rmat = rfES, rL = rfLES))
+
+
 mxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata"))) 
 mxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata"))) 
 mxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata"))) 
@@ -323,13 +353,20 @@ mxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata")))
 library(parallel)
 # US
 # Males
-DiffCoefryUSthetam <- do.call(rbind,mclapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .mx, rmat){  
+DiffCoefryUSthetam <- do.call(rbind,mclapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .mx, rmat, rL){  
+                 
                     Px      <- .Px$Male[.Px$Year == as.integer(yr)]
                     Ex      <- .Ex$Male[.Ex$Year == as.integer(yr)]
                     Bx      <- rowSums(.Bx[[yr]][["Bxym"]])
                     mx      <- .mx[, yr]
-                    dxSim <- apply(matrix(rpois(n=length(mx)*1000, lambda = mx * Ex), ncol = 1000) / Ex, 
-                                    2, function(x){
+                                   
+                    mxsim <- matrix(rpois(n=length(mx)*1000, lambda = mx * Ex), ncol = 1000) / Ex
+                    
+                    Lxsim <-  apply(mxsim, 2, function(x){
+                                mx2LxHMD(x)}
+                    )
+                    
+                    dxSim <- apply(mxsim, 2, function(x){
                                         mx2dxHMD(x)}
                                    )
                     Pysim <- apply(dxSim, 2, function(dx, .Px){
@@ -341,29 +378,48 @@ DiffCoefryUSthetam <- do.call(rbind,mclapply(as.character(yearsUS), function(yr,
                                 rowSums(ExpectedDx(.Ex, dx))
                             }, .Ex = Ex)
                     BirthsSim <- matrix(rpois(n=length(Bx)*1000, lambda = Bx), ncol = 1000)
-                    FexSim    <- Minf0(Mna0(BirthsSim / Eysim))
+                    
+                    BySim <- BirthsSim * 0 
+               
+                    for (i in 1:1000){
+                        BySim[,i] <- rowSums(ExpectedDx(BirthsSim[,i], dxSim[,i]))
+                    }
+                    FexSim    <- Minf0(Mna0(BySim / Eysim))
                   
+                    FxSim     <- Minf0(Mna0(BirthsSim / Ex))
                      # stable structure
-                    cystsim <- FexSim * 0
+                    castsim <- cystsim <- FexSim * 0
                     for (i in 1:1000){
                         cystsim[,i]    <- ex1SexStableAge(r = rmat[yr,"r"], Fex = FexSim[,i], dx = dxSim[,i])
+                        castsim[,i]    <- LotkaStableAge(rL[yr], Lx = Lxsim[,i], Fx = FxSim[,i])
                     }
+                    
                     # preesnt structure
                       
                     # difference coef
-                    thetas <- 1-colSums(pmin(cystsim, Cysim))
-                    quantile(thetas, probs = c(.025,.975))
-                }, .Bx = BxymfUS, .Ex = ExUS, .Px = PxUS, .mx = mxmUS, rmat = rmUS, mc.cores = 2))
+                    thetas  <- 1-colSums(pmin(cystsim, Cysim))
+                    thetasL <- 1-colSums(pmin(castsim, Px / sum(Px)))
+                    ratio   <- thetasL / thetas
+                    c(ExQ = quantile(thetas, probs = c(.025,.975)), LQ = quantile(thetasL, probs = c(.025,.975)), ratio = quantile(ratio, probs = c(.025,.975)))
+                }, .Bx = BxymfUS, .Ex = ExUS, .Px = PxUS, .mx = mxmUS, rL = rmLUS, rmat = rmUS, mc.cores = 2))
+save(DiffCoefryUSthetam,file="/home/triffe/git/DISS/Data/rDecompResults/DiffCoefryUSthetam.Rdata")
 # Females
-DiffCoefryUSthetaf <- do.call(rbind,mclapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .mx, rmat){  
+DiffCoefryUSthetaf <- do.call(rbind,mclapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .mx, rmat, rL){  
+                 
                     Px      <- .Px$Female[.Px$Year == as.integer(yr)]
                     Ex      <- .Ex$Female[.Ex$Year == as.integer(yr)]
                     Bx      <- colSums(.Bx[[yr]][["Bxyf"]])
                     mx      <- .mx[, yr]
-                    dxSim <- apply(matrix(rpois(n=length(mx)*1000, lambda = mx * Ex), ncol = 1000) / Ex, 
-                            2, function(x){
-                                mx2dxHMD(x)}
+                                   
+                    mxsim <- matrix(rpois(n=length(mx)*1000, lambda = mx * Ex), ncol = 1000) / Ex
+                    
+                    Lxsim <-  apply(mxsim, 2, function(x){
+                                mx2LxHMD(x)}
                     )
+                    
+                    dxSim <- apply(mxsim, 2, function(x){
+                                        mx2dxHMD(x)}
+                                   )
                     Pysim <- apply(dxSim, 2, function(dx, .Px){
                                 rowSums(ExpectedDx(.Px, dx))
                             }, .Px = Px)
@@ -373,61 +429,102 @@ DiffCoefryUSthetaf <- do.call(rbind,mclapply(as.character(yearsUS), function(yr,
                                 rowSums(ExpectedDx(.Ex, dx))
                             }, .Ex = Ex)
                     BirthsSim <- matrix(rpois(n=length(Bx)*1000, lambda = Bx), ncol = 1000)
-                    FexSim    <- Minf0(Mna0(BirthsSim / Eysim))
                     
-                    # stable structure
-                    cystsim <- FexSim * 0
+                    BySim <- BirthsSim * 0 
+               
+                    for (i in 1:1000){
+                        BySim[,i] <- rowSums(ExpectedDx(BirthsSim[,i], dxSim[,i]))
+                    }
+                    FexSim    <- Minf0(Mna0(BySim / Eysim))
+                  
+                    FxSim     <- Minf0(Mna0(BirthsSim / Ex))
+                     # stable structure
+                    castsim <- cystsim <- FexSim * 0
                     for (i in 1:1000){
                         cystsim[,i]    <- ex1SexStableAge(r = rmat[yr,"r"], Fex = FexSim[,i], dx = dxSim[,i])
+                        castsim[,i]    <- LotkaStableAge(rL[yr], Lx = Lxsim[,i], Fx = FxSim[,i])
                     }
-                    # preesnt structure
                     
+                    # preesnt structure
+                      
                     # difference coef
-                    thetas <- 1-colSums(pmin(cystsim, Cysim))
-                    quantile(thetas, probs = c(.025,.975))
-                }, .Bx = BxymfUS, .Ex = ExUS, .Px = PxUS, .mx = mxfUS, rmat = rfUS, mc.cores = 2))
+                    thetas  <- 1-colSums(pmin(cystsim, Cysim))
+                    thetasL <- 1-colSums(pmin(castsim, Px / sum(Px)))
+                    ratio   <- thetasL / thetas
+                    c(ExQ = quantile(thetas, probs = c(.025,.975)), LQ = quantile(thetasL, probs = c(.025,.975)), ratio = quantile(ratio, probs = c(.025,.975)))
+                    
+                }, .Bx = BxymfUS, .Ex = ExUS, .Px = PxUS, .mx = mxfUS, rL = rfLUS, rmat = rfUS, mc.cores = 2))
+save(DiffCoefryUSthetaf,file="/home/triffe/git/DISS/Data/rDecompResults/DiffCoefryUSthetaf.Rdata")
 # Spain
 # Males
-DiffCoefryESthetam <- do.call(rbind,mclapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .mx, rmat){  
+DiffCoefryESthetam <- do.call(rbind,mclapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .mx, rmat, rL){  
                     Px      <- .Px$Male[.Px$Year == as.integer(yr)]
                     Ex      <- .Ex$Male[.Ex$Year == as.integer(yr)]
                     Bx      <- rowSums(.Bx[[yr]][["Bxym"]])
                     mx      <- .mx[, yr]
-                    dxSim <- apply(matrix(rpois(n=length(mx)*1000, lambda = mx * Ex), ncol = 1000) / Ex, 
-                            2, function(x){
-                                mx2dxHMD(x)}
+                                   
+                    mxsim <- Minf0(Mna0(matrix(rpois(n=length(mx)*1000, lambda = mx * Ex), ncol = 1000) / Ex))
+                    
+                    Lxsim <-  apply(mxsim, 2, function(x){
+                                mx2LxHMD(x)}
                     )
+                
+                    dxSim <- apply(mxsim, 2, function(x){
+                                        mx2dxHMD(x)}
+                                   )
                     Pysim <- apply(dxSim, 2, function(dx, .Px){
                                 rowSums(ExpectedDx(.Px, dx))
                             }, .Px = Px)
                     Cysim <- t(t(Pysim) / colSums(Pysim))
+                    
                     Eysim <- apply(dxSim, 2, function(dx, .Ex){
                                 rowSums(ExpectedDx(.Ex, dx))
                             }, .Ex = Ex)
                     BirthsSim <- matrix(rpois(n=length(Bx)*1000, lambda = Bx), ncol = 1000)
-                    FexSim    <- Minf0(Mna0(BirthsSim / Eysim))
                     
-# stable structure
-                    cystsim <- FexSim * 0
+                    BySim <- BirthsSim * 0 
+               
+                    for (i in 1:1000){
+                        BySim[,i] <- rowSums(ExpectedDx(BirthsSim[,i], dxSim[,i]))
+                    }
+                    FexSim    <- Minf0(Mna0(BySim / Eysim))
+                  
+                    FxSim     <- Minf0(Mna0(BirthsSim / Ex))
+                     # stable structure
+                    castsim <- cystsim <- FexSim * 0
                     for (i in 1:1000){
                         cystsim[,i]    <- ex1SexStableAge(r = rmat[yr,"r"], Fex = FexSim[,i], dx = dxSim[,i])
+                        castsim[,i]    <- LotkaStableAge(rL[yr], Lx = Lxsim[,i], Fx = FxSim[,i])
                     }
-# preesnt structure
+                    # preesnt structure
                     
-# difference coef
-                    thetas <- 1-colSums(pmin(cystsim, Cysim))
-                    quantile(thetas, probs = c(.025,.975))
-                }, .Bx = BxymfES, .Ex = ExES, .Px = PxES, .mx = mxmES, rmat = rmES, mc.cores = 2))
+                    # difference coef
+                    thetas  <- 1-colSums(pmin(cystsim, Cysim))
+                    thetasL <- 1-colSums(pmin(castsim, Px / sum(Px, na.rm = TRUE)))
+                    ratio   <- thetasL / thetas
+                    c(ExQ = quantile(thetas, probs = c(.025,.975)), 
+                            LQ = quantile(thetasL, probs = c(.025,.975)), 
+                            ratio = quantile(ratio, probs = c(.025,.975)))
+                    
+                }, .Bx = BxymfES, .Ex = ExES, .Px = PxES, .mx = mxmES, rL = rmLES, rmat = rmES, mc.cores = 2))
+save(DiffCoefryESthetam,file="/home/triffe/git/DISS/Data/rDecompResults/DiffCoefryESthetam.Rdata")
 # Females
-DiffCoefryESthetaf <- do.call(rbind,mclapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .mx, rmat){  
+DiffCoefryESthetaf <- do.call(rbind,mclapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .mx, rmat, rL){  
+                 
                     Px      <- .Px$Female[.Px$Year == as.integer(yr)]
                     Ex      <- .Ex$Female[.Ex$Year == as.integer(yr)]
                     Bx      <- colSums(.Bx[[yr]][["Bxyf"]])
                     mx      <- .mx[, yr]
-                    dxSim <- apply(matrix(rpois(n=length(mx)*1000, lambda = mx * Ex), ncol = 1000) / Ex, 
-                            2, function(x){
-                                mx2dxHMD(x)}
+                                   
+                    mxsim <- matrix(rpois(n=length(mx)*1000, lambda = mx * Ex), ncol = 1000) / Ex
+                    
+                    Lxsim <-  apply(mxsim, 2, function(x){
+                                mx2LxHMD(x)}
                     )
+                    
+                    dxSim <- apply(mxsim, 2, function(x){
+                                        mx2dxHMD(x)}
+                                   )
                     Pysim <- apply(dxSim, 2, function(dx, .Px){
                                 rowSums(ExpectedDx(.Px, dx))
                             }, .Px = Px)
@@ -437,19 +534,32 @@ DiffCoefryESthetaf <- do.call(rbind,mclapply(as.character(yearsES), function(yr,
                                 rowSums(ExpectedDx(.Ex, dx))
                             }, .Ex = Ex)
                     BirthsSim <- matrix(rpois(n=length(Bx)*1000, lambda = Bx), ncol = 1000)
-                    FexSim    <- Minf0(Mna0(BirthsSim / Eysim))
                     
-# stable structure
-                    cystsim <- FexSim * 0
+                    BySim <- BirthsSim * 0 
+               
+                    for (i in 1:1000){
+                        BySim[,i] <- rowSums(ExpectedDx(BirthsSim[,i], dxSim[,i]))
+                    }
+                    FexSim    <- Minf0(Mna0(BySim / Eysim))
+                  
+                    FxSim     <- Minf0(Mna0(BirthsSim / Ex))
+                     # stable structure
+                    castsim <- cystsim <- FexSim * 0
                     for (i in 1:1000){
                         cystsim[,i]    <- ex1SexStableAge(r = rmat[yr,"r"], Fex = FexSim[,i], dx = dxSim[,i])
+                        castsim[,i]    <- LotkaStableAge(rL[yr], Lx = Lxsim[,i], Fx = FxSim[,i])
                     }
-# preesnt structure
                     
-# difference coef
-                    thetas <- 1-colSums(pmin(cystsim, Cysim))
-                    quantile(thetas, probs = c(.025,.975))
-                }, .Bx = BxymfES, .Ex = ExES, .Px = PxES, .mx = mxfES, rmat = rfES, mc.cores = 2))
+                    # preesnt structure
+                      
+                    # difference coef
+                    thetas  <- 1-colSums(pmin(cystsim, Cysim))
+                    thetasL <- 1-colSums(pmin(castsim, Px / sum(Px)))
+                    ratio   <- thetasL / thetas
+                    c(ExQ = quantile(thetas, probs = c(.025,.975)), LQ = quantile(thetasL, probs = c(.025,.975)), ratio = quantile(ratio, probs = c(.025,.975)))
+                    
+                }, .Bx = BxymfES, .Ex = ExES, .Px = PxES, .mx = mxfES, rL = rfLES, rmat = rfES, mc.cores = 2))
+save(DiffCoefryESthetaf,file="/home/triffe/git/DISS/Data/rDecompResults/DiffCoefryESthetaf.Rdata")
 
 plot(NULL, type = "n", xlim = c(1968,2010) , ylim = c(0,.2))
 lines(yearsUS, DiffCoefryUSm, col = gray(.2), lwd = 1, lty = 1)                
@@ -459,12 +569,12 @@ lines(yearsES, DiffCoefryESf, col = gray(.4), lwd = 1.2, lty = 4)
 
 # plot it!
 pdf("/home/triffe/git/DISS/latex/Figures/exPyramidPresentvsStableDivergence.pdf", height = 4.5, width = 4.5)
-par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
-plot(yearsUS, DiffCoefryUSm, type = 'n', ylim = c(0,.2), xlim = c(1968, 2010), 
+par(mai = c(.5,.5,.5,.3), xaxs = "i", yaxs = "i")
+plot(yearsUS, DiffCoefryUSm[,1], type = 'n', ylim = c(0,.3), xlim = c(1968, 2010), 
         axes = FALSE, xlab = "", ylab = "",
-        panel.first = list(rect(1968, 0, 2010, .2, col = gray(.95), border = NA),
+        panel.first = list(rect(1968, 0, 2010, .3, col = gray(.95), border = NA),
                 abline(v = seq(1970, 2010, by = 5),col = "white"),
-                abline(h = seq(0, .2, by = .025),col = "white"),
+                abline(h = seq(0, .3, by = .025),col = "white"),
                 text(1990,-.02, "Year", xpd = TRUE),
                 text(1965,.22, expression(theta), xpd = TRUE),
                 text(seq(1970, 2010, by = 5), 0, seq(1970, 2010, by = 5), pos = 1 ,cex = .7, xpd = TRUE),
@@ -479,6 +589,17 @@ polygon(c(yearsES,rev(yearsES)), c(DiffCoefryESthetam[,1],rev(DiffCoefryESthetam
         border = gray(.2), lwd = .5, col = "#BBBBBB40")
 polygon(c(yearsES,rev(yearsES)), c(DiffCoefryESthetaf[,1],rev(DiffCoefryESthetaf[,2])), 
         border = gray(.2), lwd = .5, col = "#BBBBBB40")
+# Lotka same thing
+#polygon(c(yearsUS,rev(yearsUS)), c(DiffCoefryUSthetam[,3],rev(DiffCoefryUSthetam[,4])), 
+#        border = "blue", lwd = .5, col = "#BBBBBB40")
+#polygon(c(yearsUS,rev(yearsUS)), c(DiffCoefryUSthetaf[,3],rev(DiffCoefryUSthetaf[,4])), 
+#        border = "blue", lwd = .5, col = "#BBBBBB40")
+#
+#polygon(c(yearsES,rev(yearsES)), c(DiffCoefryESthetam[,3],rev(DiffCoefryESthetam[,4])), 
+#        border = "red", lwd = .5, col = "#BBBBBB40")
+#polygon(c(yearsES,rev(yearsES)), c(DiffCoefryESthetaf[,3],rev(DiffCoefryESthetaf[,4])), 
+#        border = "red", lwd = .5, col = "#BBBBBB40")
+
 # change text
 text(c(1993, 1993,1985,1986), c(0.09198817, 0.04217548, 0.17349984, 0.11114689),
         c(expression(paste(theta," US females")), 
@@ -487,8 +608,69 @@ text(c(1993, 1993,1985,1986), c(0.09198817, 0.04217548, 0.17349984, 0.11114689),
           expression(paste(theta," ES males"))), pos = c(4,4,2,4))
 
 segments(c(1993, 1993,1985,1986), c(0.09198817, 0.04217548, 0.17349984, 0.11114689),
-        c(1994, 1992, 1986, 1985), c(DiffCoefryUSf[yearsUS == 1994],
-                DiffCoefryUSm[yearsUS == 1992],
-                DiffCoefryESf[yearsES == 1986],
-                DiffCoefryESm[yearsES == 1985]))
+        c(1994, 1992, 1986, 1985), c(DiffCoefryUSf[yearsUS == 1994,1],
+                DiffCoefryUSm[yearsUS == 1992,1],
+                DiffCoefryESf[yearsES == 1986,1],
+                DiffCoefryESm[yearsES == 1985,1]))
 dev.off()
+
+pdf("/home/triffe/git/DISS/latex/Figures/exPyramidthetaratio.pdf", height = 4.5, width = 4.5)
+par(mai = c(.5,.5,.5,.3), xaxs = "i", yaxs = "i")
+plot(yearsUS, DiffCoefryUSm[,1], type = 'n', ylim = c(1,2.5), xlim = c(1968, 2010), 
+        axes = FALSE, xlab = "", ylab = "",
+        panel.first = list(rect(1968, 1, 2010, 2.5, col = gray(.95), border = NA),
+                abline(v = seq(1970, 2010, by = 5),col = "white"),
+                abline(h = seq(1, 2.5, by = .2),col = "white"),
+                text(1990,.85, "Year", xpd = TRUE),
+                text(1966,2.6, expression(frac(theta~Lotka,theta~e[y])), xpd = TRUE),
+                text(seq(1970, 2010, by = 5), 1, seq(1970, 2010, by = 5), pos = 1 ,cex = .7, xpd = TRUE),
+                text(1968, seq(1, 2.5, by = .2), seq(1, 2.5, by = .2), pos = 2, cex = .7, xpd = TRUE)
+        ))
+polygon(c(yearsUS,rev(yearsUS)), c(DiffCoefryUSthetam[,5],rev(DiffCoefryUSthetam[,6])), 
+        border = gray(.2), lwd = .5, col = "#BBBBBB40")
+polygon(c(yearsUS,rev(yearsUS)), c(DiffCoefryUSthetaf[,5],rev(DiffCoefryUSthetaf[,6])), 
+        border = gray(.2), lwd = .5, col = "#BBBBBB40")
+
+polygon(c(yearsES,rev(yearsES)), c(DiffCoefryESthetam[,5],rev(DiffCoefryESthetam[,6])), 
+        border = gray(.2), lwd = .5, col = "#BBBBBB40", lty = 4)
+polygon(c(yearsES,rev(yearsES)), c(DiffCoefryESthetaf[,5],rev(DiffCoefryESthetaf[,6])), 
+        border = gray(.2), lwd = .5, col = "#BBBBBB40", lty = 4)
+
+# indicate
+text(c(1985, 1980, 1990.5, 1990), c( 2, 2.267286, 1.2, 1.486132),
+        c("US females", "US males", "ES females", "ES males"), pos = c(1,2,4,2))
+
+segments(c(1982, 1980, 1991, 1990), c(2, 2.267286, 1.245777, 1.486132),
+        c(1981, 1981, 1990, 1991), c(DiffCoefryUSf[yearsUS == 1981,2]/DiffCoefryUSf[yearsUS == 1981,1],
+                DiffCoefryUSm[yearsUS == 1981,2]/DiffCoefryUSm[yearsUS == 1981,1],
+                DiffCoefryESf[yearsES == 1990,2]/DiffCoefryESf[yearsES == 1990,1],
+                DiffCoefryESm[yearsES == 1991,2]/DiffCoefryESm[yearsES == 1991,1]))
+
+dev.off()
+#
+#plot(NULL, type = "n", xlim = c(1968,2010) , ylim = c(0,.3))
+#lines(yearsUS, DiffCoefryUSm[,1], col = gray(.2), lwd = 1, lty = 1)                
+#lines(yearsUS, DiffCoefryUSf[,1], col = gray(.2), lwd = 1, lty = 1)
+#lines(yearsES, DiffCoefryESm[,1], col = gray(.4), lwd = 1.2, lty = 4)                
+#lines(yearsES, DiffCoefryESf[,1], col = gray(.4), lwd = 1.2, lty = 4)
+#
+#
+#lines(yearsUS, DiffCoefryUSm[,2], col = "blue", lwd = 1, lty = 1)                
+#lines(yearsUS, DiffCoefryUSf[,2], col = "blue", lwd = 1, lty = 1)
+#lines(yearsES, DiffCoefryESm[,2], col = "red", lwd = 1.2, lty = 4)                
+#lines(yearsES, DiffCoefryESf[,2], col = "red", lwd = 1.2, lty = 4)
+#
+#cor(diff(DiffCoefryUSm[,1]),diff(DiffCoefryUSm[,2]))
+#cor(diff(DiffCoefryUSf[,1]),diff(DiffCoefryUSf[,2]))
+#cor(diff(DiffCoefryESm[,1]),diff(DiffCoefryESm[,2]))
+#cor(diff(DiffCoefryESf[,1]),diff(DiffCoefryESf[,2]))
+
+
+
+
+plot(yearsUS, DiffCoefryUSm[,2]/DiffCoefryUSm[,1], type = 'l', ylim = c(1,2.5))
+lines(yearsUS, DiffCoefryUSf[,2]/DiffCoefryUSf[,1], col = gray(.4))
+lines(yearsES, DiffCoefryESm[,2]/DiffCoefryESm[,1], lty = 2)
+lines(yearsES, DiffCoefryESf[,2]/DiffCoefryESf[,1], col = gray(.4), lty = 2)
+
+abline(h=1)

@@ -249,7 +249,7 @@ mx2LxHMD <- compiler::cmpfun(function(mx){
 # set open age qx to 1
             i.openage           <- 111 # removed argument OPENAGE
             qx[i.openage]       <- ifelse(is.na(qx[i.openage]), NA, 1)
-            ax[i.openage]       <- 1 / mx[i.openage]                   
+            ax[i.openage]       <- Minf0(Mna0(1 / mx[i.openage]))        
 # ---------------------------------------------------------------------------------
 # define remaining lifetable columns:
             px                  <- 1 - qx                                                                                 # Eq 64 MPv5
