@@ -182,23 +182,9 @@ Y_1sexES <- lapply(as.character(yearsES), function(yr, .dxm, .dxf, .Ex, .Bxymf, 
         .Ex = ExES, .Bxymf = BxymfES, 
         .lambdaf = lambdafES, .lambdam = lambdafES)
 
-names(Y_1sexES) <- yearsES
 
 library(popbio)
 
-eigen.analysis(Y_1sexES[[1]][[1]])
-
-
-
-ev <- eigen(Y_1sexES[[1]][[1]])
-ev$values
-Mod(ev$values)
-lmax<-which.max(Re(ev$values))
-lmax
-Re(ev$values)[lmax]
-log(max(Re(ev$values)))
-names(ev)
-plot(Re(ev$vectors)[,lmax])
 
 
 rES1sex <- do.call(rbind,lapply(Y_1sexES, function(x){
@@ -210,10 +196,10 @@ rUS1sex <- do.call(rbind,lapply(Y_1sexUS, function(x){
                             r.m = log(max(Re(eigen(x[["Ym"]])$values))))
                 }))
 
-plot(yearsUS, rUS1sex[,"r.f"], type = 'l', col = "red", ylim = c(-.02,.02))
-lines(yearsUS, rUS1sex[,"r.m"], col = "blue")
-lines(yearsES, rES1sex[,"r.f"], col = "red",lty=2)
-lines(yearsES, rES1sex[,"r.m"], col = "blue",lty=2)
+#plot(yearsUS, rUS1sex[,"r.f"], type = 'l', col = "red", ylim = c(-.02,.02))
+#lines(yearsUS, rUS1sex[,"r.m"], col = "blue")
+#lines(yearsES, rES1sex[,"r.f"], col = "red",lty=2)
+#lines(yearsES, rES1sex[,"r.m"], col = "blue",lty=2)
 
 # make 2-sex matrices
 Y_2sexUS <- lapply(as.character(yearsUS), function(yr, .dxm, .dxf, .Ex, .Bxymf, .lambdaf, .lambdam, .sigma){
@@ -375,6 +361,7 @@ dev.off()
 
 # ----------------------------------------------------------------
 # compare damping ratios for convergence
+# indicator of speed to convergence:
 DampES <- do.call(rbind,lapply(Y_1sexES, function(x){
                     c(FD = eigen.analysis(x[["Yf"]])$damping.ratio, MD = eigen.analysis(x[["Ym"]])$damping.ratio)
                 }))
@@ -429,19 +416,35 @@ DampUSL <- do.call(rbind,lapply(USL, function(x){
                     c(FD = eigen.analysis(x[["Lf"]])$damping.ratio, MD = eigen.analysis(x[["Lm"]])$damping.ratio)
                 }))
         
-plot(yearsUS, DampUS[,"FD"], type = 'l', ylim = c(1,1.1),col="blue")
-lines(yearsUS, DampUS[,"MD"],col="#0022DD", lwd = 2)
-lines(yearsES, DampES[,"FD"],col="blue",lty=2)
-lines(yearsES, DampES[,"MD"],col="#0022DD",lty=2, lwd = 2)
+# Plot Damping ratios:
+pdf("/home/triffe/git/DISS/latex/Figures/Damping.pdf", height = 5, width = 5)
+par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
+plot(yearsES, DampESL[,1], type = 'l', ylim = c(1.01,1.08), lty = 4, col = gray(.4), lwd = 1.2,
+        axes = FALSE, xlim = c(1968,2010), xlab = "", ylab = "",
+        panel.first = list(rect(1968, 1.01, 2010, 1.08, col = gray(.95), border=NA),
+                abline(h = seq(1.01,1.08,by=.005), col = "white"),   
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(1.01,1.08,by=.01), seq(1.01,1.08,by=.01), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10), 1.01, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, 1, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1963, 1.085, "Damping ratio", cex = 1, xpd = TRUE, pos = 4)))
+lines(yearsES, DampESL[,2], lty = 4, lwd = 1.2)
+lines(yearsES, DampES[,1], lty = 4, lwd = 3, col = gray(.4))
+lines(yearsES, DampES[,2], lty = 4, lwd = 3)
 
-lines(yearsUS, DampUSL[,"MD"])  
-lines(yearsUS, DampUSL[,"FD"], col= gray(.4))
-lines(yearsES, DampESL[,"FD"],lty=2, col= gray(.4))
-lines(yearsES, DampESL[,"MD"],lty=2)   
-        names(eigen.analysis(ESL[[1]][["Lf"]]))
-names(pop.projection(ESL[[1]][["Lf"]],  with(PxUS, Female[Year == 1969]), 20))
+lines(yearsUS, DampUSL[,1], col = gray(.4), lwd = 1.2)
+lines(yearsUS, DampUSL[,2], lwd = 1.2)
+lines(yearsUS, DampUS[,1], lwd = 3, col = gray(.4))
+lines(yearsUS, DampUS[,2], lwd = 3)
 
+text(rep(1994,4),c(1.060118, 1.071, 1.032564, 1.041464),
+        c(expression(US^M~e[y]),
+                expression(US^F~e[y]),expression(US^M~age),expression(US^F~age)), cex = .8)
+text(c(1985, 1977, 1985, 1990),c(1.055363, 1.072, 1.019397, 1.025493),c(expression(ES^M~e[y]),
+                expression(ES^F~e[y]),expression(ES^M~age),expression(ES^F~age)), cex = .8)
+dev.off()
 
+# Total Oscillation along the path to stability:
 EScohenL <- do.call(rbind,lapply(as.character(yearsES), function(yr, .L, .Px){
             Pxm  <- with(.Px, Male[Year == as.integer(yr)])
             Pxf  <- with(.Px, Female[Year == as.integer(yr)])
@@ -564,3 +567,5 @@ text(c(1988, 1988, 1976, 1976),c(2.003155,4.295235,10.635031,14.195071),c(expres
 text(c(1995, 1995, 1996, 1996),c(9.562143, 13.561091, 21.7, 26.289451),c(expression(ES^M~e[y]),
                 expression(ES^F~e[y]),expression(ES^M~age),expression(ES^F~age)), cex = .8)
 dev.off()
+library(popbio)
+citation(popbio)
