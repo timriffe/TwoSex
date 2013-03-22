@@ -7,8 +7,9 @@ expectancy of 20 move the next year into 19, and so forth, experiencing
 increments from newly added births, but no decrement to mortality. 
 Each $e_y$ class is heterogenous with 
 respect to year of birth (age) but homogenous with respect to remaining 
-years of life. Fertility can arise from individuals with nearly any remaining life
-expectancy; the age-boundedness of fecundity belongs to the age
+years of life, forming what could be called a \textit{death cohort}. Fertility
+can arise from individuals with nearly any remaining life expectancy; the 
+age-boundedness of fecundity belongs to the age
 perspective of demography. Thus the entire pyramid produces 
 offspring\footnote{The only exception
 to this statement is the very top of the $e_y$-pyramid, consisting only of
@@ -18,11 +19,10 @@ deaths distribution, $d_x$; e.g. $P_{e_1}$ is incremented by $d_1 \cdot B$, and
 so forth for all ages, adding a new layer whose total over $y$ equals $B$. In 
 this way births
 increment most heavily around the modal age at death, typically very high in the
-pyramid, between 60 and 80, depending on the year and population. Some are
+pyramid, depending on the year and population. Some are
 unfortunate and decrement out of the pyramid in the same year as they are
 incremented (births where $y = 0$). See Figure~\ref{fig:exrenewal} for a
 schematic visualization of $e_y$-structured population renewal.
-
 
 \begin{figure}[ht!]
 \begin{adjustwidth}{-1in}{1in}
@@ -35,3 +35,8 @@ schematic visualization of $e_y$-structured population renewal.
           \end{adjustwidth}
 \end{figure}
 
+The elemental formula on the right side of the Figure~\ref{fig:exrenewal}
+diagram says that remaining years-structure births ($B_{y,t}$) are calculated on
+the basis of remaining years-structured fertility rates ($F_{y,t}$) and
+exposures ($E_{y,t}$), summed to total births ($B_t$) and then distributed over
+the pyramid according to the deaths distribution ($d_y = d_x$).
