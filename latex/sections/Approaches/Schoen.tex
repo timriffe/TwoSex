@@ -1,3 +1,169 @@
-\section{Schoen}
 
-implemented. present Lotka-ization and results
+Schoen \citep{schoen1978standardized, schoen1977two, schoen1981harmonic}
+provided a rationale and derivation for using the harmonic mean in order to
+balance marriage rates. The same strategy can be used to balance fertility
+rates, which is what we will do here. The method requires as inputs a matrix of
+birth counts cross-tabulated by age of mother $a'$ and age of father $a$, and
+male and female exposures classified by age. The harmonic mean: 
+
+\begin{equation}
+H(P_a^m, P_{a'}^f) = \frac{2 P_a^m P_{a'}^f}{P_a^m + P_{a'}^f}
+\end{equation}
+is applied to exposures, in order to find an intermediate denominator
+from which to calculate rates, $F_{a,a'}^H$:
+ 
+ \begin{equation}
+ F_{a,a'}^H = \frac{B_{a,a'}}{H(P_a^m, P_{a'}^f)}
+ \end{equation}
+which in the stable population is assumed constant in time rather than
+assuming constant male and female rates separately. In order to estimate 
+a birth count in some future year $t+n$, calculate the harmonic mean
+of male and female exposures and multiply into the constant harmonic rate:
+
+ \begin{equation}
+ B_{a,a',t+n} = F_{a,a'}^H H(P_{a, t+n}^m, P_{a',t+n}^f)
+ \end{equation}
+
+Since the effective birth count in the future is a function of both male and
+female exposures, the method is inherently non-linear. 
+
+Let us place this fertility balancing strategy into a stable
+population framework. \citet{schoen1977two} proposed his own rectangular stable
+population framework, which will not be treated here. Instead, we will make some minimal
+changes to the basic components of the familiar Lotka system. In the first
+place, the new Lotka equation, based on equation~\eqref{eq:lotkaeq} will now
+contain both male and female survival, $p_a^m$ and $p_{a'}^f$, respectively.
+Further, we must have some notion of the stable versus the present sex ratio at
+birth, from which we derive proportions male, $\varsigma$, and female
+$1-\varsigma$. Assume for the time being that we know the stable proportion male
+of births. Then we can estimate the two-sex harmonic growth rate using:
+
+\begin{equation}
+\label{eq:lotkaH}
+1 = \int _{a=0}^\infty \int _{a'=0}^\infty \frac{2 \varsigma e^{-ra} p_a^m
+(1 - \varsigma) e^{-ra'} p_{a'}^f}{\varsigma e^{-ra} p_a^m  + (1 -
+\varsigma) e^{-ra'} p_{a'}^f} F_{a,a'}^H \dd a' \dd a
+\end{equation}
+where $F_{a,a'}^H$ is the constant fertility rate to be applied to the harmonic
+mean of male and female exposures, $p_a^m$ and $p_{a'}^f$ are the male
+and female radix-1 survival functions. $\varsigma$ serves to make the
+male and female radices sum to 1, and also accounts for the fact that males and
+females have slightly different $l_0$ values. 
+
+The two-sex harmonic intrinsic growth rate, $r$ can be estimated by modifying
+the iterative procedure suggested by \citet{coale1957new}. In practice, one
+estimates the stable sex ratio at birth at the same time. Here we will describe
+the practical steps involved in the estimation
+
+\begin{enumerate}
+  \item Calculate the constant harmonic fertility rates for male and female
+  births separately, $F_{a,a'}^{mH}$ and $F_{a,a'}^{fH}$
+  \item Make a first estimate of the stable sex ratio at birth, $\hat{S}$,
+  assuming an intrinsic growth rate of 0. Here $H()$ will be used as shorthand for the
+  harmonic mean function:
+  \begin{equation}
+  S^0 = \frac{\int_{a=o}^\infty \int_{a'=0}^\infty H(p_a^m, p_{a'}^f)
+  F_{a,a'}^{mH} \dd a' \dd a }{\int_{a=o}^\infty \int_{a'=0}^\infty H(p_a^m, p_{a'}^f)
+  F_{a,a'}^{fH} \dd a' \dd a }
+  \end{equation}
+  From $S^0$ we derive a first estimate of the proportion male of
+  births, $\varsigma^0$, as:
+  \begin{equation}
+  \varsigma^0 = \frac{S^0}{S^0+1}
+  \end{equation}
+  \item Find a first rough estimate of the net reproduction rate,
+  $\widehat{R_0}$, assuming a growth rate of 0 and using the both-sex
+  harmonic fertility rate $F_{a,a'}^{H} = F_{a,a'}^{mH} + F_{a,a'}^{fH}$:
+  \begin{equation}
+  \widehat{R_0} = \int_{a=o}^\infty \int_{a'=0}^\infty H(\varsigma^0 p_a^m,
+  (1-\varsigma^0)p_{a'}^f) F_{a,a'}^{H} \dd a' \dd a
+  \end{equation}
+  \item Assume a reasonable both-sex mean generation time, $\widehat{T}$, such
+  as 35, and calculate an intitial value of $r$, $r^0$ as:
+  \begin{equation}
+  r^0 = \frac{log(\widehat{R_0})}{\widehat{T}}
+  \end{equation}
+  \item Now that we have a starting value, $r^0$, calculate a residual,
+  $\delta^0$, from equation~\eqref{eq:lotkaH}, where the fraction is
+  again replaced with $H()$ as shorthand:
+  \begin{equation}
+  \delta^0 = 1 - \int _{a=0}^\infty \int _{a'=0}^\infty H(\varsigma^0 p_a^m,
+  (1-\varsigma^0)p_{a'}^f) F_{a,a'}^H \dd a' \dd a
+  \end{equation}
+  \item Use $\delta$ to improve the esimate of $r$:
+  \begin{equation}
+  r^{i+1} = r^i - \frac{\delta^i}{\widehat{T} - \frac{\delta^i}{r^i}}
+  \end{equation}
+  \item Use the improved estiamte of $r$ to update $\varsigma$:
+  \begin{align}
+  S^{i+1} &= \frac{\int_{a=o}^\infty \int_{a'=0}^\infty H(\varsigma^i
+  e^{-r^{i+1}a} p_a^m, (1-\varsigma^i)^i e^{-r^{i+1}a'}p_{a'}^f) F_{a,a'}^{mH} \dd a' \dd a
+  }{\int_{a=o}^\infty \int_{a'=0}^\infty H(\varsigma^i e^{-r^{i+1}a}
+  p_a^m, (1-\varsigma^i)^i e^{-r^{i+1}a'}p_{a'}^f) F_{a,a'}^{fH} \dd a' \dd a }
+  \\
+  \varsigma^{i+1} &= \frac{S^{i+1}}{S^{i+1}+1}
+  \end{align}
+  \item Plug the new $\varsigma$ and $r$ estimates into step 5, to estimate a
+  new residual, $\delta$, repeating steps 5-7 until $\delta$ is reduced to 0.
+  Typicaly around 20 iterations are needed in order to reduce $\delta$ to
+  be less than double floating point machine tolerance.
+\end{enumerate}
+
+The present iterative procedure simulaneously produces an estimate of the stable
+sex ratio at birth $S$ and the both-sex intrinsic growth rate, $r$. Really,
+there is little room for $S$ to move between the initial and stable states,
+since boy and girl births are in essence produced by (the harmonic mean of) both
+males and females in this procedure. $S$
+will only vary from the intial sex ratio at birth to the extent that there is
+an age pattern to the sex ratio at birth and the male and female stable age
+structures differ from the initial age structures. Estimating both parameters at
+the same time does not present a practical problem in the present case.
+
+Once one has the stable $r$ and $S$, one may move on to estimate other stable
+parameters of interest, such as the both-sex stable birth rate, $b$:
+
+\begin{equation}
+b = \frac{1}{\int_{a = 0}^\infty e^{-ra} \varsigma p_a^m \dd a + \int_{a' =
+0}^\infty e^{-ra'} \varsigma p_{a'}^f \dd a'}
+\end{equation}
+which may be used to calculate the male and female stable age structures, $c_a$
+and $c_{a'}$:
+
+\begin{equation}
+c_a =  \varsigma  e^{-ra} p_a^m
+\end{equation}
+and analagously for females, where
+\begin{equation}
+1 = \int c_a + \int c_{a'}
+\end{equation}
+and the total population sex ratio, $S^{tot}$ is the ratio of these:
+\begin{equation}
+S^{tot} = \frac{\int c_a}{\int c_{a'}}
+\end{equation}
+
+Of interest, male and female stable ASFR may also be estimated, where
+$B_{a,a'}$ are cross-classified birth counts:
+\begin{equation}
+B_{a,a'} = F_{a,a'}^H H(c_a,c_{a'})
+\end{equation}
+we integrate over male (female) age to get the balanced marginal rates:
+\begin{equation}
+\label{eq:asfrH}
+F_a^m = \int_a ^\infty B_{a,a'} c_a \dd a
+\end{equation}
+and analagously for females. 
+
+One could prescind of the iterative $r$ estimation procedure outlined above and
+perform a standard cohort component projection, for instance using a
+two-sex Leslie matrix. In this case, the fertility component of the Leslie
+matrix would need to be updated between each iteration using equation~\ref{eq:asfrH} for either
+males or females. One cannot easily perform standard matrix analysis of this
+Leslie matrix, however, as it is not static in the standard way.
+
+The stable system outline here is not taken word-for-word from Schoen's advice,
+but is consistent with his notions of a constant \textit{force of attraction}
+
+
+
+
+

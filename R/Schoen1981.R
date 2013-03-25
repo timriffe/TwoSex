@@ -38,74 +38,48 @@ LxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata"))) / 1e5
 LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) / 1e5
 
 
-
-Bxy <- BxUS[[1]]
-
-Exm <- with(ExUS, Male[Year == yearsUS[1]])
-Exf <- with(ExUS, Female[Year == yearsUS[1]])
-
 # harmonic mean of exposures:
-HM <- function(x,y){Mna0(Minf0((2*x*y)/(x+y)))}
-Hxy <- outer(Exm, Exf, HM)
-
-# corresponding fertility rates:
-FHxy <- Bxy / Hxy
-ages <- 0:110
-
-Fxf <- t(t(Bxy) / Exf)
-Fxm <- Bxy / Exm
-
-
-sum(FHxy * Exm)
-sum(t(FHxy) * Exf)
-# marginals are NOT constrained to intermediate values.
-#plot(ages, colSums(FHxy), type = 'l', col = "red", lty =2)
-#lines(ages, colSums(Fxf), col = "red")
-#
-#lines(ages, rowSums(Fxm), col = "blue")
-#lines(ages, rowSums(FHxy), col = "blue", lty = 2)
-
-Lxm <- LxmUS[,1]
-Lxf <- LxfUS[,1]
-
-#Lotka-ish equation:
-.a <- .5:110.5
-r <- .01
-sum(exp(-r * .a) * Lxm * FHxy)
-sum(exp(-r * .a) * Lxf * t(FHxy))
+HM <- compiler::cmpfun(function(x,y){
+    Mna0(Minf0((2 * x * y) / (x + y)))
+})
 
 # residual function
-LotkaHmin <- function(r, Lxm, Lxf, FH, .a = .5:110.5){
+LotkaHmin <- compiler::cmpfun(function(r, Lxm, Lxf, FH, .a = .5:110.5){
   (1 - sum(outer(exp(-r * .a) * Lxm, exp(-r * .a) * Lxf, HM) * FH)) ^ 2
-}
+})
 
-optimize(LotkaHmin, interval = c(-.15,.15), Lxm = LxmUS[,10], Lxf = LxfUS[,10], 
-        FH = BxUS[[10]] /outer(with(ExUS, Male[Year == yearsUS[10]]), with(ExUS, Female[Year == yearsUS[10]]), HM), 
-        tol = 1e-15)$minimum
-Fxm <- rowSums(BxUS[[10]] / with(ExUS, Male[Year == yearsUS[10]]))
-Fxf <- colSums(t(t(BxUS[[10]]) / with(ExUS, Female[Year == yearsUS[10]])))
-LotkaRCoale(Fxm,  LxmUS[,10], x = .5:110.5)
-LotkaRCoale(Fxf,  LxfUS[,10], x = .5:110.5) - LotkaRCoale(Fxm,  LxmUS[,10], x = .5:110.5)
+#optimize(LotkaHmin, interval = c(-.15,.15), Lxm = LxmUS[,10], Lxf = LxfUS[,10], 
+#        FH = BxUS[[10]] /outer(with(ExUS, Male[Year == yearsUS[10]]), with(ExUS, Female[Year == yearsUS[10]]), HM), 
+#        tol = 1e-15)$minimum
 
-LotkaHRCoale <- function(FH, Lxm, Lxf, x = .5:110.5, maxit = 2e2, tol = 1e-15){
+# using strategy of Coale
+LotkaHRCoale <- compiler::cmpfun(function(FHf, FHm, Lxm, Lxf, x = .5:110.5, maxit = 2e2, tol = 1e-15){
     # from Coale, Ansley J. (1957) A New Method for Calculating Lotka's r- the Intrinsic Rate of Growth in a Stable Population.
     # Population Studies, Vol. 11 no. 1, pp 92-94
-    R0 <- sum(outer(Lxm, Lxf, HM) * FH)
-    # first assuming a mean generation time of 29
+    
+    # SRB that would result from r = 0
+    SRBi        <- sum(outer(Lxm, Lxf, HM) * FHm) / sum(outer(Lxm, Lxf, HM) * FHf)
+    R0          <- sum(outer(Lxm * SRBi / (SRBi+1), Lxf * 1 / (SRBi+1), HM) * (FHf + FHm))
+    # first assuming a mean generation time of 35
     r2 <- log(R0) / 35
     for (i in 1:maxit){ # 10 is more than enough!
-        r1 <- r2
-        deltai <- 1 - sum(outer(exp(-r1 * x) * Lxm, exp(-r1 * x) * Lxf, HM) * FH) 
+        r1      <- r2
+        p.m     <- SRBi / (SRBi+1)
+        p.f     <- 1 / (SRBi+1)
+        deltai  <- 1 - sum(outer(exp(-r1 * x) * Lxm * p.m, exp(-r1 * x) * Lxf * p.f, HM) * (FHf + FHm)) 
         # the mean generation time self-corrects 
         # according to the error produced by the Lotka equation
-        r2 <- r1 - (deltai / (35 - (deltai / r1)))
+        r2      <- r1 - (deltai / (35 - (deltai / r1)))
+      
+        SRBi    <-  sum(outer(exp(-r2 * x) * Lxm * p.m, exp(-r2 * x) * Lxf * p.f, HM) * FHm) / 
+                    sum(outer(exp(-r2 * x) * Lxm * p.m, exp(-r2 * x) * Lxf * p.f, HM) * FHf)
         if (abs(r2 - r1) <= tol | zapsmall(abs(deltai)) <= tol){
             break
         }
     }
-    return(r2)  
-}
-
+    return(c(r2, SRBi))
+})
+yr <- "1990"
 rUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .Lxm, .Lxf, .Ex){
             
             Exm <- with(.Ex, Male[Year == as.integer(yr)])
@@ -113,7 +87,10 @@ rUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .Lxm, .Lxf
             # harmonic mean of exposures
             Hxy <- outer(Exm, Exf, HM)
             # harmonic rates (divide by two since working with both sexes)
-            FxyH <- Mna0(Minf0((.Bxy[[yr]][["Bxym"]] + .Bxy[[yr]][["Bxyf"]]) / Hxy)) / 2
+            FxyHf <- Mna0(Minf0((.Bxy[[yr]][["Bxyf"]]) / Hxy))
+            FxyHm <- Mna0(Minf0((.Bxy[[yr]][["Bxym"]]) / Hxy))
+            
+           
             # single sex rates
             Fxm <- rowSums(Mna0(Minf0(.Bxy[[yr]][["Bxym"]] / Exm)))
             Fxf <- colSums(Mna0(Minf0(t(t(.Bxy[[yr]][["Bxyf"]]) / Exf))))
@@ -121,9 +98,10 @@ rUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .Lxm, .Lxf
             Lxf <- .Lxf[, yr]
             Lxm <- .Lxm[, yr]
             
+            LH <- LotkaHRCoale(FHf = FxyHf, FHm = FxyHm, Lxm =Lxm, Lxf = Lxf)
             c(r.f = LotkaRCoale(Fxf, Lxf, x = .5:110.5),
               r.m = LotkaRCoale(Fxm, Lxm, x = .5:110.5),
-              r.H = LotkaHRCoale(FH = FxyH, Lxm =Lxm, Lxf = Lxf))
+              r.H = LH[1], SRBH = LH[2])
         }, .Bxy = BxymfUS, .Lxm = LxmUS, .Lxf = LxfUS, .Ex = ExUS))
 rownames(rUS) <- yearsUS
 
@@ -135,7 +113,10 @@ rES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .Lxm, .Lxf
                     # harmonic mean of exposures
                     Hxy <- outer(Exm, Exf, HM)
                     # harmonic rates (divide by two since working with both sexes)
-                    FxyH <- Mna0(Minf0((.Bxy[[yr]][["Bxym"]] + .Bxy[[yr]][["Bxyf"]]) / Hxy)) / 2
+                    FxyHf <- Mna0(Minf0((.Bxy[[yr]][["Bxyf"]]) / Hxy))
+                    FxyHm <- Mna0(Minf0((.Bxy[[yr]][["Bxym"]]) / Hxy))
+                    
+                    
                     # single sex rates
                     Fxm <- rowSums(Mna0(Minf0(.Bxy[[yr]][["Bxym"]] / Exm)))
                     Fxf <- colSums(Mna0(Minf0(t(t(.Bxy[[yr]][["Bxyf"]]) / Exf))))
@@ -143,9 +124,10 @@ rES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .Lxm, .Lxf
                     Lxf <- .Lxf[, yr]
                     Lxm <- .Lxm[, yr]
                     
+                    LH <- LotkaHRCoale(FHf = FxyHf, FHm = FxyHm, Lxm =Lxm, Lxf = Lxf)
                     c(r.f = LotkaRCoale(Fxf, Lxf, x = .5:110.5),
                             r.m = LotkaRCoale(Fxm, Lxm, x = .5:110.5),
-                            r.H = LotkaHRCoale(FH = FxyH, Lxm =Lxm, Lxf = Lxf))
+                            r.H = LH[1], SRBH = LH[2])
                 }, .Bxy = BxymfES, .Lxm = LxmES, .Lxf = LxfES, .Ex = ExES))
 rownames(rES) <- yearsES
 
@@ -158,6 +140,15 @@ lines(yearsES, rES[,"r.m"], col = "blue", lty=2)
 lines(yearsES, rES[,"r.H"], col = "green", lty=2)
 
 
+StableAgeH <- function(r, SRB, FHf, FHm, Lxm, Lxf, x = .5:110.5){
+    p.m <- SRB / (1 + SRB)
+    p.f <- 1 / (1 + SRB)
+    b   <- 1 / sum(exp(-r * x) * (Lxm * p.m + Lxf * p.f))
+    cam <- b * p.m * exp(-r * x) * Lxm
+    caf <- b * p.f * exp(-r * x) * Lxf
+    cbind(ca.m = cam, ca.f = caf)
+}
 
 
-
+plot(0:110, p.m * exp(-r * x) * Lxm, type = 'l')
+lines(0:110, p.f * exp(-r * x) * Lxf)
