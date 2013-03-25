@@ -161,7 +161,29 @@ males or females. One cannot easily perform standard matrix analysis of this
 Leslie matrix, however, as it is not static in the standard way.
 
 The stable system outline here is not taken word-for-word from Schoen's advice,
-but is consistent with his notions of a constant \textit{force of attraction}
+but it is consistent with the notion of a constant \textit{force of attraction},
+$F_{a,a'}^H$, and non-linear balancing of fertility rates based on the harmonic
+mean of male and female exposures. The method presented here is only partially
+sensitive across all ages to changes in the exposure of a single age in one sex.
+That is to say, an increase in males of age $a$ will increase observed fertility rates for all ages
+of females that share rates with males of age $a$. Further, females with
+higher rates, $F_{a,a'}^H$, will typically observe greater increases, though this
+depends on the distribution within $F^H$ and on relative exposure levels.
+Lacking from this implementation are decreases in rates for males whose ages are close
+to $a$, so-called spillover effects\citep{choo2006estimating}. That is to say,
+an increase in age $a$ males, will not affect rates of males age $a-n$ or $a+n$, 
+despite the fact that the pool of potential mates, females over
+all ages $a'$, is shared. One would expect, ceterus paribus, that males of
+similar ages would experience a decrease in rates, since some proportion of the
+female pool will have been redirected to the increased stock of age $a$ males.
+
+It cannot be argued, in this instance, that $F_{a,a'}^H$ should reflect
+inter-age competition, as it is taken as an instantaneous snapshot. Had male and/or female
+exposures been otherwise, $B_{a,a'}$ (and by extension $F_{a,a'}^H$) would have
+been different from that observed. Preserving the year $t$ outcome of
+competition will likely fail in inferring the year $t+n$ inter-age competion
+after exposure levels have changed. \citet{choo2006estimating} offer a framework
+that would incorporate such effects.
 
 
 
