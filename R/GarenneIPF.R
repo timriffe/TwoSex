@@ -96,7 +96,7 @@ sum(pmin(Pred / sum(Pred),Bxyex2pdf)) # pdf predicted from 1969 vs 1970 pdf
 sum(pmin(Bxyexpdf, Bxyex2pdf)) # 1969 vs 1970 fit
 
 yr <- 1969
-UScompare <- do.call(rbind,lapply(yearsUS, function(yr, .Ex, .dxm, .dxf, .Bxy){
+UScompare <- do.call(rbind,lapply(1969:2008, function(yr, .Ex, .dxm, .dxf, .Bxy){
         yrc1 <- as.character(yr)
         yrc2 <- as.character(yr+1)
         Bxymex1 <- ExpectedDxMxFmatrix(.Bxy[[yrc1]][["Bxym"]], .dxm[, yrc1], .dxf[, yrc1])
@@ -183,8 +183,9 @@ UScompare <- do.call(rbind,lapply(yearsUS, function(yr, .Ex, .dxm, .dxf, .Bxy){
         c(OverlapIt, OverlapNoIt)
         }, .Ex = ExUS, .dxm = dxmUS, .dxf = dxfUS, .Bxy = BxymfUS))
 
-
-
-
+years <- 1969:2008
+plot(years,UScompare[,1] / UScompare[,4], type = 'l', col = "blue")
+lines(years,UScompare[,2] / UScompare[,5], type = 'l', col = "red")
+abline(h=1)
 
 
