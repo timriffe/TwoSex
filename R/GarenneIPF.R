@@ -30,77 +30,13 @@ dxfUS <- dxfUS %col% colSums(dxfUS)
 dxmES <- dxmES %col% colSums(dxmES)
 dxfES <- dxfES %col% colSums(dxfES)
 
-
-Bxym <- BxymfUS[["1969"]][["Bxym"]]
-Bxyf <- BxymfUS[["1969"]][["Bxyf"]]
-
-Bxymex <- ExpectedDxMxFmatrix(Bxym, dxmUS[,"1969"], dxfUS[,"1969"])
-Bxyfex <- ExpectedDxMxFmatrix(Bxyf, dxmUS[,"1969"], dxfUS[,"1969"])
-
-Exm <- rowSums(ExpectedDx(ExUS$Male[ExUS$Year == 1969], dxmUS[,"1969"]))
-Exf <- rowSums(ExpectedDx(ExUS$Female[ExUS$Year == 1969], dxfUS[,"1969"]))
-
-Bxyex <- Bxymex + Bxyfex 
-
-Fxym <- rowSums(Bxyex) / Exm
-Fxyf <- colSums(Bxyex) / Exf
-
-Exm2 <- rowSums(ExpectedDx(ExUS$Male[ExUS$Year == 1970], dxmUS[,"1970"]))
-Exf2 <- rowSums(ExpectedDx(ExUS$Female[ExUS$Year == 1970], dxfUS[,"1970"]))
-
-Bxmi <- Fxym * Exm2
-Bxfi <- Fxyf * Exf2
-sum(Bxmi)
-sum(Bxfi)
-Bxyexi <- Bxyex
-for (i in 1:10){
-    # male offer:
-    BxyexiM1 <- Bxyexi * Minf0(Mna0(Bxmi / rowSums(Bxyexi)))
-    BxyexiM2 <- t(t(BxyexiM1) * Minf0(Mna0((Bxfi / colSums(BxyexiM1)))))
-    BxyexiF1 <- t(t(Bxyexi) * Minf0(Mna0((Bxfi / colSums(Bxyexi)))))
-    BxyexiF2 <- BxyexiF1 * Minf0(Mna0(Bxmi / rowSums(BxyexiF1)))
-    Bxyexi <- (BxyexiM2 + BxyexiF2) / 2
-}
-
-Bxyexipdf <- Bxyexi / sum(Bxyexi)
-
-Bxyex2 <- ExpectedDxMxFmatrix( BxymfUS[["1970"]][["Bxym"]], dxmUS[,"1970"], dxfUS[,"1970"]) + 
-        ExpectedDxMxFmatrix( BxymfUS[["1970"]][["Bxyf"]], dxmUS[,"1970"], dxfUS[,"1970"])
-
-Bxyex2pdf <- Bxyex2 / sum(Bxyex2)
-
-sum(pmin(Bxyexipdf, Bxyex2pdf))
-
-Bxyexpdf <- Bxyex / sum(Bxyex)
-sum(pmin(Bxyexpdf, Bxyex2pdf))
-
-image(Bxyexipdf - Bxyex2pdf)
-
-Bxm2 <- rowSums(ExpectedDx(rowSums(BxymfUS[["1970"]][["Bxym"]]), dxmUS[,"1970"]) + 
-                  ExpectedDx(rowSums(BxymfUS[["1970"]][["Bxyf"]]), dxmUS[,"1970"]))
-Bxf2 <- rowSums(ExpectedDx(colSums(BxymfUS[["1970"]][["Bxym"]]), dxfUS[,"1970"]) + 
-                  ExpectedDx(colSums(BxymfUS[["1970"]][["Bxyf"]]), dxfUS[,"1970"]))
-  
-Bxyex1970 <- outer(Bxm2,Bxf2,"*") / sum(Bxm2)
-Bxyexex <- outer(Bxmi,Bxfi,"*") / ((sum(Bxmi)+sum(Bxfi)) / 2)
-Bxyex
-BxyexEX <- outer(rowSums(Bxyex),colSums(Bxyex),"*") / sum(Bxyex)
-
-# relates observed vs expected original (static)
-Ratio <- Minf0(Mna0(Bxyex / BxyexEX))
-# scale IPF output by ratio to adjust shape, then scale to proper total
-Pred <- (Ratio * Bxyexex) * (sum(Bxyexex) / sum(Ratio * Bxyexex))
-
-# compare pdfs
-sum(pmin(Pred / sum(Pred),Bxyex2pdf)) # pdf predicted from 1969 vs 1970 pdf
-sum(pmin(Bxyexpdf, Bxyex2pdf)) # 1969 vs 1970 fit
-
-yr <- 1969
-UScompare <- do.call(rbind,lapply(1969:2008, function(yr, .Ex, .dxm, .dxf, .Bxy){
+# complement to make difference coef
+UScompare <- 1-do.call(rbind,lapply(1969:2008, function(yr, .Ex, .dxm, .dxf, .Bxy){
         yrc1 <- as.character(yr)
         yrc2 <- as.character(yr+1)
         Bxymex1 <- ExpectedDxMxFmatrix(.Bxy[[yrc1]][["Bxym"]], .dxm[, yrc1], .dxf[, yrc1])
         Bxyfex1 <- ExpectedDxMxFmatrix(.Bxy[[yrc1]][["Bxyf"]], .dxm[, yrc1], .dxf[, yrc1])
+        BxyTex1 <- Bxymex1 + Bxyfex1
         Bxymex2 <- ExpectedDxMxFmatrix(.Bxy[[yrc2]][["Bxym"]], .dxm[, yrc2], .dxf[, yrc2])
         Bxyfex2 <- ExpectedDxMxFmatrix(.Bxy[[yrc2]][["Bxyf"]], .dxm[, yrc2], .dxf[, yrc2])
         BxyTex2 <- Bxymex2 + Bxyfex2
@@ -111,12 +47,12 @@ UScompare <- do.call(rbind,lapply(1969:2008, function(yr, .Ex, .dxm, .dxf, .Bxy)
         
         Bxymexi <- Bxymex1
         Bxyfexi <- Bxyfex1
-        BxyTexi <- Bxymex1 + Bxyfex1
+        BxyTexi <- BxyTex1
         
         # get Ratios of observed to expected:
         RatioM <-  Minf0(Mna0(Bxymex1 / (outer(rowSums(Bxymex1), colSums(Bxymex1)) / sum(Bxymex1))))
         RatioF <-  Minf0(Mna0(Bxyfex1 / (outer(rowSums(Bxyfex1), colSums(Bxyfex1)) / sum(Bxyfex1))))
-        RatioT <-  Minf0(Mna0(BxyTexi / (outer(rowSums(BxyTexi), colSums(BxyTexi)) / sum(BxyTexi))))
+        RatioT <-  Minf0(Mna0(BxyTex1 / (outer(rowSums(BxyTex1), colSums(BxyTex1)) / sum(BxyTex1))))
         
         # marginal predictions t+1
         BxmMi <- (rowSums(Bxymex1) / Exm1) * Exm2
@@ -131,15 +67,11 @@ UScompare <- do.call(rbind,lapply(1969:2008, function(yr, .Ex, .dxm, .dxf, .Bxy)
         ExpectedFp <- outer(BxfMi,BxfFi,"*") / ((sum(BxfMi)+sum(BxfFi)) / 2)
         ExpectedTp <- outer(BxTMi,BxTFi,"*") / ((sum(BxTMi)+sum(BxTFi)) / 2)
         
-        # adjusted with Ratio:
+        # adjusted with Ratio (scaled back to orig)
         PredM <- (RatioM * ExpectedMp) * (sum(ExpectedMp) / sum(RatioM * ExpectedMp))
         PredF <- (RatioF * ExpectedFp) * (sum(ExpectedFp) / sum(RatioF * ExpectedFp))
         PredT <- (RatioT * ExpectedTp) * (sum(ExpectedTp) / sum(RatioT * ExpectedTp))
-        # pdfs from these can be compared with year t+1
-        OverlapNoIt <- c(
-        Mal = sum(pmin(PredM / sum(PredM), Bxymex2 / sum(Bxymex2))),
-        Fem = sum(pmin(PredF / sum(PredF), Bxyfex2 / sum(Bxyfex2))),
-        Tot = sum(pmin(PredT / sum(PredT), BxyTex2 / sum(BxyTex2))))
+        
         # IPF symm 3 ways:
         for (i in 1:10){
             # male births
@@ -177,15 +109,127 @@ UScompare <- do.call(rbind,lapply(1969:2008, function(yr, .Ex, .dxm, .dxf, .Bxy)
         BxyfexPDF <- Bxyfexi / sum(Bxyfexi)
         BxyTexPDF <- BxyTexi / sum(BxyTexi)
         
-        OverlapIt <- c(Mal = sum(pmin(BxymexPDF, Bxymex2 / sum(Bxymex2))),
-                Fem = sum(pmin(BxyfexPDF, Bxyfex2 / sum(Bxyfex2))),
-                Tot = sum(pmin(BxyTexPDF, BxyTex2 / sum(BxyTex2))))
-        c(OverlapIt, OverlapNoIt)
+        # year t+1 to test against:
+        mt1PDF <- Bxymex2 / sum(Bxymex2)
+        ft1PDF <- Bxyfex2 / sum(Bxyfex2)
+        Tt1PDF <- BxyTex2 / sum(BxyTex2)
+        
+        OverlapIt <- c(ipfMal = sum(pmin(BxymexPDF, mt1PDF)),
+                ipfFem = sum(pmin(BxyfexPDF, ft1PDF)),
+                ipfTot = sum(pmin(BxyTexPDF, Tt1PDF)))
+        t0vst1 <- c(pdfMal = sum(pmin(Bxymex1/sum(Bxymex1),mt1PDF)),
+                pdfFem = sum(pmin(Bxyfex1/sum(Bxyfex1),ft1PDF)),
+                pdfTot = sum(pmin(BxyTex1/sum(BxyTex1),Tt1PDF)))
+        # my system
+        # pdfs from these can be compared with year t+1
+        OverlapNoIt <- c(
+                expratMal = sum(pmin(PredM / sum(PredM), mt1PDF)),
+                expratFem = sum(pmin(PredF / sum(PredF), ft1PDF)),
+                expratTot = sum(pmin(PredT / sum(PredT), Tt1PDF)))
+        c(t0vst1, OverlapIt, OverlapNoIt)
         }, .Ex = ExUS, .dxm = dxmUS, .dxf = dxfUS, .Bxy = BxymfUS))
-
+     
+ 
 years <- 1969:2008
-plot(years,UScompare[,1] / UScompare[,4], type = 'l', col = "blue")
-lines(years,UScompare[,2] / UScompare[,5], type = 'l', col = "red")
-abline(h=1)
+plot(years,UScompare[,"pdfTot"], type = 'l', col = "blue", ylim = c(0,.02))
+lines(years,UScompare[,"ipfTot"], col = "blue", lty = 5)
+lines(years,UScompare[,"expratTot"], col = "blue", lty = 3)
+
+plot(years,UScompare[,"expratTot"] / UScompare[,"pdfTot"], type = 'l', col = "blue")
+lines(years,UScompare[,"expratTot"] / UScompare[,"ipfTot"])
+
+plot(years, UScompare[,"expratTot"] / UScompare[,"ipfTot"], type = 'l')
+lines(years,UScompare[,"pdfTot"] / UScompare[,"ipfTot"])
+
+plot(years, UScompare[,"expratTot"] , type= 'l')
+lines(years,  UScompare[,"pdfTot"], col = "red")
+
+sum(UScompare[,"expratTot"] > UScompare[,"pdfTot"])
+sum(UScompare[,"ipfTot"] > UScompare[,"pdfTot"])
 
 
+var(UScompare[,"expratTot"]) / var(UScompare[,"pdfTot"])
+var(UScompare[,"ipfTot"]) / var(UScompare[,"pdfTot"])
+var(UScompare[,"expratTot"]) / var(UScompare[,"ipfTot"])
+
+# conclusions:
+# 1) my method is easier, no iterations
+# 2) my method produces slightly lower variance than ipf in predicted distribution
+# 3) my method did better than simple pdf predictions in more years than ipf did = it predicts better
+# 4) ipf allows for competition but my method doesn't (directly)
+
+# 5) my method 'might' allow for competition if translated back to age..
+
+
+McFarlandMarPredict <- function(M,uf,um,nf,nm,tol=1e-6) {
+    # stick marriage mat together with those remaining unmarried
+    Mmc <- rbind(cbind(M,um),c(uf,sum(uf,um)))
+    # rescale rows then columns until margins add up to new margins
+    for(i in 1:25){
+        Mmc[-nrow(Mmc),] <- Mmc[-nrow(Mmc),]*(nm/(rowSums(Mmc)[-nrow(Mmc)]))
+        Mmc[,-ncol(Mmc)] <- t(t(Mmc)[-ncol(Mmc),]*(nf/(colSums(Mmc)[-ncol(Mmc)])))
+        if (sum(abs(rowSums(Mmc[-nrow(Mmc),])-nm)+abs(colSums(Mmc[,-ncol(Mmc)])-nf)) < tol) {break}
+    }
+    # as with M, male age rows, female age cols
+    Mmc <- Mmc[-nrow(Mmc),-ncol(Mmc)]
+    # male age in rows, female age in cols:
+    maleRates <- Mmc/nm
+    # female age in rows, male age in cols: (switched, so that all output same)
+    femaleRates <- t(Mmc)/nf
+    return(list(Marriages=Mmc,maleRates=maleRates,femaleRates=femaleRates))
+}
+# (same example data as for Henry (SE 1957 *5), from McFarland, 1972
+# matrix of marriage counts with female ages in columns and male ages in rows
+MAR <- matrix(c(4145,24435,8140,1865,1655,54515,45010,15030,80,6735,20870,19530,5,920,5435,42470),ncol=4)
+rownames(MAR) <- colnames(MAR)  <- c("15-19","20-24","25-29","30-60")
+# unmarried males and females at start of the year
+unMARf  <- c(254876,147705,61804,415497)
+unMARm  <- c(265755,199437,114251,429655)
+# need knowledge of count of intially unmarried people whose marriage are to be predicted- 
+# for example just jitter data a bit
+set.seed(1)
+initUNMARf2 <- colSums(MAR)+unMARf+runif(4,min=-40000,max=80000)
+initUNMARm2 <- rowSums(MAR)+unMARm+runif(4,min=-20000,max=90000)
+
+McFarlandMarPredict(MAR,unMARf,unMARm,initUNMARf2,initUNMARm2)
+
+# try with births:
+
+BxyPred <- McFarlandMarPredict(BxUS[["1969"]],
+        with(ExUS, Female[Year == 1969]),
+        with(ExUS, Male[Year == 1969]),
+        with(ExUS, Female[Year == 1970]),
+        with(ExUS, Male[Year == 1970]))
+
+image(log(BxyPred[[1]]))
+
+sum(BxyPred[[1]])
+sum(BxUS[["1970"]])
+
+sum(rowSums(BxUS[["1969"]] / with(ExUS, Male[Year == 1969])) * with(ExUS, Male[Year == 1970]))
+sum((colSums(BxUS[["1969"]]) / with(ExUS, Female[Year == 1969])) * with(ExUS, Female[Year == 1970]))
+
+
+# TODO: modify Garenne iterative procedure to accept Stolarsky mean.
+# find which stolarsky parameter give harmonic mean. Make a function to do that.
+
+GarenneGeneral <- compiler::cmpfun(function(Bxy1, Exm1, Exf1, Exm2, Exf2, p = -1){
+    Mmarg <- (rowSums(Bxy1) / Exm1) * Exm2
+    Fmarg <- (colSums(Bxy1) / Exf1) * Exf2
+    Bxyi <- Bxy1
+    for (i in 1:10){
+        
+        BxyiM1 <- Bxyi * Minf0(Mna0(Mmarg / rowSums(Bxyi)))
+        BxyiM2 <- t(t(BxyiM1) * Minf0(Mna0((Fmarg / colSums(BxyiM1)))))
+    # female offer
+        BxyiF1 <- t(t(Bxyi) * Minf0(Mna0((Fmarg / colSums(Bxyi)))))
+        BxyiF2 <- BxyiF1 * Minf0(Mna0(Mmarg / rowSums(BxyiF1)))
+    # avg male births iteration
+   
+        Bxyi <- stolarsky.mean.v(BxyiM2, BxyiF2, p)
+    } 
+    Bxyi
+})
+
+BxyPred <- GarenneGeneral(BxUS[["1969"]], with(ExUS, Male[Year == 1969]),with(ExUS, Female[Year == 1969]),
+        with(ExUS, Male[Year == 1970]),with(ExUS, Female[Year == 1970]))

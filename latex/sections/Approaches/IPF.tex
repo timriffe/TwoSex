@@ -1,1 +1,41 @@
 \subsection{Iterative Proportion Fitting}
+
+\textit{mc1975models} noted that a simple way to incorporate inter-age
+competion (or at least inter-age sensitivity) in marriage count- balancing is
+to iteratively rescale a known cross-tabulation of counts (say, from the
+previous year) by the separately predicted male and female margins. That is to
+say, if males are in matrix rows, one scales each row to sum to the predicted
+male margin, then one scales each column to sum to the predicted female margin
+(or vice versa, females then males). In rescaling rows to sum to the predicted male margin, 
+followed by columns to sum to the predicted female margin, after just a few iterations the process
+converges to a particular distribution. Cell counts thus shift between both male
+and female ages from the original count matrix to the iteratively predicted
+matrix, but stay close to the original distribution. The method satisfies the
+thus-far most difficult axiom to incorportate, that of inter-age competition. 
+
+However, the sums of the respective male and female predicted margins will of
+course not agree-- After converging to a distribution, the total predicted count
+will \textit{flip-flop} between the total male and female predictions, 
+which will have differed. Further, \citet{Matthews2013} note that the
+final distribution will depend upon whether one starts by scaling the male or
+female margin. Both of these problems may be overcome, these authors suggest, 
+by starting in parallel within each iteration with the male and female matrix
+margins, followed by the other sex, producing two possible two-step scalings.
+The starting matrix for the next iteration is taken as the average of these two
+outcomes. Since the end result of each iteration is an average, the sum will be
+intermediate to the divergent male and female marginal predictions, and the
+biverate distribution will be indifferent to whether one started the iterative
+process with males or females. The method could of course be further generalized
+to take any mean of these two matrices, and not just an arithmetic mean. Results
+will vary.
+
+Neither of the above-mentioned studies used their respective iterative
+adjustment procedures to predict birth counts, although the \citet{Matthews2013}
+method is just a smaller part of a more complex model that includes fertility.
+In this dissertation we will treat the \citet{Matthews2013} method only,
+modifying it very slightly, so as to be based on a generalized mean (which
+allows for a harmonic mean, for instance) as the basic for the male-female
+intra-iteration averaging.
+
+
+
