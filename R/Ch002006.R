@@ -30,15 +30,24 @@ dxfES <- dxfES %col% colSums(dxfES)
 
 #---------------------------------------------
 Bxy <- BxUS[["1969"]]
-Exm <- with(ExUS, Male[Year == 1969])
-Exf <- with(ExUS, Female[Year == 1969])
+Exm1 <- with(ExUS, Male[Year == 1969])
+Exf1 <- with(ExUS, Female[Year == 1969])
+Exm2 <- with(ExUS, Male[Year == 1970])
+Exf2 <- with(ExUS, Female[Year == 1970])
 # eq 9
-Pij <- log(Bxy / sqrt(outer(Exm - rowSums(Bxy),Exf - colSums(Bxy),"*")))
-
-image(Pij)
 # estimator? from eq 15
-estimator <- log(Bxy * sqrt(outer(Exm - rowSums(Bxy),Exf - colSums(Bxy),"*")))
+m0 <- Exm1 - rowSums(Bxy)
+f0 <- Exf1 - colSums(Bxy)
+Pij <- log(Bxy / sqrt(outer(m0, f0, "*")))
 
+
+
+function(Bxy, Exm1, Exf1, Exm2, Exf2){
+    m0  <- Exm1 - rowSums(Bxy)
+    f0  <- Exf1 - colSums(Bxy)
+   
+    ((pijt - pi0 - p0j) / 2) - log(Bxy / sqrt(outer(m0, f0, "*")))    
+}
 
 
 
