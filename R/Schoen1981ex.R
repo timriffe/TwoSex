@@ -145,3 +145,5 @@ rownames(rES) <- yearsES
 
 plot(yearsUS, rUS[,1], type = 'l',ylim = c(-.015,.01))
 lines(yearsES, rES[,1], col = "red")
+
+
