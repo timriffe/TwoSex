@@ -1,0 +1,29 @@
+
+The present method works as follows: Take constant base male and female
+$e_y$-specific fertility rates. Given these rates and a male and female
+$e_y$-structured population, we can generate the male and female predictions of
+birth counts. We know from Section~\ref{sec:exdivergence} that the male and
+female total counts will tend to differ by less than if we were to repeat the
+same for age-structured populations. However, the two total counts will still
+differ, and so cannot be taken directly as the marginal birth count distributions from
+which to calculate the association-free bivariate distribution (the denominator
+in Equation~\eqref{eq:expected}). To generate the expected count matrix, we
+therefore calculate the cross-product of the male and female predictions and
+divide by a mean of the male and female total predictions as follows:
+
+\begin{equation}
+\mathbb{E}(B_{y,y'}) = \frac{\widehat{B_y} \widehat{B_{y'}}}{M(\int \widehat{B_y} \dd y,
+\int \widehat{B_{y'}} \dd y')}
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
