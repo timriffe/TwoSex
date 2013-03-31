@@ -206,9 +206,9 @@ stolarsky.mean(4,8,SHM) - HM(4,8)
 stolarsky.mean(4,8,SHM)- HM(4,8)
 
 0 =  (x - y) * ((2 * x * y) / (x + y)) - ((x^p - y^p)/p) ^ (1/(p-1))
-
+Solve[((x^p - y^p) / (p*(x - y)))^(1 / (p - 1)) == (2 * x * y) / (x + y),p,Reals]
 # would like to solve for p, as function of x and y
-(2 * x * y) / (x + y) = ((x^p - y^p) / (p*(x - y)))^(1 / (p - 1))
+(2 * x * y) / (x + y) - ((x^p - y^p) / (p*(x - y)))^(1 / (p - 1)) = 0
 
 
 
