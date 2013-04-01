@@ -52,22 +52,24 @@ $\varsigma^0$ using:
   \begin{equation}
   r^{1} = r^0 + \frac{\delta^0}{\widehat{T^\upsilon} - \frac{\delta^0}{r^0}}
   \end{equation}
-  Use the improved $r$ to reestimate the sex ratio at birth, using
+  \item  Use the improved $r$ to reestimate the sex ratio at birth, using
   sex-specific fertility rates, $F_y^M$ (father-son), $F_y^F$
   (father-daughter), $F_{y'}^F$ (mother-daughter) and $F_{y'}^M$ (mother-son)
   fertility rates:
   \begin{equation}
   S^1 = \frac{ \int _{y'=0}^\infty \int _{a'=y'}^\infty e^{-ra'}
-                      d_{a'}^F f_{y'}^{F-M} \dd a' \dd y' + \int _{y=0}^\infty \int _{a=y}^\infty e^{-ra}
-                      d_{a}^F f_{y}^{M-M} \dd a \dd y}{\int _{y'=0}^\infty \int _{a'=y'}^\infty e^{-ra'}
-                      d_{a'}^F f_{y'}^{F-F} \dd a' \dd y' + \int _{y=0}^\infty
-                      \int _{a=y}^\infty e^{-ra} d_{a}^F f_{y}^{M-F} \dd a \dd
-                      y}
+                      (1-\varsigma^0)d_{a'}^F f_{y'}^{F-M} \dd a' \dd y' + \int
+                      _{y=0}^\infty \int _{a=y}^\infty e^{-ra}
+                      \varsigma^0 d_{a}^F f_{y}^{M-M} \dd a \dd y}{\int
+                      _{y'=0}^\infty \int _{a'=y'}^\infty e^{-ra'}
+                      (1-\varsigma^0)d_{a'}^F f_{y'}^{F-F} \dd a' \dd y' + \int
+                      _{y=0}^\infty \int _{a=y}^\infty e^{-ra} \varsigma^0
+                      d_{a}^F f_{y}^{M-F} \dd a \dd y}
   \end{equation}
   and then update $\varsigma^1$ using Equation~\eqref{eq:getvarsigmal}.
-  \item Repeat step (3) to to derive a new $\delta^i$, then step (4) to refine
-  $r^i$, until converging on a stable $r$ after some 30 iterations,
-  depending on the degree of precision desired ($\widehat{T^\upsilon}$ is not updated
-  in this process).
+  \item Repeat step (5) to to derive a new $\delta^i$, then step (6) to refine
+  $r^i$, adjusting $S^i$ with (7), and again steps 5-7 until converging on a
+  stable $r$ after some 30 iterations, depending on the degree of precision desired 
+  ($\widehat{T^\upsilon}$ is not updated in this process).
 \end{enumerate}
 \todo{recheck after present changes.}
