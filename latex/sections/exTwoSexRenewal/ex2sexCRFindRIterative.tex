@@ -1,0 +1,76 @@
+
+ \FloatBarrier
+\label{sec:ex2sexCRit}
+Steps to practically solve Equation~\eqref{eq:ex2sexCRunity} for $r$ are
+similar to those presented for the two-sex linear case in
+Section~\ref{sec:exrenewalit2}. Namely, $r$ and the sex ratio at birth, $S$, are
+estimated together in an iterative process, using parameter guesses as starting
+values and then updating in each iteration. First derive as inputs the matrix
+$R_{y,y'}$ using \eqref{eq:getvarsigma}, $e_y$-specific fertility vectors by
+sex of progenitor and offspring, and the relevant $d_x$ vectors:
+\begin{enumerate}
+  \item Derive a first rough estimate of the both-sex mean remaining years of
+  life at reproduction, $\widehat{T}$, akin to Lotka's mean generation time,
+  $T$. One could either weight remaining years, $y$ or $y'$ into
+  Equation~\ref{eq:ex2sexCRunity}, smilar to Equation~\ref{eq:Tguess}, or just
+  make a rough first guess, such as 60. This parameter is not updated in the
+  iterative process.
+
+\item Decide a starting value for $\hat{S}^0$. 1.05 is a good enough guess,
+although for Spain 1.07 might be more reasonable. Use $\hat{S}^0$ to calculate
+$\varsigma^0$ using:
+\begin{equation}
+\label{eq:getvarsigma}
+\varsigma^0 = \frac{\hat{S}^0}{1+\hat{S}^0}
+\end{equation}
+
+  \item A rough estimate of the net reproduction rate, $\widehat{R_0}$ (assuming
+  $r=0$) is given by:
+
+ \begin{equation}
+ \begin{split}
+ \widehat{R_0} = \int_{y=0}^\infty \int_{y'=0}^\infty
+A\left(R_{y,y'},\mathbb{M}\left(\;\int_{a=y}^\infty F_y \varsigma^0 d_a \dd a,
+\int _{a'=y'}^\infty F_{y'} (1-\varsigma^0) d_{a'} \dd a'\right)\right)
+ \end{split}
+ \end{equation}
+  \item A first rough estimate of $r$, $r^0$, is given by:
+   \begin{equation}
+   r^0 = \frac{ln(\widehat{R_0})}{\widehat{T}}
+   \end{equation}
+  \item Plug $r^0$ into Equation~\ref{eq:ex2sexCRunity} to calculate a
+  residual, $\delta^0$
+  \item Use $\delta^0$ and $\widehat{T}$ to calibrate the estimate of $r$
+  using:
+  \begin{equation}
+  r^{1} = r^0 + \frac{\delta^0}{\widehat{T} - \frac{\delta^0}{r^0}}
+  \end{equation}
+  \item Use the improved $r$ to reestimate the sex ratio at birth, using
+  sex-specific fertility rates, $F_y^M$ (father-son), $F_y^F$
+  (father-daughter), $F_{y'}^F$ (mother-daughter) and $F_{y'}^M$ (mother-son)
+  fertility rates:
+  \begin{equation}
+  S^1 = \frac{\int_{y=0}^\infty \int_{y'=0}^\infty
+A\left(R_{y,y'},\mathbb{M}\left(\;\int_{a=y}^\infty F_y^M \varsigma d_ae^{-ra}
+\dd a, \int _{a'=y'}^\infty F_{y'}^M (1-\varsigma) d_{a'}e^{-ra'} \dd
+a'\right)\right)}{\int_{y=0}^\infty \int_{y'=0}^\infty A\left(R_{y,y'},
+\mathbb{M}\left(\;\int_{a=y}^\infty F_y^F \varsigma d_a e^{-ra} \dd a, \int
+_{a'=y'}^\infty F_{y'}^F (1-\varsigma) d_{a'}e^{-ra'} \dd a'\right)\right)}
+  \end{equation}
+  and then update $\varsigma^1$ using Equation~\eqref{eq:getvarsigma}.
+  \item With the updated $r$ and $\varsigma$, repeat steps 5-7 until $\delta$
+  reduces to 0. Typically one acheives maximum double floating point precision
+  after around 20 iterations, though fewer iterations are required for
+  most practical applications.
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+

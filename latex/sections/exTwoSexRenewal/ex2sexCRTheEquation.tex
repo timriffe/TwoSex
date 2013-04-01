@@ -28,6 +28,7 @@ Next, we estimate a consant ratio, $R_{y,y'}$, between the
 observed and expected counts, which we take simply as:
 
 \begin{equation}
+\label{eq:getR}
 R_{y,y'} = \frac{B_{y,y'}}{\mathbb{E}(B_{y,y'})}
 \end{equation}
 from the year of departure.
@@ -59,19 +60,19 @@ the production of each sex between the two sexes, weighted according to the sex
 ratio at birth. The sex ratio at birth will not necessarily be the same in the
 initial and stable populations, but does not vary by much. Assuming we know the
 stable sex ratio at birth, $S$, we can estimate the growth rate, $r$, using:
- (sum( RatioAdj(RatioM, 
-                                       Expect(rowSums(FexMM) * rowSums(dxM * exp(-r1 * .a)) * pmi,
-                                               colSums(FexFM) * rowSums(dxF * exp(-r1 * .a)) * pfi, p))) +
-                             sum(RatioAdj(RatioF, 
-                                       Expect(rowSums(FexMF) * rowSums(dxM * exp(-r1 * .a)) * pmi,
-                                               colSums(FexFF) * rowSums(dxF * exp(-r1 * .a)) * pfi, p))))
-\begin{equation}
-1 = A\left(R_{y,y'},\mathbb{M}\left(\;\int_{a=y}^\infty F_y^M
-\varsigma d_a e^{-ra} \dd a, \int _{a'=y'}^\infty F_{y'}^M
-(1-\varsigma) d_{a'} e^{-ra'} \dd a'\right)\right)
-\end{equation} 
 
-\todo{other 1/2 of eqn}
+\begin{equation}
+\label{eq:ex2sexCRunity}
+1 = \int_{y=0}^\infty \int_{y'=0}^\infty
+A\left(R_{y,y'},\mathbb{M}\left(\;\int_{a=y}^\infty F_y \varsigma d_a
+e^{-ra} \dd a, \int _{a'=y'}^\infty F_{y'} (1-\varsigma) d_{a'} e^{-ra'} \dd
+a'\right)\right)
+\end{equation} 
+where $y$ ($a$) index male remaining years (age), and $y'$ ($a'$) index female
+remaining years (age). Fertility rates, $F_y$ and $F_{y'}$ include both sexes of
+offspring, and $\varsigma$ is derived from $S$ and is used to weight sex of
+progenitor, not sex of offspring. As will be seen below, in order to fully estimate $r$, it is best
+to estimate $r$ and $S$ together.
 
 
 
