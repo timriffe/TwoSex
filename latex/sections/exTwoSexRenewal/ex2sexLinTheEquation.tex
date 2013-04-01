@@ -6,26 +6,27 @@ there is perfect male dominance, and when $\sigma = 0$ there is perfect female
 dominance. Of course, births to girls are subject to female mortality and births
 to boys are subject to male mortality. As with
 Equation~\eqref{eq:exLotkafemales}, this mortality enters in the equation by way
-of the $d_x$ distribution used to distribute births over life expectancies. The
-final renewal formula is defined as follows:
+of the $d_x$ distribution used to distribute births over life expectancies. Use
+the following formula to estimate the two-sex intrinsic growth rate, $r$:
 
 \begin{equation}
 \label{eq:lineartwosexrenewal}
 \begin{split}
-1 = \frac{1 - \sigma}{2} 
+1 = (1 - \sigma) 
             \int _{y'=0}^\infty \int _{a'=y'}^\infty e^{-ra'}
-                      d_{a'}^F \left(f_{y'}^{F-F} + f_{y'}^{F-M}\right) \dd a'
-                      \dd y' \\ + \;\frac{\sigma}{2}
+                      (1 - \varsigma) d_{a'}^F \left(f_{y'}^{F-F} +
+                      f_{y'}^{F-M}\right) \dd a' \dd y' \\ + \;\sigma
             \int _{y=0}^\infty \int _{a=y}^\infty e^{-ra}
-                      d_{a}^M  \left(f_{y}^{M-M} + f_{y}^{M-F}\right)\dd a \dd y
+                     \varsigma d_{a}^M  \left(f_{y}^{M-M} +
+                     f_{y}^{M-F}\right)\dd a \dd y
 \end{split}
 \end{equation}
 , where $a'$, $y'$, $a$ and $y$ index female age, female remaining years, male
-age and male remaining years, respectively. Fertility superscripts identify sex of
-progentitor followed by sex of offspring, and $d_x$ must accord with the sex of
-offspring. Such specific rates are chosen because data that would permit
-empirical studies of the two-sex problem are typically sufficiently rich to allow 
-for cross-tabulations by age of both parents as well as sex of birth. 
+age and male remaining years, respectively. $\varsigma$ is the
+proportion male at birth for the stable population, which may either be assumed
+or estimated simultaneously wth $r$-- the iterative estimation strategy
+outlined here outlines how to estimate these two parameters simultaneously.
+Fertility superscripts identify sex of progentitor followed by sex of offspring, and $d_x$ must accord with the sex of offspring. Such specific rates are chosen because data that would permit empirical studies of the two-sex problem are typically sufficiently rich to allow for cross-tabulations by age of both parents as well as sex of birth. 
 Therefore, Equation~\eqref{eq:lineartwosexrenewal} assumes that rates are
 available by sex of progenitor, birth (4 combinations) and age (to be transformed to remaining years), 
 and no additional variable is required for the sex ratio at birth. Indeed,
