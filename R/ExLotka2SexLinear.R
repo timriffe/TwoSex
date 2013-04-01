@@ -70,7 +70,6 @@ FxFM    <- BxFM / ExF
 
 exTwoSexLinearCoaleR <- compiler::cmpfun(function(dxm, dxf, FexFF, FexFM, FexMM, FexMF, 
                 .a = .5:110.5, sigma = .5, maxit = 2e2, tol = 1e-15){  
-            
             N               <- length(FexFF)
             dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
             # remaining years go down rows. ages over columns
@@ -84,14 +83,21 @@ exTwoSexLinearCoaleR <- compiler::cmpfun(function(dxm, dxf, FexFF, FexFM, FexMM,
                 dxfi                     <- dxfi[2:length(dxfi) ]
             }  
             
-            R0      <-   (sigma * sum(dxM*(FexMF+FexMM)) + 
-                        (1 - sigma) * sum(dxF*(FexFF+FexFM))) / 2
-            
+                      
+             # assuming r = 0
+            # first guess at SRB
+            SRBi <- sum(rowSums(dxM) * FexMM + rowSums(dxF) * FexFM) / 
+                    sum(rowSums(dxM) * FexMF + rowSums(dxF) * FexFF)
+            # derive proportions male and female
+            p.m <- SRBi / (1 + SRBi)
+            p.f <- 1 / (1 + SRBi)
+            # guess at R0
+            R0      <-   (sigma * sum(p.m * dxM * (FexMF + FexMM)) + 
+                        (1 - sigma) * sum(p.f * dxF * (FexFF + FexFM))) 
             T.guess <- wmean(.a,
-                    sigma * rowSums(dxM) * (FexMM + FexMF) +
-                            (1 - sigma) * rowSums(dxF) * (FexFF + FexFM)
-            ) # assuming r = 0
-            
+                    sigma * p.m * rowSums(dxM) * (FexMM + FexMF) +
+                            (1 - sigma) * p.f * rowSums(dxF) * (FexFF + FexFM)
+            )
             r2      <- log(R0) / T.guess
             
             # be careful to discount Fex by SRB appropriately for males / females
@@ -100,13 +106,20 @@ exTwoSexLinearCoaleR <- compiler::cmpfun(function(dxm, dxf, FexFF, FexFM, FexMM,
             for (i in 1:maxit){ # 15 is more than enough!
                 #cat(r2,i,"\n")
                 r1 <- r2
-                deltai <- 2 - sum(
-                        sigma * rowSums(dxM %col% (1 / exp(-r1 * .a))) * (FexMM + FexMF) + # male - female   
-                                (1-sigma) * rowSums(dxF %col% (1 / exp(-r1 * .a))) * (FexFF + FexFM)  # female - female
+                deltai <- 1 - sum(
+                        sigma * rowSums(p.m * dxM %col% (1 / exp(-r1 * .a))) * (FexMM + FexMF) + # male - female   
+                                (1-sigma) * rowSums(p.f * dxF %col% (1 / exp(-r1 * .a))) * (FexFF + FexFM)  # female - female
                 )
                 # the mean generation time self-corrects 
                 # according to the error produced by the Lotka equation
                 r2 <- r1 - (deltai / (T.guess - (deltai / r1))) 
+                # update SRB
+                SRBi <- sum(rowSums(p.m * dxM %col% (1 / exp(-r2 * .a))) * FexMM + 
+                                 rowSums(p.f * dxF %col% (1 / exp(-r2 * .a))) * FexFM) / 
+                        sum(rowSums(p.m * dxM %col% (1 / exp(-r2 * .a))) * FexMF + 
+                                 rowSums(p.f * dxF %col% (1 / exp(-r2 * .a))) * FexFF)
+                p.m <- SRBi / (1 + SRBi)
+                p.f <- 1 / (1 + SRBi)
                 if (abs(r2 - r1) <= tol | zapsmall(abs(deltai)) <= tol){
                     break
                 }
@@ -115,9 +128,10 @@ exTwoSexLinearCoaleR <- compiler::cmpfun(function(dxm, dxf, FexFF, FexFM, FexMM,
             if (i == maxit){
                 cat("WARNING: max iterations reached, r may not be solution")
             }
-            return(r2)  
-        })
-exTwoSexLinearTy <- compiler::cmpfun(function(r, dxm, dxf, FexFF, FexFM, FexMM, FexMF, .a = .5:110.5, sigma = .5){
+            return(c(r=r2, SRB=SRBi))  
+
+            })
+exTwoSexLinearTy <- compiler::cmpfun(function(r, SRB, dxm, dxf, FexFF, FexFM, FexMM, FexMF, .a = .5:110.5, sigma = .5){
             N               <- length(FexFF)
             dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
             # remaining years go down rows. ages over columns
@@ -130,43 +144,17 @@ exTwoSexLinearTy <- compiler::cmpfun(function(r, dxm, dxf, FexFF, FexFM, FexMM, 
                 dxF[i, 1:length(dxfi)  ] <- dxfi 
                 dxfi                     <- dxfi[2:length(dxfi) ]
             }     
-            
+            p.m <- SRB / (1+SRB)
+            p.f <- 1 / (1+SRB)
             wmean(.a,
-                    sigma * rowSums(dxM %col% (1 / exp(-r * .a))) * (FexMM + FexMF) +
-                            (1 - sigma) * rowSums(dxF %col% (1 / exp(-r * .a))) * (FexFF + FexFM)
+                    sigma * rowSums(p.m * dxM %col% (1 / exp(-r * .a))) * (FexMM + FexMF) +
+                            (1 - sigma) * rowSums(p.f*dxF %col% (1 / exp(-r * .a))) * (FexFF + FexFM)
             )
         })
 
 
 
 
-
-sum(rmUS[,1] < US[,3])
-yearsUS[26]
-
-rfUS[,1] > US[,1]
-rfES[,1] > ES[,1]
-plot(yearsES, rfES[,1] , type = 'l', col = "blue")
-lines(yearsES, ES[,1], col = "red")
-
-rmUS[,1] < US[,1]
-
-
-
-r <- US[1,2]
-
-N               <- length(FexFF)
-dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
-# remaining years go down rows. ages over columns
-dxmi            <- dxm
-dxfi            <- dxf
-for (i in 1:N){
-    dxM[i, 1:length(dxmi)  ] <- dxmi 
-    dxmi                     <- dxmi[2:length(dxmi) ]
-    
-    dxF[i, 1:length(dxfi)  ] <- dxfi 
-    dxfi                     <- dxfi[2:length(dxfi) ]
-}     
 
 
 US <-do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxymf, .dxm, .dxf, .Ex){
@@ -195,19 +183,19 @@ US <-do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxymf, .dxm, .dxf
                             r.1 <- exTwoSexLinearCoaleR(dxm = .dxm., dxf = .dxf., 
                                     FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
                                     sigma = 1) 
-                            Ty.0 <- exTwoSexLinearTy(r.0, dxm = .dxm., dxf = .dxf., 
+                            Ty.0 <- exTwoSexLinearTy(r=r.0[1], SRB = r.0[2], dxm = .dxm., dxf = .dxf., 
                                     FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
                                     sigma = 0)
-                            Ty.5 <- exTwoSexLinearTy(r.5, dxm = .dxm., dxf = .dxf., 
+                            Ty.5 <- exTwoSexLinearTy(r=r.5[1], SRB = r.5[2], dxm = .dxm., dxf = .dxf., 
                                     FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
                                     sigma = .5)
-                            Ty.1 <- exTwoSexLinearTy(r.1, dxm = .dxm., dxf = .dxf., 
+                            Ty.1 <- exTwoSexLinearTy(r=r.1[1], SRB = r.1[2], dxm = .dxm., dxf = .dxf., 
                                     FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
                                     sigma = 1)
-                            R0.0 <- exp(r.0 * Ty.0)
-                            R0.5 <- exp(r.5 * Ty.5)
-                            R0.1 <- exp(r.1 * Ty.1)
-                            c(r.0 = r.0, r.5 = r.5, r.1 = r.1, 
+                            R0.0 <- exp(r.0[1] * Ty.0)
+                            R0.5 <- exp(r.5[1] * Ty.5)
+                            R0.1 <- exp(r.1[1] * Ty.1)
+                            c(r.0 = r.0[1], r.5 = r.5[1], r.1 = r.1[1], 
                               Ty.0 = Ty.0, Ty.5 = Ty.5, Ty.1 = Ty.1, 
                               R0.0 = R0.0, R0.5 = R0.5, R0.1 = R0.1)
                         }, .Bxymf = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS))
@@ -216,47 +204,48 @@ dimnames(US) <- list(yearsUS, c("$r^{\\upsilon (\\sigma = 0)}$"  , "$r^{\\upsilo
         "$R_0^{\\upsilon (\\sigma = 0)}$", "$R_0^{\\upsilon (\\sigma = .5)}$", "$R_0^{\\upsilon (\\sigma = 1)}$"))
 
 ES <-do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxymf, .dxm, .dxf, .Ex){
-                    yri     <- as.integer(yr)
-                    .dxm. <- .dxm[, yr]
-                    .dxf. <- .dxf[, yr]
-                    ExM     <- rowSums(ExpectedDx( with(.Ex, Male[Year == yri]), .dxm.))
-                    BxMM    <- rowSums(ExpectedDx( rowSums(.Bxymf[[yr]][["Bxym"]], na.rm = TRUE), .dxm.))
-                    BxMF    <- rowSums(ExpectedDx( rowSums(.Bxymf[[yr]][["Bxyf"]], na.rm = TRUE), .dxm.))
-                    
-                    ExF     <- rowSums(ExpectedDx( with(.Ex, Female[Year == yri]), .dxf.))
-                    BxFF    <- rowSums(ExpectedDx( colSums(.Bxymf[[yr]][["Bxyf"]], na.rm = TRUE), .dxf.))
-                    BxFM    <- rowSums(ExpectedDx( colSums(.Bxymf[[yr]][["Bxym"]], na.rm = TRUE), .dxf.))
-                    # sex-sex-ex- specific rates:
-                    FxMM    <- Mna0(Minf0(BxMM / ExM))
-                    FxFF    <- Mna0(Minf0(BxFF / ExF))
-                    FxMF    <- Mna0(Minf0(BxMF / ExM))
-                    FxFM    <- Mna0(Minf0(BxFM / ExF))
-                    
-                    r.0 <- exTwoSexLinearCoaleR2(dxm = .dxm., dxf = .dxf., 
-                            FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
-                            sigma = 0) 
-                    r.5 <- exTwoSexLinearCoaleR2(dxm = .dxm., dxf = .dxf., 
-                            FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
-                            sigma = .5) 
-                    r.1 <- exTwoSexLinearCoaleR2(dxm = .dxm., dxf = .dxf., 
-                            FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
-                            sigma = 1) 
-                    Ty.0 <- exTwoSexLinearTy2(r.0, dxm = .dxm., dxf = .dxf., 
-                            FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
-                            sigma = 0)
-                    Ty.5 <- exTwoSexLinearTy2(r.5, dxm = .dxm., dxf = .dxf., 
-                            FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
-                            sigma = .5)
-                    Ty.1 <- exTwoSexLinearTy2(r.1, dxm = .dxm., dxf = .dxf., 
-                            FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
-                            sigma = 1)
-                    R0.0 <- exp(r.0 * Ty.0)
-                    R0.5 <- exp(r.5 * Ty.5)
-                    R0.1 <- exp(r.1 * Ty.1)
-                    c(r.0 = r.0, r.5 = r.5, r.1 = r.1, 
-                            Ty.0 = Ty.0, Ty.5 = Ty.5, Ty.1 = Ty.1, 
-                            R0.0 = R0.0, R0.5 = R0.5, R0.1 = R0.1)
-                }, .Bxymf = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES))
+                            yri     <- as.integer(yr)
+                            .dxm. <- .dxm[, yr]
+                            .dxf. <- .dxf[, yr]
+                            ExM     <- rowSums(ExpectedDx( with(.Ex, Male[Year == yri]), .dxm.))
+                            BxMM    <- rowSums(ExpectedDx( rowSums(.Bxymf[[yr]][["Bxym"]], na.rm = TRUE), .dxm.))
+                            BxMF    <- rowSums(ExpectedDx( rowSums(.Bxymf[[yr]][["Bxyf"]], na.rm = TRUE), .dxm.))
+                            
+                            ExF     <- rowSums(ExpectedDx( with(.Ex, Female[Year == yri]), .dxf.))
+                            BxFF    <- rowSums(ExpectedDx( colSums(.Bxymf[[yr]][["Bxyf"]], na.rm = TRUE), .dxf.))
+                            BxFM    <- rowSums(ExpectedDx( colSums(.Bxymf[[yr]][["Bxym"]], na.rm = TRUE), .dxf.))
+                            # sex-sex-ex- specific rates:
+                            FxMM    <- Mna0(Minf0(BxMM / ExM))
+                            FxFF    <- Mna0(Minf0(BxFF / ExF))
+                            FxMF    <- Mna0(Minf0(BxMF / ExM))
+                            FxFM    <- Mna0(Minf0(BxFM / ExF))
+                            
+                            r.0 <- exTwoSexLinearCoaleR(dxm = .dxm., dxf = .dxf., 
+                                    FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
+                                    sigma = 0) 
+                            r.5 <- exTwoSexLinearCoaleR(dxm = .dxm., dxf = .dxf., 
+                                    FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
+                                    sigma = .5) 
+                            r.1 <- exTwoSexLinearCoaleR(dxm = .dxm., dxf = .dxf., 
+                                    FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
+                                    sigma = 1) 
+                            Ty.0 <- exTwoSexLinearTy(r=r.0[1], SRB = r.0[2], dxm = .dxm., dxf = .dxf., 
+                                    FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
+                                    sigma = 0)
+                            Ty.5 <- exTwoSexLinearTy(r=r.5[1], SRB = r.5[2], dxm = .dxm., dxf = .dxf., 
+                                    FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
+                                    sigma = .5)
+                            Ty.1 <- exTwoSexLinearTy(r=r.1[1], SRB = r.1[2], dxm = .dxm., dxf = .dxf., 
+                                    FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
+                                    sigma = 1)
+                            R0.0 <- exp(r.0[1] * Ty.0)
+                            R0.5 <- exp(r.5[1] * Ty.5)
+                            R0.1 <- exp(r.1[1] * Ty.1)
+                            c(r.0 = r.0[1], r.5 = r.5[1], r.1 = r.1[1], 
+                              Ty.0 = Ty.0, Ty.5 = Ty.5, Ty.1 = Ty.1, 
+                              R0.0 = R0.0, R0.5 = R0.5, R0.1 = R0.1)
+                        }, .Bxymf = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES))
+
 dimnames(ES) <- list(yearsES, c("$r^{\\upsilon (\\sigma = 0)}$"  , "$r^{\\upsilon (\\sigma = .5)}$"  , "$r^{\\upsilon (\\sigma = 1)}$",
                 "$T^{\\upsilon (\\sigma = 0)}$"  , "$T^{\\upsilon (\\sigma = .5)}$"  , "$T^{\\upsilon (\\sigma = 1)}$",
                 "$R_0^{\\upsilon (\\sigma = 0)}$", "$R_0^{\\upsilon (\\sigma = .5)}$", "$R_0^{\\upsilon (\\sigma = 1)}$"))
@@ -271,7 +260,6 @@ print(xtable(US, digits = c(0,4,4,4,2,2,2,3,3,3), align = c("c","c","c","c","c",
         file = "/home/triffe/git/DISS/latex/xtables/ex2sexlinearUS.tex",floating=FALSE)
 
 #
-
 
 pdf("/home/triffe/git/DISS/latex/Figures/exLotka2sexlinear.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
