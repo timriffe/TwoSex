@@ -147,8 +147,8 @@ exTwoSexLinearTy <- compiler::cmpfun(function(r, SRB, dxm, dxf, FexFF, FexFM, Fe
             p.m <- SRB / (1+SRB)
             p.f <- 1 / (1+SRB)
             wmean(.a,
-                    sigma * rowSums(p.m * dxM %col% (1 / exp(-r * .a))) * (FexMM + FexMF) +
-                            (1 - sigma) * rowSums(p.f*dxF %col% (1 / exp(-r * .a))) * (FexFF + FexFM)
+                    rowSums(p.m * dxM %col% (1 / exp(-r * .a))) * (FexMM + FexMF) +
+                            rowSums(p.f*dxF %col% (1 / exp(-r * .a))) * (FexFF + FexFM)
             )
         })
 
