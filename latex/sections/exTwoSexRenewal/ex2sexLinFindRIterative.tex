@@ -21,18 +21,8 @@ calibrate the sex ratio at birth, $S$.
    \int_{a=y}^\infty d_{a}^M \left( f_{y}^{M-M} + f_{y}^{M-F} \right) \dd a \dd
    y \big)}}
 \end{equation}
-
-  \item A first rough estimate of the net reproduction rate, $\widehat{R_0}$ (assuming
-  $r=0$) is given by:
-
- \begin{equation}
- \begin{split}
- \widehat{R_0} = \frac{(1 - \sigma)}{2}  \int _{y'=0}^\infty \int_{a'=y'}^\infty 
-                d_{a'}^F \left(f_{y'}^{F-F} + f_{y'}^{F-M}\right) \dd a'\dd y'
-                \\ + \frac{\sigma}{2}  \int _{y=0}^\infty \int _{a=y}^\infty 
-               d_{a}^M  \left(f_{y}^{M-M}+ f_{y}^{M-F}\right) \dd a \dd y
- \end{split}
- \end{equation}
+  Alternatively, one may just specify some value in the right neihborhood, such
+  as 55. The choice of value for $\widehat{T^\upsilon}$ is not very sensitive.
  \item Determine a starting value for $\hat{S}^0$. 1.05 is a good enough guess,
 although for Spain 1.07 might be more reasonable. Use $\hat{S}^0$ to calculate
 $\varsigma^0$ using:
@@ -40,12 +30,23 @@ $\varsigma^0$ using:
 \label{eq:getvarsigmal}
 \varsigma^0 = \frac{\hat{S}^0}{1+\hat{S}^0}
 \end{equation}
- 
+$\varsigma$ is updated in subsequent iterations.
+   \item A first rough estimate of the net reproduction rate, $\widehat{R_0}$ (assuming
+  $r=0$) is given by: 
+ \begin{equation}
+ \begin{split}
+ \widehat{R_0} = (1 - \sigma)  \int _{y'=0}^\infty \int_{a'=y'}^\infty 
+                (1-\varsigma^0)d_{a'}^F \left(f_{y'}^{F-F} + f_{y'}^{F-M}\right)
+                \dd a'\dd y' \\ + \sigma  \int _{y=0}^\infty \int _{a=y}^\infty 
+               \varsigma^0 d_{a}^M  \left(f_{y}^{M-M}+ f_{y}^{M-F}\right) \dd a
+               \dd y
+ \end{split}
+ \end{equation}
   \item A first rough estimate of $r$, $r^0$, is given by:
    \begin{equation}
    r^0 = \frac{ln(\widehat{R_0})}{\widehat{T^\upsilon}}
    \end{equation}
-  \item Plug $r^0$ into Equation~\ref{eq:lineartwosexrenewal} to calculate a
+  \item Plug $r^0$ into Equation~\eqref{eq:lineartwosexrenewal} to calculate a
   residual, $\delta^0$
   \item Use $\delta^0$ and $\widehat{T^\upsilon}$ to calibrate the estimate of $r$
   using:
@@ -66,10 +67,22 @@ $\varsigma^0$ using:
                       _{y=0}^\infty \int _{a=y}^\infty e^{-r^1a} \varsigma^0
                       d_{a}^F f_{y}^{M-F} \dd a \dd y}
   \end{equation}
-  and then update $\varsigma^1$ using Equation~\eqref{eq:getvarsigmal}.
+  and then update to $\varsigma^1$ using Equation~\eqref{eq:getvarsigmal}.
   \item Repeat step (5) to to derive a new $\delta^i$, then step (6) to refine
   $r^i$, adjusting $S^i$ with (7), and again steps 5-7 until converging on a
-  stable $r$ after some 30 iterations, depending on the degree of precision desired 
-  ($\widehat{T^\upsilon}$ is not updated in this process).
+  stable $r$ (and $S$) after some 30 iterations, depending on the degree of
+  precision desired ($\widehat{T^\upsilon}$ is not updated in this process).
 \end{enumerate}
-\todo{recheck after present changes.}
+  One may rightly object that given only
+  Equation~\eqref{~\eqref{eq:lineartwosexrenewal}} we should only be able to
+  solve for one variable, $r$ or $S$, and not both. In practice, the choice of
+  starting $S^0$ is not sensitive, and the calibration method leads in any case
+  to the same stable $r$. There is simply little room for $S$ to deviate from its
+  stable value given 1) the starting and stable structures are typically in this
+  case not far from one another, 2) males and females produce each sex of
+  offspring, thus narrowly constraining $S$ even in the case of dominance. No
+  doubt unrealistic scenarios could be concocted wherein the present model would be
+  unstable in the sense of not having a unique solution, the author doubts that
+  such scenarios would pertain in observed contemporary populations. As a
+  sensitivity test, some extreme starting values for $S^0$ were chosen (ranging
+  between 1 and 1.12) and all lead to identical calibrated values of $r$ and $S$

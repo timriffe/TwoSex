@@ -68,6 +68,11 @@ FxFM    <- BxFM / ExF
 #           ) ^ 2
 #})
 
+# some sensitivity tests
+#SRBi <- 1.04
+#SRBi <- 1.06
+#SRBi <- 1
+#SRBi <- 1.12
 exTwoSexLinearCoaleR <- compiler::cmpfun(function(dxm, dxf, FexFF, FexFM, FexMM, FexMF, 
                 .a = .5:110.5, sigma = .5, maxit = 2e2, tol = 1e-15){  
             N               <- length(FexFF)
@@ -125,6 +130,7 @@ exTwoSexLinearCoaleR <- compiler::cmpfun(function(dxm, dxf, FexFF, FexFM, FexMM,
                 }
                 
             }
+            
             if (i == maxit){
                 cat("WARNING: max iterations reached, r may not be solution")
             }
@@ -151,11 +157,6 @@ exTwoSexLinearTy <- compiler::cmpfun(function(r, SRB, dxm, dxf, FexFF, FexFM, Fe
                             rowSums(p.f*dxF %col% (1 / exp(-r * .a))) * (FexFF + FexFM)
             )
         })
-
-
-
-
-
 
 US <-do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxymf, .dxm, .dxf, .Ex){
                             yri     <- as.integer(yr)
@@ -199,7 +200,10 @@ US <-do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxymf, .dxm, .dxf
                               Ty.0 = Ty.0, Ty.5 = Ty.5, Ty.1 = Ty.1, 
                               R0.0 = R0.0, R0.5 = R0.5, R0.1 = R0.1)
                         }, .Bxymf = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS))
-dimnames(US) <- list(yearsUS, c("$r^{\\upsilon (\\sigma = 0)}$"  , "$r^{\\upsilon (\\sigma = .5)}$"  , "$r^{\\upsilon (\\sigma = 1)}$",
+
+                        
+                        
+                        dimnames(US) <- list(yearsUS, c("$r^{\\upsilon (\\sigma = 0)}$"  , "$r^{\\upsilon (\\sigma = .5)}$"  , "$r^{\\upsilon (\\sigma = 1)}$",
         "$T^{\\upsilon (\\sigma = 0)}$"  , "$T^{\\upsilon (\\sigma = .5)}$"  , "$T^{\\upsilon (\\sigma = 1)}$",
         "$R_0^{\\upsilon (\\sigma = 0)}$", "$R_0^{\\upsilon (\\sigma = .5)}$", "$R_0^{\\upsilon (\\sigma = 1)}$"))
 
