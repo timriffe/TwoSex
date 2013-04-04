@@ -4,7 +4,8 @@ source("/home/triffe/git/DISS/R/MeanFunctions.R")
 # BxES is 0:110, years 1975:2009
 BxUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
 BxES  <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
-
+PxUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")))
+PxES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
@@ -28,54 +29,16 @@ dxmES <- dxmES %col% colSums(dxmES)
 dxfES <- dxfES %col% colSums(dxfES)
 
 
-ExM     <- rowSums(ExpectedDx( with(ExUS, Male[Year == 1975]), dxmUS[, "1975"]))
-BxMM    <- rowSums(ExpectedDx( rowSums(BxymfUS[["1975"]][["Bxym"]], na.rm = TRUE), dxmUS[, "1975"]))
-BxMF    <- rowSums(ExpectedDx( rowSums(BxymfUS[["1975"]][["Bxyf"]], na.rm = TRUE), dxmUS[, "1975"]))
-
-BxM    <- rowSums(ExpectedDx( rowSums(BxUS[["1975"]], na.rm = TRUE), dxmUS[, "1975"]))
-BxF    <- rowSums(ExpectedDx( colSums(BxUS[["1975"]], na.rm = TRUE), dxfUS[, "1975"]))
-ExF     <- rowSums(ExpectedDx( with(ExUS, Female[Year == 1975]), dxfUS[, "1975"]))
-BxFF    <- rowSums(ExpectedDx( colSums(BxymfUS[["1975"]][["Bxyf"]], na.rm = TRUE), dxfUS[, "1975"]))
-BxFM    <- rowSums(ExpectedDx( colSums(BxymfUS[["1975"]][["Bxym"]], na.rm = TRUE), dxfUS[, "1975"]))
-# some rates:
-FxMM    <- BxMM / ExM
-FxFF    <- BxFF / ExF
-FxMF    <- BxMF / ExM
-FxFM    <- BxFM / ExF
-# minimizer function for 1 sex ex-perspective renewal function:
-
-
-#exTwoSexLinearMin <- compiler::cmpfun(function(r, dxm, dxf, FexFF, FexFM, FexMM, FexMF, .a = .5:110.5, sigma = .5){
-#    # all input vectors (except r) must be same length!
-#    # get the overlapped / staggered dx structure
-#    N               <- length(FexFF)
-#    dxM  <- dxF   <- matrix(0, ncol = N, nrow = N)
-#    # remaining years go down rows. ages over columns
-#    dxmi  <- dxm
-#    dxfi  <- dxf
-#    for (i in 1:N){
-#        dxM[i, 1:length(dxmi)  ] <- dxmi 
-#        dxmi <- dxmi[2:length(dxmi) ]
-#        
-#        dxF[i, 1:length(dxfi)  ] <- dxfi 
-#        dxfi <- dxfi[2:length(dxfi) ]
-#    }    
-#    
-#    
-#    (2 - sum(sigma * rowSums(dxM %col% (1 / exp(-r * .a))) * (FexMF + FexMM)# male - female
-#         (1-sigma) * rowSums(dxF %col% (1 / exp(-r * .a))) * (FexFF + FexFM) # female - female
-#             )
-#           ) ^ 2
-#})
-
 # some sensitivity tests
 #SRBi <- 1.04
 #SRBi <- 1.06
 #SRBi <- 1
 #SRBi <- 1.12
+#SRBi <- .8
+#SRBi <- 1.3
 exTwoSexLinearCoaleR <- compiler::cmpfun(function(dxm, dxf, FexFF, FexFM, FexMM, FexMF, 
                 .a = .5:110.5, sigma = .5, maxit = 2e2, tol = 1e-15){  
-            N               <- length(FexFF)
+            N               <- length(dxm)
             dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
             # remaining years go down rows. ages over columns
             dxmi            <- dxm
@@ -88,7 +51,6 @@ exTwoSexLinearCoaleR <- compiler::cmpfun(function(dxm, dxf, FexFF, FexFM, FexMM,
                 dxfi                     <- dxfi[2:length(dxfi) ]
             }  
             
-                      
              # assuming r = 0
             # first guess at SRB
             SRBi <- sum(rowSums(dxM) * FexMM + rowSums(dxF) * FexFM) / 
@@ -137,7 +99,8 @@ exTwoSexLinearCoaleR <- compiler::cmpfun(function(dxm, dxf, FexFF, FexFM, FexMM,
             return(c(r=r2, SRB=SRBi))  
 
             })
-exTwoSexLinearTy <- compiler::cmpfun(function(r, SRB, dxm, dxf, FexFF, FexFM, FexMM, FexMF, .a = .5:110.5, sigma = .5){
+exTwoSexLinearTy <- compiler::cmpfun(function(r, SRB, dxm, dxf, 
+                FexFF, FexFM, FexMM, FexMF, .a = .5:110.5, sigma = .5){
             N               <- length(FexFF)
             dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
             # remaining years go down rows. ages over columns
@@ -153,9 +116,30 @@ exTwoSexLinearTy <- compiler::cmpfun(function(r, SRB, dxm, dxf, FexFF, FexFM, Fe
             p.m <- SRB / (1+SRB)
             p.f <- 1 / (1+SRB)
             wmean(.a,
-                    rowSums(p.m * dxM %col% (1 / exp(-r * .a))) * (FexMM + FexMF) +
-                            rowSums(p.f*dxF %col% (1 / exp(-r * .a))) * (FexFF + FexFM)
+                    sigma * rowSums(p.m * dxM %col% (1 / exp(-r * .a))) * (FexMM + FexMF) +
+                           (1-sigma) * rowSums(p.f*dxF %col% (1 / exp(-r * .a))) * (FexFF + FexFM)
             )
+        })
+
+exTwoSexStableAge <- compiler::cmpfun(function(r, SRB, dxm, dxf){
+    N    <- length(dxm)
+    dxM  <- matrix(0, ncol = N, nrow = N)
+    dxF  <- matrix(0, ncol = N, nrow = N)
+    dxmi  <- dxm
+    dxfi  <- dxf
+    for (i in 1:N){
+        dxM[i, 1:length(dxmi)  ] <- dxmi 
+        dxmi <- dxmi[2:length(dxmi) ]
+        dxF[i, 1:length(dxfi)  ] <- dxfi 
+        dxfi <- dxfi[2:length(dxfi) ]
+    }  
+    # birth rate
+    b <- 1 / (sum(rowSums((SRB / (1 + SRB)) * dxM %col% (1 / exp(-r * .a)))) +
+                sum(rowSums((1 / (1 + SRB)) * dxF %col% (1 / exp(-r * .a))))
+                )
+    cym <- b * (SRB / (1 + SRB)) * rowSums(dxM %col% (1 / exp(-r * .a)))
+    cyf <- b * (1 / (1 + SRB)) * rowSums(dxF %col% (1 / exp(-r * .a)))
+    cbind(cym = cym, cyf = cyf)
         })
 
 US <-do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxymf, .dxm, .dxf, .Ex){
@@ -203,7 +187,7 @@ US <-do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxymf, .dxm, .dxf
 
                         
                         
-                        dimnames(US) <- list(yearsUS, c("$r^{\\upsilon (\\sigma = 0)}$"  , "$r^{\\upsilon (\\sigma = .5)}$"  , "$r^{\\upsilon (\\sigma = 1)}$",
+dimnames(US) <- list(yearsUS, c("$r^{\\upsilon (\\sigma = 0)}$"  , "$r^{\\upsilon (\\sigma = .5)}$"  , "$r^{\\upsilon (\\sigma = 1)}$",
         "$T^{\\upsilon (\\sigma = 0)}$"  , "$T^{\\upsilon (\\sigma = .5)}$"  , "$T^{\\upsilon (\\sigma = 1)}$",
         "$R_0^{\\upsilon (\\sigma = 0)}$", "$R_0^{\\upsilon (\\sigma = .5)}$", "$R_0^{\\upsilon (\\sigma = 1)}$"))
 
@@ -298,6 +282,7 @@ legend(1970,-.007,
                 expression(ES~sigma == 1)), xpd = TRUE)
 dev.off()
 
+# TODO: change text?
 US[,1] < US[,3]
 ES[,1] < ES[,3]
 
@@ -307,9 +292,176 @@ rmUS[,1] > US[,3]
 
 rfES[,1] < ES[,1]
 rmES[,1] > ES[,3]
+
+US <-do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxymf, .dxm, .dxf, .Ex){
+                    yri     <- as.integer(yr)
+                    .dxm. <- .dxm[, yr]
+                    .dxf. <- .dxf[, yr]
+                    ExM     <- rowSums(ExpectedDx( with(.Ex, Male[Year == yri]), .dxm.))
+                    BxMM    <- rowSums(ExpectedDx( rowSums(.Bxymf[[yr]][["Bxym"]], na.rm = TRUE), .dxm.))
+                    BxMF    <- rowSums(ExpectedDx( rowSums(.Bxymf[[yr]][["Bxyf"]], na.rm = TRUE), .dxm.))
+                    
+                    ExF     <- rowSums(ExpectedDx( with(.Ex, Female[Year == yri]), .dxf.))
+                    BxFF    <- rowSums(ExpectedDx( colSums(.Bxymf[[yr]][["Bxyf"]], na.rm = TRUE), .dxf.))
+                    BxFM    <- rowSums(ExpectedDx( colSums(.Bxymf[[yr]][["Bxym"]], na.rm = TRUE), .dxf.))
+                    # sex-sex-ex- specific rates:
+                    FxMM    <- BxMM / ExM
+                    FxFF    <- BxFF / ExF
+                    FxMF    <- BxMF / ExM
+                    FxFM    <- BxFM / ExF
+                    
+                    r.5 <- exTwoSexLinearCoaleR(dxm = .dxm., dxf = .dxf., 
+                            FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
+                            sigma = .5) 
+             
+                }, .Bxymf = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS))
+
 # ---------------------------------------------
-# tests
-r     <- US[1, 2]
+
+StableStructUS.5 <- lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .dxm, .dxf, .sigma){  
+                    yri     <- as.integer(yr)
+                    .dxm.   <- .dxm[, yr]
+                    .dxf.   <- .dxf[, yr]
+                    ExM     <- rowSums(ExpectedDx( with(.Ex, Male[Year == yri]), .dxm.))
+                    BxMM    <- rowSums(ExpectedDx( rowSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE), .dxm.))
+                    BxMF    <- rowSums(ExpectedDx( rowSums(.Bx[[yr]][["Bxyf"]], na.rm = TRUE), .dxm.))
+                    
+                    ExF     <- rowSums(ExpectedDx( with(.Ex, Female[Year == yri]), .dxf.))
+                    BxFF    <- rowSums(ExpectedDx( colSums(.Bx[[yr]][["Bxyf"]], na.rm = TRUE), .dxf.))
+                    BxFM    <- rowSums(ExpectedDx( colSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE), .dxf.))
+                    # sex-sex-ex- specific rates:
+                    FxMM    <- Minf0(Mna0(BxMM / ExM))
+                    FxFF    <- Minf0(Mna0(BxFF / ExF))
+                    FxMF    <- Minf0(Mna0(BxMF / ExM))
+                    FxFM    <- Minf0(Mna0(BxFM / ExF))
+                    
+                    r.5     <- exTwoSexLinearCoaleR(dxm = .dxm., dxf = .dxf., 
+                            FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
+                            sigma = .sigma) 
+            # stable structure
+                    cyst    <- exTwoSexStableAge(r = r.5[1], SRB = r.5[2], dxm = .dxm., dxf = .dxf.)
+                    PyM     <- rowSums(ExpectedDx( with(.Px, Male[Year == yri]), .dxm.))
+                    PyF     <- rowSums(ExpectedDx( with(.Px, Female[Year == yri]), .dxf.))
+                    # preesnt structure
+                    cyinit  <- cbind(PyM,PyF) / sum(PyM+PyF)
+
+            # difference coef
+            list(extheta = 1-sum(pmin(cyst, cyinit)), cyst = cyst, cyinit = cyinit)
+                }, .Bx = BxymfUS, .Ex = ExUS, .Px = PxUS,  .dxm = dxmUS, .dxf = dxfUS, .sigma = .5)
+StableStructES.5 <- lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .dxm, .dxf, .sigma){  
+                    yri     <- as.integer(yr)
+                    .dxm.   <- .dxm[, yr]
+                    .dxf.   <- .dxf[, yr]
+                    ExM     <- rowSums(ExpectedDx( with(.Ex, Male[Year == yri]), .dxm.))
+                    BxMM    <- rowSums(ExpectedDx( rowSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE), .dxm.))
+                    BxMF    <- rowSums(ExpectedDx( rowSums(.Bx[[yr]][["Bxyf"]], na.rm = TRUE), .dxm.))
+                    
+                    ExF     <- rowSums(ExpectedDx( with(.Ex, Female[Year == yri]), .dxf.))
+                    BxFF    <- rowSums(ExpectedDx( colSums(.Bx[[yr]][["Bxyf"]], na.rm = TRUE), .dxf.))
+                    BxFM    <- rowSums(ExpectedDx( colSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE), .dxf.))
+                    # sex-sex-ex- specific rates:
+                    FxMM    <- Minf0(Mna0(BxMM / ExM))
+                    FxFF    <- Minf0(Mna0(BxFF / ExF))
+                    FxMF    <- Minf0(Mna0(BxMF / ExM))
+                    FxFM    <- Minf0(Mna0(BxFM / ExF))
+                    
+                    r.5     <- exTwoSexLinearCoaleR(dxm = .dxm., dxf = .dxf., 
+                            FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
+                            sigma = .sigma) 
+                    # stable structure
+                    cyst    <- exTwoSexStableAge(r = r.5[1], SRB = r.5[2], dxm = .dxm., dxf = .dxf.)
+                    PyM     <- rowSums(ExpectedDx( with(.Px, Male[Year == yri]), .dxm.))
+                    PyF     <- rowSums(ExpectedDx( with(.Px, Female[Year == yri]), .dxf.))
+                    # preesnt structure
+                    cyinit  <- cbind(PyM,PyF) / sum(PyM+PyF)
+                    
+                    # difference coef
+                    list(extheta = 1-sum(pmin(cyst, cyinit)), cyst = cyst, cyinit = cyinit)
+                }, .Bx = BxymfES, .Ex = ExES, .Px = PxES,  .dxm = dxmES, .dxf = dxfES, .sigma = .5)
+# interesting: male dominance implies closer structure to present...
+#StableStructES.1 <- lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .dxm, .dxf, .sigma){  
+#                    yri     <- as.integer(yr)
+#                    .dxm.   <- .dxm[, yr]
+#                    .dxf.   <- .dxf[, yr]
+#                    ExM     <- rowSums(ExpectedDx( with(.Ex, Male[Year == yri]), .dxm.))
+#                    BxMM    <- rowSums(ExpectedDx( rowSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE), .dxm.))
+#                    BxMF    <- rowSums(ExpectedDx( rowSums(.Bx[[yr]][["Bxyf"]], na.rm = TRUE), .dxm.))
+#                    
+#                    ExF     <- rowSums(ExpectedDx( with(.Ex, Female[Year == yri]), .dxf.))
+#                    BxFF    <- rowSums(ExpectedDx( colSums(.Bx[[yr]][["Bxyf"]], na.rm = TRUE), .dxf.))
+#                    BxFM    <- rowSums(ExpectedDx( colSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE), .dxf.))
+#                    # sex-sex-ex- specific rates:
+#                    FxMM    <- Minf0(Mna0(BxMM / ExM))
+#                    FxFF    <- Minf0(Mna0(BxFF / ExF))
+#                    FxMF    <- Minf0(Mna0(BxMF / ExM))
+#                    FxFM    <- Minf0(Mna0(BxFM / ExF))
+#                    
+#                    r.5     <- exTwoSexLinearCoaleR(dxm = .dxm., dxf = .dxf., 
+#                            FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
+#                            sigma = .sigma) 
+#                    # stable structure
+#                    cyst    <- exTwoSexStableAge(r = r.5[1], SRB = r.5[2], dxm = .dxm., dxf = .dxf.)
+#                    PyM     <- rowSums(ExpectedDx( with(.Px, Male[Year == yri]), .dxm.))
+#                    PyF     <- rowSums(ExpectedDx( with(.Px, Female[Year == yri]), .dxf.))
+#                    # preesnt structure
+#                    cyinit  <- cbind(PyM,PyF) / sum(PyM+PyF)
+#                    
+#                    # difference coef
+#                    list(extheta = 1-sum(pmin(cyst, cyinit)), cyst = cyst, cyinit = cyinit)
+#                }, .Bx = BxymfES, .Ex = ExES, .Px = PxES,  .dxm = dxmES, .dxf = dxfES, .sigma = 1)
+#StableStructES.0 <- lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .dxm, .dxf, .sigma){  
+#                    yri     <- as.integer(yr)
+#                    .dxm.   <- .dxm[, yr]
+#                    .dxf.   <- .dxf[, yr]
+#                    ExM     <- rowSums(ExpectedDx( with(.Ex, Male[Year == yri]), .dxm.))
+#                    BxMM    <- rowSums(ExpectedDx( rowSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE), .dxm.))
+#                    BxMF    <- rowSums(ExpectedDx( rowSums(.Bx[[yr]][["Bxyf"]], na.rm = TRUE), .dxm.))
+#                    
+#                    ExF     <- rowSums(ExpectedDx( with(.Ex, Female[Year == yri]), .dxf.))
+#                    BxFF    <- rowSums(ExpectedDx( colSums(.Bx[[yr]][["Bxyf"]], na.rm = TRUE), .dxf.))
+#                    BxFM    <- rowSums(ExpectedDx( colSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE), .dxf.))
+#                    # sex-sex-ex- specific rates:
+#                    FxMM    <- Minf0(Mna0(BxMM / ExM))
+#                    FxFF    <- Minf0(Mna0(BxFF / ExF))
+#                    FxMF    <- Minf0(Mna0(BxMF / ExM))
+#                    FxFM    <- Minf0(Mna0(BxFM / ExF))
+#                    
+#                    r.5     <- exTwoSexLinearCoaleR(dxm = .dxm., dxf = .dxf., 
+#                            FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
+#                            sigma = .sigma) 
+#                    # stable structure
+#                    cyst    <- exTwoSexStableAge(r = r.5[1], SRB = r.5[2], dxm = .dxm., dxf = .dxf.)
+#                    PyM     <- rowSums(ExpectedDx( with(.Px, Male[Year == yri]), .dxm.))
+#                    PyF     <- rowSums(ExpectedDx( with(.Px, Female[Year == yri]), .dxf.))
+#                    # preesnt structure
+#                    cyinit  <- cbind(PyM,PyF) / sum(PyM+PyF)
+#                    
+#                    # difference coef
+#                    list(extheta = 1-sum(pmin(cyst, cyinit)), cyst = cyst, cyinit = cyinit)
+#                }, .Bx = BxymfES, .Ex = ExES, .Px = PxES,  .dxm = dxmES, .dxf = dxfES, .sigma = 0)
+#        
+
+# objects manually created from exLotka1Sex.R
+DiffCoefryUSm[,1]
+DiffCoefryUSf[,1]
+DiffCoefryESm[,1]
+DiffCoefryESf[,1]
+
+thetaUS <- unlist(lapply(StableStructUS.5,"[[",1))
+thetaES <- unlist(lapply(StableStructES.5,"[[",1))
+
+plot(yearsUS, thetaUS, type = 'l')
+lines(yearsUS, DiffCoefryUSm[,1], col = "blue")
+lines(yearsUS, DiffCoefryUSf[,1], col = "red")
+
+mxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata"))) 
+mxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata"))) 
+mxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata"))) 
+mxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata"))) 
+
+library(parallel)
+
+DiffCoefryUSm
 
 
 
@@ -317,115 +469,7 @@ r     <- US[1, 2]
 
 
 
-yr <- "1980"
-yri     <- as.integer(yr)
-ExM     <- rowSums(ExpectedDx( with(ExUS, Male[Year == yri]), dxm))
-BxMM    <- rowSums(ExpectedDx( rowSums(BxymfUS[[yr]][["Bxym"]], na.rm = TRUE), dxm))
-BxMF    <- rowSums(ExpectedDx( rowSums(BxymfUS[[yr]][["Bxyf"]], na.rm = TRUE), dxm))
-
-ExF     <- rowSums(ExpectedDx( with(ExUS, Female[Year == yri]), dxf))
-BxFF    <- rowSums(ExpectedDx( colSums(BxymfUS[[yr]][["Bxyf"]], na.rm = TRUE), dxf))
-BxFM    <- rowSums(ExpectedDx( colSums(BxymfUS[[yr]][["Bxym"]], na.rm = TRUE), dxf))
-# sex-sex-ex- specific rates:
-FxMM    <- BxMM / ExM
-FxFF    <- BxFF / ExF
-FxMF    <- BxMF / ExM
-FxFM    <- BxFM / ExF
-plot(BxFM[1:90]/BxFF[1:90], type = 'l', col = "red", ylim = c(1.05,1.06))
-lines(BxMM[1:90]/BxMF[1:90], col = "blue")
-
-dxm <- dxmUS[,yr]
-dxf <- dxfUS[,yr]
-N               <- 111
-dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
-# remaining years go down rows. ages over columns
-dxmi            <- dxm
-dxfi            <- dxf
-for (i in 1:N){
-    dxM[i, 1:length(dxmi)  ] <- dxmi 
-    dxmi                     <- dxmi[2:length(dxmi) ]
-    
-    dxF[i, 1:length(dxfi)  ] <- dxfi 
-    dxfi                     <- dxfi[2:length(dxfi) ]
-}
-.a <- .5:110.5
-sigma <- .4
-r <- exTwoSexLinearCoaleR(dxm = dxm, dxf = dxf, FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,sigma = .4) 
-gF <- sum((1-sigma)*rowSums(dxF %col% (1 / exp(-r * .a))) * FxFF)
-bF <- sum((1-sigma)*rowSums(dxF %col% (1 / exp(-r * .a))) * FxFM)
-gM <- sum(sigma*rowSums(dxM %col% (1 / exp(-r * .a))) * FxMF)
-bM <- sum(sigma*rowSums(dxM %col% (1 / exp(-r * .a))) * FxMM)
-# try recursion to get SRB
-
-boys  <-(sum((1-sigma)/2*rowSums(dxF %col% (1 / exp(-r * .a))) * FxFM) + sum(sigma/2*rowSums(dxM %col% (1 / exp(-r * .a))) * FxMM))
-girls <- (sum((1-sigma)/2*rowSums(dxF %col% (1 / exp(-r * .a))) * FxFF) + sum(sigma/2*rowSums(dxM %col% (1 / exp(-r * .a))) * FxMF)) 
-SRBi <- boys / girls
-srbvec <- vector(length=10)
-for (i in 1:10){
-    srbvec[i] <- SRBi
-    p.f <- 1 / (1 + SRBi)
-    p.m <- SRBi / (1 + SRBi)
-    
-    gi <- sum((1-sigma)*p.f*rowSums(dxF %col% (1 / exp(-r * .a))) * FxFF) + sum(sigma*p.m*rowSums(dxM %col% (1 / exp(-r * .a))) * FxMF)
-    bi <- sum((1-sigma)*p.f*rowSums(dxF %col% (1 / exp(-r * .a))) * FxFM) + sum(sigma*p.m*rowSums(dxM %col% (1 / exp(-r * .a))) * FxMM)
-    
-    SRBi <- bi/gi
-}
-boys
-bi/gi == SRBi
-bi + gi
-plot(srbvec, type='l')
-
-b <- 1 / sum((SRBi / (1+SRBi)) * rowSums(dxM %col% (1 / exp(-r * .a))) +
-        (1 / (1+SRBi)) * rowSums(dxF %col% (1 / exp(-r * .a))) )
-
-g <- sum((1-sigma)/2*rowSums(dxF %col% (1 / exp(-r * .a))) * FxFF) + sum(sigma/2*rowSums(dxM %col% (1 / exp(-r * .a))) * FxMF)
-b <- sum((1-sigma)/2*rowSums(dxF %col% (1 / exp(-r * .a))) * FxFM) + sum(sigma/2*rowSums(dxM %col% (1 / exp(-r * .a))) * FxMM)
-g+b
-
-sum(b * (1 / (1+SRBi)) * rowSums(dxF %col% (1 / exp(-r * .a))))+
-sum(b * (SRBi / (1+SRBi)) * rowSums(dxM %col% (1 / exp(-r * .a))))
-
-sum(b * ((SRBi / (1+SRBi)) *rowSums(dxM %col% (1 / exp(-r * .a))) + (1 / (1+SRBi)) * rowSums(dxF %col% (1 / exp(-r * .a)))))
-
-b == bi
-
-b / g
-SRB <- b/g
-
-bmi <- (SRBi / (1+SRBi)) * (1 / sum((sigma) * rowSums(dxM %col% (1 / exp(-r * .a))) +
-                ((1 - sigma)) * rowSums(dxF %col% (1 / exp(-r * .a))) ))
-bfi <- (1 / (1+SRBi)) * (1 / sum((sigma) * rowSums(dxM %col% (1 / exp(-r * .a))) +
-                            ((1 - sigma)) * rowSums(dxF %col% (1 / exp(-r * .a))) ))
-bm <- (SRB / (1+SRB)) * (1 / sum((sigma) * rowSums(dxM %col% (1 / exp(-r * .a))) +
-                            ((1 - sigma)) * rowSums(dxF %col% (1 / exp(-r * .a))) ))
-
-bf <- (1 / (1+SRB)) * (1 / sum((sigma) * rowSums(dxM %col% (1 / exp(-r * .a))) +
-                            ((1 - sigma)) * rowSums(dxF %col% (1 / exp(-r * .a))) ))
-bmi - bm
-bfi - bf
-
-(bm + bf) == bTot
 
 
-bTot <- (1 / sum((sigma) * rowSums(dxM %col% (1 / exp(-r * .a))) +
-                            ((1 - sigma)) * rowSums(dxF %col% (1 / exp(-r * .a))) ))
-1 / sum(sigma * rowSums(dxM %col% (1 / exp(-r * .a))))
-bTot == (bm + bf)
-
-Cy <- bTot * ( rowSums(dxM %col% (1 / exp(-r * .a))) + rowSums(dxF %col% (1 / exp(-r * .a))))
-sum(Cy)
-sum(bTot * rowSums(dxM %col% (1 / exp(-r * .a))) )+
-sum(bTot * rowSums(dxF %col% (1 / exp(-r * .a))) )
-
-
-
-sum(bm * rowSums(dxM %col% (1 / exp(-r * .a))))/
-sum(bf * rowSums(dxF %col% (1 / exp(-r * .a))))
-
-bT <- bm + bf
-
-sum(bT/2 * rowSums(dxM %col% (1 / exp(-r * .a))))+
-        sum(bT/2 * rowSums(dxF %col% (1 / exp(-r * .a))))
 
 

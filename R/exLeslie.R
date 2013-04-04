@@ -181,7 +181,7 @@ Y_1sexES <- lapply(as.character(yearsES), function(yr, .dxm, .dxf, .Ex, .Bxymf, 
         }, .dxm = dxmES, .dxf = dxfES, 
         .Ex = ExES, .Bxymf = BxymfES, 
         .lambdaf = lambdafES, .lambdam = lambdafES)
-
+names(Y_1sexES) <- yearsES
 
 library(popbio)
 
@@ -227,31 +227,37 @@ Y_2sexUS <- lapply(as.character(yearsUS), function(yr, .dxm, .dxf, .Ex, .Bxymf, 
         },
         .dxm = dxmUS, .dxf = dxfUS,
         .Ex = ExUS, .Bxymf = BxymfUS, 
-        .lambdaf = lambdafUS, .lambdam = lambdafES, .sigma= .5)
+        .lambdaf = lambdafUS, .lambdam = lambdafUS, .sigma= .5)
 
-names(Y_1sexUS) <- yearsUS
+names(Y_2sexUS) <- yearsUS
 # repeat for Spain
-Y_1sexES <- lapply(as.character(yearsES), function(yr, .dxm, .dxf, .Ex, .Bxymf, .lambdaf, .lambdam){
+Y_2sexES <- lapply(as.character(yearsES), function(yr, .dxm, .dxf, .Ex, .Bxymf, .lambdaf, .lambdam, .sigma){
             yri     <- as.integer(yr)
             .dxm.   <- .dxm[, yr]
             .dxf.   <- .dxf[, yr]
             ExM     <- rowSums(ExpectedDx( with(.Ex, Male[Year == yri]), .dxm.))
             BxMM    <- rowSums(ExpectedDx( rowSums(.Bxymf[[yr]][["Bxym"]], na.rm = TRUE), .dxm.))
+            BxMF    <- rowSums(ExpectedDx( rowSums(.Bxymf[[yr]][["Bxyf"]], na.rm = TRUE), .dxm.))
             
             ExF     <- rowSums(ExpectedDx( with(.Ex, Female[Year == yri]), .dxf.))
             BxFF    <- rowSums(ExpectedDx( colSums(.Bxymf[[yr]][["Bxyf"]], na.rm = TRUE), .dxf.))
+            BxFM    <- rowSums(ExpectedDx( colSums(.Bxymf[[yr]][["Bxym"]], na.rm = TRUE), .dxf.))
             
             # sex-sex-ex- specific rates:
-            FxMM    <- BxMM / ExM
-            FxFF    <- BxFF / ExF
+            FxMM    <- Mna0(Minf0(BxMM / ExM))
+            FxFF    <- Mna0(Minf0(BxFF / ExF))
+            FxMF    <- Mna0(Minf0(BxMF / ExM))
+            FxFM    <- Mna0(Minf0(BxFM / ExF))
             
-            
-            list(Yf = MakeLExOneSexProjMatrix(FxFF, .dxf., .lambdaf[yr]),
-                    Ym = MakeLExOneSexProjMatrix(FxMM, .dxm., .lambdam[yr]))
-        }, .dxm = dxmES, .dxf = dxfES, 
+            MakeLExTwoSexProjMatrix(dxm = .dxm., dxf = .dxf., 
+                    FexFF = FxFF, FexFM = FxFM, 
+                    FexMM = FxMM, FexMF = FxMF, 
+                    lambdaM = .lambdam[yr], lambdaF = .lambdaf[yr], sigma = .sigma)
+        },
+        .dxm = dxmES, .dxf = dxfES,
         .Ex = ExES, .Bxymf = BxymfES, 
-        .lambdaf = lambdafES, .lambdam = lambdafES)
-
+        .lambdaf = lambdafES, .lambdam = lambdafES, .sigma= .5)
+names(Y_2sexES) <- yearsES
 
 
 # exercise: measure time to one sex is double size of other:
@@ -476,6 +482,7 @@ UScohenL <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .L, .Px){
                 }, .L = USL, .Px = PxUS))
 
 EScohenY <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Y, .Px, .dxm, .dxf){
+                   
                     Pxm  <- with(.Px, Male[Year == as.integer(yr)])
                     Pxf  <- with(.Px, Female[Year == as.integer(yr)])
                     
@@ -487,7 +494,6 @@ EScohenY <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Y, .Px, .d
                     
                     MProj <- pop.projection(.Y[[yr]][["Ym"]],  Pym, 500)
                     MCat <- t(t(MProj$stage.vectors) / colSums(MProj$stage.vectors))
-                    
                     
                     c(FD1 = sum(abs(colSums(FCat - FProj$stable.stage))), FD2 = sum(abs(FCat - FProj$stable.stage)), 
                             MD1 = sum(abs(colSums(MCat - MProj$stable.stage))), MD2 = sum(abs(MCat - MProj$stable.stage)))
@@ -562,10 +568,102 @@ dev.off()
 #lines(yearsUS, UScohenY[,3], lwd = 3)
 
 
-text(c(1988, 1988, 1976, 1976),c(2.003155,4.295235,10.635031,14.195071),c(expression(US^M~e[y]),
-                expression(US^F~e[y]),expression(US^M~age),expression(US^F~age)), cex = .8)
-text(c(1995, 1995, 1996, 1996),c(9.562143, 13.561091, 21.7, 26.289451),c(expression(ES^M~e[y]),
-                expression(ES^F~e[y]),expression(ES^M~age),expression(ES^F~age)), cex = .8)
+#text(c(1988, 1988, 1976, 1976),c(2.003155,4.295235,10.635031,14.195071),c(expression(US^M~e[y]),
+#                expression(US^F~e[y]),expression(US^M~age),expression(US^F~age)), cex = .8)
+#text(c(1995, 1995, 1996, 1996),c(9.562143, 13.561091, 21.7, 26.289451),c(expression(ES^M~e[y]),
+#                expression(ES^F~e[y]),expression(ES^M~age),expression(ES^F~age)), cex = .8)
+#dev.off()
+#library(popbio)
+#citation(popbio)
+
+
+DampES2 <- unlist(lapply(Y_2sexES, function(x){
+                    dimnames(x) <- list(c(paste0("m",0:110),paste0("f",0:110)),
+                            c(paste0("m",0:110),paste0("f",0:110)))
+                    eigen.analysis(x)$damping.ratio
+                }))
+DampUS2 <- unlist(lapply(Y_2sexUS, function(x){
+                    dimnames(x) <- list(c(paste0("m",0:110),paste0("f",0:110)),
+                            c(paste0("m",0:110),paste0("f",0:110)))
+                    eigen.analysis(x)$damping.ratio
+                }))
+
+
+# comparing damping ratios
+pdf("/home/triffe/git/DISS/latex/Figures/Damping2.pdf", height = 5, width = 5)
+par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
+plot(yearsES, DampES[,1], type = 'l', ylim = c(1.05,1.075), lty = 4, col = gray(.4), lwd = 1.2,
+        axes = FALSE, xlim = c(1968,2010), xlab = "", ylab = "",
+        panel.first = list(rect(1968, 1.05, 2010, 1.075, col = gray(.95), border=NA),
+                abline(h = seq(1.05,1.075,by=.0025), col = "white"),   
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(1.05,1.075,by=.005), seq(1.05,1.075,by=.005), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10), 1.05, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, 1.0483, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1963, 1.077, "Damping ratio", cex = 1, xpd = TRUE, pos = 4)))
+lines(yearsES, DampES[,2], lty = 4, lwd = 1.2, col = gray(.2))
+
+lines(yearsUS, DampUS[,1], lwd = 1.2, col = gray(.4))
+lines(yearsUS, DampUS[,2], lwd = 1.2, col = gray(.2))
+
+lines(yearsUS, DampUS2,lwd=3)
+lines(yearsES, DampES2,lwd=3,lty=4)
+text(c(2002, 2003,2002),c(1.058886,1.067116,1.064),
+        c(expression(US^M),
+                expression(US^F),expression(US^2~sex~sigma==.5)), cex = .8)
+text(c(1984, 1974, 1977),c(1.057536, 1.070381, 1.074),c(expression(ES^M),
+                expression(ES^F),expression(ES^2~sex~sigma==.5)), cex = .8)
 dev.off()
-library(popbio)
-citation(popbio)
+
+EScohenY2 <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Y, .Px, .dxm, .dxf){
+                    Pxm  <- with(.Px, Male[Year == as.integer(yr)])
+                    Pxf  <- with(.Px, Female[Year == as.integer(yr)])
+                    
+                    Pym  <- rowSums(ExpectedDx(Pxm, .dxm[,yr]))
+                    Pyf  <- rowSums(ExpectedDx(Pxf, .dxf[,yr]))
+                    
+                    Proj <- pop.projection(.Y[[yr]],  c(Pym,Pyf), 500)
+                    Cat <- t(t(Proj$stage.vectors) / colSums(Proj$stage.vectors))
+                    
+             c(D1 = sum(abs(colSums(Cat - Proj$stable.stage))), D2 = sum(abs(Cat - Proj$stable.stage))) 
+                          
+                }, .Y = Y_2sexES, .Px = PxES, .dxm = dxmES, .dxf = dxfES))
+UScohenY2 <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Y, .Px, .dxm, .dxf){
+                    Pxm  <- with(.Px, Male[Year == as.integer(yr)])
+                    Pxf  <- with(.Px, Female[Year == as.integer(yr)])
+                    
+                    Pym  <- rowSums(ExpectedDx(Pxm, .dxm[,yr]))
+                    Pyf  <- rowSums(ExpectedDx(Pxf, .dxf[,yr]))
+                    
+                    Proj <- pop.projection(.Y[[yr]],  c(Pym,Pyf), 500)
+                    Cat <- t(t(Proj$stage.vectors) / colSums(Proj$stage.vectors))
+                    
+                    c(D1 = sum(abs(colSums(Cat - Proj$stable.stage))), D2 = sum(abs(Cat - Proj$stable.stage))) 
+                    
+                }, .Y = Y_2sexUS, .Px = PxUS, .dxm = dxmUS, .dxf = dxfUS))
+
+pdf("/home/triffe/git/DISS/latex/Figures/CohenD22sex.pdf", height = 5, width = 5)
+par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
+plot(yearsES, EScohenY[,2], type = 'l', ylim = c(0,12), lty = 4, col = gray(.4), lwd = 1.2,
+        axes = FALSE, xlim = c(1968,2010), xlab = "", ylab = "",
+        panel.first = list(rect(1968, 0, 2010, 12, col = gray(.95), border=NA),
+                abline(h = seq(0,12,by=2), col = "white"),   
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(0,12,by=2), seq(0,12,by=2), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10), 0, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, -.5, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1963, 12.8, "Total Oscillation", cex = 1, xpd = TRUE, pos = 4)))
+lines(yearsES, EScohenY[,4], lty = 4, lwd = 1.2, col = gray(.2))
+lines(yearsES, EScohenY2[,2],  lty = 4, lwd = 3)
+
+lines(yearsUS, UScohenY[,2], lwd = 1.2, col = gray(.4))
+lines(yearsUS, UScohenY[,4], lwd = 1.2, col = gray(.2))
+lines(yearsUS, UScohenY2[,2], lwd = 3)
+
+text(c(1988, 1988,1998),c(2,4.3,4.3),c(expression(US^M~e[y]),
+                expression(US^F~e[y]),expression(US~2~sex~sigma==.5)), cex = .8)
+text(c(1988, 1988,1978),c(6.5, 11.225107,9.344068),c(expression(ES^M~e[y]),
+                expression(ES^F~e[y]),expression(ES~2~sex~sigma==.5)), cex = .8)
+segments(1998,4.1, 1998, UScohenY2[yearsUS==1998,2])
+segments(1978,9.1, 1985, EScohenY2[yearsES==1985,2])
+dev.off()

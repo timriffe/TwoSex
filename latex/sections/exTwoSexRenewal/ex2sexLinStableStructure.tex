@@ -1,6 +1,61 @@
+ \FloatBarrier
+As with the single-sex case, one may measure the distributional distance between
+the initial and stable conditions for two-sex $e_y$-structured populations. The
+degree of separation, $\theta$, will be intermediate to those calculated for the 
+single-sex cases, leaning closer to the male or
+female indices depending on the value of $\sigma$ used to calculate the two-sex
+stable population. Also as with the single-sex case, the damping
+ratio may be calculated from the two-sex $e_y$-structured projection matrix 
+presented in Section~\ref{sec:ex2sxprojmat}. Here the value is not
+necessarily intermediate to the male and female single-sex cases, as seen in
+Figure~\ref{fig:damping2}:
 
-\todo{compare damping ratio, total oscillation to single-sex case. should be
-lower}
+\begin{figure}[ht!]
+        \centering  
+          \caption{Damping ratios from two-sex $e_y$-structured projection
+          matrices compared with single-sex values, Spain and US, 1969-2009}
+           % figure produced in /R/exLeslie.R
+           \includegraphics{Figures/Damping2}
+          \label{fig:damping2}
+\end{figure}
+Note that in both cases the $\sigma$ used to calculate the two-sex matrices was
+.5, in principle \textonehalf~informed by male vital rates and \textonehalf~
+informed by female vital rates. For the US, as one might expect, the damping
+ratio was intermediate to the single-sex male and female ratios. For
+the Spanish population, however, the two-sex model is expected to stabilize
+faster than either of the corresponding one-sex models. We speculate that this
+will be in large part due to the explicit balancing of the male and female
+populations by the sex ratio at birth, which is higher in Spain than in the US. 
+In the two-sex model, the Spanish population moves forward as a whole rather 
+than quickly diverging due to its high sex ratio. This may be a desirable
+property.
+
+Our other summary measure of transient dynamics, the total absolute
+oscillation of population structure from the initial to stable states
+\citep{cohen1979cumulative}, in this case tends to be intermediate to the male
+and female values (see Figure~\ref{fig:cohend22sex}). One exception are the
+years 1975-6 for the Spanish population, where total oscillation in his model
+would have been higher than for either single-sex model. Recall that the damping
+ratio for each year of data was higher (faster stability) for the two-sex case 
+than either single-sex case. Only the $\sigma$ value of 0.5 was tested, but here
+we see that other values of $\sigma$ also would not guarantee damping ratios or
+total oscillations bracketed by the single-sex cases. That we see this in the
+simple linear combination of male and female models might be a precursor to
+observing that such measures for non-linear models will also not necessarily be
+bracketed by the male and female single-sex cases.
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Total oscillation along the path to
+       stability. Two-sex ($\sigma = 0.5$) versus single-sex $e_y$-structured
+       projection trajectories; US 1969-2009 and Spain 1975-2009}
+           % figure produced in /R/exLeslie.R
+           \includegraphics{Figures/CohenD22sex}
+          \label{fig:cohend22sex}
+\end{figure}
+ \FloatBarrier
+
+
 
 
 

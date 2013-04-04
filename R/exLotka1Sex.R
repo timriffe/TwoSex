@@ -252,9 +252,9 @@ names(rfLES) <- yearsES
 PxUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")))
 PxES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
 #-----------------------------
+yr <- "1980"
 DiffCoefryUSm <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .dx, .Lx, rmat, rL){  
-                   
-               
+
                     Bx      <- rowSums(.Bx[[yr]][["Bxym"]], na.rm = TRUE)
                     Px      <- .Px$Male[.Px$Year == as.integer(yr)]
                     Ex      <- .Ex$Male[.Ex$Year == as.integer(yr)]
