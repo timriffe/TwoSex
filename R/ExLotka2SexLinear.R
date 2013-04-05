@@ -121,7 +121,7 @@ exTwoSexLinearTy <- compiler::cmpfun(function(r, SRB, dxm, dxf,
             )
         })
 
-exTwoSexStableAge <- compiler::cmpfun(function(r, SRB, dxm, dxf){
+exTwoSexStableAge <- compiler::cmpfun(function(r, SRB, dxm, dxf, .a = .5:110.5){
     N    <- length(dxm)
     dxM  <- matrix(0, ncol = N, nrow = N)
     dxF  <- matrix(0, ncol = N, nrow = N)
@@ -293,28 +293,28 @@ rmUS[,1] > US[,3]
 rfES[,1] < ES[,1]
 rmES[,1] > ES[,3]
 
-US <-do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxymf, .dxm, .dxf, .Ex){
-                    yri     <- as.integer(yr)
-                    .dxm. <- .dxm[, yr]
-                    .dxf. <- .dxf[, yr]
-                    ExM     <- rowSums(ExpectedDx( with(.Ex, Male[Year == yri]), .dxm.))
-                    BxMM    <- rowSums(ExpectedDx( rowSums(.Bxymf[[yr]][["Bxym"]], na.rm = TRUE), .dxm.))
-                    BxMF    <- rowSums(ExpectedDx( rowSums(.Bxymf[[yr]][["Bxyf"]], na.rm = TRUE), .dxm.))
-                    
-                    ExF     <- rowSums(ExpectedDx( with(.Ex, Female[Year == yri]), .dxf.))
-                    BxFF    <- rowSums(ExpectedDx( colSums(.Bxymf[[yr]][["Bxyf"]], na.rm = TRUE), .dxf.))
-                    BxFM    <- rowSums(ExpectedDx( colSums(.Bxymf[[yr]][["Bxym"]], na.rm = TRUE), .dxf.))
-                    # sex-sex-ex- specific rates:
-                    FxMM    <- BxMM / ExM
-                    FxFF    <- BxFF / ExF
-                    FxMF    <- BxMF / ExM
-                    FxFM    <- BxFM / ExF
-                    
-                    r.5 <- exTwoSexLinearCoaleR(dxm = .dxm., dxf = .dxf., 
-                            FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
-                            sigma = .5) 
-             
-                }, .Bxymf = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS))
+#US <-do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxymf, .dxm, .dxf, .Ex){
+#                    yri     <- as.integer(yr)
+#                    .dxm. <- .dxm[, yr]
+#                    .dxf. <- .dxf[, yr]
+#                    ExM     <- rowSums(ExpectedDx( with(.Ex, Male[Year == yri]), .dxm.))
+#                    BxMM    <- rowSums(ExpectedDx( rowSums(.Bxymf[[yr]][["Bxym"]], na.rm = TRUE), .dxm.))
+#                    BxMF    <- rowSums(ExpectedDx( rowSums(.Bxymf[[yr]][["Bxyf"]], na.rm = TRUE), .dxm.))
+#                    
+#                    ExF     <- rowSums(ExpectedDx( with(.Ex, Female[Year == yri]), .dxf.))
+#                    BxFF    <- rowSums(ExpectedDx( colSums(.Bxymf[[yr]][["Bxyf"]], na.rm = TRUE), .dxf.))
+#                    BxFM    <- rowSums(ExpectedDx( colSums(.Bxymf[[yr]][["Bxym"]], na.rm = TRUE), .dxf.))
+#                    # sex-sex-ex- specific rates:
+#                    FxMM    <- BxMM / ExM
+#                    FxFF    <- BxFF / ExF
+#                    FxMF    <- BxMF / ExM
+#                    FxFM    <- BxFM / ExF
+#                    
+#                    r.5 <- exTwoSexLinearCoaleR(dxm = .dxm., dxf = .dxf., 
+#                            FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
+#                            sigma = .5) 
+#             
+#                }, .Bxymf = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS))
 
 # ---------------------------------------------
 
@@ -334,7 +334,7 @@ StableStructUS.5 <- lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .d
                     FxFF    <- Minf0(Mna0(BxFF / ExF))
                     FxMF    <- Minf0(Mna0(BxMF / ExM))
                     FxFM    <- Minf0(Mna0(BxFM / ExF))
-                    
+                    # 2000: 0.0005731307 1.0480159308 
                     r.5     <- exTwoSexLinearCoaleR(dxm = .dxm., dxf = .dxf., 
                             FexFF = FxFF, FexFM = FxFM, FexMM = FxMM, FexMF = FxMF,
                             sigma = .sigma) 
@@ -346,8 +346,9 @@ StableStructUS.5 <- lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .d
                     cyinit  <- cbind(PyM,PyF) / sum(PyM+PyF)
 
             # difference coef
-            list(extheta = 1-sum(pmin(cyst, cyinit)), cyst = cyst, cyinit = cyinit)
+            list(extheta = 1-sum(pmin(cyst, cyinit)), cyst = cyst, cyinit = cyinit, r.5 = r.5)
                 }, .Bx = BxymfUS, .Ex = ExUS, .Px = PxUS,  .dxm = dxmUS, .dxf = dxfUS, .sigma = .5)
+        
 StableStructES.5 <- lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .dxm, .dxf, .sigma){  
                     yri     <- as.integer(yr)
                     .dxm.   <- .dxm[, yr]
@@ -376,7 +377,7 @@ StableStructES.5 <- lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .d
                     cyinit  <- cbind(PyM,PyF) / sum(PyM+PyF)
                     
                     # difference coef
-                    list(extheta = 1-sum(pmin(cyst, cyinit)), cyst = cyst, cyinit = cyinit)
+                    list(extheta = 1-sum(pmin(cyst, cyinit)), cyst = cyst, cyinit = cyinit, r.5 = r.5)
                 }, .Bx = BxymfES, .Ex = ExES, .Px = PxES,  .dxm = dxmES, .dxf = dxfES, .sigma = .5)
 # interesting: male dominance implies closer structure to present...
 #StableStructES.1 <- lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .dxm, .dxf, .sigma){  
@@ -463,13 +464,142 @@ library(parallel)
 
 DiffCoefryUSm
 
+UScy <- lapply(StableStructUS.5,"[[",2)
+USin <- lapply(StableStructUS.5,"[[",3)
 
+EScy <- lapply(StableStructES.5,"[[",2)
+ESin <- lapply(StableStructES.5,"[[",3)
 
+names(UScy) <- yearsUS
+names(USin) <- yearsUS
+names(EScy) <- yearsES
+names(ESin) <- yearsES
+xlabs <- c("1.0%","0.8%","0.6%","0.4%","0.2%","0%","0.2%","0.4%","0.5%","0.6%","0.8%","1.0%")
 
+pdf("/home/triffe/git/DISS/latex/Figures/exLotka2sexlinear1975USpyr.pdf", height = 5, width = 5)
+par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
+plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
+        panel.first = list(
+                rect(-1, 0, 1, 111, col = gray(.95), border = NA),
+                abline(v = seq(-1, 1, by = .2), col = "white"),
+                abline(h = seq(0, 110, by = 10), col = "white"),
+                text(seq(-1, 1, by = .2),0, xlabs, xpd = TRUE, pos = 1, cex = .7),
+                text(-1, seq(0, 110, by = 10), seq(0, 110, by = 10), pos = 2, xpd = TRUE, cex = .7),
+                text(-1.17, 116, expression(e[y]), xpd = TRUE, cex = 1),
+                text(0, -12, "Percentage", xpd = TRUE, cex = 1)
+        ))
 
+PyramidOutline(UScy[["1975"]][,1], UScy[["1975"]][,2], scale =100, border = gray(.2), xpd = TRUE, lwd = .5, col = "#55555550") 
+PyramidOutline(USin[["1975"]][,1], USin[["1975"]][,2], scale =100, border = gray(.2), xpd = TRUE, lwd = .5) 
+text(c(-.63,-.55), c(50, 91), c(expression(Stable~sigma==0.5),"Initial"), col = c("white", "black"), cex = 1.2, pos = 4)
+segments(-.4, 88, -0.2485961, 80.14833)
+dev.off()
 
+pdf("/home/triffe/git/DISS/latex/Figures/exLotka2sexlinear2009USpyr.pdf", height = 5, width = 5)
+par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
+plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
+        panel.first = list(
+                rect(-1, 0, 1, 111, col = gray(.95), border = NA),
+                abline(v = seq(-1, 1, by = .2), col = "white"),
+                abline(h = seq(0, 110, by = 10), col = "white"),
+                text(seq(-1, 1, by = .2),0, xlabs, xpd = TRUE, pos = 1, cex = .7),
+                text(-1, seq(0, 110, by = 10), seq(0, 110, by = 10), pos = 2, xpd = TRUE, cex = .7),
+                text(-1.17, 116, expression(e[y]), xpd = TRUE, cex = 1),
+                text(0, -12, "Percentage", xpd = TRUE, cex = 1)
+        ))
 
+PyramidOutline(UScy[["2009"]][,1], UScy[["2009"]][,2], scale =100, border = gray(.2), xpd = TRUE, lwd = .5, col = "#55555550") 
+PyramidOutline(USin[["2009"]][,1], USin[["2009"]][,2], scale =100, border = gray(.2), xpd = TRUE, lwd = .5) 
+text(c(-.63,-.55), c(50, 91), c(expression(Stable~sigma==0.5),"Initial"), col = c("white", "black"), cex = 1.2, pos = 4)
+segments(-.4, 88,  -0.3022095, 83)
+dev.off()
+# Spain 1975 and 2009:
 
+pdf("/home/triffe/git/DISS/latex/Figures/exLotka2sexlinear1975ESpyr.pdf", height = 5, width = 5)
+par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
+plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
+        panel.first = list(
+                rect(-1, 0, 1, 111, col = gray(.95), border = NA),
+                abline(v = seq(-1, 1, by = .2), col = "white"),
+                abline(h = seq(0, 110, by = 10), col = "white"),
+                text(seq(-1, 1, by = .2),0, xlabs, xpd = TRUE, pos = 1, cex = .7),
+                text(-1, seq(0, 110, by = 10), seq(0, 110, by = 10), pos = 2, xpd = TRUE, cex = .7),
+                text(-1.17, 116, expression(e[y]), xpd = TRUE, cex = 1),
+                text(0, -12, "Percentage", xpd = TRUE, cex = 1)
+        ))
 
+PyramidOutline(EScy[["1975"]][,1], EScy[["1975"]][,2], scale =100, border = gray(.2), xpd = TRUE, lwd = .5, col = "#55555550") 
+PyramidOutline(ESin[["1975"]][,1], ESin[["1975"]][,2], scale =100, border = gray(.2), xpd = TRUE, lwd = .5) 
+text(c(-.66,.55), c(50, 91), c(expression(Stable~sigma==0.5),"Initial"), col = c("white", "black"), cex = 1.2, pos = 4)
+segments(0.6293243,  88.70528,0.5153957, 79.00740)
+dev.off()
 
+pdf("/home/triffe/git/DISS/latex/Figures/exLotka2sexlinear2009ESpyr.pdf", height = 5, width = 5)
+par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
+plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
+        panel.first = list(
+                rect(-1, 0, 1, 111, col = gray(.95), border = NA),
+                abline(v = seq(-1, 1, by = .2), col = "white"),
+                abline(h = seq(0, 110, by = 10), col = "white"),
+                text(seq(-1, 1, by = .2),0, xlabs, xpd = TRUE, pos = 1, cex = .7),
+                text(-1, seq(0, 110, by = 10), seq(0, 110, by = 10), pos = 2, xpd = TRUE, cex = .7),
+                text(-1.17, 116, expression(e[y]), xpd = TRUE, cex = 1),
+                text(0, -12, "Percentage", xpd = TRUE, cex = 1)
+        ))
 
+PyramidOutline(EScy[["2009"]][,1], EScy[["2009"]][,2], scale =100, border = gray(.2), xpd = TRUE, lwd = .5, col = "#55555550") 
+PyramidOutline(ESin[["2009"]][,1], ESin[["2009"]][,2], scale =100, border = gray(.2), xpd = TRUE, lwd = .5) 
+text(c(-.64,-.87), c(35, 64), c(expression(Stable~sigma==0.5),"Initial"), col = c("white", "black"), cex = 1.2, pos = 4)
+dev.off()
+
+#for (yr in as.character(yearsUS)){
+#par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
+#plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),main=yr,
+#        panel.first = list(
+#                rect(-1, 0, 1, 111, col = gray(.95), border = NA),
+#                abline(v = seq(-1, 1, by = .2), col = "white"),
+#                abline(h = seq(0, 110, by = 10), col = "white"),
+#                text(seq(-1, 1, by = .2),0, xlabs, xpd = TRUE, pos = 1, cex = .7),
+#                text(-1, seq(0, 110, by = 10), seq(0, 110, by = 10), pos = 2, xpd = TRUE, cex = .7),
+#                text(-1.17, 116, expression(e[y]), xpd = TRUE, cex = 1),
+#                text(0, -12, "Percentage", xpd = TRUE, cex = 1)
+#        ))
+#PyramidOutline(UScy[[yr]][,1], UScy[[yr]][,2], 
+#        scale =100, border = gray(.2), xpd = TRUE, lwd = .5, col = "#55555550") 
+#Sys.sleep(.3)
+#}
+
+# ----------------------------------------------------------
+# stable distribution (cy) under different levels of r (-.01 - .01),
+# using dx from 1975 USA.
+r.5US <- do.call(rbind,lapply(StableStructUS.5,"[[",4))
+r.5ES <- do.call(rbind,lapply(StableStructES.5,"[[",4))
+rownames(r.5US) <- yearsUS
+rownames(r.5ES) <- yearsES
+
+yr <- "1975"
+pdf("/home/triffe/git/DISS/latex/Figures/exLotka2sexlinearPyrDiffr.pdf", height = 5, width = 5)
+par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
+plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
+        panel.first = list(
+                rect(-1, 0, 1, 111, col = gray(.95), border = NA),
+                abline(v = seq(-1, 1, by = .2), col = "white"),
+                abline(h = seq(0, 110, by = 10), col = "white"),
+                text(seq(-1, 1, by = .2),0, xlabs, xpd = TRUE, pos = 1, cex = .7),
+                text(-1, seq(0, 110, by = 10), seq(0, 110, by = 10), pos = 2, xpd = TRUE, cex = .7),
+                text(-1.17, 116, expression(e[y]), xpd = TRUE, cex = 1),
+                text(0, -12, "Percentage", xpd = TRUE, cex = 1)
+        ))
+rvals <- seq(-.01,.01,by = .005)
+for(rs in 1:length(rvals)){
+    pop <- exTwoSexStableAge(r = rvals[rs], SRB = r.5US[yr,2], dxm = dxmUS[,yr], dxf = dxfUS[,yr])
+    PyramidOutline(pop[,1], pop[,2], 
+            scale =100, border = gray(.4), xpd = TRUE, lwd = .5) 
+#        text(-100*pop[4+rs*2,1],4+rs*2-.5,paste0(rvals[rs],"%"),cex = .9)
+#        text(-100*pop[52+rs*2,1],52+rs*2-.5,paste0(rvals[rs],"%"),cex = .9)
+}
+text(c(-0.82, -0.61, -0.58),
+        c(8,  9.5, 11),paste0(rvals[c(1,3,5)],"%"),cex = .7,pos=c(2,2,4),xpd=TRUE)
+text(c(-0.51, -0.66, -0.66),
+        c(51.5,  56, 60),paste0(rvals[c(1,3,5)],"%"),cex = .7,pos=c(4,4,2),xpd=TRUE)
+dev.off()
