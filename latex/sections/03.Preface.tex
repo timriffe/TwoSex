@@ -81,31 +81,91 @@ good, the territory explored may still be good, and so I will rest well.
 So it is that I say that sex and \textit{time} are the structuring variables of
 interest in this dissertation. Aside from comparing two-sex models (and often the male
 and female one-sex models), we at times compare models that
-specify age with models that specify time until death. 
+specify age with models that specify time until death. We will learn that the
+specification of time in models has a large impact on results, and it could
+be said (with a pinch of jest, of course) that we herein expose a
+fundamental \textit{two-age} problem in demography. This was of course not our goal from the
+outset of the doctoral process. The narrative of how this dissertation came to
+take the shape that it has is as follows:
 
 The original objective for this dissertation was to hash out a survey of two-sex
-solutions and implement them in a standard and reproducible format while
-applying each to contemporary datasets. I chose the topic in order to force
-myself to learn formal demographic skills, which were considerably less
-developed at the outset. And so I began at the begining, collecting
-all the materials I could locate on the two-sex problem, and reproducing methods
-in no particular order. After a couple successful attempts on ad hoc acquired
-data, I came to realize that all the methods in my scope will essentially
-require or the same input data-- basic exposures, and births cross-tabuated by
+``solutions'' and implement them in a standard and reproducible format while
+applying each to contemporary datasets. I chose the topic after completing the
+EDSD in the summer of 2010 in order to force myself to improve my formal
+demographic skills, which I had only begun to develop in that program. That
+is, I knew it would be difficult and possibly beyond my abilities. And so I
+began at the begining, collecting all the materials I could locate on the 
+two-sex problem, and reproducing methods in no particular order. After a few 
+successful attempts (reproducing \citet{schoen1981harmonic},
+\citet{mc1975models} and \citet{henry1972nuptiality}) on ad hoc acquired data, I
+came to realize that all the methods in my scope will essentially require or
+the same input data-- basic exposures, and births cross-tabuated by
 sex and age of father and mother-- so I diverted attention to standardizing some
-datasets to use throughout this dissertation. When the mathematics or
-presentation style were over my head, I typically took a few steps back to some 
-earlier or less complex method, or alltogether went back to the basics 
+datasets to use throughout this dissertation-- The US and Spanish populations
+for about the past four decades. I decided to discard or translate methods
+dealing with the two-sex problem in marital transitions, in the first place 
+because Spain lacks good estimates of marital status exposures, 
+and these would need to have been produced artisanally (laboriously). This
+choice reduced the implementation workload, but the sex balancing strategies
+from analytical family demography have still been taken into consideration where
+possible.
+
+When the mathematics or
+presentation style in a given article were over my head, I typically took a few
+steps back to some earlier or less complex method, or alltogether went back to the basics 
 in \citet{sharpe1911problem}, \citet{kuczynski1932fertility}, \citet{coale1972growth} 
 or \citet{caswell2001matrix}. Some methods that were beyond my grasp in the 
-begining \citep[e.g.][]{mitra1978derivation} were finally understood and implemented later down the road. 
-Others I still don't understand\cite[e.g.][]{choo2006estimating}, despite having
+begining \citep[e.g.][]{mitra1978derivation, gupta1978alternative} were finally
+understood and implemented later down the road. Others I still don't understand\cite[e.g.][]{choo2006estimating}, despite having
 reproducible code!
 
 All along I had no vision or pretense of designing a new method, but I rather
-na\"{\i}vely assumed that familiarity with the tools at hand would lead me to
-some minor tweak or meaningful critique of the existing palette of methods at
-hand. For three years I did not manage to produce anything novel, only a few
-branches of the above-mentioned survey, and the intensity of my task waned.
+na\"{\i}vely assumed that gradual familiarity with the tools at hand would lead
+me to some minor tweak or meaningful critique of the existing palette of methods at
+hand. For two years I did not produce anything novel, and only managed to
+reproduce a few branches of the above-mentioned survey of methods, and my
+resolve waned. A casual conversation with John MacInnes just six months before
+the defense of this dissertation sparked what was to become the second, but
+dominant axis of this thesis, our realignment of age in renewal models. John
+mused, namely, what a population pyramid would look like if it were drawn with
+life expectancy on the verical axis instead of age. We tried to imagine what
+shape such a pyramid would assume, but were on the whole left guessing. I took a
+stab at how one might go about transforming age-classified population counts to
+remaining years-classified population counts, and came up with what is here
+Equation~\ref{eq:dxredist}. Later I realized that the central component to that
+formula, which says ``what is the probability of dying at age $x+n$ given
+survival until age $x$'', is pretty fundamental and already lying around in
+formal demography, probably in various texts and minds-- I spotted it in the
+wild in \textit{vaupel2009life}, but it's certainly well-known. I have never
+seen this formula applied to redistribute population counts in the manner
+suggested here.
 
+Shortly thereafter, after looking at many such remaining years pyramids and
+coming to some exciting concusions, I realized that one may just as well
+restructure \textit{any} age-classified data in the same way. So I took a 
+look at some thusly restructured fertility rates, explored
+some more, and spontaneously resolved to try to figure out how the fundamental
+Lotka equations would work if reworked to be based on remaining-years classified
+data. From that moment I was self-obliged to bring \textit{this} family of
+population models to bear upon the two-sex problem. Is the problem the same?
+Will this transformation teach us anything? Does it make sense to simply
+project remaining-years structured populations alongside age-structured
+populations? That is what this dissertation is about.
 
+As hinted before, it is the case that when one estimates population growth (or
+some other interesting quantity) from a remaining-years-classified population,
+one arrives at a different result than that derived from the analagous
+age-structured model. I do not undertake the worthy task of formalizing the
+difference between age and remaining-years structured growth rates, as did
+\citet{karmel1947relations} for the difference between male and female
+reproduction rates (or \citet{coale1972growth}, put differently). As for this
+new discrepancy, I have only managed the less glamorous feat of pointing out
+that it exists, as did \citet{kuczynski1932fertility} for the male
+and female cases. There is plenty of work left to do. It is my hope herein to
+simulate discussion in the discipline of demography about whether structuring
+aggregate demographic data (and the models derived from these) by remaining
+years of life may contribute further insights into human population dynamics. At
+times in this dissertation, I will posit how the nature of
+remaining-years-structured populations is agreeable to stable population theory
+and lends itself to population projections in general and to the sex balancing
+undertaken in two-sex solutions in particular.
