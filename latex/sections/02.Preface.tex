@@ -1,0 +1,110 @@
+Demographers study the structure and phenomena of populations. In order to study
+the magnitude and intensity of demographic phenomena, one must first remove
+so-called distortions introduced by population structure. Population structure
+is in turn treated as the product of demographic phenomena. Here,
+demographic phenomena refer to natality and mortality and population stucture
+refers to notions of time and sex. There are other forms of structure whose
+effects we would also like to purge were the measurement of demographic phenomena 
+our primary objective, and there are other kinds of phenomena that must also be
+measured if the analysis of structure were the primary objective. This is not
+so. Our objective is to study an abstraction of population processes, namely the
+renewal model for closed populations structured by sex and time.
+
+That we are concerned with the role of both sexes in the modelling of population
+renewal should be no surprise, as humans reproduce sexually. That it is a
+challenge for models to incorporate information from both sexes in the modelling
+of fertility (marriage, reproduction) has been firmly established since
+\citet{karmel1947relations}. This task is challenging because one must acheive
+one result, a fertility outcome, from two information sources (males and
+females), which when handled apart produce incongruous results. There is no
+obviously correct way to acheive this balancing act, although a large number of
+suggestions have been made. We typically call these suggestions ``solutions'',
+but they are not solutions in the sense of a solution to a math problem. A
+solution in the context of the present problem simply means that a reasonable
+result is produced in accordance with a predefined set of modeling objectives
+decided upon either by the demographer or consensus. The problem has not been
+(and may never be) solved in the sense of a necessary and best model. Instead,
+solutions are weighed in terms of fulfilling desirable properties versus theoretical 
+or practical parsimony.
+
+The balancing of the sexes in models without considering age is
+much simpler both conceptually and in practice, as it is just a matter of
+choosing some middle ground between males and females. Most of the literature on
+the two-sex problem, and the properties that demographers deem desirable in
+solutions, deals with the time-structuring variable, age. That modelling
+decisions must be made both with respect to the interaction between sexes and
+the interaction between ages makes the problem an altogether complex one. 
+
+What is age but time passed since birth? Thus, age is \textit{time} with respect
+to one of the demographic phenomena that we incorporate in models of population
+renewal. Again, the reason why demographers care about age is because all
+demographic phenomena vary by age in known ways, and so in order to measure the
+pure force of a demographic phenomenon one does well to take age into account.
+Age counts up from birth, starting at the beginning. We measure milestones and
+the lifecourse in terms of age; statistics are collected by age or year of
+birth, and age is in short \textit{known}. We do not know when we will die, but
+this is also something that demographers think on. Namely, in properly
+accounting for age (time since birth), we may faithfully approximate death
+probabilities for each age, and therein know something about our probable time
+of death. This later question is a subject of considerable interest!
+
+Demographers regularly think about, estimate, a probable time of
+death for persons of a particular ages-- that were born in particular years.
+Might we not also venture, to take things a step further-- What if age were 
+counted down to death instead of up
+from birth? Literally, what might we learn about demographic phenomena and
+population structure if beyond age (and due to the information we glean from
+age) we structured populations by sex and remaining years of life? That is a 
+big job, and we will fail to complete it, instead laying out only the groundwork
+for population renewal models wherein age is exchanged for remaing years of life.
+
+It my stance that population renewal models ought to account for both sexes, and
+for this reason roughly equal attention is given in this dissertation to the
+two-sex problem-- a problem that never goes away-- and population structured
+by remaining years of life-- a novel concept that must be hashed out before
+again complicating things with the two-sex problem. I apologize for any lack of
+rigour on both fronts. Namely, I neither reproduce formal proofs for the
+properties of the solutions that I treat, nor do I provide proofs for the
+(many) claims that I make. The filling of this gap is left for a later day--
+either someone will do the favor of proving my claims right or wrong or I
+will find the time to learn to do so. Instead we are lead in this dissertation
+primarily by intuition, and I have placed a premium on the
+data-grounded demonstration of the methods I propose. After all, might we not
+wish to free these formal demographic musings from the vacuum and see what might
+be learned? There is therefore the risk that some conceptual error or
+miscalculation of mine-- and all errors and miscalculations herein are mine
+alone-- will bring the work down. This is my risk alone, but the possibility is
+not that distressing. Rather it is inherent to the business of charting new
+territory, and this I have every pretension of doing. If the maps I draw are no
+good, the territory explored may still be good, and so I will rest well.
+
+So it is that I say that sex and time
+are the structuring variables of interest in two-sex models of population
+renewal.
+
+The original objective for this dissertation was to hash out a survey of two-sex
+solutions and implement them in a standard and reproducible format while
+applying each to contemporary datasets. I chose the topic in order to force
+myself to learn formal demographic skills, which were considerably less
+developed at the outset. And so I began at the begining, collecting
+all the materials I could locate on the two-sex problem, and reproducing methods
+in no particular order. After a couple successful attempts on ad hoc acquired
+data, I came to realize that all the methods in my scope will essentially
+require or the same input data-- basic exposures, and births cross-tabuated by
+sex and age of father and mother-- so I diverted attention to standardizing some
+datasets to use throughout this dissertation. When the mathematics or
+presentation style were over my head, I typically took a few steps back to some 
+earlier or less complex method, or alltogether went back to the basics 
+in \citet{sharpe1911problem}, \citet{kuczynski1932fertility}, \citet{coale1972growth} 
+or \citet{caswell2001matrix}. Some methods that were beyond my grasp in the 
+begining \citep[e.g.][]{mitra1978derivation} were finally understood and implemented later down the road. 
+Others I still don't understand\cite[e.g.][]{choo2006estimating}, despite having
+reproducible code!
+
+All along I had no vision or pretense of designing a new method, but I rather
+na\"{\i}vely assumed that familiarity with the tools at hand would lead me to
+some minor tweak or meaningful critique of the existing palette of methods at
+hand. For three years I did not manage to produce anything novel, only a few
+branches of the above-mentioned survey, and the intensity of my task waned.
+
+
