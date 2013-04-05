@@ -599,7 +599,47 @@ for(rs in 1:length(rvals)){
 #        text(-100*pop[52+rs*2,1],52+rs*2-.5,paste0(rvals[rs],"%"),cex = .9)
 }
 text(c(-0.82, -0.61, -0.58),
-        c(8,  9.5, 11),paste0(rvals[c(1,3,5)],"%"),cex = .7,pos=c(2,2,4),xpd=TRUE)
+        c(8,  9.5, 11),rvals[c(1,3,5)],cex = .7,pos=c(2,2,4),xpd=TRUE)
 text(c(-0.51, -0.66, -0.66),
-        c(51.5,  56, 60),paste0(rvals[c(1,3,5)],"%"),cex = .7,pos=c(4,4,2),xpd=TRUE)
+        c(51.5,  56, 60),rvals[c(1,3,5)],cex = .7,pos=c(4,4,2),xpd=TRUE)
 dev.off()
+
+# what about under different mortalit assumptions?
+mxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata"))) 
+mxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata"))) 
+yr <- "1975"
+pdf("/home/triffe/git/DISS/latex/Figures/exLotka2sexlinearPyrDiffdx.pdf", height = 5, width = 5)
+par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
+plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
+        panel.first = list(
+                rect(-1, 0, 1, 111, col = gray(.95), border = NA),
+                abline(v = seq(-1, 1, by = .2), col = "white"),
+                abline(h = seq(0, 110, by = 10), col = "white"),
+                text(seq(-1, 1, by = .2),0, xlabs, xpd = TRUE, pos = 1, cex = .7),
+                text(-1, seq(0, 110, by = 10), seq(0, 110, by = 10), pos = 2, xpd = TRUE, cex = .7),
+                text(-1.17, 116, expression(e[y]), xpd = TRUE, cex = 1),
+                text(0, -12, "Percentage", xpd = TRUE, cex = 1)
+        ))
+imp <- seq(.8,1.2,by=.2)
+for(rs in 1:length(imp)){
+    pop <- exTwoSexStableAge(r = 0, SRB = r.5US[yr,2], 
+            dxm = mx2dxHMD(mxmUS[,yr]*imp[rs]), 
+            dxf = mx2dxHMD(mxfUS[,yr]*imp[rs]))
+    PyramidOutline(pop[,1], pop[,2], 
+            scale =100, border = gray(.4), xpd = TRUE, lwd = .5) 
+#        text(-100*pop[4+rs*2,1],4+rs*2-.5,paste0(rvals[rs],"%"),cex = .9)
+#        text(-100*pop[52+rs*2,1],52+rs*2-.5,paste0(rvals[rs],"%"),cex = .9)
+}
+text(c(-.65,-.7),c(15,15),c("80%","120%"),pos=c(4,2),cex = .9)
+text(c(-0.38, -0.15),c(80,73),c("80%","120%"),cex=.9)
+dev.off()
+
+
+
+plot(0:110,mx2dxHMD(mxmUS[,yr]*.8),type = 'l')
+lines(0:110,mx2dxHMD(mxmUS[,yr]*1.2),col = "red")
+
+wmean(.5:110.5,dxmUS[,yr])
+wmean(.5:110.5,mx2dxHMD(mxmUS[,yr]*.8))
+wmean(.5:110.5,mx2dxHMD(mxmUS[,yr]*1.2))
+

@@ -18,6 +18,7 @@ cohort sizes over time, the baby boomers having still be rather young in 1975,
 but also due to slight shifting of the deaths distribution to higher ages over
 time.
  
+ % Figs made in exLotka2SexLinear.R 
 \begin{figure}[!ht]
    \caption{US, stable ($\sigma = 0.05$) versus initial $e_y$-structures, 1975
    and 2009}
@@ -46,6 +47,7 @@ these two structures were quite different. Initial (\textit{observed})
 conditions were much more concetrated around the mode, due also to underlying
 cohort sizes and continual and fast improvements in mortality.
  
+ % Figs made in exLotka2SexLinear.R
 \begin{figure}[!ht]
         \centering
         \caption{Spain, stable ($\sigma = 0.05$) versus initial
@@ -63,13 +65,70 @@ cohort sizes and continual and fast improvements in mortality.
         \end{subfigure}
          
 \end{figure}
-
+\FloatBarrier
 It has been mentioned before that the time series of observed $e_y$-structures
 has held rather steady in last several decades (major wars and epidemics excluded),
-due to the forces of mortality and fertility change having compensated each
-other somewhat. Namely for the Spanish population, decreases in $r$ have been
-compensated somewhat by decreases in mortality that pushed the modal age at
-death (modal remaining years at birth) to higher ages (remaining years). We can 
+due to the forces of mortality, fertility and (in)migration change having
+compensated each other somewhat. Namely, for the Spanish population, decreases
+in $r$ have been compensated somewhat by decreases in mortality that pushed the modal age at
+death (modal remaining years at birth) to higher ages (remaining years) as well
+as a large influx of relatively young migrants starting in the 1990s. The stable
+model of course assumes constant mortality and fertility, as well as zero
+migration, and so will not produce the same rather consistently observed tapered
+base to the population structure year after year-- in the stable model the
+(optimistic) tapered base will come about when low infant mortality is coupled
+with high (roughly $>0$) intrinsic growth rates. Indeed, the drop in $r$ (i.e.
+fertlity) is the primary culprit for the wide base in the stable
+$e_y$-structure for the Spanish population in 2009, which actually started some
+two decades earlier. 
+
+Figure~\ref{fig:cystabler} gives an example of the
+influence of $r$ on the stable population structure for a given deaths
+distribution (1975 US). In summary, growing populations tend to have higher
+modal remaining years of life, shrinking populations are biased to lower
+remaining life expectancies. The basic results would be the same for all years
+of data for both populations dealt with in this dissertation.
+
+Figure~\ref{fig:cystabledx} displays the 1975 US population assuming $r=0$ but
+with different levels of mortality. The deaths distribution, $d_x$ was
+regenerated according to 2 scalings of the underlying mortality rates, $\mu_x$.
+All ages of $\mu_x$ were either scaled to 1.2 and 0.8 times lower mortality
+levels-- equivalent to a bit more than 2 years lower and higher life expectancy 
+at birth, respectively. $d_x$ was then rederived from the
+newly scaled $\mu_x$. Notice that higher levels of mortality are on balance
+lower structures with slightly wider bases, and vice versa for lower mortalty
+levels. 
+
+\begin{figure}[!ht]
+        \centering
+        \begin{subfigure}
+            \centering
+            \caption{US 1975 stable populaton structure under
+          different values of $r$.}
+        	\label{fig:cystabler}
+                \includegraphics[scale = .8]{Figures/exLotka2sexlinearPyrDiffr}
+        \end{subfigure}
+        \begin{subfigure}
+            \centering
+            \caption{US 1975 stable populaton structure under
+          different levels of mortality, observed (center line), $\mu_x \times
+          1.2$ and $\mu_x \times 0.8$; $r=0$.}
+            \label{fig:cystabledx}
+                \includegraphics[scale = .8]{Figures/exLotka2sexlinearPyrDiffdx}
+        \end{subfigure}
+\end{figure}
+\FloatBarrier
+Despite the great differences in mortality in Figure~\ref{fig:cystabledx}, the
+shape of the stable population structure does not change substantially. Let us
+not confuse this observation with the earlier claim that $e_y$-structured
+populations are shaped in the first place by mortality and in the second place
+by fertility. $e_y$-structured human populations obtain their
+(rather invariant) characteristic curve due to mortality because new cohorts of
+births are \textit{layered} (see Figure~\ref{fig:exrenewal}) according to the
+deaths distribution, which itself has a characteristic shape. This could be seen
+by comparing the present figures with those from populations in mortality crisis
+years, and/or high infant mortality-- such years do no enter into study in this
+thesis.
 
 As with the single-sex case, one may measure the distributional distance between
 the initial and stable conditions for two-sex $e_y$-structured populations. The
@@ -84,6 +143,8 @@ Figure~\ref{fig:damping2}:
 
 \begin{figure}[ht!]
         \centering  
+        
+        
           \caption{Damping ratios from two-sex $e_y$-structured projection
           matrices compared with single-sex values, Spain and US, 1969-2009}
            % figure produced in /R/exLeslie.R
