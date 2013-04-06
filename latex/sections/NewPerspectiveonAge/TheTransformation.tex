@@ -30,27 +30,21 @@ deaths $y$ years after the present year $t$, also understood as a vector of the
 current population, redistributed into categories of remaining life expectancy,
 $P_{y}$, our newly reclassified data.
 
-The function of this formula is not totally original, as \citet{vaupel2009life}
-made use of a similar identity as an intermediate step in the proof for the
-statement that:
-
-\begin{quotation}
-``if an individual is chosen at random from a stationary population with a
-positive force of mortality at all ages, then the probability the individual is one who has lived $a$ years
-equals the probability the individual is one who has that number of years left
-to live.''
-\end{quotation}
-
-which takes this shape:
+The function of this formula is not original, as
+\citet{miller2001increasing} and \citet{vaupel2009life} made use of a similar
+identity:
 \begin{equation}
 \label{eq:vaupelredist}
 f(n | a) = \mu (a+n) \frac{l(a+n}{l(a)}
 \end{equation}
 where $f(n | a) $ is the probability of dying $n$ years in the future given
 survival to age $a$, and $\mu$ is the force of mortality.
-Formula~\eqref{eq:vaupelredist} can thus be used to weight age-classified data
-as well, and when then integrated over age is equal to
-Equation~\eqref{eq:dxredist}. Formula~\eqref{eq:dxredist} is more convenient when 
+\citet{miller2001increasing} used the formula to look at death distributions of
+particular ages in projecting health expenditures.
+Formula~\eqref{eq:vaupelredist} can thus be used to weight age-classified data as well, 
+and when then integrated over age is equal to Equation~\eqref{eq:dxredist}.
+
+Formula~\eqref{eq:dxredist} is more convenient when 
 discretized\footnote{Formula~\eqref{eq:dxredist} is more convenient due 1) to lifetable 
 close-out issues and 2) because only one column from the lifetable is required instead 
 of 3 columns ($\mu_x$, $l_x$, $L_x$) in
