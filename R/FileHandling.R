@@ -504,3 +504,20 @@ colnames(DTLTUUS) <- c("Year","Age","Cohort","Female","Male","Total")
 
 save(DTLTUES, file = "/home/triffe/git/DISS/Data/HMD_TLTU/DTLTUES.Rdata")
 save(DTLTUUS, file = "/home/triffe/git/DISS/Data/HMD_TLTU/DTLTUUS.Rdata")
+
+# --------------------------------------
+# add to Ropes folder with full years...
+DTLTUES <- HMDget(countries = c("ESP"), wanteditems = c("Deaths_lexis"), 
+        years = list(Deaths_lexis = c(1908:2009)), drop.tadj = TRUE, format = 1, 
+        username = username, password = password)
+colnames(DTLTUES) <- c("Year","Age","Cohort","Female","Male","Total")
+
+DTLTUUS <- HMDget(countries = c("USA"), wanteditems = c("Deaths_lexis"), 
+        years =  list(Deaths_lexis = c(1933:2010)), drop.tadj = TRUE, format = 1, 
+        username = username, password = password)
+
+colnames(DTLTUUS) <- c("Year","Age","Cohort","Female","Male","Total")
+
+
+save(DTLTUES, file = "/home/triffe/git/DISS/Data/HMD_TLTU/DTLTUES.Rdata")
+save(DTLTUUS, file = "/home/triffe/git/DISS/Data/HMD_TLTU/DTLTUUS.Rdata")
