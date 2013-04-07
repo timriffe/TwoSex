@@ -21,24 +21,37 @@ source("/home/triffe/git/DISS/R/UtilityFunctions.R")
 DT  <- local(get(load("/home/triffe/git/DISS/Data/SWE/SWEtri.Rdata")))
 Px  <- local(get(load("/home/triffe/git/DISS/Data/SWE/Px.Rdata")))
 dxm <- local(get(load("/home/triffe/git/DISS/Data/SWE/dxm.Rdata")))
-dxf <- loca:(get(load("/home/triffe/git/DISS/Data/SWE/dxf.Rdata")))
+dxf <- local(get(load("/home/triffe/git/DISS/Data/SWE/dxf.Rdata")))
 
 # get pop vectors to redistribute:
 Males   <- Px$Male[Px$Year == 2011]
 Females <- Px$Female[Px$Year == 2011]
 
+library(Pyramid)
+Pyramid(Males,Females)
+
 MxM <- ExpectedDx(Males, dxm[, "2011"] )[,111:1]
 FxM <- ExpectedDx(Females, dxf[, "2011"] )[,111:1]
+
+#ReduceDimension(MxM,0:110,20,1)
+#
+#
+#Pyramid(ReduceDimension(MxM,0:110,20,1),ReduceDimension(FxM,0:110,20,1),border.males=NA,border.females=NA)
 
 #DT <- read.table("/home/triffe/workspace/CODE_ALL/SWEtri.txt", na.strings = ".",
 #        header = FALSE, as.is = TRUE, skip = 3,col.names = c("Year","Age","Cohort","Female","Male","Total"))
 DT$Age              <- as.integer(sub(DT$Age, pattern = "\\+", replacement = ""))
 NAind               <- which(is.na(DT$Cohort))
 DT$Cohort[NAind]    <- DT$Cohort[(NAind - 1)]
-
+Cohorts             <- sort(unique(DT$Cohort))
+Years               <- sort(unique(DT$Year))
 
 Males <- reshape2::acast(DT, Year~Cohort, sum,value.var = "Male")
 Females <- reshape2::acast(DT, Year~Cohort, sum,value.var = "Female")
+# reduce cohort mess to 20-year cohorts:
+Males <- ReduceDimension(Males,Cohorts,20,1)
+Females <- ReduceDimension(Females,Cohorts,20,1)
+# now make cumulative sum so that bars stack properly in plot
 RCMales <- t(apply(Males,1,cumsum))
 RCFemales <- t(apply(Females,1,cumsum))
 # Years in rows
@@ -51,30 +64,29 @@ plot(NULL, type = "n", xlim = c(-60000, 60000), ylim = c(1750, 2120), axes = FAL
 # RCMales[10,]
 
 # colors by 10-year cohorts?
-Cohorts             <- sort(unique(DT$Cohort))
-Years               <- sort(unique(DT$Year))
-Coh10               <- Cohorts - Cohorts %% 20
-grays               <- gray(seq(from=.9,to=.1,length.out = length(unique(Coh10))))
-
+cohs1               <- unique(Cohorts - Cohorts %% 20)
+grays               <- gray(seq(from=.9,to=.1,length.out = length(cohs1)))
 
 bottoms             <- row(RCMales) + 1750
 tops                <- bottoms + 1
-cols                <- matrix(rep(grays, table(Coh10)), 
-                            ncol = length(Cohorts), nrow = length(Years), byrow=TRUE)
+cols                <- matrix(grays, 
+                            ncol = length(cohs1), nrow = length(Years), byrow=TRUE)
 # draw lower rope
 rect(-cbind(0,RCMales[,-ncol(RCMales)]),bottoms,-RCMales,tops, border = cols, col = cols, lwd = .2)
 rect(cbind(0,RCFemales[,-ncol(RCFemales)]),bottoms,RCFemales,tops, border = cols, col = cols, lwd = .2)
 
 # now for dx pyramid on top:
-Cohorts         <- 2012 + 0:110 
+Cohorts2         <- 2010 + 0:110 
+MxMn <- ReduceDimension(MxM,Cohorts2,20,1)
+FxMn <- ReduceDimension(FxM,Cohorts2,20,1)
 
-Coh10           <- Cohorts - Cohorts %% 20
+Coh2            <- Cohorts2 - Cohorts2 %% 20
 purples         <- rev(RColorBrewer::brewer.pal(9, "Purples")[3:9])
-cols            <- matrix(rep(purples, table(Coh10)), 
-                    ncol = 111, nrow = 111, byrow=TRUE)
+cols            <- matrix(purples, 
+        ncol = length(unique(Coh2)), nrow = 111, byrow=TRUE)
 
-MxMat           <- t(apply(MxM, 1, cumsum))
-FxMat           <- t(apply(FxM, 1, cumsum))
+MxMat           <- t(apply(MxMn, 1, cumsum))
+FxMat           <- t(apply(FxMn, 1, cumsum))
 bottoms         <- row(MxMat) + 2011
 tops            <- bottoms + 1
 rect(-cbind(0,MxMat[,-ncol(MxMat)]),bottoms,-MxMat,tops, border = cols, col = cols, lwd = .2)
@@ -134,16 +146,18 @@ rect(-cbind(0,RCMales[,-ncol(RCMales)]),bottoms,-RCMales,tops, border = cols, co
 rect(cbind(0,RCFemales[,-ncol(RCFemales)]),bottoms,RCFemales,tops, border = cols, col = cols, lwd = .2)
 
 # now for dx pyramid on top:
-Cohorts         <- 2010 + 0:110 
+Cohorts2         <- 2010 + 0:110 
+MxMn <- ReduceDimension(MxM,Cohorts2,20,1)
+FxMn <- ReduceDimension(FxM,Cohorts2,20,1)
 
-Coh10           <- Cohorts - Cohorts %% 20
+Coh2            <- Cohorts2 - Cohorts2 %% 20
 purples         <- rev(RColorBrewer::brewer.pal(9, "Purples")[3:9])
-cols            <- matrix(rep(purples, table(Coh10)), 
-        ncol = 111, nrow = 111, byrow=TRUE)
+cols            <- matrix(purples, 
+                       ncol = length(unique(Coh2)), nrow = 111, byrow=TRUE)
 
-MxMat           <- t(apply(MxM, 1, cumsum))
-FxMat           <- t(apply(FxM, 1, cumsum))
-bottoms         <- row(MxMat) + 2010
+MxMat           <- t(apply(MxMn, 1, cumsum))
+FxMat           <- t(apply(FxMn, 1, cumsum))
+bottoms         <- row(MxMat) + 2011
 tops            <- bottoms + 1
 rect(-cbind(0,MxMat[,-ncol(MxMat)]),bottoms,-MxMat,tops, border = cols, col = cols, lwd = .2)
 rect(cbind(0,FxMat[,-ncol(FxMat)]),bottoms,FxMat,tops, border = cols, col = cols, lwd = .2)
