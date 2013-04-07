@@ -289,3 +289,16 @@ mx2dxHMD <- compiler::cmpfun(function(mx){
             dx                  <- lx * qx                                                                                # Eq 66 MPv5
             dx
         })
+
+# sum a matrix in blocks in just one margin, not both.
+ReduceDimension <- compiler::cmpfun(function(Mat, struct = 0:110, N = 5, margin){
+    fac <- struct - struct %% N
+    Mat2 <- apply(Mat, margin, function(x, .fac){
+                tapply(x, .fac, sum)
+            },.fac = fac)
+    if (margin == 1){
+        return(t(Mat2))
+    } else {
+        return(Mat2)
+    }
+})
