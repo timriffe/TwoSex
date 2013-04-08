@@ -56,15 +56,15 @@ lambdafES <- getLambda(DTLTUES, "Female")
 # pretty stable, but clear pattern.
 # don't bother including in thesis, just mention
 # range observed.
-plot(yearsUS, lambdamUS,  col = "blue", ylim = c(.84,.91), pch = 19)
-points(yearsUS, lambdafUS, col = "red", pch = 19)
-points(yearsES, lambdamES, col = "blue", pch = 17)
-points(yearsES, lambdafES, col = "red", pch = 17)
-lines(lowess(lambdafES~yearsES), col = "red", lty = 2)
-lines(lowess(lambdamES~yearsES), col = "blue", lty = 2)
-lines(lowess(lambdafUS~yearsUS), col = "red")
-lines(lowess(lambdamUS~yearsUS), col = "blue")
-
+#plot(yearsUS, lambdamUS,  col = "blue", ylim = c(.84,.91), pch = 19)
+#points(yearsUS, lambdafUS, col = "red", pch = 19)
+#points(yearsES, lambdamES, col = "blue", pch = 17)
+#points(yearsES, lambdafES, col = "red", pch = 17)
+#lines(lowess(lambdafES~yearsES), col = "red", lty = 2)
+#lines(lowess(lambdamES~yearsES), col = "blue", lty = 2)
+#lines(lowess(lambdafUS~yearsUS), col = "red")
+#lines(lowess(lambdamUS~yearsUS), col = "blue")
+#
 
 
 
