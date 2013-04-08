@@ -302,3 +302,69 @@ ReduceDimension <- compiler::cmpfun(function(Mat, struct = 0:110, N = 5, margin)
         return(Mat2)
     }
 })
+
+MakeLExOneSexProjMatrix <- function(Fx, dx, lambda){
+    N       <- length(Fx)
+    # discount for part of infant mortality not surviving until end of year
+    dx[1]   <- dx[1] * (1 - lambda)
+    
+    # NxN matrix
+    # fertility component
+    Y       <- outer(dx, Fx, "*") + 
+            # add survival element-wise
+            rbind(cbind(0,diag(N - 1)),0)
+    
+    # reduce e0 fertility by 1/2, as only exposed for part of year
+    Y[, 1]  <- Y[, 1] / 2
+    # do not allow for Inf or NA values: impute 0
+    Y       <- Mna0(Minf0(Y))
+    # return projection matrix
+    Y
+}
+
+# 1) sigma, male weight
+
+MakeLExTwoSexProjMatrix <- function(dxm, dxf, FexFF, FexFM, FexMM, FexMF, lambdaM, lambdaF, sigma = .5){
+    N <- length(dxm)
+    dxm[1] <- dxm[1] * (1 - lambdaM)
+    dxf[1] <- dxf[1] * (1 - lambdaF)
+    
+    # define matrix, then discount first column for year t mortality
+    Y <-
+            cbind(
+                    # --------------------------------------------
+                    # Male side (left half)
+                    rbind(
+                            
+                            # upper left block
+                            # male-male fert
+                            sigma * outer(dxm, FexMM, "*") + 
+                                    # add element-wise
+                                    # male survival 
+                                    rbind(cbind(0, diag(N - 1)),0),
+                            
+                            # lower left block
+                            # male- female fert
+                            sigma * outer(dxf, FexMF, "*") 
+                    ),
+                    # --------------------------------------------
+                    # Female side (right half)
+                    rbind(
+                            # upper right block
+                            # female- male fert
+                            (1 - sigma) * outer(dxm, FexFM, "*"), 
+                            
+                            # lower right block
+                            # female survival and female-female fert
+                            (1 - sigma) * outer(dxf, FexFF, "*") + 
+                                    rbind(cbind(0, diag(N - 1)), 0)
+                    )
+            )
+    # discount fertility of those dying in year t (column 1) by half.
+    Y[,1] <- Y[,1]/2
+    
+    # do not allow for Inf or NA values: impute 0
+    Y     <- Mna0(Minf0(Y))
+    # return projection matrix
+    Y
+}
