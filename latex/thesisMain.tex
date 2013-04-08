@@ -20,12 +20,28 @@ Demography}{2013} {Dr. Albert Esteve Pal\'{o}s, Director\\
 \initializefrontsections
 
 % Optional Frontispiece
-%\frontispiece{\includegraphics[width=6in]{Intro/Happy} Find a cool picture to go here.}
+\frontispiece{
+\begin{adjustwidth}{-1in}{2in}
+\begin{figure}
+\raggedright
+\begin{subfigure}
+  \centering
+  \includegraphics[width=3.5in]{Figures/ES_DxHist}
+\end{subfigure}%
+~
+\begin{subfigure}
+  \centering
+  \includegraphics[width=3.5in]{Figures/US_DxHist}
+\end{subfigure}
+\end{figure}
+\end{adjustwidth}
+}
 
 % Optional, but recommended, Copyright page
 \copyrightpage{Timothy L. M. Riffe}
 
-% Page numbering. If you don't include a frontispiece or copyright page, you'll need to change this for two-sided printing.
+% Page numbering. If you don't include a frontispiece or copyright page, 
+% you'll need to change this for two-sided printing.
 \makeatletter
 \if@twoside \setcounter{page}{4} \else \setcounter{page}{1} \fi
 \makeatother
