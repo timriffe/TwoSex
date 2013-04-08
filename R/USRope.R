@@ -144,7 +144,7 @@ topsH           <- bottomsH + 1
 #dev.new(height = 8, width = 3)
 pdf("/home/triffe/git/DISS/latex/Figures/US_DxHist.pdf",height = 8, width = 3)
 par(mai = c(.3,.3,.3,.3), xaxs = "i", yaxs = "i", xpd = TRUE)
-plot(NULL, type = "n", xlim = c(-3500000, 3500000), ylim = c(1900, 2300), axes = FALSE)
+plot(NULL, type = "n", xlim = c(-3000000, 3000000), ylim = c(1900, 2300), axes = FALSE)
 # a year slice:
 
 # draw Lower historical
