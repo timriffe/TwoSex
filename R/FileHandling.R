@@ -262,11 +262,39 @@ Bxymf <- lapply(All.Bxy, function(x){
             a99  <- Bxyf[,"99"]
             Bxyf <- Bxyf[, -ncol(Bxyf)]
             Bxyf <- Bxyf + (Bxyf / rowSums(Bxyf)) * a99 
-            
-            
-            
+
             list(Bxym = Mna0(t(Bxym)),Bxyf = Mna0(t(Bxyf)))
         })
+#BxymfMISSING <- lapply(All.Bxy, function(x){
+#            
+#            Bxym <- reshape2::acast(x[x$SEX == 1, ], MAGE ~ FAGE, sum, value.var = "BIRTHS")
+#            a99m  <- Bxym[,"99"]
+#             
+#            
+#            Bxyf <- reshape2::acast(x[x$SEX == 2, ], MAGE ~ FAGE, sum, value.var = "BIRTHS")
+#            a99f  <- Bxyf[,"99"]
+#            
+#            list(NAm = a99m, NAf = a99f)
+#        })
+#yearsUS <- 1969:2010
+#names(BxymfMISSING) <- yearsUS
+#names(Bxymf) <- yearsUS
+
+#USNA <- lapply(as.character(yearsUS),function(yr, .Bxy, .NA){
+#                    
+#                    NAs <- .NA[[yr]][[1]] + .NA[[yr]][[2]]
+#                    Bx <- (colSums(.Bxy[[yr]][[2]]) + colSums(.Bxy[[yr]][[2]]))
+#                    NAx <- NAs / Bx
+#                    NAt <- sum(NAs) / sum(Bx)
+#                    list(NAt,NAx)
+#                }, .Bxy = Bxymf, .NA = BxymfMISSING)
+#USNAt <- unlist(lapply(USNA,"[[",1))
+#plot(yearsUS, USNAt, type = 'l')
+#save(USNA, file = "/home/triffe/git/DISS/Data/results/USmissings/USNAt.Rdata")
+#for (i in 1:length(yearsUS)){
+#    plot(USNA[[i]][[2]], type = 'l', main = yearsUS[i])
+#    Sys.sleep(1)
+#}
 
 Bxymf0_110 <- lapply(Bxymf, function(x){
             Xf <- Xm <- matrix(0, nrow = 111, ncol = 111, dimnames=list(Males = 0:110, Females = 0:110))
