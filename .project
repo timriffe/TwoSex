@@ -25,6 +25,10 @@
 			<type>1</type>
 			<location>/usr/share/texmf-texlive/tex/latex/tools/.tex</location>
 		</link>
+		<link>
+			<name>latex/abbr.tex</name>
+			<type>1</type>
+			<location>/usr/share/texmf-texlive/tex/generic/abbr/abbr.tex</location>
+		</link>
 	</linkedResources>
 </projectDescription>
-
