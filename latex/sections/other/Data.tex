@@ -1,0 +1,89 @@
+All calculations in this dissertation, unless otherwise cited, are original 
+and based on a small number of publicly available datasets that have
+been modified and standardized according to a strict and simple protocol, as
+described in following. Since the same small number of datasets
+is used throughout this document, sources are not cited in situ, but rather
+always refer to the same sources, as described here. Only two populations are
+treated, Spain (ES) and the United States (US). Similar data for France was also
+located, but was not included as it covered a shorted range of years. 
+Since the data used in this work are so simple, calculations presented are
+expected to be replicable for a variety of other populations, though not for
+populations where births by age of father are not available.
+
+\subsection{Birth counts}
+Birth counts for Spain and the US were not available in tables of the format
+required for this dissertation. For this reason, birth counts were tabulated from birth
+register microdata publicly available as fixed-width text files from the 
+Instituto Nacional de Estadistica (INE)\citep{MNPnacimientos} for Spain and the
+National Center for Health Statistics (NCHS) (INE)\citep{NCHS19692009} for the US. For Spain, 
+the years 1975-2009 are used and for the US, the years 1969-2009 are used
+consistently throughout this dissertation. At the time of this writing, further
+years are available, but not included. Earlier years for the US are also
+available in earlier official publications, but these have not been digitized
+for inclusion in this dissertation. Cross-tabulations for each year included age
+of mother, age of father and sex of birth. Resident status was not used as a
+selection criterion for births in either country.
+
+In all cases for both countries, age of mother was
+stated, but in some cases age of father was missing. Births with missing age of
+father were redistributed proportionately over births to fathers of known age 
+separately for each age of mother. In Spain births with unrecorded age of father 
+tended to comprise less than 2\% of
+all cases, and so we do not expect this procedure to affect
+results, and no further sensitivity tests were performed. For the US, the
+percent of all births where age of father was not recorded ranged between 7\%
+and 18\%, as seen in Figure~\ref{fig:USmissingAge}. 
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Proportion of births with age of father not recorded, US,
+          1969-2009}
+           % figure produced in /R/DataDiagnostics.R
+           \includegraphics{Figures/USmissingAge}
+          \label{fig:USmissingAge}
+\end{figure}
+
+For the US, the degree of missingness of fathers' age varies by age of
+mother (not shown). For ages greater than 25, we do not expect this to affect
+results in an important way. Averaged over all years, ages $<= 20$ all had missingness of more than
+20\%; ages $<= 16$ had missingness of more than 40\%, and ages $<= 14$ had
+missingness of more than 60\%. This may affect results if the age-pattern of
+males of unrecorded age differs from that of males of recorded age in a
+non-trivial way. This uncertainty enters into the male
+age-pattern of fertility, as well as the bivariate
+age distribution of births (age of mother by age of father) may affect results
+for the US where these age-specific data are used.
+
+For both countries, cross-tabulated
+sex-specific birth counts were entered into matrices of standard 111$\times$111
+dimensions, covering ages 0-110. Ages with no births simply contain zeros. Open
+age groups from the original data were not redistributed over ages beyond the
+bounds of the original microdata. Especially for young ages of fathers and the
+upper ages of mothers, this will be visible in respective age
+patterns, but the effect on overall results (TFR, growth rates) will be
+trivial.
+
+Where birth counts are not required differentiated by sex of birth, for
+instance, we sum over sex. Birth counts by age of mother are always taken from
+the column margin of the birth matrix, while age of father is the row margin.
+This practice helps to minimize the number of data objects used.
+
+\subsection{Exposures and mortality data}
+
+All other data for the US and Spain were downloaded from the Human Mortality
+Database (HMD)\citep{wilmoth2007methods}. These data include, most importantly,
+population exposures\footnote{At the time of this writing, exposures from the
+Human Fertility Database (\url{www.humanfertility.org}) may have been more
+appropriate for certain age groups, but since we prefer to use all ages
+$0-110+$, HMD exposures were utilized instead.} and population counts by age,
+sex and year and the deaths distribution, $d_x$, from the sex-specific lifetables. $d_x$ informaion was 
+always rescaled to sum to 1, which minimized rounding errors and simplified
+programming. Other items drawn from the HMD but used less consistently
+included, mortality hazards, $\mu_x$, survival curves, $l_x$ (also rescaled so that $l_0 = 1$), 
+lifetable exposures, $L_x$,
+life expectancies, $e_x$, and death counts by Lexis triangles. Each of these
+items is used in single-age format, with ages $0-110+$. The open age group,
+$110+$ is used as age 110 and is given no further treatment. The
+respective uses of each of these items should be obvious from the context 
+of the formulas being applied, and are stated explicitly in the text or in 
+footnotes where the use may not be obvious.

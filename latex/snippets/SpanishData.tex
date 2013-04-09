@@ -1,17 +1,58 @@
 
-\subsection{Spain, 1975 - 2009}
-\subsubsection{Birth Counts}
-Birth counts for Spain were tabulated from birth register microdata publicly
-available as fixed width text files from the Instituto Nacional de
-Estadistica\citep{MNPnacimientos}.
 
-Variables: 
-Missingness: (graph male age missing x year)
-redistribution of missings:
-Description of accompanying data (appendix)
+\subsubsection{Spain Birth Counts, 1975 - 2009}
+Birth counts for Spain were not available in tables in the format required for
+this dissertation. For this reason, birth counts were tabulated from birth
+register microdata publicly available as fixed-width text files from the 
+Instituto Nacional de Estadistica (INE)\citep{MNPnacimientos}\footnote{At the
+time of this writing, a further three years of data (up to 2012) were available, but these were not
+incorporated into the dissertation body of data.}. Cross-tabulations for each
+year included age of mother, age of father and sex of birth. In all cases, age
+of mother was stated, but in some cases age of father was missing. In Spain
+these cases tended to comprise less than 2\% of all cases. Births with missing
+age of father were redistributed proportionately over births to fathers of known
+age separately for each age of mother. We do not expect this procedure to affect
+results, and no sensitivity tests wre performed.
 
+\subsubsection{US Birth Counts, 1969 - 2009}
+Birth counts for the US were not available in tables in the format required for
+this dissertation. For this reason, birth counts were tabulated from birth
+register microdata publicly available as fixed-width text files from the 
+Center for National Center for Health Statistics (NCHS)
+(INE)\citep{NCHS19692009}. Cross-tabulations for each
+year included age of mother, age of father and sex of birth. In all cases, age
+of mother was stated, but in many cases age of father was missing. The
+percent of all births where age of father was not recorded ranged between 7\%
+and 18\%, as seen in Figure~\ref{fig:USmissingAge}. 
 
-\subsubsection{Exposures}
+\begin{figure}[ht!]
+        \centering  
+          \caption{Proportion of births with age of father not recorded, US,
+          1969-2009}
+           % figure produced in /R/DataDiagnostics.R
+           \includegraphics{Figures/USmissingAge}
+          \label{fig:USmissingAge}
+\end{figure}
 
+Births with missing age of father were redistributed
+proportionately over births to fathers of recorded age separately for each
+age of mother. The degree of missingness of father's age varies by age of
+mother. For ages greater than 25, we do not expect this to affect results in an important
+way. Averaged over all years, ages $<= 20$ all had missingness of more than
+20\%; ages $<= 16$ had missingness of more than 40\%, and ages $<= 14$ had
+missingness of more than 60\%. This may affect results if the age-pattern of
+males of undeclared age differs from that of males of declared age in a
+non-trivial way. For our purposes, this uncertainty enters into the male
+age-pattern of fertility, as well as any case where we rely upon the bivariate
+age distribution of births (age of mother by age of father). 
 
-     
+\subsubsection{Exposures and Mortality data}
+
+All other data for the US and Spain were downloaded from the Human Mortality
+Database (HMD)\citep{wilmoth2007methods}. These data include most importantly population
+exposures by age, sex and year and the deaths distribution, $d_x$, from the sex-specific lifetables. $d_x$ 
+informaion was always rescaled to sum to 1, which minimized rounding
+errors and made programming simpler. Other items used from the HMD less
+consistently included population counts, mortality hazards, $\mu_x$, survival
+curves, $l_x$ (also scaled so that $l_0 = 1$), lifetable exposures, $L_x$, life expactancies, $e_0$,
+and death counts by Lexis triangles.
