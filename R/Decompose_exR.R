@@ -37,33 +37,6 @@ mxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata")))
 # update function to determine sex gap
 # should run on mx and not dx:
 
-#derive dx from mx
-mx2dxHMD <- compiler::cmpfun(function(mx, Mna0){
-            mx                  <- Mna0(as.numeric(mx))
-            
-            # mean proportion of interval passed at death
-            ax                  <- mx * 0 + .5                      # ax = .5, pg 38 MPv5
-            
-            ax[1]   <- ((0.045 + 2.684 * mx[1]) + (0.053 + 2.800 * mx[1])) / 2 # hack, hard to pass in sex variable
-            
-            qx                  <- mx / (1 + (1 - ax) * mx)          # Eq 60 MPv5 (identity)
-# ---------------------------------------------------------------------------------
-# set open age qx to 1
-            i.openage           <- 111 # removed argument OPENAGE
-            qx[i.openage]       <- ifelse(is.na(qx[i.openage]), NA, 1)
-            ax[i.openage]       <- 1 / mx[i.openage]                   
-# ---------------------------------------------------------------------------------
-# define remaining lifetable columns:
-            px                  <- 1 - qx                                                                                 # Eq 64 MPv5
-            px[is.nan(px)]      <- 0 # skips BEL NAs, as these are distinct from NaNs
-# lx needs to be done columnwise over px, argument 2 refers to the margin.
-            lx                  <- c(1, cumprod(px[1:(i.openage-1)]))
-            # NA should only be possible if there was a death with no Exp below age 80- impossible, but just to be sure
-            # lx[is.na(lx)]   <- 0 # removed for BEL testing        
-            dx                  <- lx * qx                                                                                # Eq 66 MPv5
-            dx
-        })
-
 exOneSexCoaleRdec1 <- compiler::cmpfun(function(rates, .a = .5:110.5, maxit = 2e2, tol = 1e-11, 
                 mx2dxHMD, Mna0, wmean){  
     N        <- length(.a)
@@ -100,6 +73,47 @@ exOneSexCoaleRdec1 <- compiler::cmpfun(function(rates, .a = .5:110.5, maxit = 2e
     }
     r2
 })
+
+# this one takes shape into account separately:
+exOneSexCoaleRdec2 <- compiler::cmpfun(function(rates, .a = .5:110.5, maxit = 2e2, tol = 1e-11){  
+            N        <- length(.a)
+            # extract rates
+            Fexex      <- rates[1:N]
+            sig      <- rates[(N+1):(2*N)]
+            mx       <- rates[(2*N+1):(3*N)]
+            eTFR     <- rates[length(rates)]
+            
+            dx       <- mx2dxHMD(mx)
+            
+            dxM      <- matrix(0, ncol = N, nrow = N)
+            dxi      <- dx
+            for (i in 1:N){
+                dxM[i, 1:length(dxi)  ] <- dxi 
+                dxi  <- dxi[2:length(dxi) ]
+            }     
+            R0       <- sum(dxM*(sig*Fexex*eTFR))
+            T.guess  <- wmean(.a,rowSums(dxM)*(sig*Fexex*eTFR)) # assuming r = 0
+            r2       <- log(R0) / T.guess
+            
+            # be careful to discount Fex by SRB appropriately for males / females
+            # prior to specification
+            # Based on Coale (1957)
+            for (i in 1:maxit){ # 15 is more than enough!
+                #cat(r2,i,"\n")
+                r1     <- r2
+                deltai <- 1 - sum(rowSums(t(t(dxM) / (1 / exp(-r1 * .a)))) * (sig*Fexex*eTFR))
+                # the mean generation time self-corrects 
+                # according to the error produced by the Lotka equation
+                r2     <- r1 - (deltai / (T.guess - (deltai / r1))) 
+                if (abs(r2 - r1) <= tol | zapsmall(abs(deltai)) <= tol){
+                    break
+                }
+            }
+            r2
+        })
+
+
+
 
 # all functions needed to be passed explicitly inside because parLapply uses snow framework,
 # which fires up r sessions that need to be fed all relevant materials.
@@ -257,4 +271,96 @@ plot(yearsUS, USdecompR[,"Fert"] + USdecompR[,"Mort"], type = 'l', ylim = c(-.00
 lines(yearsUS, USdecompRL[,"Fert"] + USdecompRL[,"Mort"])
 cor(diff(USdecompR[,"Fert"] + USdecompR[,"Mort"]), diff(USdecompRL[,"Fert"]))
 cor(USdecompR[,"Fert"], USdecompR[,"Mort"])
+
+###############################################
+library(parallel)
+library(DecompHoriuchi)
+# this code transferred to Coale or Galton, as it takes too long to run...
+# a single year takes 20-30 min on my old laptop...
+#ESdecompExR2 <- do.call(rbind, mclapply(as.character(yearsES), function(yr, .Bxymf, .Ex, .mxm, .mxf){
+#                    N <- 111
+#                    
+#                    # 1) get mx for year
+#                    .mxf.     <- .mxf[,yr]
+#                    .mxm.     <- .mxm[,yr]
+#                    
+#                    dxf1      <- mx2dxHMD(.mxf.)
+#                    dxm1      <- mx2dxHMD(.mxm.)
+#                    
+#                    BexMM     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxym"]]), dxm1)) 
+#                    BexMF     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxyf"]]), dxm1))
+#                    .Fexm.    <- Mna0(Minf0((BexMM+BexMF) /  rowSums(ExpectedDx(.Ex$Male[.Ex$Year == as.integer(yr)], dxm1))))
+#                    .sigexm.  <- Mna0(Minf0(BexMM / (BexMM + BexMF)))
+#                    eTFRm     <- sum(.Fexm.)
+#                   .Fexexm.   <- .Fexm. / eTFRm
+#                    
+#                    BexFM     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxym"]]), dxf1)) 
+#                    BexFF     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxyf"]]), dxf1))
+#                    .Fexf.    <- Mna0(Minf0((BexFM+BexFF) /  rowSums(ExpectedDx(.Ex$Female[.Ex$Year == as.integer(yr)], dxf1))))
+#                    .sigexf.  <- Mna0(Minf0(BexFF / (BexFF + BexFM)))
+#                    eTFRf     <- sum(.Fexf.)
+#                    .Fexexf.   <- .Fexf. / eTFRf
+#                    
+#                    rates2    <- c(.Fexexm., .sigexm., .mxm., eTFRm)
+#                    rates1    <- c(.Fexexf., .sigexf., .mxf., eTFRf)
+#                    
+#                    Dec <- DecompContinuousOrig(func = exOneSexCoaleRdec2, 
+#                            rates2 = rates2, 
+#                            rates1 = rates1, N = 300)
+#            c(Fertpdf = sum(Dec[1:N]), SRB = sum(Dec[(N+1):(2*N)]), Mort = sum(Dec[(2*N+1):(3*N)]), TFR = Dec[length(Dec)])
+#                }, .Bxymf = BxymfES, .Ex = ExES, .mxm = mxmES, .mxf = mxfES))
+
+# NOTE: US was computed analagously to the above (swap all instances of 'ES' to 'US' in named variables)
+# computed on UCD demog Coale old server. results emailed back to laptop.
+
+
+USdecompR <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/USdecompExR2.Rdata")))
+ESdecompR <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/ESdecompExR2.Rdata")))
+# determine axes compatible with output from both countries
+Neg <- USdecompR
+Neg[Neg > 0] <- 0
+Pos <- USdecompR
+Pos[Pos < 0] <- 0
+
+pdf("/home/triffe/git/DISS/latex/Figures/DecomprExUS.pdf", height = 5, width = 5)
+par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
+plot(NULL, type = "n", xlab = "", ylab = "", xlim = c(-1, 42), ylim = c(-.004,.007), 
+        axes = FALSE)
+rect(-1,-.004,42,.007,col = gray(.95),border = NA)
+abline(h = seq(-.004,.007,by=.001), col = "white")
+abline(v = seq(1,41,by=5), col = "white")
+barplot(t(Neg), add = TRUE, space = 0, border = NA, col = paste0(gray(c(.8,.6,.4,.2)),"BB"),width = 1,axes = FALSE)
+barplot(t(Pos), add = TRUE, space = 0, border = NA, col = paste0(gray(c(.8,.6,.4,.2)),"BB"),width = 1,axes = FALSE)
+
+text(seq(1,41,by=5),-.004,seq(1970,2010,by=5),pos=1,cex=.8,xpd=TRUE)
+text(-1,seq(-.004,.007,by=.001),seq(-.004,.007,by=.001),cex=.8,pos=2,xpd=TRUE)
+text(10,c(-0.0008636214, 0.0004774893, 0.0033583963), c("Mortality","Fertility","SRB"), cex = 1.5,pos = 4, col = "white")
+
+text(20,-.005,"Year",xpd=TRUE)
+text(-2,.0075,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
+dev.off()
+
+# Spain
+Neg <- ESdecompR
+Neg[Neg > 0] <- 0
+Pos <- ESdecompR
+Pos[Pos < 0] <- 0
+
+pdf("/home/triffe/git/DISS/latex/Figures/DecomprExES.pdf", height = 5, width = 5)
+par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
+plot(NULL, type = "n", xlab = "", ylab = "", xlim = c(-7, 36), ylim = c(-.004,.007), 
+        axes = FALSE)
+rect(-7,-.004,36,.007,col = gray(.95),border = NA)
+abline(h = seq(-.004,.007,by=.001), col = "white")
+abline(v = seq(-5,35,by=5), col = "white")
+barplot(t(Neg), add = TRUE, space = 0, border = NA, col = paste0(gray(c(.8,.6,.4,.2)),"BB"),width = 1,axes = FALSE)
+barplot(t(Pos), add = TRUE, space = 0, border = NA, col = paste0(gray(c(.8,.6,.4,.2)),"BB"),width = 1,axes = FALSE)
+
+text(seq(-5,35,by=5),-.004,seq(1970,2010,by=5),pos=1,cex=.8,xpd=TRUE)
+text(-7,seq(-.004,.007,by=.001),seq(-.004,.007,by=.001),cex=.8,pos=2,xpd=TRUE)
+text(16,c(-0.001009793,  0.001825698,  0.005216793), c("Mortality","Fertility","SRB"), cex = 1.5,pos = 4, col = "white")
+text(15,-.005,"Year",xpd=TRUE)
+text(-8,.0075,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
+dev.off()
+
 
