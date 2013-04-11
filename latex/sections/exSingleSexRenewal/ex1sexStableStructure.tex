@@ -195,7 +195,20 @@ were also to be expected.
 So it is that, in the absence of a formal proof, we
 will be content to operate under the assumption that population structured by 
 probabilistic time until death rather than recorded time since birth is less
-volatile and closer to stable. We offer further speculation, but do not assume,
-that $e_y$-population structure is the more essential of the two.
+volatile and closer to stable than typically observed age-structured
+populations. We offer further speculation, but do not assume, that $e_y$-population 
+structure is in some way the more essential of the two.
+
+We have offered no formula to \textit{undo} the age-transformed population back
+to its original age-structure. If stock is taken in the $r$ estimates produced
+in the $e_y$-structured model, then one may in like manner walk back to the
+survival function and calculate the supposed age-structure, $c_a$:
+
+\begin{equation}
+c_a = \frac{e^{-ra}l_a}{\int _0 ^\infty e^{-ra}l_a \dd a}
+\end{equation}
+which indeed can retreived from the $c_y$ structure when noting that $l_a$ is
+just the sum of future deaths, $d_a$ ($l_a = \int _a ^\infty d_a \dd a$), the
+very building blocks of $c_y$ which we never fully dispensed with.
 
  \FloatBarrier
