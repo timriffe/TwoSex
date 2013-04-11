@@ -119,78 +119,78 @@ exOneSexCoaleRdec2 <- compiler::cmpfun(function(rates, .a = .5:110.5, maxit = 2e
 # which fires up r sessions that need to be fed all relevant materials.
 # executed on WORLDFAM server. Takes several hours to run, but produces small error. 
 #cl <- makeCluster(4)
-USdecompExR <- do.call(rbind, parLapply(cl, as.character(yearsUS), 
-				function(yr, .Bxymf, .Ex, .mxm, .mxf,  mx2dxHMD, Mna0, Minf0, wmean, ExpectedDx, exOneSexCoaleRdec1, DecompContinuousOrig){
-					N <- 111
-					
-					# 1) get mx for year
-					.mxf.     <- .mxf[,yr]
-					.mxm.     <- .mxm[,yr]
-					
-					dxf1      <- mx2dxHMD(.mxf.,Mna0)
-					dxm1      <- mx2dxHMD(.mxm., Mna0)
-					
-                   # these differ because dxm used to distribute girl births: compared to male stable exposure: not redistributed
-                   # by female dx. Vice versa below
-					BexMM     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxym"]]), dxm1)) 
-					BexMF     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxyf"]]), dxm1))
-					.Fexm.    <- Mna0(Minf0((BexMM+BexMF) /  rowSums(ExpectedDx(.Ex$Male[.Ex$Year == as.integer(yr)], dxm1))))
-					.sigexm.  <- Mna0(Minf0(BexMM / (BexMM + BexMF)))
-					
-					
-					BexFM     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxym"]]), dxf1)) 
-					BexFF     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxyf"]]), dxf1))
-					.Fexf.    <- Mna0(Minf0((BexFM+BexFF) /  rowSums(ExpectedDx(.Ex$Female[.Ex$Year == as.integer(yr)], dxf1))))
-					.sigexf.  <- Mna0(Minf0(BexFF / (BexFF + BexFM)))
-					rates2    <- c(.Fexm., .sigexm., .mxm.)
-					rates1    <- c(.Fexf., .sigexf., .mxf.)
-					
-					Dec <- DecompContinuousOrig(func = exOneSexCoaleRdec1, 
-							rates2 = rates2, 
-							rates1 = rates1, N = 300, 
-							mx2dxHMD = mx2dxHMD, Mna0 = Mna0, wmean = wmean)
-					c(Fert = sum(Dec[1:N]), SRB = sum(Dec[(N+1):(2*N)]), Mort = sum(Dec[(2*N+1):(3*N)]))
-				}, .Bxymf = BxymfUS, .Ex = ExUS, .mxm = mxmUS, .mxf = mxfUS, 
-				mx2dxHMD = mx2dxHMD, Mna0 = Mna0, Minf0 = Minf0, wmean = wmean, 
-				ExpectedDx = ExpectedDx, DecompContinuousOrig = DecompContinuousOrig, 
-				exOneSexCoaleRdec1 = exOneSexCoaleRdec1))
-stopCluster(cl)
-#
-cl <- makeCluster(4)
-ESdecompExR <- do.call(rbind, parLapply(cl, as.character(yearsES), 
-				function(yr, .Bxymf, .Ex, .mxm, .mxf,  mx2dxHMD, Mna0, Minf0, wmean, ExpectedDx, exOneSexCoaleRdec1, DecompContinuousOrig){
-					N <- 111
-					
-					# 1) get mx for year
-					.mxf.     <- .mxf[,yr]
-					.mxm.     <- .mxm[,yr]
-					
-					dxf1      <- mx2dxHMD(.mxf.,Mna0)
-					dxm1      <- mx2dxHMD(.mxm., Mna0)
-					
-					BexMM     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxym"]]), dxm1)) 
-					BexMF     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxyf"]]), dxm1))
-					.Fexm.    <- Mna0(Minf0((BexMM+BexMF) /  rowSums(ExpectedDx(.Ex$Male[.Ex$Year == as.integer(yr)], dxm1))))
-					.sigexm.  <- Mna0(Minf0(BexMM / (BexMM + BexMF)))
+#USdecompExR <- do.call(rbind, parLapply(cl, as.character(yearsUS), 
+#				function(yr, .Bxymf, .Ex, .mxm, .mxf,  mx2dxHMD, Mna0, Minf0, wmean, ExpectedDx, exOneSexCoaleRdec1, DecompContinuousOrig){
+#					N <- 111
 #					
-					
-					BexFM     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxym"]]), dxf1)) 
-					BexFF     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxyf"]]), dxf1))
-					.Fexf.    <- Mna0(Minf0((BexFM+BexFF) /  rowSums(ExpectedDx(.Ex$Female[.Ex$Year == as.integer(yr)], dxf1))))
-					.sigexf.  <- Mna0(Minf0(BexFF / (BexFF + BexFM)))
-					rates2    <- c(.Fexm., .sigexm., .mxm.)
-					rates1    <- c(.Fexf., .sigexf., .mxf.)
-					
-					Dec <- DecompContinuousOrig(func = exOneSexCoaleRdec1, 
-							rates2 = rates2, 
-							rates1 = rates1, N = 300, 
-							mx2dxHMD = mx2dxHMD, Mna0 = Mna0, wmean = wmean)
-					c(Fert = sum(Dec[1:N]), SRB = sum(Dec[(N+1):(2*N)]), Mort = sum(Dec[(2*N+1):(3*N)]))
-				}, .Bxymf = BxymfES, .Ex = ExES, .mxm = mxmES, .mxf = mxfES, 
-				mx2dxHMD = mx2dxHMD, Mna0 = Mna0, Minf0 = Minf0, wmean = wmean, 
-				ExpectedDx = ExpectedDx, DecompContinuousOrig = DecompContinuousOrig, 
-				exOneSexCoaleRdec1 = exOneSexCoaleRdec1))
-stopCluster(cl)
+#					# 1) get mx for year
+#					.mxf.     <- .mxf[,yr]
+#					.mxm.     <- .mxm[,yr]
+#					
+#					dxf1      <- mx2dxHMD(.mxf.,Mna0)
+#					dxm1      <- mx2dxHMD(.mxm., Mna0)
+#					
+#                   # these differ because dxm used to distribute girl births: compared to male stable exposure: not redistributed
+#                   # by female dx. Vice versa below
+#					BexMM     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxym"]]), dxm1)) 
+#					BexMF     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxyf"]]), dxm1))
+#					.Fexm.    <- Mna0(Minf0((BexMM+BexMF) /  rowSums(ExpectedDx(.Ex$Male[.Ex$Year == as.integer(yr)], dxm1))))
+#					.sigexm.  <- Mna0(Minf0(BexMM / (BexMM + BexMF)))
+#					
+#					
+#					BexFM     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxym"]]), dxf1)) 
+#					BexFF     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxyf"]]), dxf1))
+#					.Fexf.    <- Mna0(Minf0((BexFM+BexFF) /  rowSums(ExpectedDx(.Ex$Female[.Ex$Year == as.integer(yr)], dxf1))))
+#					.sigexf.  <- Mna0(Minf0(BexFF / (BexFF + BexFM)))
+#					rates2    <- c(.Fexm., .sigexm., .mxm.)
+#					rates1    <- c(.Fexf., .sigexf., .mxf.)
+#					
+#					Dec <- DecompContinuousOrig(func = exOneSexCoaleRdec1, 
+#							rates2 = rates2, 
+#							rates1 = rates1, N = 300, 
+#							mx2dxHMD = mx2dxHMD, Mna0 = Mna0, wmean = wmean)
+#					c(Fert = sum(Dec[1:N]), SRB = sum(Dec[(N+1):(2*N)]), Mort = sum(Dec[(2*N+1):(3*N)]))
+#				}, .Bxymf = BxymfUS, .Ex = ExUS, .mxm = mxmUS, .mxf = mxfUS, 
+#				mx2dxHMD = mx2dxHMD, Mna0 = Mna0, Minf0 = Minf0, wmean = wmean, 
+#				ExpectedDx = ExpectedDx, DecompContinuousOrig = DecompContinuousOrig, 
+#				exOneSexCoaleRdec1 = exOneSexCoaleRdec1))
+#stopCluster(cl)
+##
+#cl <- makeCluster(4)
+#ESdecompExR <- do.call(rbind, parLapply(cl, as.character(yearsES), 
+#				function(yr, .Bxymf, .Ex, .mxm, .mxf,  mx2dxHMD, Mna0, Minf0, wmean, ExpectedDx, exOneSexCoaleRdec1, DecompContinuousOrig){
+#					N <- 111
+#					
+#					# 1) get mx for year
+#					.mxf.     <- .mxf[,yr]
+#					.mxm.     <- .mxm[,yr]
+#					
+#					dxf1      <- mx2dxHMD(.mxf.,Mna0)
+#					dxm1      <- mx2dxHMD(.mxm., Mna0)
+#					
+#					BexMM     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxym"]]), dxm1)) 
+#					BexMF     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxyf"]]), dxm1))
+#					.Fexm.    <- Mna0(Minf0((BexMM+BexMF) /  rowSums(ExpectedDx(.Ex$Male[.Ex$Year == as.integer(yr)], dxm1))))
+#					.sigexm.  <- Mna0(Minf0(BexMM / (BexMM + BexMF)))
+##					
+#					
+#					BexFM     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxym"]]), dxf1)) 
+#					BexFF     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxyf"]]), dxf1))
+#					.Fexf.    <- Mna0(Minf0((BexFM+BexFF) /  rowSums(ExpectedDx(.Ex$Female[.Ex$Year == as.integer(yr)], dxf1))))
+#					.sigexf.  <- Mna0(Minf0(BexFF / (BexFF + BexFM)))
+#					rates2    <- c(.Fexm., .sigexm., .mxm.)
+#					rates1    <- c(.Fexf., .sigexf., .mxf.)
+#					
+#					Dec <- DecompContinuousOrig(func = exOneSexCoaleRdec1, 
+#							rates2 = rates2, 
+#							rates1 = rates1, N = 300, 
+#							mx2dxHMD = mx2dxHMD, Mna0 = Mna0, wmean = wmean)
+#					c(Fert = sum(Dec[1:N]), SRB = sum(Dec[(N+1):(2*N)]), Mort = sum(Dec[(2*N+1):(3*N)]))
+#				}, .Bxymf = BxymfES, .Ex = ExES, .mxm = mxmES, .mxf = mxfES, 
+#				mx2dxHMD = mx2dxHMD, Mna0 = Mna0, Minf0 = Minf0, wmean = wmean, 
+#				ExpectedDx = ExpectedDx, DecompContinuousOrig = DecompContinuousOrig, 
+#				exOneSexCoaleRdec1 = exOneSexCoaleRdec1))
+#stopCluster(cl)
 
 USdecompR <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/USdecompExR.Rdata")))
 ESdecompR <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/ESdecompExR.Rdata")))
@@ -316,13 +316,16 @@ library(DecompHoriuchi)
 
 USdecompR <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/USdecompExR2.Rdata")))
 ESdecompR <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/ESdecompExR2.Rdata")))
+
+
+head(USdecompR)
 # determine axes compatible with output from both countries
 Neg <- USdecompR
 Neg[Neg > 0] <- 0
 Pos <- USdecompR
 Pos[Pos < 0] <- 0
 
-pdf("/home/triffe/git/DISS/latex/Figures/DecomprExUS.pdf", height = 5, width = 5)
+pdf("/home/triffe/git/DISS/latex/Figures/DecomprExUS2.pdf", height = 5, width = 5)
 par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n", xlab = "", ylab = "", xlim = c(-1, 42), ylim = c(-.004,.007), 
         axes = FALSE)
@@ -334,7 +337,11 @@ barplot(t(Pos), add = TRUE, space = 0, border = NA, col = paste0(gray(c(.8,.6,.4
 
 text(seq(1,41,by=5),-.004,seq(1970,2010,by=5),pos=1,cex=.8,xpd=TRUE)
 text(-1,seq(-.004,.007,by=.001),seq(-.004,.007,by=.001),cex=.8,pos=2,xpd=TRUE)
-text(10,c(-0.0008636214, 0.0004774893, 0.0033583963), c("Mortality","Fertility","SRB"), cex = 1.5,pos = 4, col = "white")
+text(c(11, 11, 11, 12,32),c(0.000522905,  0.002898587, -0.001163063,  0.005350904,-.0027), 
+        c("Fertility shape", "SRB", "Mortality", "eTFR","eTFR"), cex = 1.3,pos = 4, col = c(gray(.2),"white","white",gray(.2),gray(.2)))
+
+segments(12.604584, 0.005159316, 9.953926, 0.004431285)
+segments(32.97280, -0.002465856, 31.50796, -0.001833618)
 
 text(20,-.005,"Year",xpd=TRUE)
 text(-2,.0075,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
@@ -346,7 +353,7 @@ Neg[Neg > 0] <- 0
 Pos <- ESdecompR
 Pos[Pos < 0] <- 0
 
-pdf("/home/triffe/git/DISS/latex/Figures/DecomprExES.pdf", height = 5, width = 5)
+pdf("/home/triffe/git/DISS/latex/Figures/DecomprExES2.pdf", height = 5, width = 5)
 par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n", xlab = "", ylab = "", xlim = c(-7, 36), ylim = c(-.004,.007), 
         axes = FALSE)
@@ -358,9 +365,77 @@ barplot(t(Pos), add = TRUE, space = 0, border = NA, col = paste0(gray(c(.8,.6,.4
 
 text(seq(-5,35,by=5),-.004,seq(1970,2010,by=5),pos=1,cex=.8,xpd=TRUE)
 text(-7,seq(-.004,.007,by=.001),seq(-.004,.007,by=.001),cex=.8,pos=2,xpd=TRUE)
-text(16,c(-0.001009793,  0.001825698,  0.005216793), c("Mortality","Fertility","SRB"), cex = 1.5,pos = 4, col = "white")
+text(c(12,12,12,  6, 29),c(0.0009635557,  0.0040289517, -0.0015079198,  0.0058107131, -0.0033), 
+        c("Fertility shape","SRB","Mortality","eTFR","eTFR"), cex = 1.3,pos = 4, col = c(gray(.2),"white","white",gray(.2),gray(.2)))
+segments(9.185489,0.005580808 ,10.441064,0.005044364)
+segments(32.20436,-0.003002300,32.90191,-0.002389221)
 text(15,-.005,"Year",xpd=TRUE)
 text(-8,.0075,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
 dev.off()
 
+# -----------------------------------------
+# no point to lapply, but was easy to copy and paste
+ES1990 <- lapply("1990", function(yr, .Bxymf, .Ex, .mxm, .mxf){
+                    N <- 111
+                    
+                    # 1) get mx for year
+                    .mxf.     <- .mxf[,yr]
+                    .mxm.     <- .mxm[,yr]
+                    
+                    dxf1      <- mx2dxHMD(.mxf.)
+                    dxm1      <- mx2dxHMD(.mxm.)
+                    
+                    BexMM     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxym"]]), dxm1)) 
+                    BexMF     <- rowSums(ExpectedDx(rowSums(.Bxymf[[yr]][["Bxyf"]]), dxm1))
+                    .Fexm.    <- Mna0(Minf0((BexMM+BexMF) /  rowSums(ExpectedDx(.Ex$Male[.Ex$Year == as.integer(yr)], dxm1))))
+                    .sigexm.  <- Mna0(Minf0(BexMM / (BexMM + BexMF)))
+                    eTFRm     <- sum(.Fexm.)
+                   .Fexexm.   <- .Fexm. / eTFRm
+                    
+                    BexFM     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxym"]]), dxf1)) 
+                    BexFF     <- rowSums(ExpectedDx(colSums(.Bxymf[[yr]][["Bxyf"]]), dxf1))
+                    .Fexf.    <- Mna0(Minf0((BexFM+BexFF) /  rowSums(ExpectedDx(.Ex$Female[.Ex$Year == as.integer(yr)], dxf1))))
+                    .sigexf.  <- Mna0(Minf0(BexFF / (BexFF + BexFM)))
+                    eTFRf     <- sum(.Fexf.)
+                    .Fexexf.   <- .Fexf. / eTFRf
+                    
+                    rates2    <- c(.Fexexm., .sigexm., .mxm., eTFRm)
+                    rates1    <- c(.Fexexf., .sigexf., .mxf., eTFRf)
+                    
+                    DecompContinuousOrig(func = exOneSexCoaleRdec2, 
+                            rates2 = rates2, 
+                            rates1 = rates1, N = 300)
+          
+                }, .Bxymf = BxymfES, .Ex = ExES, .mxm = mxmES, .mxf = mxfES)
+ES1990 <- unlist(ES1990)
+N <- 111
+Fertpdf <- ES1990[1:N]
+SRB     <- ES1990[(N+1):(2*N)]
+Mort    <- ES1990[(2*N+1):(3*N)]
+ES1990[length(ES1990)]
+All <- rbind(SRB,Mort,Fertpdf)
+Neg <- All
+Neg[Neg > 0] <- 0
+Pos <- All
+Pos[Pos < 0] <- 0
+
+pdf("/home/triffe/git/DISS/latex/Figures/DecomprExES1990.pdf", height = 5, width = 5)
+par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
+plot(NULL, type = "n", xlab = "", ylab = "", xlim = c(-1, 111), ylim = c(-.0005,.0004), 
+        axes = FALSE)
+rect(-1,-.0005,111,.0004,col = gray(.95),border = NA)
+abline(h = seq(-.0005,.0004,by=.0001), col = "white")
+abline(v = seq(0,110,by=10), col = "white")
+barplot(Neg, add = TRUE, space = 0, border = NA, col = paste0(gray(c(.6,.4,.8)),"BB"),width = 1,axes = FALSE)
+barplot(Pos, add = TRUE, space = 0, border = NA, col = paste0(gray(c(.6,.4,.8)),"BB"),width = 1,axes = FALSE)
+
+text(seq(0,110,by=10),-.0005,seq(0,110,by=10),pos=1,cex=.8,xpd=TRUE)
+text(-1,seq(-.0005,.0004,by=.0001),seq(-.0005,.0004,by=.0001),cex=.8,pos=2,xpd=TRUE)
+text(c(5, 64, 26),c( 5.815971e-05,  8.010516e-05, -1.111337e-04), 
+        c("Fertility shape","SRB","Mortality"), cex = 1.3,pos = 4, col = c(gray(.2),gray(.2),gray(.2)))
+segments(43.88283,-8.605324e-05 ,48.24328,-2.648702e-05)
+segments(67.86529,6.442984e-05,62.95979,2.367401e-05)
+text(50,-.0006,"remaining years",xpd=TRUE)
+text(-1,.00045,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
+dev.off()
 
