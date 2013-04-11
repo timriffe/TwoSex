@@ -671,6 +671,22 @@ dev.off()
 #cor(diff(DiffCoefryESm[,1]),diff(DiffCoefryESm[,2]))
 #cor(diff(DiffCoefryESf[,1]),diff(DiffCoefryESf[,2]))
 
+# --------------------------------------------------------------------------------------------------
+lapply(as.character(yearsUS), function(yr, .Lxm ,.rmLUS))
+rmUS
+names(rmLUS) <- yearsUS
+yr <- "1975"
+TmLUS <- unlist(lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Lx, Bxymf, MF, rc,.rmLUS){       
+                    Fx  <- Minf0(Mna0(rc(.Bx[[yr]][[Bxymf]], na.rm = TRUE) / .Ex[.Ex$Year == as.integer(yr),MF]))
+                    sum((.5:110.5)^2*Fx*.Lx[,yr]*exp(-.rmLUS[yr]*.5:110.5))/
+                    sum((.5:110.5)*Fx*.Lx[,yr]*exp(-.rmLUS[yr]*.5:110.5))
+                }, .Bx = BxymfUS, .Ex = ExUS, .Lx = LxmUS, Bxymf = "Bxym", 
+                MF = "Male", rc = rowSums, .rmLUS = rmLUS))
+names(TmLUS) <- yearsUS
+
+plot(exp(rmLUS*TmLUS), ylim = c(.7,1.5))
+lines(exp(rmUS[,1]*rmUS[,2]))
+rmLUS - rmUS[,1]
 
 
 
