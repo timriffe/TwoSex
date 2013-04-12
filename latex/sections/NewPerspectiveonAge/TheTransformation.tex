@@ -62,3 +62,53 @@ been used for particular purposes \citep{miller2001increasing}, population
 structured by remaining years of time as given by Equation~\eqref{eq:dxredist}, structured
 by Miller's \textit{thanatological age}, is the notion
 to be developed further.
+
+\paragraph{Accounting for improvement in mortality: }
+As we are dealing with a \textit{forward-looking}\citep{sanderson2007new}
+transformation of structure, the reader will likely intuit that our redistribution 
+method will err toward pessimism to the extent that
+future improvements in mortality are ignored. To take account of future
+mortality improvements is already a projections mindset, and we have made no
+claim that the this structure is a projection- Rather it is a speedometer, to
+use the analogy of \citet{coale1972growth}. In any case, one best accounts for
+future mortality improvements by applying assumptions about the rate of
+improvment in the age-specific motality hazard, $\mu_a$, rather than directly
+manipulating $d_a$, which is our redistribution vector. To illustrate by
+example, take the population of infants and the full present vector of $\mu_a$. It seems fair that
+that $\mu_0$, or something close to it, will apply to these infants, yet by age
+5, $\mu_5$ will likely be too high, and certainly by age 50
+this same static $\mu_50$ will be too high. For the sake of simplicity, let us assume that the
+rate of improvement, $\iota$, applies equally over all ages and future years,
+and is equal to about 0.3\% per year (conservative for some ages, liberal
+for others). We would prefer to have a multiplicative factor, so we define
+$\iota = 1-.003 = 0.997$. Then we modify $\mu_a$ for these 0-year-olds, in
+the following way
+
+\begin{equation}
+\mu_a^0 = \mu_a \prod _0 ^\infty \iota 
+\end{equation}
+
+where the superscript indicates that we have done this for persons of age 0. Now
+one converts the $\mu _a^0$ to the new $d_a^0$ and redistributes the infant
+population accordingly. For higher ages, one calculates $\mu_a^x$ as
+
+\begin{equation}
+\mu_a^x = \mu_a \prod _x ^\infty \iota 
+\end{equation}
+always with the first age $a$ equal to $x$
+Now, one needs a direct relation of $\mu _a$ and $d_a$, and for this we use the
+HMD methodology, namely assuming that the average age at death in each age
+interval is 0.5 (except for age 0, which uses the Coale-Demeny rule of thumb),
+deriving death probabilities, $q_a$, followed by the survival function, $l_a$,
+which can be differenced to arrive at $d_a$\footnote{This is the abbreviated
+version. See the HMD Methods Protocol for the full version, which we have
+functionalized.}. This must be done for each age, to create as many modified
+$\mu _a^x $ vectors as there are ages, and then one applies the same
+Equation~\ref{eq:dxredist}, swapping the $\mu _a^x$ vector as one iterates over
+ages. Alternatively, one could just take some future evolution of $\mu_a$ from a
+standard projection method, like the Lee-Carter method \citep{lee1992modeling},
+finding the mortality trajectory expected for each individual, and converting
+this to $d_a$, and then redistributing. For the rest of this dissertation we
+will deal only with static period deaths distributions, and we leave the
+thoughtful incorporation of mortality improvements into the method for future
+work.
