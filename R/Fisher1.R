@@ -121,8 +121,6 @@ text(0, -.14, "Age", cex = 1, pos = 4, xpd = TRUE)
 arrows(0,-.1,40,-.1,xpd=TRUE,length=.1)
 arrows(111,-.1,71,-.1,xpd=TRUE,length=.1)
 dev.off()
-args(arrows)
-legend("right",lty=c(1,1,2,2), col = c("blue","red","blue","red"))
 
 
 
