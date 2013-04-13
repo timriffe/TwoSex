@@ -1,0 +1,83 @@
+\FloatBarrier
+
+The reader will have been quick to notice that the present pyramid lends itself
+to the calculation of some simple proportions akin to those offered by
+\citet[e.g.][]{sanderson2005average}. For instance, one may calculate the
+proportion of the pyramid with remaining life expectancy less than some
+threshold, such as 15 (that commonly chosen by Sanderson and Scherbov). Where
+$P^T$ is the total population and $P_y$ is the population with exact remaining
+life expectancy $y$, we calculate the proportion of the population with 15 or
+less remaining years of life expectancy, $P_{y \le 15}$, as
+\begin{equation}
+P_{y \le 15} = \frac{\int _{j=0}^{y} P_j \dd j}{P^T}
+\end{equation}
+
+The results from this calculation will differ from the method called the
+``Prospective Old-Age Dependency Ratio''(POADR) for two reasons. 1) POADR is
+calculated by indexing the lifetable $e_x$ to some reference
+lifetable\footnote{This is explained nicely in \citet{sanderson2007new}}. 2)
+we have lost the age information necessary to cut off the total population
+below age 20, although this could be accounted for with little trouble. In
+doing so, however, we would lose the deaths of all those below age 20 that
+would happen within the next 15 years. 
+
+To better compare with the notion of prospective age, look to the example given
+in \citet{sanderson2007new}: The authors give the example of comparing
+individuals from 1950 and 2000 who each have an average remaining life 
+expectancy of 30. These two individuals will 
+evidently have had different chronological ages. Imagine that in 1950 $e_x = 30$ 
+occured at age 40, and in 2000 at age 50. Then using 1950 as our standard, we 
+could say that the 50-year-old in 2000 has a prospective age of 40, in the sense
+of ``50 is the new 40''. 
+
+This basis for the method is quite different than that presented here because
+indexing is done via the $e_x$ column of the lifetable, which is a weighted
+average. Specifically, it is the weighted average of all possible remaining life
+expectancies, where $d_x$ are the weights. Chronological age is in this way
+never dispensed with, and it is hard to imagine how, for instance, this method
+could do a good job of producing a fully structured population, such as that
+seen in Figures~\ref{fig:exPyrUS}~and~\ref{fig:exPyrES}. Our method instead
+combines ages via $d_x$ so as to arrive at clean breakpoints of $y$. We do not
+offer a thorough comparison between such measures, although this is a ripe
+avenue for further work.
+
+Another measure of population ageing that falls out of our method is the
+Proportion of Life Lived (PLL)\footnote{Again, this idea owes to a
+particular conversation with John MacInnes, upon which I formalized the
+concept.}. Take, for instance the same 50-year-old man in 2000 with a remaining life expectancy of
+30. This person will in the end on average live 80 years, and so has completed
+$\tfrac{50}{80} = 0.625$ or 62.5\% of his life. We can refine this a bit further
+by using the deaths distribution at ages 50 and higher in 2000; some 50-year-old
+males will die at age 50, others at age 51, and so on up until the highest age.
+With respect to each potential age of death, we may then calculate a proportion
+of life lived, and proceed to take a weighted average of these. Formally, we
+calculate PLL for the whole population as
+
+\begin{equation}
+PLL = \frac{\int _{y = 0} ^\infty \int _{a = 0} ^\infty \frac{a}{a + y}
+\left[ P_a
+\frac{d_{a + y} }{ \int _{b = a} ^{\infty} d_b\, \dd b  }\right] \dd a \dd y }{
+P^T }
+\end{equation}
+where $a$ indexes age and $y$ indexes remaining years of life. For the US and
+Spain, the time trend of this indicator for our two populations and our
+relatively narrow range of years is displayed in Figure~\ref{fig:PLL}
+\begin{figure}
+      \centering
+      % Figure made in PyramidStability.R
+      \caption{Population proportion of life lived, PLL, US, 1969-2009 and
+      Spain, 1975-2009.}
+         \includegraphics{Figures/PLL}
+      \label{fig:PLL} 
+\end{figure}
+
+This trend will be seen to agree roughly with those presented by other
+\textit{forward-looking} indicators of ageing. PLL, however, is particularly
+intuitive, requiring no involved examples to explain to non-demographers, and
+the trend seen here is particularly clear and consistent. One could
+calculate PLL in like manner for particular ages, age-ranges, or remaining-years
+classes. This indicator will surely yield much lower levels if improvements
+are accounted for. This dissertation offers no further discussion of the
+potential ageing indicators implied by the present structuring of population.
+
+\FloatBarrier

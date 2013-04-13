@@ -1,0 +1,87 @@
+\FloatBarrier
+
+As we are dealing with a \textit{forward-looking}\citep{sanderson2007new}
+transformation of structure, the reader will likely intuit that our redistribution 
+method will err toward pessimism to the extent that
+future improvements in mortality are ignored. To take account of future
+mortality improvements is already a projections mindset, and we have made no
+claim that the this structure is a projection- Rather it is a speedometer, to
+use the analogy of \citet{coale1972growth}. In any case, one best accounts for
+future mortality improvements by applying assumptions about the rate of
+improvment in the age-specific motality hazard, $\mu_a$, rather than directly
+manipulating $d_a$, which is our redistribution vector. To illustrate by
+example, take the population of infants and the full present vector of $\mu_a$. It seems fair that
+that $\mu_0$, or something close to it, will apply to these infants, yet by age
+5, $\mu_5$ will likely be too high, and certainly by age 50
+this same static $\mu_50$ will be too high. For the sake of simplicity, let us assume that the
+rate of improvement, $\iota$, applies equally over all ages and future years,
+and is equal to about 0.5\% per year (conservative for some ages, liberal
+for others). We would prefer to have a multiplicative factor, so we define
+$\iota = 1-.005 = 0.995$. Then we modify $\mu_a$ for these 0-year-olds, in
+the following way
+
+\begin{equation}
+\mu_a^0 = \mu_a \prod _0 ^\infty \iota 
+\end{equation}
+
+where the superscript indicates that we have done this for persons of age 0. Now
+one converts the $\mu _a^0$ to the new $d_a^0$ and redistributes the infant
+population accordingly. For higher ages, one calculates $\mu_a^x$ as
+
+\begin{equation}
+\mu_a^x = \mu_a \prod _x ^\infty \iota 
+\end{equation}
+always with the first age $a$ equal to $x$.
+Now one needs a direct relation of $\mu _a$ and $d_a$, and for this we use the
+HMD methodology, namely assuming that the average age at death in each age
+interval is 0.5 (except for age 0, which uses the Coale-Demeny rule of thumb),
+deriving death probabilities, $q_a$, followed by the survival function, $l_a$,
+and taking the product of these two to arrive at $d_a$\footnote{This is the
+abbreviated version. See the HMD Methods Protocol for the full version, which
+for this dissertation we have functionalized.}. This must be done for each age,
+to create as many modified $\mu _a^x $ vectors as there are ages, and then one applies the same
+Equation~\ref{eq:dxredist}, swapping the $\mu _a^x$ vector as one iterates over
+ages. Alternatively, one could just take some future evolution of $\mu_a$ from a
+standard projection method, such as the Lee-Carter method
+\citep{lee1992modeling}, finding the mortality trajectory expected for each individual, and converting
+this to $d_a$, and then redistributing the age $a$ population accordingly. 
+
+Here we execute the simple assumption, though there is ample room for improvment
+in the method. The results of decreasing year 2009 mortality rates in each
+successive year (iteration) by a multiplicative factor of 0.995 are displayed in
+Figures~\ref{fig:exPyrUSimpr}~and~\ref{fig:exPyrESimpr}.
+
+\begin{figure}
+        \centering
+        \begin{subfigure}
+                \centering
+                \caption{US population by remaining years under fixed
+                mortality and constant improvement of 0.5\% per year.}
+                \includegraphics[scale = .8]{Figures/exPyramidUSimpr}
+                \label{fig:exPyrUSimpr}
+        \end{subfigure}
+        \begin{subfigure}
+                \centering
+                \caption{Spanish population by remaining years under fixed
+                mortality and constant improvement of 0.5\% per year.}
+                \includegraphics[scale = .8]{Figures/exPyramidESimpr}
+                \label{fig:exPyrESimpr}
+        \end{subfigure}
+\end{figure}
+
+Here, common practice would have been to start the rate of improvement stronger
+and let is taper off with time, or to allow effects to work differently over
+age, but the present exercise is meant to be illustrative. Here one appreciates
+the maleability of population structure in light of potential future mortality
+improvements. The impending mode, composed largely but not entirely of
+baby-boomers, is absorbed to a certain extent, and the overall picture is even
+more optimistic than the original (as one would expect) for both countries.
+
+To incorporate uncertainty into this method, it is
+recommended to allow variaton in $\mu_x$ per the strategy outlined in the previous
+section~\ref{sec:structuncertainty}. At this time, we will depart from the
+present line of development. For the rest of this dissertation we will deal only with static
+period deaths distributions, and we leave the thoughtful incorporation of mortality 
+improvements and addittional uncertainty into the method for future work.
+
+\FloatBarrier
