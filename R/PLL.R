@@ -63,6 +63,13 @@ legend(1995,.58, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2
         legend = c("US males","US females","ES males","ES females"), xpd = TRUE)
 dev.off()
 
+
+r <- -.003
+exp(r)
+log(.997)
+
+plot(exp(r*(1:110)))
+
 plot(cumprod(rep(.997,100)))
 
 

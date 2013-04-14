@@ -24,11 +24,10 @@ PxES  <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
 
 iota <- .997
 iota ^ c(1:110)
-yr <- "1975"
+
 wmean(.5:110.5,mx2dxHMD(mxmUS[,yr]*iota ^ c(1:111)))
 wmean(.5:110.5,mx2dxHMD(mxmUS[,yr]))
-mx <- mxmUS[,"1975"]
-Px <- with(PxUS, Male[Year == 1975])
+
 ExpectedDx2 <- function(Px, mx, iota = 1){
     impr     <- iota ^ c(1:111)
     
@@ -71,7 +70,7 @@ barplot(100 * (Females2009 / sum(Males2009 + Females2009)), border = NA, col = "
         add = TRUE, horiz = TRUE, space = 0, axes = FALSE,axisnames=FALSE) 
 PyramidOutline(rowSums(ExpectedDx2(Pxm, mxmUS[,"2009"],.995)), 
         rowSums(ExpectedDx2(Pxf, mxfUS[,"2009"],.993)), scale =100, border = gray(.2), xpd = TRUE, lwd = .5) 
-text(c(0.27, 0.44), c(50, 100), c("2009 fixed", expression(iota==0.995)), 
+text(c(0.27, 0.44), c(50, 100), c("2009 fixed", expression(e^iota==0.995)), 
         col = c("white", "black"), cex = 1.2)
 segments(0.2439776, 98.40316, 0.1937150, 95.93115)
 dev.off()
@@ -99,7 +98,9 @@ barplot(100 * (Females2009 / sum(Males2009 + Females2009)), border = NA, col = "
         add = TRUE, horiz = TRUE, space = 0, axes = FALSE,axisnames=FALSE) 
 PyramidOutline(rowSums(ExpectedDx2(Pxm, mxmES[,"2009"],.995)), 
         rowSums(ExpectedDx2(Pxf, mxfES[,"2009"],.993)), scale =100, border = gray(.2), xpd = TRUE, lwd = .5) 
-text(c(0.27, 0.45), c(50, 100), c("2009 fixed", expression(iota==0.995)), 
+text(c(0.27, 0.45), c(50, 100), c("2009 fixed", expression(e^iota==0.995)), 
         col = c("white", "black"), cex = 1.2)
 segments(0.2774860, 97.64254, 0.2037675, 93.83945)
 dev.off()
+
+
