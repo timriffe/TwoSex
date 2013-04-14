@@ -18,14 +18,11 @@ PxES  <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
 
 
 
-Px1980 <- with(PxUS, Male[Year == 1980])
-
-DMat <- ExpectedDx(Px1980, dxmUS[,"1980"])
 
 Sums <- outer(.5:110.5,.5:110.5,"+")
-Props <- (.5:110.5)/Sums
+Props <- replicate(111,(.5:110.5))/Sums
 
-wmean(Props,DMat)
+
 
 pUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Px, .dxm, .dxf, .Props){
             c(pm = wmean(.Props,ExpectedDx(with(.Px, Male[Year == as.integer(yr)]), .dxm[,yr])),
@@ -38,8 +35,10 @@ pES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Px, .dxm, .dxf,
                     
                 }, .Px = PxES, .dxm = dxmES, .dxf = dxfES, .Props = Props))
 
-
-
+?cor
+cor(yearsUS,pUS[,1])
+cor(yearsUS,pUS[,2])
+summary(lm(pUS[,1]~yearsUS))
 plot(yearsUS, pUS[,1], type = 'l', col = "blue", ylim = c(.5,.58))
 lines(yearsUS, pUS[,2], col ="red")
 

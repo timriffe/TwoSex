@@ -42,19 +42,19 @@ offer a thorough comparison between such measures, although this is a ripe
 avenue for further work.
 
 Another measure of population ageing that falls out of our method is the
-Proportion of Life Lived (PLL)\footnote{Again, this idea owes to a
+Proportion of Life Left (PLL)\footnote{Again, this idea owes to a
 particular conversation with John MacInnes, upon which I formalized the
 concept.}. Take, for instance the same 50-year-old man in 2000 with a remaining life expectancy of
-30. This person will in the end on average live 80 years, and so has completed
-$\tfrac{50}{80} = 0.625$ or 62.5\% of his life. We can refine this a bit further
+30. This person will in the end on average live 80 years, and so has left
+$\tfrac{30}{80} = 0.375$ or 37.5\% of his life. We can refine this a bit further
 by using the deaths distribution at ages 50 and higher in 2000; some 50-year-old
 males will die at age 50, others at age 51, and so on up until the highest age.
 With respect to each potential age of death, we may then calculate a proportion
-of life lived, and proceed to take a weighted average of these. Formally, we
-calculate PLL for the whole population as
+of life left, and proceed to take a population-weighted average of these.
+Formally, we calculate PLL for the whole population as
 
 \begin{equation}
-PLL = \frac{\int _{y = 0} ^\infty \int _{a = 0} ^\infty \frac{a}{a + y}
+PLL = \frac{\int _{y = 0} ^\infty \int _{a = 0} ^\infty \frac{y}{a + y}
 \left[ P_a
 \frac{d_{a + y} }{ \int _{b = a} ^{\infty} d_b\, \dd b  }\right] \dd a \dd y }{
 P^T }
@@ -71,14 +71,14 @@ relatively narrow range of years is displayed in Figure~\ref{fig:PLL}
       \label{fig:PLL} 
 \end{figure}
 
-This trend will be seen to agree roughly with those presented by other
-\textit{forward-looking} indicators of ageing. PLL, however, is particularly
-intuitive, requiring no involved examples to explain to non-demographers, and
-the trend seen here is particularly clear and consistent. One could
-calculate PLL in like manner for particular ages, age-ranges, or remaining-years
-classes. This indicator will surely yield much lower levels if improvements
-are accounted for as discussed in Section~\ref{sec:eximprov}, and uncertainty
-may be introduced using the monte-carlo strategy outlined in Section~\ref{sec:structuncertainty}
+So far, both the US and Spain have shown on average more remaining years than
+there have been years lived, although both countries have exhibited declines in
+this period. Thus US trend has been particularly linear in this
+period\footnote{For the years shown, the correlation coefficient for US males
+was $-0.994$ and for females was $-0.992$. We will not overemphasize this
+linearity, however, as many more years are available prior to 1969 for the US,
+and these will not likely be follow the same linear trend.}. PLL is particularly
+intuitive, requiring no involved examples to explain to non-demographers, and the trend seen here is particularly clear and consistent. One could calculate PLL in like manner for particular ages, age-ranges, or remaining-years classes. This indicator will surely yield much lower levels if improvements are accounted for as discussed in Section~\ref{sec:eximprov}, and uncertainty may be introduced using the monte-carlo strategy outlined in Section~\ref{sec:structuncertainty}
 
 This dissertation offers no further discussion of the
 potential ageing indicators implied by the present structuring of population.
