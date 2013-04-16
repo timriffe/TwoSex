@@ -1,0 +1,153 @@
+\subsection{Mitra}
+
+\citet{mitra1978derivation} also limited two-sex models to be based on the
+building blocks of single-sex ferility. In this case, single-sex fertility is
+conceived of in the same way as in the single-sex models, namely, males rates
+determine the births of sons and female rates determine the births of daughters.
+was directly concerned with finding a consistent method to derive a two-sex intrinsic growth rate, $r^\ast$. Consistent here means that 1) a constant SRB is maintained in and along the trajectory to stability, 2) the essential \textit{shape} of fertility rates is held constant along the path to stability and 3) the stable $r^\ast$ is guaranteed to be bracketted by $r^m$ and $r^f$.
+
+The method proposed by \citet{mitra1978derivation} works by assigning
+complimentary scalar (uniform over age) weights, $v_0$ and $1 - v_0$, to male
+and female single-sex fertility rates and placing the initially weighted
+fertility rates, which are then held constant, into a unified two-sex Lotka
+unity equation in order to determine $r^\ast$:
+
+\begin{equation}
+\label{mitralotka}
+1 = \int _{a=0} ^\infty e^{-r^\ast a} \left(\frac{F_a ^m}{v_0} p_a^m  +
+\frac{F_a ^f}{1 - v_0} p_a^f\right) \dd a
+\end{equation}
+, where $F_a ^m$ and $F_a ^f$ are the male and female fertility probabilities
+(rates when discrete), $p_a^m$ and $p_a^f$ the male and female probabilities of
+surviving from age $0$ to age $a$\footnote{$L_a$ from a radix-1 lifetable when
+discretized}.
+
+One can quickly converge upon a solution for Mitra's $r^\ast$ by modifying the
+method proposed in \citet{coale1957new}\footnote{\citet{mitra1978derivation} alludes
+to, but does not show this.}, by first calculating a trial estimate of $r\ast$,
+$\widehat{r^\ast}$ and a trial two-sex mean generation length
+$\widehat{T^\ast}$\footnote{For trial values, one may use simple
+assumptions, such as the arithmetic means of the single sex Lotka parameters}.
+Using the trial $\widehat{r^\ast}^{(1)}$, one first calculates the residual, 
+$\delta ^{(1)}$, from equation~\eqref{mitralotka}, then updates $\widehat{r^\ast}$ as:
+\begin{equation}
+\widehat{r^\ast}^{(i+1)} = \widehat{r^\ast}^{(i)} + \frac{\delta
+^{(i)}}{\widehat{T^\ast} -
+\frac{\delta ^{(i)}}{\widehat{r^\ast}^{(i)} }}
+\end{equation}
+This procedure typically converges after half a dozen iterations, both faster
+and more precise than a typical optimizer solution.
+
+For a given set of starting weights, one can in this way arrive at a given two-sex growth rate, $r^\ast$. 
+However, weights are also constrained to produce a constant sex ratio at birth (SRB). Given $r^\ast$ applied 
+to each sex separately in the
+state of stability, one notes that this sex ratio is \textit{not} maintained,
+and must dervive stable weights, $v^\ast$ in order to force the final
+SRB:
+
+\begin{equation}
+v^\ast =  \int _{a = 0} ^\infty e ^{ -r^\ast a} \frac{F_a ^m}{v_0} p_a^m \dd a
+\end{equation}
+An characteristic of this model design is that a given $v_0$ will always result
+in a single, stable $v^\ast$. Mitra's two-sex growth rate, $r^\ast$, is unique for but depends upon 
+the starting weights, $v_0$, and thus is not in general unique. Mitra 
+suggests that a good choice for $v_0$ would be the value that minimzes the 
+departure from constancy for unweighted single-sex fertility
+rates. This is an attractive choice because constant rates are of course the
+basis of stability. Once a population attains stability, weights, and therefore 
+rates, are constant. In practice, one
+choses the $v_0$ that minimizes the sum of the age-specific squared residuals
+(for males and females) between $F_a$ and $F_a \times \tfrac{v_0}{v^\ast}$. 
+
+If minimizing the difference between starting and stable rates is the criterion
+for choosing $v_0$, Mitra's starting and stable weights form the time
+series seen in Figure~\ref{fig:Mitra1978v0vstar}
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Initial ($v_0$) and stable ($v^\ast$) weights for Spain and
+          US, 1969-2009, according to the OLS criterion in
+          \citet{mitra1978derivation}}
+           \quad
+           % /R/Mitra1978.R
+           \makebox[\textwidth]{\includegraphics{Figures/Mitra1978v0vstar}}
+          \label{fig:Mitra1978v0vstar}
+\end{figure}
+
+For Spain and the US throughout the period studied in this dissertation, both
+$v_0$ and $v^\ast$ fell in the range $(.48,.6)$. $v_0$ was always
+close to $.5$, entailing nearly equal weight for male and female rates.
+The stable $v^\ast$ was consistently higher than $v_0$ and always higher than
+$.5$, implying greater weights for males than females in stability. When $v > .5$, male rates weight
+more than female rates, which was typically the case here, especially in the
+limit, although this declined over the decades shown here. It is
+tempting to interpret this result as contrary to the notion of female dominance,
+which would intuit greater influence of females on overall fertility than
+males. The interpretation of $v$ is unclear, and cannot necessarily in this case
+be understood as direct evidence of male-leaning dominance.
+\citet{mitra1978derivation} provides no guidance to interpret $v_0$, $v^\ast$,
+less so a demographic meaning. It is however clear to this author that
+the intial and stable weights for each sex are of greater interest
+than the location of $r^\ast$, which is in any case guaranteed to be between
+$r^m$ and $r^f$ ,and can therefore be summarized by some generalized mean, in
+this case some mean of total exposed male and female populations.
+
+\subsubsection{Critique of Mitra (1978)}
+Initial and stable weights are attractive for purposes of the OLS
+criterion and their potential for demographic interpretation (which has in any
+case not been elaborated), by this author sees the use of such weights as
+a superfluous byproduct of the model specification. Namely, $v_0$ and $v^\ast$
+are only needed to maintain the SRB, but the SRB is only problematic due to
+rote adherence to the single-sex Lotka framework, namely male-male and
+female-female reproduction. Of course, males are not exlusively responsible for
+the birth of boys and females are not responsible for the birth of girls. If the
+model were simply changed to allow for the both-sex fertility of males and
+females, one could forego balancing fertility and the SRB. As given, results are
+sensitive to changes in the value of the SRB, and so this may allow for
+unwelcome instability in the model.
+
+Allowing for the full (both-sex of offspring) fertility schedules of each sex
+brings to light another consideration: In this case weighting would not need to
+vary between the initial and stable states, thereby making any use of weights a pure
+indicator of dominance, as in \citet{goodman1967age}, but leaving the
+demographer with no endogenous criterion for choosing weights, save perhaps for
+the relative size of male and female exposures \citep{mitra1976effect}.
+Furthermore, in either specification, males and females are treated on the same age scale, wherein the reproductive value of e.g. 20-year old males and females are
+directly combined to a single sum. This sum is however not the result of age-sex
+interactions between males and females.
+
+TODO: revise text below:
+Lacking from Mitra's model is allowance for variation in the SRB, age patterns
+in SRB (it is a single number), weights that vary by age (the shape of
+fertility is held constant), interage competition (all ages in the same sex are
+inflated or deflated uniformly). Further the time-trajectory of weights along
+the way to stability is not extracted from the model, although these would
+possibly be the most interesting outputs from the model. We therefore cannot
+judge the total variation in weights required in order to acheive stability.
+Also of analytic interest would have been a time series of the initial and final
+weights, as these can be interpreted as a kind of \textit{strength of female
+dominance} 1) required to acheive lowest-effort stability and 2) inherent in
+the state of stability. The author does not discuss this possibility or
+calculate a time series in order to illustrate performance over a longer 
+period, as does \citet{gupta1973, gupta1978general}. We will do both of these
+things here in order to gain a better understanding of the method and possible
+improvements upon it.
+
+\citet{mitra1978derivation} also makes use of the unrealistic
+notion of single-sex fertility, as have many similar solutions inspired by the
+Lotka equation, though this author does not recognize the utility in doing so.
+It is of course attractive and of interest to compare two-sex growth rates with the invariant $r^m$ and $r^f$, but
+we need not limit ourselves to working with the same elements. The most notable characterisic of
+\citep{mitra1978derivation} is the fact that in the OLS solution for starting
+weights, the final $r^\ast$ is derived prior to the initial weights: since
+minimizing variange in fertility rates between initial and stable states is the
+criterion, weights are reduced to a convenient byproduct.
+
+Also 1) single-sex fertility is an odd assumption and 2) results are very
+sensitive to the SRB assumption and 3) the SRB in Spain was by no means constant
+and 4) male and female ages are treated equally in formulas.
+
+
+
+
+

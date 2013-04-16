@@ -198,16 +198,6 @@ dev.off()
 # which mean is r* closest to?
 
 
-stolarsky.mean(0.0019855660, -0.002086295,2000000000)
-lehmer.mean(c(0.0019855660, -0.002086295),1.418554)
-find.lehmer.p <- function(p,x,calib){
-    abs(calib - lehmer.mean(x=x,p=p)) 
-}
-optimize(find.lehmer.p, interval = c(-5,5), x = c(0.0019855660,-0.002086295), calib = 0.0001831172)
-
-
-log((0.0001831172 - lehmer.mean(x=c(0.0019855660,-0.002086295),p=-8.5) ) ^ 2)
-
 
 
 # * makes no difference whether we optimize over v0 or expit(v0).
@@ -373,6 +363,8 @@ v.r.OLS <- function(Lxm, Lxf, lxm, lxf, Bma, Bfa, Mat, Fat,
                     r.m = LotkaRCoale(Minf0(Mna0(Bma / Mat)), Lxm, a),
                     trajectory = trajectory))
 }
+
+
 # keep for testing:
 #yr <- "1969"
 #.Pma <- Pma <-.Lxm <- Lxm     <- LxmUS[, yr]
