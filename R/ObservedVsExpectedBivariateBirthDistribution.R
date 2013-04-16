@@ -109,6 +109,8 @@ segments(10,10,66,66,col = "#50505050")
 # axis labels
 text(40,4,"Age of father", xpd = TRUE, cex = .7)
 text(4,68,"Age of Mother", xpd = TRUE, pos = 4, cex = .7)
+# title
+text(20,75,"Observed",cex = 1,xpd =TRUE,pos = 4)
 # expected bivariate distribution:
 par(mar=c(2,2,2,2))
 image(x = ages + .5, y = ages + .5, logExy, 
@@ -129,6 +131,7 @@ contour(x = ages[1:55] + .5, y = ages[1:55] + .5, logExy[1:55,1:55],
         levels = log(levs), labels = levs, add = TRUE)
 # line of homogamy:
 segments(10,10,66,66,col = "#50505050")
+text(20,75,"Expected",cex = 1,xpd =TRUE,pos = 4)
 dev.off()
 }
 

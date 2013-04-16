@@ -4,15 +4,15 @@ any given year varies greatly from the distribution that would be expected if
 age of mother and age of father were selected randomly according to the two
 single-sex distributions.
 
-The expected cross-classified age distribution $\textbf{E}(B(x,y))$, that which
+The expected cross-classified age distribution $\textbf{E}(B(x,x'))$, that which
 we would observe on average if age-mixing were random, is defined as:
 
 \begin{equation}
 \label{eq:expected}
-\textbf{E}\left[B_{xy}\right] = \frac{B_x B_y}{\int _{x = \alpha} ^\beta \int
-_{y = \alpha} ^\beta B_{xy} \; \dd x \;\dd y}
+\textbf{E}\left[B_{x,x'}\right] = \frac{B_x B_{x'}}{\int _{x = \alpha} ^\beta
+\int _{x' \alpha} ^\beta B_{x,x'} \; \dd x \;\dd x'}
 \end{equation}
-where $x$ stands for age of father and $y$ stands for age of mother.
+where $x$ indexes age of father and $x'$ indexes age of mother.
 
 \begin{figure}[ht!]
         \centering  
@@ -138,12 +138,28 @@ examine fertility patterns, though these two are expected to covary.}
 
 These trends, of substantive interest in their own right, will also be of
 interest to the designer of two-sex reproductive models that incorporate
- assumptions about age-mixing. Such models have been known to make all
- manner of assumptions, from the simplicity of fixed age-matching, to
- sophisticated combinations of age-preferences interacting with availability
- conditions. Even the latent hypergamy indicator of
- Figure~\ref{fig:HypergamyStrength} does not contain information about how much
- of observed change is due to preference, say, in the age at childbearing, or
- relations between males and females with respect to the timing of childbirth.
- Nonetheless, it should be clear that the bivariate distribution with respect to
- ages of progenitors is far from random and often in a state of flux.
+ assumptions about age-mixing. In order to avoid overly restrictive
+ assumptions about male and female marginal fertility distributions, many
+ model varieties make use of information about births cross-tabulated by
+ ages of both parents, assuming that some aspect of this distribution
+ (rather than the single-sex marginal distributions) is constant in time.
+ This assumption will only be valid to the extent that bivariate age patterns in
+ fertility rates are not codetermined by changing population structure and
+ preferences. For this reason we have illustrated some aspects of the changes 
+ observed in these underlying distributions over time. 
+ 
+Models have been
+ known to make all manner of assumptions, from the simplicity of 
+ fixed age-matching, to sophisticated combinations of age-preferences 
+ interacting with availability conditions. Even the latent hypergamy 
+ indicator of Figure~\ref{fig:HypergamyStrength} does not contain information 
+ about how much of observed change is due to preference, say, in the age at 
+ childbearing, or relations between males and females with respect to the timing 
+ of childbirth. Nonetheless, it should be clear that the bivariate distribution
+with respect to age of progenitor is far from random and often in a state of
+flux. This observation is a motivation behind certain non-linear
+(population-dependent) extensions to two-sex solutions, as well as for separate
+preference functions. In this dissertation, we will not explore solutions that
+involve separate age-preference functions, but in this section we have to a
+certain extent shown why this modelling choice can be attractive-- Change is at
+times large enough to be worth modelling in its own right.
