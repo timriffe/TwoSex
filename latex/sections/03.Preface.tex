@@ -3,12 +3,12 @@ to assess the magnitude and intensity of demographic phenomena in real-world
 populations, one must first remove potential distortions introduced by
 population structure-- but population structure is itself an outcome
 of demographic phenomena. Here, demographic phenomena refer to natality and
-mortality, and population stucture refers to classifying information such as
+mortality, and population structure refers to classifying information such as
 time and sex. There are other structuring variables whose effects we would also
 like to purge were the measurement of demographic phenomena 
 our primary objective, and there are other kinds of phenomena that would also
 need to be measured if the analysis of structure were the primary
-objective. Such descripton is of secondary importance in this dissertation. Our
+objective. Such description is of secondary importance in this dissertation. Our
 objective is to study an abstraction of population processes, namely the 
 renewal model for closed populations structured by sex and time.
 
@@ -19,8 +19,8 @@ of fertility (marriage, reproduction) has been firmly established since
 \citet{karmel1947relations}. This task is challenging because models must
 produce a single result, a fertility outcome, from two information sources
 (males and females), which when handled apart produce incongruous results. 
-There is no obviously correct way to acheive this balancing act, although a large number of
-suggestions have been made. We typically call these suggestions ``solutions'',
+There is no obviously correct way to achieve this balancing act, although a
+large number of suggestions have been made. We typically call these suggestions ``solutions'',
 but they are not solutions in the sense of a solution to a math problem. A
 solution in the context of the present problem simply means that a reasonable
 result is produced in accordance with a predefined set of modeling objectives
@@ -34,20 +34,27 @@ females, each of which is structured by some notion of time. The modelling
 problems that emerge when dealing simultaneously with the two sexes may be
 conceived of as a minimal case of the much larger practical problems 
 presented by modelling populations subdivided into $N$
-groups. Applied demographers often simultaneously project,
+groups. Applied demographers often simultaneously project
 populations divided into regions, races, educational groups, and a potentially
 large number of other categorical distinctions. The modelling
 challenges presented by multigroup plurality may in this sense be thought of as
 the general problem, within which the two-sex problem is just a particular
-instance. Later in the present work we will provide some measure of
-the maginitude of the two-sex problem, and it will be concluded that the
-magnitude is large enough to be thoughtfully accounted for in measurements and
-modelling. Were models to ecompass even more groups, the potential discrepancies
-entailed by simultaneous modelling would be even larger. That we may arrive at
+instance that must be dealt with under particular constraints. While the two
+sex problem be in a sense be reduced to the notion of the $N$-group problem,
+the sexes interact in a way, and reproduction is constrained in a way, that does
+not pertain to other kinds of population subgroups-- There is namely no
+``race-ratio'' or ``state-ratio'' at birth akin to the sex ratio at birth.
+
+Later in the
+present work we will provide some measure of the magnitude of the two-sex problem, 
+and it will be concluded that the
+magnitude is large enough to be worth thoughtfully accounting for in
+measurements and modelling. Were models to encompass even more groups, the potential
+discrepancies entailed by simultaneous modelling would be even larger. That we may arrive at
 insights from the more familiar two-sex case that apply to the $N$-group case is
 a further motivation for thoughtful exploration of the problem at hand.
 $N$-group generalizations will not be explored in the present work, though with
-some addittional work, solutions discussed here may be extended in this
+some additional work, solutions discussed here may be extended in this
 direction.
 
 The balancing of the sexes in models without considering age is
@@ -79,9 +86,10 @@ particular years. Might we not also venture to take things a step further?--
 What if age were counted down to death instead of up
 from birth? Literally, what might we learn about demographic phenomena and
 population structure if beyond age (and due to the information we glean from
-age) we structured populations by sex and remaining years of life? That is a 
-big job, and we will fail to complete it, instead laying out only the groundwork
-for population renewal models wherein age is exchanged for remaing years of life.
+age) we were to structure populations by sex and remaining years of life? That
+is a big job, and we will fail to complete it, instead laying out only the groundwork
+for population renewal models wherein age is exchanged for remaining years of
+life.
 
 It is my stance that population renewal models ought to account for both sexes,
 and for this reason roughly equal attention is given in this dissertation to the
@@ -119,12 +127,12 @@ applying each to contemporary datasets. I chose the topic after completing the
 EDSD in the summer of 2010 in order to force myself to improve my formal
 demographic skills, which I had only begun to develop in that program. That
 is, I knew it would be difficult and possibly beyond my abilities. And so I
-began at the begining, collecting all the materials I could locate on the 
+began at the beginning, collecting all the materials I could locate on the 
 two-sex problem, and reproducing methods in no particular order. After a few 
 successful attempts (reproducing \citet{schoen1981harmonic},
 \citet{mc1975models} and \citet{henry1972nuptiality}) on ad hoc acquired data, I
 came to realize that all the methods in my scope will essentially require or
-the same input data-- basic exposures, and births cross-tabuated by
+the same input data-- basic exposures, and births cross-tabulated by
 sex and age of father and mother-- so I diverted attention to standardizing some
 datasets to use throughout this dissertation-- The US and Spanish populations
 for about the past four decades. I decided to discard or translate methods
@@ -141,7 +149,8 @@ steps back to some earlier or less complex method, or alltogether went back to t
 in \citet{sharpe1911problem}, \citet{kuczynski1932fertility}, \citet{coale1972growth} 
 or \citet{caswell2001matrix}. Some methods that were beyond my grasp in the 
 begining \citep[e.g.][]{mitra1978derivation, gupta1978alternative} were finally
-understood and implemented later down the road. Others I still don't understand\cite[e.g.][]{choo2006estimating}, despite having
+understood and implemented later down the road. Others I still don't 
+understand\cite[e.g.][]{choo2006estimating}, despite having
 reproducible code!
 
 All along I had no vision or pretense of designing a new method, but I rather
@@ -153,7 +162,7 @@ resolve waned. A casual conversation with John MacInnes just six months before
 the defense of this dissertation sparked what was to become the second, but
 dominant axis of this thesis, our realignment of age in renewal models. John
 mused, namely, what a population pyramid would look like if it were drawn with
-life expectancy on the verical axis instead of age. We tried to imagine what
+life expectancy on the vertical axis instead of age. We tried to imagine what
 shape such a pyramid would assume, but were on the whole left guessing. I took a
 stab at how one might go about transforming age-classified population counts to
 remaining years-classified population counts, and came up with what is here
@@ -167,15 +176,16 @@ this formula applied to redistribute population counts in the manner
 suggested here, although the concept of remaining years until death has
 certainly been considered. Miller refers to this
 temporal concept as \textit{thanatological} age\footnote{This phrase does not
-appear in the cited paper, but is properly attributed to Tim Miller.}.
+appear in the cited paper, but Miller informs me that the phrase was
+coined by Ken Wachter.}.
 
 Shortly thereafter, after looking at many such remaining years pyramids and
-coming to some exciting concusions, I realized that one may just as well
+coming to some exciting conclusions, I realized that one may just as well
 restructure \textit{any} age-classified data in the same way. So I took a 
 look at some thusly restructured fertility rates, explored
-some more, and spontaneously resolved to try to figure out how the fundamental
-Lotka equations would work if reworked to be based on remaining-years classified
-data. From that moment I was self-obliged to bring \textit{this} family of
+some more, and spontaneously resolved to try to figure out what form the
+fundamental Lotka equations would obtain if reworked to be based on
+remaining-years classified data. From that moment I was self-obliged to bring \textit{this} family of
 population models to bear upon the two-sex problem. Is the problem the same?
 Will this transformation teach us anything? Does it make sense to simply
 project remaining-years structured populations alongside age-structured
@@ -183,18 +193,20 @@ populations? That is what this dissertation is about.
 
 As hinted before, it is the case that when one estimates population growth (or
 some other interesting quantity) from a remaining-years-classified population,
-one arrives at a different result than that derived from the analagous
+one arrives at a different result than that derived from the analogous
 age-structured model. I do not undertake the worthy task of formalizing the
 difference between age and remaining-years structured growth rates, as did
 \citet{karmel1947relations} for the difference between male and female
 reproduction rates (or \citet{coale1972growth}, put differently). As for this
 new discrepancy, I have only managed the less glamorous feat of pointing out
 that it exists, as did \citet{kuczynski1932fertility} for the male
-and female cases. There is plenty of work left to do. It is my hope herein to
-simulate discussion in the discipline of demography about whether structuring
+and female cases. There is plenty of work left to do, and it is my hope herein
+to stimulate discussion in the discipline of demography about whether structuring
 aggregate demographic data (and the models derived from these) by remaining
 years of life may contribute further insights into human population dynamics. At
 times in this dissertation, I will posit how the nature of
 remaining-years-structured populations is agreeable to stable population theory
 and lends itself to population projections in general and to the sex balancing
-undertaken in two-sex solutions in particular.
+undertaken in two-sex solutions in particular. Further, the strategies that
+demographers have developed to patch the two-sex problem will provide us with
+insights into the new discrepancy presented by our restructuring of age.
