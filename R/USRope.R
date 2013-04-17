@@ -104,7 +104,7 @@ FxMn            <- ReduceDimension(MxF,CohortsL,20,1)
 CohL            <- CohortsL - CohortsL %% 20
 CohLN           <- unique(CohL)
 Livcol          <- RColorBrewer::brewer.pal(9, "Greens")[3:9] # must be same length as CohLN
-LivcolM          <- matrix(Livcol, ncol = length(unique(Coh2)), nrow = 111, byrow=TRUE)
+LivcolM          <- matrix(Livcol, ncol = length(CohLN), nrow = 111, byrow=TRUE)
 
 
 # get cumsums to stack:
@@ -137,7 +137,7 @@ bottomsL        <- row(LivCM) + 2008
 topsL           <- bottomsL + 1
 bottomsP        <- row(ProjCM) + 2008
 topsP           <- bottomsP + 1
-bottomsH        <- row(RCMales) + 1931
+bottomsH        <- row(RCMales) + 1930
 topsH           <- bottomsH + 1
 # Years in rows
 
