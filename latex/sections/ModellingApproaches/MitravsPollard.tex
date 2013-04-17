@@ -1,6 +1,29 @@
 
-Results from the models adhering to the notion of single-sex fertility,
-cris-crossed or not, inevitably suffer from 
+As mentioned, models that adhere to the notion of single-sex fertility are
+characterized by difficulty in keep the sex ratio at birth under control.
+\citet{pollard1948measurement} partially resolves this issue, keeping
+sex-divergence at bay by swapping the generation of birth of each sex to
+progenitors of the other sex. The method has the drawback of reliance upon
+starting population structure, and so cannot be said to be 100\% ergodic. This
+later criticism only applies to the derivation of sex-structure in the stable
+state, as no sex ratio assumptions are required to arrive at Pollard's two-sex
+$r$. Similar conclusions may be made for the model of
+\citet{mitra1978derivation}- the demographer has not been librarted from making
+decisions, as the initial weights must be decided upon, and the OLS criterion
+used earlier is just one such choice. Further, this choice is forced upon the
+demographer due to the use of single-sex fertility information and use of the
+sex ratio at birth as a governing parameter. To certain extent, this is to say
+that both models major pitfalls originate in the use of single-sex fertility,
+carried over more or less directly from the single-sex model framework.
+
+Figure~\ref{fig:PollardMitrar} displays the results of applying these two
+methods to the US and Spanish data to arrive at estimates of the two-sex 
+intrinsic growth rate for each year. We see that
+Pollard's method yields a somewhat higher estimate than the Mitra (OLS
+criterion) method, but that differences are minor. Both methods yield two-sex
+estimates of $r$ that are bracketted by $r^m$ and $r^f$, and this property was
+one of the primary motives in the design of both models. Neither of these models
+is seen to allow for interactions between the sexes, or between ages.
 
 \begin{figure}[ht!]
         \centering  
@@ -8,9 +31,12 @@ cris-crossed or not, inevitably suffer from
           and single sex intrinsic growth rates. US, 1969-2009, and Spain, 1975-2009}
            % /R/Mitra1978.R
            \includegraphics{Figures/PollardMitrar}
-          \label{fig:Mitra1978v0vstar}
+          \label{fig:PollardMitrar}
 \end{figure}
 
+In following, all models investigated will not rely upon single-sex fertility
+assumptions. Further, we will move in the direction of allowing for fertiltiy
+rates to be a function of the ages of both parents.
 
 
 
