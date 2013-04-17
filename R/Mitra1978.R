@@ -172,6 +172,47 @@ for (i in 1:length(yearsES)){
                     Fat = with(ExES, Female[Year == as.integer(yr)]))
 }
 
+# get Pollard results:
+source("/home/triffe/git/DISS/R/Pollard1948.R")
+
+plot(USrPollard)
+
+pdf("/home/triffe/git/DISS/latex/Figures/PollardMitrar.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+plot(yearsUS, MitraOLSUSresults[, "r"], type = 'n', ylim = c(-.02, .015), xlim = c(1968,2010), axes = FALSE,
+        col = gray(.2), lwd = 2, xlab = "", ylab = "",
+        panel.first = list(rect(1968,-.02,2010,.015,col = gray(.95), border=NA),
+                abline(h = seq(-.02, .015, by = .005), col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(-.02, .015, by = .005),seq(-.02, .02, by = .005), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10),-.02, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, -.0225, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1965.5,.018, "r", cex = 1, xpd = TRUE)))
+# rm-rf regions
+polygon(c(yearsUS,rev(yearsUS)),c(MitraOLSUSresults[, "r.m"],rev(MitraOLSUSresults[, "r.f"])), border = NA, col = "#55555550")
+polygon(c(yearsES,rev(yearsES)),c(MitraOLSESresults[, "r.m"],rev(MitraOLSESresults[, "r.f"])), border = NA, col = "#55555550")
+# US results
+lines(yearsUS,MitraOLSUSresults[, "r"], lwd = 2, col = gray(.2))
+lines(yearsUS, USrPollard, col = "red")
+lines(yearsUS, MitraOLSUSresults[, "r.m"], lwd = 1, col = gray(.2), lty = 5)
+lines(yearsUS, MitraOLSUSresults[, "r.f"], lwd = 1, col = gray(.2), lty = 5)
+# Spain results
+lines(yearsES,MitraOLSESresults[, "r"], lwd = 2, col = gray(.2))
+lines(yearsES, ESrPollard, col = "red")
+lines(yearsES, MitraOLSESresults[, "r.m"], lwd = 1, col = gray(.2), lty = 5)
+lines(yearsES, MitraOLSESresults[, "r.f"], lwd = 1, col = gray(.2), lty = 5)
+
+# label rm rf
+text(c(1990, 1986.5, 1973, 1971),
+        c(-0.0103542581, -0.0141970362,  0.0003650703, -0.0040170451),
+        c(expression(r^m~ES),expression(r^f~ES),expression(r^m~US),expression(r^f~US)),
+        cex = .8, pos = c(4,1,4,1))
+legend(1990,.014,lty=1,col=c(gray(.2),"red"),c("Mitra (1978)","Pollard (1948)"),bty="n",lwd = c(2,1))
+dev.off()
+
+
+
+
 
 pdf("/home/triffe/git/DISS/latex/Figures/Mitra1978v0vstar.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
@@ -229,7 +270,6 @@ lines(yearsUS, logit(MitraOLSUSresults[, "v"]), col = "blue")
 plot(yearsUS, MitraOLSUSresults[, "r.m"], type = 'l', col = "blue", ylim = c(-.01, .01))
 lines(yearsUS, MitraOLSUSresults[, "r.f"], col = "pink")
 lines(yearsUS,  MitraOLSUSresults[, "r"], col = "green")
-
 
 # change strategy to slow optimization over a trajectory?
 
@@ -492,9 +532,6 @@ Exf <- at     <- with(ExUS, Female[Year == as.integer(yr)])
 
 
 LotkaRMitraFast(v0 = .5, Bxm = Bma, Bxf = Bfa, Exm = Mat, Exf = Fat, Lxm = Lxm, Lxf = Lxf, x = 0:110 + .5, maxit = 50)
-
-
-
 
 
 

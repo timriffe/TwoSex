@@ -40,76 +40,63 @@ FxMFES <- do.call(cbind, lapply(as.character(yearsES), function(yr, .Bxymf, .Ex)
                     Mna0(Minf0(BMF / Exm))
                 }, .Bxymf = BxymfES, .Ex = ExES))
 # equation is interesting
-
-# need crossproduct of net parentage functions:
-
-# take 1975 US as example:
-colnames(FxMFUS) <- colnames(FxFMUS) <- yearsUS
-colnames(FxMFES) <- colnames(FxFMES) <- yearsES
-thetam <- FxMFUS[,"1970"]*LxmUS[,"1970"]
-thetaf <- FxFMUS[,"1970"] * LxfUS[,"1970"]
-
-# hmm
-image(outer(thetam, thetaf))
-
-CPthetas <- outer(thetam, thetaf)
-
-agesm <- .5:110.5
-Agecomb <- outer(agesm,agesm,"+")
-
-ri <- .001
-image(exp(-Agecomb*ri))
+colnames(FxFMUS) <- colnames(FxMFUS) <- yearsUS
+colnames(FxFMES) <- colnames(FxMFES) <- yearsES
 
 PollardMin <- compiler::cmpfun(function(r, thetam, thetaf, .a = .5:110.5){
     (1-sum(exp(-outer(.a,.a,"+")*r)*outer(thetam, thetaf)))^2
 })
 
 # Niiiiice
-optimize(PollardMin, interval = c(-.02,.02), tol = 1e-15, thetam = thetam,thetaf=thetaf)
-
-USr <- unlist(lapply(as.character(yearsUS), function(yr, .FxMF, .FxFM, .Lxm, .Lxf){
+#optimize(PollardMin, interval = c(-.02,.02), tol = 1e-15, thetam = thetam,thetaf=thetaf)
+# yr <- "1975"
+USrPollard <- unlist(lapply(as.character(yearsUS), function(yr, .FxMF, .FxFM, .Lxm, .Lxf){
                     thetam <- .FxMF[, yr] * .Lxm[,yr]
                     thetaf <- .FxFM[, yr] * .Lxf[,yr]
                     optimize(PollardMin, interval = c(-.03,.03), tol = 1e-15, thetam = thetam, thetaf=thetaf)$minimum
                 }, .FxMF = FxMFUS, .FxFM = FxFMUS, .Lxm = LxmUS, .Lxf = LxfUS))
 
 
-ESr <- unlist(lapply(as.character(yearsES), function(yr, .FxMF, .FxFM, .Lxm, .Lxf){
+ESrPollard <- unlist(lapply(as.character(yearsES), function(yr, .FxMF, .FxFM, .Lxm, .Lxf){
                     thetam <- .FxMF[, yr] * .Lxm[,yr]
                     thetaf <- .FxFM[, yr] * .Lxf[,yr]
                     optimize(PollardMin, interval = c(-.03,.03), tol = 1e-15, thetam = thetam, thetaf=thetaf)$minimum
                 }, .FxMF = FxMFES, .FxFM = FxFMES, .Lxm = LxmES, .Lxf = LxfES))
 
 
-plot(yearsUS, USr,type = 'l', ylim = c(-.02,.015))
-lines(yearsES, ESr, col = "red")
-abline(h=0)
+#plot(yearsUS, USr,type = 'l', ylim = c(-.02,.015))
+#lines(yearsES, ESr, col = "red")
+#abline(h=0)
+# confirmed that second unity equation yields same results:
+#
+#PollardMin2 <- function(r, thetam, thetaf, .a = .5:110.5){
+#    (1-(sum(exp(-r*.a)*thetam) * sum(exp(-r*.a)*thetaf)))^2
+#}
+#
+#USr2 <- unlist(lapply(as.character(yearsUS), function(yr, .FxMF, .FxFM, .Lxm, .Lxf){
+#                    thetam <- .FxMF[, yr] * .Lxm[,yr]
+#                    thetaf <- .FxFM[, yr] * .Lxf[,yr]
+#                    optimize(PollardMin2, interval = c(-.03,.03), tol = 1e-15, thetam = thetam, thetaf=thetaf)$minimum
+#                }, .FxMF = FxMFUS, .FxFM = FxFMUS, .Lxm = LxmUS, .Lxf = LxfUS))
+#plot(yearsUS, USr,type = 'l', ylim = c(-.02,.015))
+#lines(yearsUS, USr2, col = "red", lty = 2, lwd =2)
+#
+#yr <- "1975"
+#USr <- unlist(lapply(as.character(yearsUS), function(yr, .FxMF, .FxFM, .Lxm, .Lxf){
+#                    thetam <- .FxMF[, yr] * .Lxm[,yr]
+#                    thetaf <- .FxFM[, yr] * .Lxf[,yr]
+#                    optimize(PollardMin, interval = c(-.03,.03), tol = 1e-15, thetam = thetam, thetaf=thetaf)$minimum
+#                }, .FxMF = FxMFUS, .FxFM = FxFMUS, .Lxm = LxmUS, .Lxf = LxfUS))
+#names(USr) <- yearsUS
+#sum(thetam*exp(-USr[yr]*.a))/
+#sum(thetaf*exp(-USr[yr]*.a))
+#
+#sum(thetam*thetaf*.Lxf[,yr]*exp(-USr[yr]*.a))
+#sum(thetam*thetaf*.Lxm[,yr]*exp(-USr[yr]*.a))
+#
+#(1-sum(exp(-outer(.a,.a,"+")*r)*outer(thetam, thetaf)))^2
+#b <- 1 / sum(exp(-outer(.a,.a,"+")*USr[yr])*outer(.Lxm[,yr], .Lxf[,yr]))
+#b * .Lxm[,yr]*exp(-.a*USr[yr])
 
-PollardMin2 <- function(r, thetam, thetaf, .a = .5:110.5){
-    (1-(sum(exp(-r*.a)*thetam) * sum(exp(-r*.a)*thetaf)))^2
-}
 
-USr2 <- unlist(lapply(as.character(yearsUS), function(yr, .FxMF, .FxFM, .Lxm, .Lxf){
-                    thetam <- .FxMF[, yr] * .Lxm[,yr]
-                    thetaf <- .FxFM[, yr] * .Lxf[,yr]
-                    optimize(PollardMin2, interval = c(-.03,.03), tol = 1e-15, thetam = thetam, thetaf=thetaf)$minimum
-                }, .FxMF = FxMFUS, .FxFM = FxFMUS, .Lxm = LxmUS, .Lxf = LxfUS))
-plot(yearsUS, USr,type = 'l', ylim = c(-.02,.015))
-lines(yearsUS, USr2, col = "red", lty = 2, lwd =2)
 
-yr <- "1975"
-USr <- unlist(lapply(as.character(yearsUS), function(yr, .FxMF, .FxFM, .Lxm, .Lxf){
-                    thetam <- .FxMF[, yr] * .Lxm[,yr]
-                    thetaf <- .FxFM[, yr] * .Lxf[,yr]
-                    optimize(PollardMin, interval = c(-.03,.03), tol = 1e-15, thetam = thetam, thetaf=thetaf)$minimum
-                }, .FxMF = FxMFUS, .FxFM = FxFMUS, .Lxm = LxmUS, .Lxf = LxfUS))
-names(USr) <- yearsUS
-sum(thetam*exp(-USr[yr]*.a))/
-sum(thetaf*exp(-USr[yr]*.a))
-
-sum(thetam*thetaf*.Lxf[,yr]*exp(-USr[yr]*.a))
-sum(thetam*thetaf*.Lxm[,yr]*exp(-USr[yr]*.a))
-
-(1-sum(exp(-outer(.a,.a,"+")*r)*outer(thetam, thetaf)))^2
-b <- 1 / sum(exp(-outer(.a,.a,"+")*USr[yr])*outer(.Lxm[,yr], .Lxf[,yr]))
-b * .Lxm[,yr]*exp(-.a*USr[yr])
