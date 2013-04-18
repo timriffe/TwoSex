@@ -250,23 +250,33 @@ All.paths <- file.path("/home/triffe/DATA/CDC/BIRTHS/Bxy", paste0("Bxy",1969:201
 All.Bxy <- lapply(All.paths, function(x){
             local(get(load(x)))
         })
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")\
+source("/home/triffe/git/DISS/R/UtilityFunctions.R")
 names(All.Bxy) <- 1969:2010
+
 x <- All.Bxy[["1989"]]
-dim(Bxym)
-dimnames(Bxym)
-Bxyf[,"88"]
 Bxymf <- lapply(All.Bxy, function(x){
               
             Bxym <- reshape2::acast(x[x$SEX == 1, ], MAGE ~ FAGE, sum, value.var = "BIRTHS")
             a99  <- Bxym[,"99"]
             Bxym <- Bxym[, -ncol(Bxym)]
-            Bxym <- Bxym + (Bxym / rowSums(Bxym)) * a99 
+            Bxym <- Bxym + (Bxym / rowSums(Bxym,na.rm=TRUE)) * a99 
             
             Bxyf <- reshape2::acast(x[x$SEX == 2, ], MAGE ~ FAGE, sum, value.var = "BIRTHS")
             a99  <- Bxyf[,"99"]
             Bxyf <- Bxyf[, -ncol(Bxyf)]
-            Bxyf <- Bxyf + (Bxyf / rowSums(Bxyf)) * a99 
+            Bxyf <- Bxyf + (Bxyf / rowSums(Bxyf,na.rm=TRUE)) * a99 
+
+            # fix for 1989 mostly
+            if ("89" %in% colnames(Bxym) & "89" %in% colnames(Bxyf)){
+            if (colSums(Bxym,na.rm=TRUE)["89"] > 100 | colSums(Bxyf,na.rm=TRUE)["89"] > 100){
+                a89  <- Bxym[,"89"]
+                Bxym <- Bxym[, colnames(Bxym) != "89"]
+                Bxym <- Bxym + (Bxym / rowSums(Bxym,na.rm=TRUE)) * a89 
+                
+                a89  <- Bxyf[,"89"]
+                Bxyf <- Bxyf[, colnames(Bxyf) != "89"]
+                Bxyf <- Bxyf + (Bxyf / rowSums(Bxyf,na.rm=TRUE)) * a89 
+            }}
 
             list(Bxym = Mna0(t(Bxym)),Bxyf = Mna0(t(Bxyf)))
         })
@@ -307,6 +317,7 @@ Bxymf0_110 <- lapply(Bxymf, function(x){
             Xf[rownames(x[["Bxyf"]]),colnames(x[["Bxyf"]])] <- x[["Bxyf"]]
             list(Bxym = Xm, Bxyf = Xf)
         })
+
 
 Bxymf10_65 <- lapply(Bxymf0_110, function(x){   
             xm <- x[["Bxym"]]
