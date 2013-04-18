@@ -250,7 +250,12 @@ All.paths <- file.path("/home/triffe/DATA/CDC/BIRTHS/Bxy", paste0("Bxy",1969:201
 All.Bxy <- lapply(All.paths, function(x){
             local(get(load(x)))
         })
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
+source("/home/triffe/git/DISS/R/UtilityFunctions.R")\
+names(All.Bxy) <- 1969:2010
+x <- All.Bxy[["1989"]]
+dim(Bxym)
+dimnames(Bxym)
+Bxyf[,"88"]
 Bxymf <- lapply(All.Bxy, function(x){
               
             Bxym <- reshape2::acast(x[x$SEX == 1, ], MAGE ~ FAGE, sum, value.var = "BIRTHS")
