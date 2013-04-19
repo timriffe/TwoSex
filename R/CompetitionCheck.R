@@ -26,7 +26,10 @@ dxfUS <- dxfUS %col% colSums(dxfUS)
 dxmES <- dxmES %col% colSums(dxmES)
 dxfES <- dxfES %col% colSums(dxfES)
 
-
+# Harmonic mean function
+HM <- function(x,y){
+    Minf0(Mna0((2 * x * y) / (x + y)))
+}
 # 1) make a harmonic mean rate a x a'
 yr <- "1975"
 Bxy <- BxymfUS[[yr]][[1]] + BxymfUS[[yr]][[2]]
@@ -35,9 +38,7 @@ PMa <- with(ExUS, Male[Year == as.integer(yr)])
 PFa <- with(ExUS, Female[Year == as.integer(yr)])
 MexM <- ExpectedDx(PMa, dxmUS[,yr])
 FexM <- ExpectedDx(PFa, dxfUS[,yr])
-HM <- function(x,y){
-   Minf0(Mna0((2 * x * y) / (x + y)))
-}
+
 ExpHM <- outer(rowSums(MexM),rowSums(FexM),HM)
 
 mHM <-  Minf0(Mna0(Bxyex / ExpHM))
@@ -48,14 +49,38 @@ sum(mHM)
 PMa2 <- PMa
 PMa2[26] <- PMa2[26] * 2
 MexM2 <- ExpectedDx(PMa2, dxmUS[,yr])
+BexM2 <- ExpectedDx(rowSums(Bxy), dxmUS[,yr])
 
+MexM3 <- MexM2
+MexM3[,rowSums(Bxy) == 0] <- 0
 
+# new harmonic avg:
 ExpHM2 <- outer(rowSums(MexM2),rowSums(FexM),HM)
+# new predicted births:
+Bxyex2 <- mHM * ExpHM2
+# problem: these are cross-classified by remaining years and not age.
+# need to get back to male and female age marginals.
+
+Male_eyMarg <- rowSums(Bxyex2)
+# smooth as expected
+# plot(Male_eyMarg)
+MexM2
+
+
+#  now do it the hard way...
+Exm2array <- array(0,dim=c(111,111,111))
+for (i in 1:111){
+    Exm2array[i,,] <- outer(MexM2[,i],rowSums(FexM),HM) 
+}
+
 #plot(rowSums(MexM2),type='l')
 #lines(rowSums(MexM),col = "blue")
-Bxyex2 <- mHM * ExpHM2
 
-fields::image.plot(Bxyex2 - Bxyex)
+
+plot(colSums(Minf0(Mna0(rowSums(Bxyex2) / MexM2)), na.rm=TRUE))
+
+
+#fields::image.plot(Bxyex2 - Bxyex)
 
 # collapse Births to males, and distribute back out to ages and RYL
 Bxm1 <- rowSums(Bxyex) * Minf0(Mna0(MexM / rowSums(MexM)))
@@ -67,6 +92,9 @@ Bxm2 <- rowSums(Bxyex2) * Minf0(Mna0(MexM2 / rowSums(MexM2)))
 colSums(Bxm2)
 plot(0:110, colSums(Bxm2), type= 'l')
 lines(0:110, colSums(Bxm1), col = "red", lty = 2)
+ratio <- colSums(Bxm2) / colSums(Bxm1)
+ratio[26] <- NA
+plot(ratio[15:40],type='l') # hm, need to work on proper redist to ages.
 
 # likewise, check before and after for females
 Bxf1 <- colSums(Bxyex) * Minf0(Mna0(t(t(FexM) / colSums(FexM))))
@@ -81,7 +109,47 @@ plot(0:110, colSums(Bxm2) / colSums(Bxm1))
 
 sum(colSums(Bxm2) - colSums(Bxm1))
 
+# 2nd try - only repro ages?
 
+PMa3 <- PMa
+PMa3[rowSums(Bxy)==0] <- 0
+PFa3 <- PFa
+PFa3[colSums(Bxy)==0] <- 0
+
+MexM3 <- ExpectedDx(PMa3, dxmUS[,yr])
+FexM3 <- ExpectedDx(PFa3, dxfUS[,yr])
+
+# colSums of these will give back age...
+FemaleRatesA <-MaleRatesA <- array(dim=c(111,111,111))
+for (i in 1:111){
+    MaleRatesA[,,i] <- ExpectedDx(Bxy[,i] / PMa, dxmUS[,yr])
+    FemaleRatesA[,,i] <- ExpectedDx(Bxy[i,] / PFa, dxfUS[,yr])
+}
+# each stack is key
+
+rowSums(Bxy) / PMa
+
+image(MaleRates)
+ExpHM3 <- outer(rowSums(MexM3),rowSums(FexM3),HM)
+
+mHM3 <-  Minf0(Mna0(Bxyex / ExpHM3))
+
+# now chg exp
+PMa4 <- PMa3
+PMa4[26] <- PMa4[26] * 2
+MexM4 <- ExpectedDx(PMa4, dxmUS[,yr])
+BexM4 <- ExpectedDx(rowSums(Bxy), dxmUS[,yr])
+# new harmonic avg:
+ExpHM4 <- outer(rowSums(MexM4),rowSums(FexM3),HM)
+# new predicted births:
+Bxyex4 <- mHM3 * ExpHM4
+
+sum(Bxyex4)
+plot(colSums(Mna0(Minf0(rowSums(Bxyex4) / MexM4)))) # nope
+
+sum(Mna0(Minf0(BexM4 / MexM4)))
+
+sum(Mna0(Minf0(colSums(BexM4) / colSums(MexM4))))
 
 
 
