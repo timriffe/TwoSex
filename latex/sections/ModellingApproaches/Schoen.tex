@@ -1,10 +1,17 @@
 \FloatBarrier
-Schoen \citep{schoen1978standardized, schoen1977two, schoen1981harmonic}
-provided a rationale and derivation for using the harmonic mean in order to
-balance marriage rates. The same strategy can be used to balance fertility
-rates, which is what we will do here. The method requires as inputs a matrix of
-birth counts cross-tabulated by age of father, $a$, and age of mother $a'$ and
-male and female exposures classified by age. The harmonic mean
+
+The most instinctual two-sex fertility (marriage) solution is to symmetrically
+(with respect to the sexes) utilize information from the vital rates of both
+sexes. Mean functions have been compared in the past\citep[see
+e.g.][]{keyfitz1972mathematics}, but rated in terms of utility with difficulty.
+In terms of the axioms mentioned in Section~\ref{sec:axioms}--rather than
+performance-- the harmonic mean function has fared the best amongst a variety of
+means. Schoen \citep{schoen1978standardized, schoen1977two, schoen1981harmonic}
+provided a rationale and derivation for using the harmonic mean in order to 
+balance marriage rates. The same strategy can be used to balance fertility 
+rates, which is what we will do here. The method requires as inputs a matrix 
+of birth counts cross-tabulated by age of father, $a$, and age of mother $a'$ 
+and male and female exposures classified by age. The harmonic mean
 \begin{equation}
 H(P_a^m, P_{a'}^f) = \frac{2 P_a^m P_{a'}^f}{P_a^m + P_{a'}^f}
 \end{equation}
@@ -51,7 +58,7 @@ females have slightly different $l_0$ values.
 
 \paragraph{Estimating $r$: } The two-sex harmonic intrinsic growth rate, $r$ can
 be estimated in two ways, either assuming $\varsigma$ constant from the start
-(likely based on the initital data) and using a generic optimizer, or by modifying the iterative procedure
+(likely based on the initial data) and using a generic optimizer, or by modifying the iterative procedure
 suggested by \citet{coale1957new}, which works best if one simultaneously
 estimates $r$ and $\varsigma$ (i.e. allowing $\varsigma$ to adjust to the
 population structure, as it is known to vary with age). Here we will describe
@@ -120,8 +127,8 @@ structures differ from the initial age structures. Estimating both parameters at
 the same time does not present a practical problem in the present case, and the
 procedure converges faster than if $S$ is left assumed at some constant value.
 
-One could prescind of the iterative $r$ estimation procedure outlined above and
-perform a standard cohort component projection, for instance using a
+One could abandon the iterative $r$ estimation procedure outlined above
+and perform a standard cohort component projection, for instance using a
 two-sex Leslie matrix. In this case, the fertility component of the Leslie
 matrix would need to be updated between each iteration using equation~\ref{eq:asfrH} for either
 males or females. One cannot easily perform standard matrix analysis of this
