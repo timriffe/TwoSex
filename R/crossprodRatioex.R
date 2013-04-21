@@ -189,30 +189,7 @@ sign(diff(rUScp[,1])) == sign(diff(rUS[,1]))
 
 
 
-HM(4,8)
-stolarsky.mean.v(4,8,seq(-5,5,by=.01))
-
-SHM <- optimize(function(p){
-            (HM(4,8) - stolarsky.mean.v(4,8,p)) ^ 2 
-        }, interval = c(-5,-3), tol = 1e-22)$min
-
-stolarsky.mean(4,8,SHM) - HM(4,8)
-
--4.144574
-
-(SHM)
-
-
-stolarsky.mean(4,8,SHM)- HM(4,8)
-
-0 =  (x - y) * ((2 * x * y) / (x + y)) - ((x^p - y^p)/p) ^ (1/(p-1))
-Solve[((x^p - y^p) / (p*(x - y)))^(1 / (p - 1)) == (2 * x * y) / (x + y),p,Reals]
-# would like to solve for p, as function of x and y
-(2 * x * y) / (x + y) - ((x^p - y^p) / (p*(x - y)))^(1 / (p - 1)) = 0
-
-
-
-(((4^p) - (8^p)) / (p*(4 - 8)))^(1 / (p - 1)) - (2 * 4 * 8) / (4 + 8) 
+# test IPF
 
 
 
