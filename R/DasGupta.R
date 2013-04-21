@@ -114,7 +114,7 @@ lines(yearsUS,rGuptaUS, lwd = 2, col = gray(.2))
 lines(yearsUS, rLotkaUS[, "r.m"], lwd = 1, col = gray(.2), lty = 5)
 lines(yearsUS, rLotkaUS[, "r.f"], lwd = 1, col = gray(.2), lty = 5)
 # add points for years not bracketted:
-USind <- rGuptaUS > rLotkaUS[, "r.m"] | rGuptaUS < rLotkaUS[, "r.f"]
+USind <- rGuptaUS > rLotkaUS[, "r.m"] & rGuptaUS < rLotkaUS[, "r.f"]
 points(yearsUS[USind], rGuptaUS[USind], pch = 9, col = "black", xpd = TRUE)
 
 # Spain results
@@ -122,7 +122,7 @@ lines(yearsES,rGuptaES, lwd = 2, col = gray(.2))
 #lines(yearsES, ESrPollard, col = "red")
 lines(yearsES, rLotkaES[, "r.m"], lwd = 1, col = gray(.2), lty = 5)
 lines(yearsES, rLotkaES[, "r.f"], lwd = 1, col = gray(.2), lty = 5)
-ESind <- rGuptaES > rLotkaES[, "r.m"] | rGuptaES < rLotkaES[, "r.f"]
+ESind <- rGuptaES > rLotkaES[, "r.m"] & rGuptaES < rLotkaES[, "r.f"]
 points(yearsES[ESind], rGuptaES[ESind], pch = 9, col = "black", xpd = TRUE)
 
 # label rm rf
