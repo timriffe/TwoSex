@@ -107,6 +107,7 @@ plot(yearsUS, rGuptaUS, type = 'n', ylim = c(-.02, .015), xlim = c(1968,2010), a
                 text(1965.5,.018, "r", cex = 1, xpd = TRUE)))
 # rm-rf regions
 polygon(c(yearsUS,rev(yearsUS)),c(rLotkaUS[, "r.m"],rev(rLotkaUS[, "r.f"])), border = NA, col = "#55555550")
+
 polygon(c(yearsES,rev(yearsES)),c(rLotkaES[, "r.m"],rev(rLotkaES[, "r.f"])), border = NA, col = "#55555550")
 # US results
 lines(yearsUS,rGuptaUS, lwd = 2, col = gray(.2))
@@ -130,7 +131,7 @@ text(c(1990, 1986.5, 1973, 1971),
         c(-0.0103542581, -0.0141970362,  0.0003650703, -0.0040170451),
         c(expression(r^m~ES),expression(r^f~ES),expression(r^m~US),expression(r^f~US)),
         cex = .8, pos = c(4,1,4,1))
-legend(1995, .015, pch = 9, bty = "n", legend = c(expression(r^Gupta > r^m)), xpd = TRUE)
+#legend(1995, .015, pch = 9, bty = "n", legend = c(expression(r^Gupta > r^m)), xpd = TRUE)
 dev.off()
 
 # ----------------------------------------------------------

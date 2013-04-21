@@ -88,20 +88,20 @@ expit <- function(x){
     # diag(v) %*% M
 }
 
-Mna0 <- function(M){
+Mna0 <- compiler::cmpfun(function(M){
     M[is.na(M)]  <- 0
     M[is.nan(M)] <- 0
     M
-}
+})
 
-Minf0 <- function(M){
+Minf0 <- compiler::cmpfun(function(M){
     M[is.infinite(M)]  <- 0
     M
-}
-MinfNA <- function(M){
+})
+MinfNA <- compiler::cmpfun(function(M){
     M[is.infinite(M)]  <- NA
     M
-}
+})
 
 # used in rm_rf_divergence.R
 dx2pxLes <- function(dx){
