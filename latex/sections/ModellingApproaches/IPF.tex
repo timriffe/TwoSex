@@ -61,6 +61,79 @@ experience decreases (lower rates applied to the same exposures).
           \label{fig:IPFcomp}
 \end{figure}
 
+\paragraph{Iterative proportional fitting in models of population growth: }
+
+The formulas to formalize the use of IPF fertility balancing will take on a
+different appearance than those seen thus far. Note that the basic inputs to the
+IPF function to constrain male and female fertility rates will be:
+$IPF(B_{a,a'}(t), F_a^M(t), F_{a'}^F(t),P_a(t+n),P_{a'}(t+n))$, where $B_{a,a'}$
+is the cross-classified birth matrix, $F_a^M$ and $F_{a'}^F$ are male and female ASFR,
+and $P_a$ and $P_{a'}$ are future population estimates (exposures when
+discrete). The function produces adjusted ASFR for \textit{both} males and females,
+$F_a^{M^\ast}$, $F_{a'}^{F\ast}$. Let us define a shorthand where the year
+$\tau$ is the year used as the standard for the IPF method, bearing in mind that
+$IPF(\tau, p^M, p^F)$ requires the first three arguments from year $\tau$ (births and 
+male and female ASFR), whereas the later two arguments, that which we would like
+to adapt to, may change according to our ends. $F_a^{M^\ast(\tau,p^M, p^F)}$
+will be the IPF adjusted male ASFR based on year $\tau$ data, and
+$F_{a'}^{F^\ast(\tau,p^M, p^F)}$ the female ASFR output from the same procedure.
+Then assuming constant mortality and continuous functions, we may define year $t$ total births as a
+function of past births as:
+
+\begin{align}
+B(t) &= \int_{a=0}^\infty \varsigma B(t-a)p_aF_a^{M^\ast(\tau,p^M, p^F)}\dd a
+\\ &= \int_{a'=0}^\infty (1-\varsigma) B(t-a')p_{a'}F_{a'}^{F^\ast(\tau,p^M,
+p^F)}\dd a'
+\end{align}
+which works either with males or with females, since the IPF function already
+balances fertility such that total births will be the same whether predicted by
+males or females. $\varsigma$ is the proportion male at birth. If mortality is
+held constant and $IPF(\tau,p^M, p^F)$ is always based on the same year $\tau$ 
+constant information, the popultation will eventually begin
+to grow at a constant rate $r$ which can be estimated from the following
+equation:
+\begin{align}
+\label{eq:IPFtricky}
+1 &= \int_{a=0}^\infty \varsigma e^{-ra}p_aF_a^{M^\ast(\tau,p^{M\infty},
+p^{F\infty})}\dd a \\ 
+&= \int_{a'=0}^\infty (1-\varsigma) e^{-ra'}p_{a'}F_{a'}^{F^\ast(\tau,p^{M\infty},
+p^{F\infty})}\dd a'
+\end{align}
+where $p^{M\infty}$ for males is just the full age pattern of
+$\varsigma e^{-ra}p_a$, and $p^{F\infty}$ is the full age pattern
+from $(1-\varsigma) e^{-ra'}p_{a'}$ analogously for females. The estimation of
+$r$ using this equation is unfortunately cumbersome, and is explained in
+following.
+
+\paragraph{Estimating the intrinsic growth rate: } First, note that either
+version of Equation~\eqref{eq:IPFtricky} requires full information from both
+males and females, so we may as well add the two right-side components and make
+the equation sum to two:
+\begin{equation}
+\label{eq:IPFugly}
+2 = \int_{a=0}^\infty \int_{a'=0}^\infty \varsigma
+e^{-ra}p_aF_a^{M^\ast(\tau,p^{M\infty}, p^{F\infty})} + (1-\varsigma)
+e^{-ra'}p_{a'}F_{a'}^{F^\ast(\tau,p^{M\infty}, p^{F\infty})}\dd a' \dd a
+\end{equation}
+As in some earlier iterative $r$-estimation instructions given in this
+dissertation, one does well to allow $\varsigma$ to be determined by sex
+ratios that vary over age of mother and father. This information we retain
+in the sex-sex-specific fertility functions, featured elsewhere in this dissertation: $F_a^{M-M}$,
+$F_a^{M-F}$,$F_{a'}^{F-F}$, $F_{a'}^{F-M}$, which will entail two IPF functions,
+one for boy births and one for girl births. 
+\todo{complete description, see if there's a better way to summarize}
+
+
+
+
+\paragraph{Summary of the method applied to models of population growth:
+}Fulfillment of the competition axiom is not a trivial achievment, and it also more or less tops off the list of important axioms: 1) The solution meets the availability
+axiom, 2) is first degree homogenous, 3) is monotanous, 4) is symmetrical with respect the
+sexes, 5) and is sensitive to substitution and competition. There is no
+guarantee for bracketing, although the solution will always track and typically
+be bracketed by the single-sex intrinsic growth rates.
+
+
 \begin{figure}[ht!]
         \centering  
           \caption{IPF intrinsic growth rates, $r$, compared with
