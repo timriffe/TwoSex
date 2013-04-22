@@ -151,9 +151,10 @@ sum(Mna0(Minf0(BexM4 / MexM4)))
 
 sum(Mna0(Minf0(colSums(BexM4) / colSums(MexM4))))
 
-
-
-
-
+seq(-100,100,by=10)
+p <- seq(-1,1,length.out=101)
+plot(p,stolarsky.mean.v(0,4,p),type = 'l')
+ls()
+stolarsky.mean.v(0,4,0)
 
 
