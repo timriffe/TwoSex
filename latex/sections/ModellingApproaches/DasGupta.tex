@@ -63,12 +63,12 @@ because it converges very fast:
 $r^{(0)}$ and a trial two-sex mean generation length
 $\widehat{T}$. For both values, one may use simple
 assumptions, such as the arithmetic means of the single sex Lotka parameters.
-  \item Plug the trial $\widehat{r}^{(0)}$ into Equation~\eqref{eq:Guptaeq}
+  \item Plug the trial $r^{(0)}$ into Equation~\eqref{eq:Guptaeq}
   to calculate a residual, $\delta ^{(1)}$.
   \item Improve the estimate of $r^{i+1}$ using:
   \begin{equation}
-  \widehat{r}^{(i+1)} = \widehat{r}^{(i)} + \frac{\delta^{(i)}}{\widehat{T} -
-\frac{\delta ^{(i)}}{\widehat{r}^{(i)} }}
+  r^{(i+1)} = r^{(i)} + \frac{\delta^{(i)}}{\widehat{T} -
+\frac{\delta ^{(i)}}{r^{(i)} }}
   \end{equation}
   \item Use the new improved estimate, $r^{(i+1)}$ to calculate a new residual,
   and repeat steps 2 and 3 until $\delta^{(i)}$ vanishes to zero.

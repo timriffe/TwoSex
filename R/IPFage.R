@@ -135,6 +135,7 @@ dev.off()
 #
 #sum(Bxy)
 #sum(Fxpred.hat[[1]])
+
 rIPFit <- compiler::cmpfun(function(Bxym, Bxyf, Exm, Exf, Lxm, Lxf, M = mean,
                 .a = .5:110.5, maxit = 2e3, tol = 1e-10){
             SRB <- sum(Bxym) / sum(Bxyf)
@@ -150,8 +151,8 @@ rIPFit <- compiler::cmpfun(function(Bxym, Bxyf, Exm, Exf, Lxm, Lxf, M = mean,
             R0.hat <- sum(p.m * Lxm * Fxpred.hat[[1]] + p.f * Lxf * Fxpred.hat[[2]]) / 2
             T.hat <- (sum(.a * p.m * Lxm * Fxpred.hat[[1]] + .a * p.f * Lxf * Fxpred.hat[[2]]) / 2) / R0.hat
             
-            r.i <- r.1 <- log(R0.hat) / T.hat
-           
+            r.i <- log(R0.hat) / T.hat
+            
             for (i in 1:maxit){
                 Fxpredm <- IPFpred(Bxym, 
                         Exm1 = Exm, 
@@ -166,54 +167,28 @@ rIPFit <- compiler::cmpfun(function(Bxym, Bxyf, Exm, Exf, Lxm, Lxf, M = mean,
                         Exf2 = exp(-r.i * .a) * Lxf,
                         marM = M)
                 
-                delta.i <- 2 - sum(p.m * exp(-r.i * .a) * Lxm * (Fxpredm[[1]]+Fxpredf[[1]]) + 
-                               p.f * exp(-r.i * .a) * Lxf * (Fxpredm[[2]]+Fxpredf[[2]]))
-                r.1 <- r.i - (delta.i / ( T.hat  - (delta.i / r.i)))
+                delta.i <- (2 - sum(p.m * exp(-r.i * .a) * Lxm * (Fxpredm[[1]]+Fxpredf[[1]]) + 
+                                p.f * exp(-r.i * .a) * Lxf * (Fxpredm[[2]]+Fxpredf[[2]]))) / 2
+                r.i <- r.i - (delta.i / ( T.hat  - (delta.i / r.i)))
                 
-                SRB.i <- sum(p.m * exp(-r.1 * .a) * Lxm * Fxpredm[[1]] + 
-                                p.f * exp(-r.1 * .a) * Lxf * Fxpredm[[2]]) / 
-                         sum(p.m * exp(-r.1 * .a) * Lxm * Fxpredf[[1]] + 
-                                p.f * exp(-r.1 * .a) * Lxf * Fxpredf[[2]])
-                p.m <- (SRB.i / (1 + SRB.i))
-                p.f <- (1 / (1 + SRB.i))
-                
-                # 2nd r2
-                Fxpredm <- IPFpred(Bxym, 
-                        Exm1 = Exm, 
-                        Exm2 = exp(-r.1 * .a) * Lxm, 
-                        Exf1 = Exf, 
-                        Exf2 = exp(-r.1 * .a) * Lxf,
-                        marM = M)
-                Fxpredf <- IPFpred(Bxyf, 
-                        Exm1 = Exm, 
-                        Exm2 = exp(-r.1 * .a) * Lxm, 
-                        Exf1 = Exf, 
-                        Exf2 = exp(-r.1 * .a) * Lxf,
-                        marM = M)
-                
-                delta.i <- 2 - sum(p.m * exp(-r.1 * .a) * Lxm * (Fxpredm[[1]]+Fxpredf[[1]]) + 
-                                p.f * exp(-r.1 * .a) * Lxf * (Fxpredm[[2]]+Fxpredf[[2]]))
-                r.2 <- r.1 - (delta.i / ( T.hat  - (delta.i / r.1)))
-                
-                # this will speed up convergence by a factor of like 200...
-                r.i <- (r.1 + r.2) / 2
                 SRB.i <- sum(p.m * exp(-r.i * .a) * Lxm * Fxpredm[[1]] + 
                                         p.f * exp(-r.i * .a) * Lxf * Fxpredm[[2]]) / 
                         sum(p.m * exp(-r.i * .a) * Lxm * Fxpredf[[1]] + 
                                         p.f * exp(-r.i * .a) * Lxf * Fxpredf[[2]])
                 p.m <- (SRB.i / (1 + SRB.i))
                 p.f <- (1 / (1 + SRB.i))
+                
                 if (abs(delta.i) <= tol){
                     break
                 }
                 
             }
+            
             if (i == maxit){
                 cat("Warning! maxit reached. result may not be converged")
             }
             c(r = r.i, SRB = SRB.i)
         })
-        
 #a <- rIPFit(Bxym, Bxyf, Exm, Exf, Lxm, Lxf, tol = 1e-15)
 #        plot(a$r.vec, type = 'l')
 
@@ -225,6 +200,9 @@ rIPFUSavg <- do.call(rbind, lapply(as.character(yearsUS), function(yr, .Bxymf, .
                            Lxm = .Lxm[,yr],
                            Lxf = .Lxf[,yr], M = .M, tol = 1e-15)
                 },.Bxymf = BxymfUS, .Ex = ExUS, .Lxm = LxmUS, .Lxf = LxfUS, .M = mean))
+
+
+
 rIPFUShm <- do.call(rbind, lapply(as.character(yearsUS), function(yr, .Bxymf, .Ex, .Lxm, .Lxf, .M){
                     rIPFit(Bxym = .Bxymf[[yr]][["Bxym"]],
                             Bxyf = .Bxymf[[yr]][["Bxyf"]],
