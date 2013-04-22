@@ -62,7 +62,7 @@ IPFpred <- compiler::cmpfun(function(Bxy, Exm1, Exm2, Exf1, Exf2, marM = mean, t
             FxfPred <- Minf0(Mna0(colSums(BxyA) / Exf2))
             list(FxmPred = FxmPred, FxfPred = FxfPred)
         })
-        
+       
 # Demonstrate competition property:
 
 
@@ -75,7 +75,7 @@ FxPred <- IPFpred(Bxy,
         Exm1 = with(ExUS, Male[Year == 1975]), 
         Exm2 = with(ExUS, Male[Year == 1980]), 
         Exf1 = with(ExUS, Female[Year == 1975]), 
-        Exf2 = with(ExUS, Female[Year == 1980]))
+        Exf2 = with(ExUS, Female[Year == 1980]), marM = harmonic.mean)
 
 ## comp test. increase age 25 by 1.5 times
 Exm2 <- with(ExUS, Male[Year == 1980])
@@ -84,7 +84,7 @@ FxPred2 <- IPFpred(Bxy,
         Exm1 = with(ExUS, Male[Year == 1975]), 
         Exm2 = Exm2, 
         Exf1 = with(ExUS, Female[Year == 1975]), 
-        Exf2 = with(ExUS, Female[Year == 1980]))
+        Exf2 = with(ExUS, Female[Year == 1980]), marM = harmonic.mean)
 
 
 MaleRatio   <- FxPred2[[1]] / FxPred[[1]]
@@ -99,12 +99,10 @@ plot(0:110, MaleRatio, type = 'l', ylim = c(.95, 1.05), xlim = c(15,40), axes = 
                 abline(v = seq(15, 40, by = 5), col = "white"),
                 text(15, seq(.96,1.05,by = .01),seq(.96,1.05,by = .01),pos = 2, cex = .8, xpd = TRUE),
                 text(seq(15, 40, by = 5),.95, seq(15, 40, by = 5), pos = 1, cex = .8, xpd = TRUE),
-                text(30, .935, "Age", cex = 1, pos = 1, xpd = TRUE),
+                text(27, .945, "Age", cex = 1, pos = 1, xpd = TRUE),
                 text(15,1.06, "Rate Ratio", cex = 1, xpd = TRUE)))
 lines(0:110, FemaleRatio, lwd = 2.5, col = gray(.5))
-#points(25,MaleRatio[26],pch=0)
-#segments(25,MaleRatio[26],27,MaleRatio[26]-.01)
-#text(27,MaleRatio[26]-.01,"Male age 25 exposure increased by 50%", pos=4)
+
 text(27.85882,0.977,"Male rate penalty",pos=4)
 text(27.85882,1.008,"Female rate increase",pos=4)
 dev.off()

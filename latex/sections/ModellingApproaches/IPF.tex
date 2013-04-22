@@ -1,0 +1,76 @@
+\FloatBarrier
+\citet{mc1975models} introduced a well-established method called iterative
+proportional fitting (IPF)\footnote{Also called matrix-raking.}, often used for
+rescaling tables, to the two-sex problem for marriage models. We will apply
+the method to fertility only, though the reader may consult
+\citet{mc1975models} or \citet{Matthews2013} for details on how to apply
+this method in the case of marriage matching. This method works by starting with
+a known cross-tabulation of births, in our case from the base year $t$. First compute 
+the marginal fertility rates for males and females (ASFR). Apply the male and
+female ASFR to exposures predicted for some future year $t+n$ to produce
+initially-predicted marginal birth count distributions, the sums of which will 
+never agree (as was illustrated in Section~\ref{sec:divbirth}). These new
+marginal distributions may be uniformly rescaled according to some mean of their
+respective sums. The mean function chosen will only affect results when the
+sex-gap in predicted births is very large\footnote{we have compared overall
+results using arithmetic and harmonic means, and found no noteworthy difference. 
+All results will be in terms of the harmonic mean for this first rescaling.}.
+
+Now that the male and female sums for year $t+n$ agree, we iteratively
+rescale the original birth matrix according to the male and female
+predicted margins, alternating between male (row) and female (column) margins
+until the new birth matrix margins sum exactly to the predicted margins. Of
+course, the resulting matrix will differ depending on whether one begins with
+rows or with column margins, and so we adopt the recommendation of
+\citet{Matthews2013}, taking the elementwise average of the two
+possible outcome matrices in each iteration before advancing to the next
+iteration. We continue this iterative process until it no longer makes any
+difference whether we first scale rows or first scale columns, and accept the
+resulting \textit{raked} amtrix as our year $t+n$ prediction.
+
+Using IPF, 1) male and female rates are guaranteed to agree, 2) structural 0s
+are not problematic, and 3) the inter-age competition axiom is fulfilled,
+which has not been the case with methods previously described. To illustrate
+this property, we execute the following experiment: Taking initial birth count
+and exposure data from US, 1975, we calculate male and female ASFR. We then
+apply the male and female 1975 ASFR to exposures from 1980, and proceed with the
+above-described method, finally settling on a predicted birth matrix for 1980,
+from which we calculate new ASFR vectors for males and females (1980
+predictions that agree). This is the base prediction that we will compare with.
+Now we increase 1980 age-25 males (only) by 50\% and repeat the IMP procedure,
+producing new ASFR predictions for males and for females.
+Figure~\ref{fig:IPFcomp} shows the ratio of the hypothetical (age-25 male
+exposure increased by 50\%) 1980 ASFR to the base 1980 ASFR prediction.
+
+Figure~\ref{fig:IPFcomp} illustrates the competition axiom because age-25 male
+rates decrease more than neighboring ages, and rate for male ages closest to 25
+decrease by more than ages farther from 25 (in fact the ratio is monotonic in
+either direction from 25-- ideal). Female rates increase as well, also as a
+rough function of proportional \textit{intermatedness} with age-25 males in the
+1975 birth matrix. Here we see only the difference in rates-- in terms of birth
+counts, age-25 males would have a large increase, while all other ages would
+experience decreases (lower rates applied to the same exposures). 
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{ASFR after increasing 1980 male exposure by 50\% compared
+          with base 1980 ASFR prediction. Based on US 1975 ASFR and birth
+          matrix.}
+           % figure produced in/R/IPFage.R
+           \includegraphics{Figures/IPFagecompetitiontest}
+          \label{fig:IPFcomp}
+\end{figure}
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{IPF intrinsic growth rates, $r$, compared with
+          single-sex $r^m$ and $r^f$. US, 1969-2009 and Spain, 1975-2009.}
+           % figure produced in/R/IPFage.R
+           \includegraphics{Figures/IPFager.pdf}
+          \label{fig:IPFager}
+\end{figure}
+
+
+
+\FloatBarrier
+
