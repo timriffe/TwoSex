@@ -219,6 +219,19 @@ but have to this author's knowledge never been proven with mathematical rigour,
 and this may never be accomplished. As such, the method may be categorized as ad
 hoc, but apparently no more than other methods presented here.
 
+Another widely-known iterative method is that described in
+\citet{henry1972nuptiality}, Louis Henry's method of \textit{panmictic circles},
+which entails somewhat more implementation effort than does IPF, and is
+likely more substantively appealing. \citet{mc1975models} only compared the
+IPF method with that of Henry, and \citet{wijewickrema1980weak} used this method 
+in his dissertation study of weak ergodicity in the two-sex problem in the
+context of marriage\footnote{And most interestingly, was with little
+effort able to produce apparent limit cycles in the stable population.}. We do
+not implement this method\footnote{There are some ambiguities in terms of implementing the method when working with unabridged data that also contains many zeros. We did not succeed in translating the method from an
+abridged table to single ages without also producing negative numbers.}, though
+it most resembles IPF, and it has all of the same desirable properties, yet
+gives different results. This extension is left for future work.
+
 \paragraph{The method applied to the US and Spanish data:}
 
 We have used the IPF method described earlier to calculate the two-sex intrinsic
