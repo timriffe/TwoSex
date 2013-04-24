@@ -1,14 +1,174 @@
-All two-sex solutions presented thus far in this dissertation have been shown in
-terms of rate and data schedules commensurable with lifetable methods and meant
-for rather finely graded empirical application. \citet{marriage1981warren,
-sanderson1983two} sought a more parsimonious parameterization of the two-sex
-problem, akin to the well-known and (extremely) parsimonious 3-parameter
-Coale-McNeil model for estimating single-sex marriage
-\citep{coale1972distribution, coale1971age}
+\paragraph{Diferential equations: } Many recent advances in the two-sex problem
+have come from mathematicians and epidemiologists in need of modelling sexual mixing in
+populations to study the spread of disease-- most prominently HIV. This family
+of models has entered into territory seldom formally considered by practicing
+demographers, for instance incorporating logistic growth within pair
+formation rather than assuming exponential growth \citep{castillo1995logistic}.
+One 
 
-* 13 \textit{easily interpretable} parameters
+\citet{schmitz2000note}
 
+\paragraph{A parametric solution?: } All two-sex solutions presented thus far in
+this dissertation have been framed in terms of single-age data commensurable with lifetable
+methods. The age schedules for the demographic phenomena underlying these
+methods have not been summarized here in terms of a reduced set of parameters.
+Our end, the estimation and measurement of population reproductivity, is primarily 
+a non-parametric endeavor. To summarize a two-sex version of net reproduction or
+the intrinsic growth rate in terms of a reduced set of parameters is
+possible given that: 
+\begin{enumerate}
+  \item There are several parameterizations of mortality.
+  \textit{heligman1980age} provide an especially popular parameterization, which 
+  summarizes an entire age-pattern in terms of eight parameters. To do this
+  separately for males would entail a total of 16 mortality parameters, unless
+  any of the original eight are plausibly equal.
+  \item There are also several competing parameterizations of age-specific
+  fertility schedules. For instance, \citet{coale1974model} propose a fertility
+  model wherein marriage schedules (proportion ever married) are summarized by
+  two parameters and marital fertility is summarized in terms of departure from
+  a standard natural fertility pattern with two further parameters. Presumably,
+  something similar could be done for males. We know of no attempt to
+  parametrically model the two-sex fertility surface\footnote{e.g. as displayed
+  in Figure~\ref{fig:US1970obsexp}}, although this is apparently within reach,
+  as \citet{marriage1981warren,
+sanderson1983two} has done this for marriage markets (described in following).
+  \item The sex ratio at birth is essentially linear over ages of mothers and
+  fathers, entailing two parameters each for males and females, and possibly
+  fewer if parsimony is sought.
+\end{enumerate}
 
-\citet{bergstrom1994sweden}
+Insofar as each model input can be parameterized, one could plausibly
+parameterize the entire renewal equation. Indeed, \citet{coale1974model} mention
+that their fertility parameterization was a subset of a project at
+Princeton to find the complex roots of the Lotka equation, which
+was later presented in \citet{james1977determinants}. These models have not 
+been adapted in the direction of two-sex reproductivity. Thus, this is an avenue
+for potential further exploration in the two-sex problem.
 
+\paragraph{The general equilibrium perspective: } \citet{marriage1981warren,
+sanderson1983two} made substantial headway in parameterizing a two-sex model to predict marriages. Part of this effort was
+inspired by and based on the well-known 2-parameter Coale-McNeil
+model\citep{coale1972distribution, coale1971age}\footnote{This marriage model is
+a subset of the Coale-Trussel fertility model.} for estimating
+single-age female marriage schedules from sparse, noisey or grouped
+data. Coale and McNeil had namely found one of demography's most enduring 
+and appealing empirical regularities-- 1) that nearly 
+all observed marriage schedules at that time could be fit to a single standard parametric
+curve, 2) that this curve could be fit by adjusting only three parameters, 3)
+that these parameters could be estimated exogenously and separate from one
+another, and 4) that each of the three parameters had a clear demographic
+interpretation-- all of this with no reference to a \textit{standard}
+schedule. Sanderson's challenge was to acheive the same degree of parsimony in a
+two-sex setting, namely, where the numbers of available mates affects marriage
+rates for each sex. 
+
+Marginal distributions in this model are fit to the
+Coale-McNeil equations. The model uses a large number of
+age-age-specific scarcity and demand parameters to balance male and female
+rates, which are in turn summarized in terms of a smaller set of parameters.
+Sanderson is able to use supply and demand notions in an exchange economy
+framework, as he describes marriages as exchanges of vows, wherein the number
+of vows exchanged between brides and grooms in each age combination must
+match. This conceptual framework is obviously imported from economics,
+specifically from the extended linear expenditure system of
+\citet{lluch1977patterns} in the general equilibrium family of models, which entails solving a large number of linear
+equations simultaneously. This model is not implemented in this dissertation, 
+in part because the conceptual and programming overhead is much higher
+than the other models treated here, and in part because considerable
+modifications would be necessary to bring the model to bear upon fertility and
+work it into a full two-sex reproduction model. No posterior implementations of
+Sanderson's model have been located in the literature.
+
+\citet{bergstrom1994sweden} take a similar tack from the economic literature,
+viewing the two-sex problem (from a suggestion in \citet{becker1973theory}) as a
+particular case of the \textit{assignment problem} in combinatorial optimization, wherein given male
+and female preferences for ages at marriage\footnote{i.e. as opposed to
+preferences for ages of partnerts, these authors pose preferences in terms of
+one's own age at marriage and leave the rest to the market.} combine with the
+market. One problem is that a payoff, or cost, matrix-- the penalty for not
+marrying at one's prefered age-- must be exogenously specified in order to
+optimize the system. These authors were not satisfied with their own
+empirical results and attributed this to certain assumptions in their model.
+This particular modelling strategy appears not to have been followed further in
+the literature.
+
+\paragraph{Choo and Siow's econometric perspective: } The line of work from Choo
+and Siow \citet{choo2006estimating, siow2008does, seitz2010collective} is construed 
+from a similar market-based perspective to the above. These
+authors conceive of the marriage market as several overlapping markets-- one
+for each age / characteristic combination--, all of which must be optimized
+(cleared). Interior to the model is a geometric mean marriage
+function\footnote{The geometric mean respects homogeneity, but not
+monotonicity. I do not find this problematic.}, but with additional
+parameters to allow for inter-age substitution via supply and demand. The model
+is identifiable, and it requires a kind of global optimization of a similar
+order of complexity to the Sanderson or Bergstrom-Lam models. \citet{siow2008does} have
+been able to test their model empirically by using a natural experiment that
+drastically affected cohort size\footnote{The abrupt cohort size change at the
+start and end of China's \textit{Great Leap Forward} from the province of
+Sichuan.}, and found the model to match some expected marriage market
+dynamics. Hypothetically, it would be possible to migrate this model framework
+to the phenomena of fertility, though this has not been done yet, and the
+substantive arguments would need to change. Likewise, it would be possible for
+the Choo-Siow model to be an interior component to a larger fertility model
+wherein marital states affect fertility rates. Implementing the Choo-Siow model
+and / or translating it into this dissertations focus on reproductivity is
+beyond our present scope. 
+
+\paragraph{Agent-based models and \textit{marriage-matching} per se: } Other
+propositions have been advanced in a similar line\citep{jacquemet2011marriage, Dagsvik1998report},
+though often in an agent-based framework, of which \textit{marriage matching}
+ algorithms form a widely studied subset. The two-sex problem in this
+arena is not necessarily viewed as a problem of population modelling but as an
+optimization or algorithmic assignment problem. \citet{dagsvik2000aggregation}
+shows how such micro-level models can yield macro-level results of interest for
+demography (and other disciplines), although this author knows of no efforts to
+make macro-demographic predictions about population reproductivity by
+aggregating from such agent-based models. Algorithms used in 
+the marriage matching problem are applicable in other matching problems (e.g.
+firms-buyers, firms-locations). 
+
+The most famous such matching algorithm is
+the Gale-Shapley algorithm \citep{gale1962college}\footnote{For instance, a variant of this algorithm is used 
+to assign medical graduates to hospital residencies in the United States.}
+wherein each male and female member of a population begins with a ranking of
+each potential partner according to any criteria. The algorithm begins with one
+side (males, let us say) \textit{proposing} to the
+highest-ranked unmarried individual (females) in the preference list to which
+he has not yet proposed. Second, each female that received proposals
+provisionally accepts the proposal from the suitor that was highest in her own
+ranking list (gets enganged). In the next round proposals may be made to engaged
+or single females, but engaged males do not propose. An engagement may in this
+case be broken if a higher ranked male proposed. The algorithm continues until
+no new engagements are made. It has been shown that this algorithm is a solution
+to the \textit{stable marriage problem}, meaning that once the each individual
+is matched there is no male-female combination in the population wherein each
+would prefer to leave their partner. When this condition is met the marriages
+are said to be stable. In this algorithm, the proposing side (males in our
+description) will always converge to have partners that were ranked higher on
+their initial list than the accepting side. This algorithm is not an agent-based
+model of the marriage market, per se, but rather a potential component of one.
+
+Agent-based models (ABMs) are attractive for the two-sex problem
+precisely because the problem in this setting changes its nature from being one of \textit{internal} consistency 
+to one of dynamics or matching. Internal consistency is dealt with precisel because 
+individuals in such simulations mate due to interactions,
+in which case a single marriage is assigned to each, and the accounting
+constraint is fulfilled without further ado. \citet{billari2002wedding} have put
+this framework to productive use, reproducing aggregate-level age-at-marriage
+patterns based on sociologically and psychologically informed micro-level
+interactions of the marriage market. Namely, potential mates marry not only as a
+function of mate availability-- that primarily accounted for by demographers
+in two-sex models-- but also as a function of marriages taking place in the
+agents' own social networks, in essence granting part of agent marriage
+propensity (willingness in the model) to peer effects (i.e. contagion).
+\citet{walker2013modelling} recently built a similarly conceived ABM which
+permitted the authors to test sociological theory about various kinds of 
+homogamy against observed census data. In general, ABMs are of use to demographers interested in
+the two-sex problem because they permit the exploration of the implications of
+particular hypotheses about decision-making, social interactions and individual-environment
+interations for demographic and other population processes. ABMs will not be
+useful in the context of stable populations or reproductivity in the sense
+studied in this dissertation precisely because such models are \textit{complex}
+and may never stabilize or have unique trajectories.
 
