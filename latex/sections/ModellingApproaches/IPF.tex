@@ -26,7 +26,9 @@ rows or with column margins, and so we adopt the recommendation of
 possible outcome matrices in each iteration before advancing to the next
 iteration. We continue this iterative process until it no longer makes any
 difference whether we first scale rows or first scale columns, and accept the
-resulting \textit{raked} matrix as our year $t+n$ prediction.
+resulting \textit{raked} matrix as our year $t+n$ prediction. Other algorithms
+exist for IPF, and IPF is also often used internally in log-linear model
+implementations, but we adhere to these easy-to-understand steps.
 
 Using IPF, 1) male and female rates are guaranteed to agree, 2) structural 0s
 are not problematic, and 3) the inter-age competition axiom is fulfilled,
