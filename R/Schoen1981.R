@@ -19,17 +19,6 @@ names(BxymfUS) <- yearsUS
 # exposures, as such, straight from HMD, all ages 0-110, long form
 ExUS  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
 ExES  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
-# get Lx estimates for R0, r
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
-# make sum to 1
-dxmUS <- dxmUS %col% colSums(dxmUS)
-dxfUS <- dxfUS %col% colSums(dxfUS)
-dxmES <- dxmES %col% colSums(dxmES)
-dxfES <- dxfES %col% colSums(dxfES)
-
 #------------------------------------------------------------
 # compare with Lotka:
 LxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
