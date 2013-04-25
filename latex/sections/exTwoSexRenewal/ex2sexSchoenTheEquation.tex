@@ -1,20 +1,62 @@
-
-In general, one may also take the more interactive approach to the two-sex
+ \FloatBarrier
+In general, one may also take a more interactive approach to the two-sex
 problem in the remaining years perspective by allowing male and female marginal
-fertility to vary from year to year according to a mean function of the
-joint remaining-years fertility distribution. In this section we will translate
-the two-sex method first presented in Section~\ref{sec:ageharmonic}.
+fertility to vary from year to year according to a given mean function of the
+joint male-female remaining-years fertility distribution. In this section we
+translate the two-sex method first presented in Section~\ref{sec:ageharmonic}
+to the remaining years case. Formulas are here couched in the harmonic
+mean, but this may be generalized, given that we specify the mean itself as
+a function. The harmonic mean function itself differs from
+Equation~\eqref{eq:harmonic} only in its subscripts:
+\begin{equation}
+H(P_y^m, P_{y'}^f) = \frac{2 P_y^m P_{y'}^f}{P_y^m + P_{y'}^f}
+\end{equation}
+where, as elsewhere in this dissertaiton, $y$ and $y'$ index remaining years of
+males and females. We begin the process by calculating a single joint fertility rate distribution,
+later assumed constant:
+ \begin{equation}
+ F_{y,y'}^H = \frac{B_{y,y'}}{H(P_y^m, P_{y'}^f)}
+ \end{equation}
+again, only differing from Equation~\eqref{eq:harmonicrate} in the remaining
+years subscripts. $F_{y,y'}^H$ is the primary model component. With this, we may
+calculate the births for a given year:
+ \begin{equation}
+ \label{eq:Bharmonicex1}
+ B(t) = \int \int F_{y,y'}^H H\Big(P_{y}^m(t), P_{y'}^f(t)\Big) \dd y \dd
+ y'
+ \end{equation}
+The population count $P_y$ is, however, easily related to past births in a
+roundabout way:
+\begin{align}
+P_y &= \int_{a=0}^\infty P_a \frac{d_{a+y}}{l_a} \dd a \notag \\
+    &= \int_{a=0}^\infty \varsigma B(t-a)p_a \frac{d_{a+y}}{p_a} \dd a \notag \\
+    &= \int_{a=0}^\infty \varsigma B(t-a)d_{a+y} \dd a
+\end{align}
+where $\varsigma$ is of course the proportion male and the survival function is
+just the sum of future deaths: $p_a = \int _a^\infty d_a \dd a$. This identity
+allows us to rewrite Equation~\eqref{eq:Bharmonicex1} in terms of past births:
+ \begin{equation}
+ \label{eq:Bharmonicex1}
+ B(t) = \int \int F_{y,y'}^H H\Bigg(\varsigma \int _0^\infty B(t-a)d_{a+y}\dd
+ a\;\;,\;\; (1-\varsigma) \int _0^\infty B(t-a')d_{a'+y'} \dd a'\Bigg) \dd y \dd
+ y'
+ \end{equation}
+which when left to renew itself for many years on-end, will eventually attain a
+constant rate of growth, $r$, in which case we may rewrite
+Equation~\eqref{eq:Bharmonicex1} in entirely in terms of year $t$ births:
+ \begin{equation}
+ \label{eq:Bharmonicex1}
+ B(t) = \int \int F_{y,y'}^H H\Bigg(\varsigma \int _0^\infty
+ B(t)e^{-ra}d_{a+y}\dd a\;\;,\;\; (1-\varsigma) \int _0^\infty
+ B(t)e^{-ra'}d_{a'+y'} \dd a'\Bigg) \dd y \dd y'
+ \end{equation}
+which lets us divide by $B(t)$ to arrive at our standard approachable unity
+equation, which permits us to estimate the stable growth parameter, $r$:
+ \begin{equation}
+ \label{eq:exMeanUnity}
+ 1 = \int_0^\infty \int_0^\infty F_{y,y'}^H H\Bigg(\varsigma \int _0^\infty
+ e^{-ra}d_{a+y}\dd a\;\;,\;\; (1-\varsigma) \int _0^\infty
+ e^{-ra'}d_{a'+y'} \dd a'\Bigg) \dd y \dd y'
+ \end{equation}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+ \FloatBarrier

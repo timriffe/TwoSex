@@ -1,0 +1,78 @@
+
+Optimizing $r$ from Equation~\eqref{eq:exMeanUnity} is straightforward if the
+proportion male of birhts, $\varsigma$, is assumed to be some fixed quantity.
+In that case, one may use a generic optimizer to find $r$. As with the
+age-structured optimization akin to the present one, though, it is preferable to
+calibrate the sex ratio at birth simultaneous with $r$. This is even more
+important for remaining-years structured populations, since the SRB pattern over
+remaining years of parents is more pronounced than is the age-pattern.
+Offsetting the potential obstacle presented by the strong $e_y$-pattern to SRB
+is the lucky observation that present and stable $e_y$ population structures are
+typically not markedly different. In practice with the two populations tested
+here, we noted no problems from overdeterminination, as the range of values that
+SRB can take is very narrow, and indeed allowing the SRB to move in accordance
+with $r$ and vice versa stabilizes the optimization rather than causing it to
+shoot off in some direction. This is safely the case because each sex of parent
+is responsible for each sex of birth.
+
+The data requirement for carrying out this optimization is therefore similar to
+that of the age-structured procedure from Section~\ref{sec:ageharmonic}. One
+requires $d_a$ and $d_{a'}$ from the period lifetable, the joint distribution
+of boy births $B_{y,y'}^M$, and the joint distribution of girls
+births $B_{y,y'}^F$, along with population vcetors $P_y$ and $P_{y'}$ (exposures
+in discrete time), from which one calculates the mean sex-of-birth
+specific joint fertility rates, $F_{y,y'}^F$ and $F_{y,y'}^M$ using some mean of
+male and female exposures in the denominator. $F_{y,y'}^F$ and $F_{y,y'}^M$ are
+taken as constant and used throughout. The steps to find the stable $r$ and $S$
+are then as follows:
+\begin{enumerate}
+  \item Establish a starting value for the sex ratio at birth. For instance, one
+  may take the year $t$ observed sex ratio at birth. From this, derive
+  $\varsigma^0$ as $\varsigma^0 = \frac{SRB}{1+SRB}$
+  \item Establish a guess at the net reproductive rate, $\widehat{R_0}$,
+  assuming $r = 0$:
+  \begin{equation}
+  \label{eq:R0exmean}
+  \widehat{R_0} = \int_0^\infty \int_0^\infty F_{y,y'} H\Bigg(\varsigma \int _0^\infty
+ d_{a+y}\dd a\;\;,\;\; (1-\varsigma) \int _0^\infty
+ d_{a'+y'} \dd a'\Bigg) \dd y \dd y'
+  \end{equation}
+  where $F_{y,y'} = F_{y,y'}^M + F_{y,y'}^F$.
+  \item Weight $y$, $y'$ into Equation~\eqref{eq:R0exmean} and divide this sum
+  by $\widehat{R_0}$ to arrive at an estimate of the mean generation length,
+  $\widehat{T}$ in terms of remaining years. 
+  \item Calculate an initial value of $r$, $r^0$ as:
+  \begin{equation}
+  r^0 = \frac{log(\widehat{R_0})}{\widehat{T}}
+  \end{equation}
+  \item Plug $r^i$ and $\varsigma^i$ into Equation~\eqref{eq:exMeanUnity} to
+  produce a residual, $\delta^i$:
+  \begin{equation}
+ \label{eq:exMeanUnity}
+ \delta^i = 1 - \int_0^\infty \int_0^\infty F_{y,y'} H\Bigg(\varsigma^i \int
+ _0^\infty e^{-r^ia}d_{a+y}\dd a\;\;,\;\; (1-\varsigma^i) \int _0^\infty
+ e^{-r^ia'}d_{a'+y'} \dd a'\Bigg) \dd y \dd y'
+ \end{equation}
+where $F_{y,y'} = F_{y,y'}^M + F_{y,y'}^F$.
+  \item  Use $\delta^i$ to improve the estimate of $r$, $r^{i+1}$:
+  \begin{equation}
+  r^{i+1} = r^i - \frac{\delta^i}{\widehat{T} - \frac{\delta^i}{r^i}}
+  \end{equation}
+  \item Use the improved $r^{i+1}$ to update the proportion male of
+  births, $\varsigma^{i+1}$:
+  \begin{align}
+  B^{M,i+1}& = \int_0^\infty \int_0^\infty F_{y,y'}^M H\Bigg(\varsigma^i \int
+ _0^\infty e^{-r^{i+1}a}d_{a+y}\dd a\;\;,\;\; (1-\varsigma^i) \int _0^\infty
+ e^{-r^{i+1}a'}d_{a'+y'} \dd a'\Bigg) \dd y \dd y' \\
+ B^{F,i+1} &= \int_0^\infty \int_0^\infty F_{y,y'}^F H\Bigg(\varsigma^i \int
+ _0^\infty e^{-r^{i+1}a}d_{a+y}\dd a\;\;,\;\; (1-\varsigma^i) \int _0^\infty
+ e^{-r^{i+1}a'}d_{a'+y'} \dd a'\Bigg) \dd y \dd y' \\
+ S^{i+1} &= \frac{B^{M,i+1}}{B^{F,i+1}}
+ \intertext{and finally}
+ \varsigma^{i+1} &= \frac{S^{i+1}}{1 + S^{i+1}}
+  \end{align}
+  \item Repeat steps 5-7 until the error $\delta$ vanishes to zero, which may
+  take 25-30 iterations for double floating point accuracy, far fewer for most
+  practical purposes.
+\end{enumerate}
+
