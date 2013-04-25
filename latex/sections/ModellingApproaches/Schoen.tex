@@ -26,12 +26,13 @@ poor performance for the harmonic mean in projective scenarios. The same
 strategy can be used to balance fertility rates, which is what we will do here. The method requires as inputs a matrix of birth counts cross-tabulated by age of father, $a$, and age of mother $a'$ 
 and male and female exposures classified by age. The harmonic mean
 \begin{equation}
+\label{eq:harmonic}
 H(P_a^m, P_{a'}^f) = \frac{2 P_a^m P_{a'}^f}{P_a^m + P_{a'}^f}
 \end{equation}
 is applied to male and female exposures in order to find an intermediate
 denominator from which to calculate rates, $F_{a,a'}^H$:
- \FloatBarrier
  \begin{equation}
+ \label{eq:harmonicrate}
  F_{a,a'}^H = \frac{B_{a,a'}}{H(P_a^m, P_{a'}^f)}
  \end{equation}
 which in the stable population is assumed constant in time rather than
@@ -100,7 +101,7 @@ the practical steps involved in the latter.
   by $\widehat{R_0}$ yields a good estimate of this. Otherwise one may simply
   choose a reasonable age, such as 30, or some mean of the male and female
   single-sex mean ages at reproduction.
-  \item calculate an initial value of $r$, $r^0$ as:
+  \item Calculate an initial value of $r$, $r^0$ as:
   \begin{equation}
   r^0 = \frac{log(\widehat{R_0})}{\widehat{T}}
   \end{equation}
