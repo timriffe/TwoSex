@@ -192,9 +192,9 @@ ExpectedDxMxFmatrix <- function(Mat, dxm, dxf){
                         rowSums(ExpectedDx(Px = .bx, dx = .dxf))
                     },.dxf = dxf))   
     # now we do the same over columns, redisitributing male age (which is in rows)
-    MemEx <- t(apply(FemEx, 2, function(.bx, .dxm){
+    MemEx <- apply(FemEx, 2, function(.bx, .dxm){
                 rowSums(ExpectedDx(Px = .bx, dx = .dxm))
-            }, .dxm = dxm))
+            }, .dxm = dxm)
     dimnames(MemEx) <- dimnames(Mat)
     MemEx
 }
