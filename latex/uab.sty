@@ -281,7 +281,7 @@
 
 %-- Start chapters --
 
-\def\thechapter {\Roman{chapter}}
+\def\thechapter {\Roman{chapter}} % maybe change to arabic? or write 'Part'
 \def\thesection {\@arabic\c@chapter.\@arabic\c@section}
 \def\thefigure {\@arabic\c@chapter.\@arabic\c@figure}
 \def\thetable {\@arabic\c@chapter.\@arabic\c@table}
@@ -299,8 +299,9 @@
 %\@namedef{endmap*}{\end@dblfloat}
 
 \def\startthechapters{%
- \def\@chapapp{CHAPTER}
- \addtocontents{toc}{\protect\mbox{ }\protect\newline\noindent{\bf CHAPTER}\protect\newline}
+% \def\@chapapp{CHAPTER}
+ %\addtocontents{toc}{\protect\mbox{ }\protect\newline\noindent{\bf
+%CHAPTER}\protect\newline}
  \addtocontents{toc}{\hbox{ }}
  \clearpage % This has to be before the rest.  jj
  \if@twoside \ifodd\c@page \else \ttlpg \hbox{ }\fi\fi % For two-sided printing, make sure Chapter I starts on right-hand page. jg

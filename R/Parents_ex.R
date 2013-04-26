@@ -8,8 +8,8 @@ source("/home/triffe/git/DISS/R/MeanFunctions.R")
 BxUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
 BxES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
-#BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf10_65.Rdata")))
-#BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf10_65.Rdata")))
+BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
 
 # exposures, as such, straiht from HMD, all ages 0-110, long form
 ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
@@ -292,6 +292,18 @@ dev.off()
 
 #----------------------------------------------------------------
 # exTFR plot
+
+# add TFR to plot
+
+TFRus <- do.call(rbind, lapply(as.character(yearsUS), function(yr, .Bx, .Ex){
+          c(mTFR = sum(Minf0(Mna0(rowSums(.Bx[[yr]], na.rm = TRUE) / with(.Ex, Male[Year == as.integer(yr)])))),
+            fTFR = sum(Minf0(Mna0(colSums(.Bx[[yr]], na.rm = TRUE) / with(.Ex, Female[Year == as.integer(yr)])))))
+                }, .Bx = BxUS, .Ex = ExUS))
+TFRes <- do.call(rbind, lapply(as.character(yearsES), function(yr, .Bx, .Ex){
+          c(mTFR = sum(Minf0(Mna0(rowSums(.Bx[[yr]], na.rm = TRUE) / with(.Ex, Male[Year == as.integer(yr)])))),
+            fTFR = sum(Minf0(Mna0(colSums(.Bx[[yr]], na.rm = TRUE) / with(.Ex, Female[Year == as.integer(yr)])))))
+                }, .Bx = BxES, .Ex = ExES))
+
 exTFRmUS <- colSums(exSFRUSm, na.rm = TRUE)
 exTFRfUS <- colSums(exSFRUSf, na.rm = TRUE)
 exTFRmES <- colSums(exSFRESm, na.rm = TRUE)
@@ -299,21 +311,28 @@ exTFRfES <- colSums(exSFRESf, na.rm = TRUE)
 
 pdf("/home/triffe/git/DISS/latex/Figures/exTFR.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
-plot(yearsUS, exTFRmUS, type = 'l', ylim = c(1.3, 3), xlim = c(1968,2010), axes = FALSE,
+plot(yearsUS, exTFRmUS, type = 'l', ylim = c(1.0, 3), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
-        panel.first = list(rect(1968, 1.3, 2010, 3,col = gray(.95), border=NA),
-                abline(h = seq(1.3, 3, by = .2), col = "white"),
+        panel.first = list(rect(1968, 1, 2010, 3,col = gray(.95), border=NA),
+                abline(h = seq(1, 3, by = .2), col = "white"),
                 abline(v = seq(1970, 2010, by = 5), col = "white"),
-                text(1968, seq(1.3, 3., by = .2),seq(1.3, 3, by = .2), pos = 2, cex = .8, xpd = TRUE),
-                text(seq(1970, 2010, by = 10), 1.3, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
-                text(1990, 1.2, "Year", cex = 1, pos = 1, xpd = TRUE),
-                text(1965, 3.05, expression(e[y], "             -TFR"), cex = 1, xpd = TRUE)))
+                text(1968, seq(1, 3., by = .2),seq(1, 3, by = .2), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10), 1, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, .7, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1965, 3.1, "TFR", cex = 1, xpd = TRUE)))
+lines(yearsUS, TFRus[,1], col = gray(.2))
+lines(yearsUS, TFRus[,2], col = gray(.5))
 lines(yearsUS, exTFRfUS, lwd = 2.5, col = gray(.5))
 lines(yearsES, exTFRmES, lwd = 2, col = gray(.2), lty = 5)
 lines(yearsES, exTFRfES, lwd = 2.5, col = gray(.5), lty = 5)
-
-legend(1995, 3, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
-        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
+lines(yearsES, TFRes[,1], col = gray(.2), lty = 5)
+lines(yearsES, TFRes[,2], col = gray(.5), lty = 5)
+legend(1994, 3, lty = 1, col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,1,1),bty = "n",
+        legend = c(expression(e[y]~males), expression(e[y]~females), "age males", "age females"), 
+        xpd = TRUE, title = "US")
+legend(1969, 1.6, lty = 5, col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,1,1),bty = "n",
+        legend = c(expression(e[y]~males), expression(e[y]~females), "age males", "age females"), 
+        xpd = TRUE, title = "Spain")
 dev.off()
 
 
