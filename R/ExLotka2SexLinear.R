@@ -283,15 +283,15 @@ legend(1970,-.007,
 dev.off()
 
 # TODO: change text?
-US[,1] < US[,3]
-ES[,1] < ES[,3]
-
-
-rfUS[,1] < US[,1]
-rmUS[,1] > US[,3]
-
-rfES[,1] < ES[,1]
-rmES[,1] > ES[,3]
+#US[,1] < US[,3]
+#ES[,1] < ES[,3]
+#
+#
+#rfUS[,1] < US[,1]
+#rmUS[,1] > US[,3]
+#
+#rfES[,1] < ES[,1]
+#rmES[,1] > ES[,3]
 
 #US <-do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxymf, .dxm, .dxf, .Ex){
 #                    yri     <- as.integer(yr)
