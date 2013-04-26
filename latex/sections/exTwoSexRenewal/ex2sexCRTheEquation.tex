@@ -6,7 +6,7 @@ birth counts. We know from Section~\ref{sec:exdivergence} that the male and
 female total counts tend to differ by less than if we were to repeat the
 same for age-structured populations. However, the two total counts will still
 differ, and so cannot be taken directly as the marginal birth count distributions from
-which to calculate the association-free bivariate distribution-- the denominator
+which to calculate the association-free joint distribution-- the denominator
 in Equation~\eqref{eq:expected}. To generate the expected count matrix, we
 therefore calculate the cross-product of the male and female predictions and
 divide by a mean of the male and female total predictions as follows:
@@ -19,12 +19,12 @@ divide by a mean of the male and female total predictions as follows:
 where $\widehat{B_y}$ is calculated using the constant base rate for males,
 $F_y$, applied to male exposures, $E_y$, and likewise for females. $M()$ is a
 mean function. For flexibility, one could use a generalized mean, such as the
-stolarsky mean or lehmer mean, for $M()$, or any specific mean function, such as
+Stolarsky mean or Lehmer mean, for $M()$, or any specific mean function, such as
 the harmonic mean, if desired. The choice of mean function in the denominator
 will be seen to have a trivial effect on the ultimate estimate of the
 intrinsic growth rate.
 
-Next, we estimate a consant ratio, $R_{y,y'}$, between the
+Next, we estimate a constant ratio, $R_{y,y'}$, between the
 observed and expected counts, which we take simply as:
 
 \begin{equation}
@@ -34,7 +34,7 @@ R_{y,y'} = \frac{B_{y,y'}}{\mathbb{E}(B_{y,y'})}
 from the year of departure.
 
 Using $R_{y,y'}$, we adjust the estimated expected distribution,
-$\widehat{\mathbb{E}}(B_{y,y'})$ elementwise, and then rescale to sum properly
+$\widehat{\mathbb{E}}(B_{y,y'})$ element-wise, and then rescale to sum properly
 to $\mathbb{E}(B)$, the chosen mean of the male and female marginal
 predictions:
 

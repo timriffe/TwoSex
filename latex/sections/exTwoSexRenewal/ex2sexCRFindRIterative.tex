@@ -12,7 +12,7 @@ sex of progenitor and offspring, and the relevant $d_x$ vectors:
   \item Derive a first rough estimate of the both-sex mean remaining years of
   life at reproduction, $\widehat{T}$, akin to Lotka's mean generation time,
   $T$. One could either weight remaining years, $y$ or $y'$ into
-  Equation~\ref{eq:ex2sexCRunity}, smilar to Equation~\ref{eq:Tguess}, or just
+  Equation~\ref{eq:ex2sexCRunity}, similar to Equation~\ref{eq:Tguess}, or just
   make a rough first guess, such as 60. This parameter is not updated in the
   iterative process.
 
@@ -45,7 +45,7 @@ A\left(R_{y,y'},\mathbb{M}\left(\;\int_{a=y}^\infty F_y \varsigma^0 d_a \dd a,
   \begin{equation}
   r^{1} = r^0 + \frac{\delta^0}{\widehat{T} - \frac{\delta^0}{r^0}}
   \end{equation}
-  \item Use the improved $r$ to reestimate the sex ratio at birth, using
+  \item Use the improved $r$ to re-estimate the sex ratio at birth, using
   sex-specific fertility rates, $F_y^M$ (father-son), $F_y^F$
   (father-daughter), $F_{y'}^F$ (mother-daughter) and $F_{y'}^M$ (mother-son)
   fertility rates:
@@ -59,7 +59,7 @@ _{a'=y'}^\infty F_{y'}^F (1-\varsigma) d_{a'}e^{-ra'} \dd a'\right)\right)}
   \end{equation}
   and then update $\varsigma^1$ using Equation~\eqref{eq:getvarsigma}.
   \item With the updated $r$ and $\varsigma$, repeat steps 5-7 until $\delta$
-  reduces to 0. Typically one acheives maximum double floating point precision
+  reduces to 0. Typically one achieves maximum double floating point precision
   after around 20 iterations, though fewer iterations are required for
   most practical applications.
 \end{enumerate}
