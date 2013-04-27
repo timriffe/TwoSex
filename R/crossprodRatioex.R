@@ -184,11 +184,6 @@ plot(yearsES,abs(rEScp[,1] / rES[,1]), type = 'l')
 plot(yearsUS,abs(rUScp[,1] / rUS[,1]), type = 'l', ylim = c(0,1))
 
 
-sign(diff(rEScp[,1])) == sign(diff(rES[,1]))
-sign(diff(rUScp[,1])) == sign(diff(rUS[,1]))
-
-
-
 # test IPF
 
 

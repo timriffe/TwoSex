@@ -39,8 +39,8 @@ ExBxy <- ExpectedDxMxFmatrix( BxUS[["1970"]], dxmUS[,"1970"], dxfUS[,"1970"])
 
 expected    <- outer(rowSums(ExBxy), colSums(ExBxy), "*") / sum(ExBxy)
 
-Fxym <- ExBxy %row% Mex75US
-Fxyf <- ExBxy %col% Fex75US
+Fxym <- ExBxy / Mex75US
+Fxyf <- t(t(ExBxy) / Fex75US)
 
 # let's do an image, same 1975
 colramp <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"), space = "Lab")
@@ -90,8 +90,8 @@ segments(0,0,111,111,col = "#50505050")
 # axis labels
 fath <- "Father"
 moth <- "Mother"
-text(50,-10, bquote(.(fath) ~ e[x]), xpd = TRUE, cex = .7, pos =1)
-text(-10,110,bquote(.(moth) ~ e[x]), xpd = TRUE, pos = 4, cex = .7)
+text(50,-10, bquote(.(fath) ~ e[y]), xpd = TRUE, cex = .7, pos =1)
+text(-10,110,bquote(.(moth) ~ e[y]), xpd = TRUE, pos = 4, cex = .7)
 
 # expected bivariate distribution:
 
@@ -108,8 +108,8 @@ image(x = ages + .5, y = ages + .5, t(expected),
                 segments(gb.xy, 0, gb.xy, -1, xpd = TRUE)),
         xlab = "", ylab = "")
 # axis labels
-text(50,-10, bquote(.(fath) ~ e[x]), xpd = TRUE, cex = .7, pos = 1)
-text(-15,110,bquote(.(moth) ~ e[x]), xpd = TRUE, pos = 4, cex = .7)
+text(50,-10, bquote(.(fath) ~ e[y]), xpd = TRUE, cex = .7, pos = 1)
+text(-15,110,bquote(.(moth) ~ e[y]), xpd = TRUE, pos = 4, cex = .7)
 
 # contours
  
@@ -125,14 +125,14 @@ dev.off()
 #image(x = ages + .5, y = ages + .5, t(expected), ylim = c(0,111),xlim = c(0,111))
 #image(x = ages + .5, y = ages + .5, t( expected / sum(expected)) - t(ExBxy / sum(ExBxy)) , ylim = c(0,111),xlim = c(0,111))
 # total variation distance:
-
-ExBxy <- ExpectedDxMxFmatrix( BxUS[["1970"]], dxmUS[,"1970"], dxfUS[,"1970"])
-
-expected    <- outer(rowSums(ExBxy), colSums(ExBxy), "*") / sum(ExBxy)
-
-ks.test(ExBxy,expected )
-
-expecteda    <- outer(rowSums(BxUS[["1970"]]), colSums(BxUS[["1970"]]), "*") / sum(BxUS[["1970"]])
+#
+#ExBxy <- ExpectedDxMxFmatrix( BxUS[["1970"]], dxmUS[,"1970"], dxfUS[,"1970"])
+#
+#expected    <- outer(rowSums(ExBxy), colSums(ExBxy), "*") / sum(ExBxy)
+#
+#ks.test(ExBxy,expected )
+#
+#expecteda    <- outer(rowSums(BxUS[["1970"]]), colSums(BxUS[["1970"]]), "*") / sum(BxUS[["1970"]])
 
 
 
@@ -209,6 +209,7 @@ TotalVarES <- unlist(lapply(ExBxyAallES, function(.ExBxy){
 #        }, .BxES = BxES, .dxmES = dxmES, .dxfES = dxfES)
 #save(thetaES, file = "thetaES.Rdata")
 
+# BE SURE TO GET NAMES RIGHT
 ESExBxytheta <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/ESExBxytheta.Rdata")))
 USExBxytheta <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/USExBxytheta.Rdata")))
 
@@ -259,7 +260,7 @@ mxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata")))
 mxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata"))) 
 # this we can do with just Ex and mx
 
-# currently running on Galton with 6 cores
+# currently running on Galton with 5 cores
 # mx2dxHMD() already in server script at UCB
 #thetaUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .mxm, .mxf, .Exp){
 #           

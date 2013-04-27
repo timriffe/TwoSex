@@ -6,8 +6,8 @@ yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
 # Bxy totals  (not used()
-BxUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-BxES  <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+#BxUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
+#BxES  <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
 # repeated below for better SRB assumptions
 BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
@@ -64,19 +64,19 @@ LotkaHminex <- compiler::cmpfun(function(r, dxm, dxf, FHf, FHm, SRB, M = HM, .a 
                           
             
         })
-yr  <- "1990"
-dxm <- dxmUS[, yr]
-dxf <- dxfUS[, yr]
-
-BxyF <- ExpectedDxMxFmatrix(BxymfUS[[yr]][["Bxyf"]], dxm, dxf)
-BxyM <- ExpectedDxMxFmatrix(BxymfUS[[yr]][["Bxym"]], dxm, dxf)
-
-ExM <- rowSums(ExpectedDx(with(ExUS,Male[Year == as.integer(yr)]), dxm))
-ExF <- rowSums(ExpectedDx(with(ExUS,Female[Year == as.integer(yr)]), dxf))
-# get harmonic rates for boys, girls
-FHf <- BxyF / outer(ExM, ExF, HM)
-FHm <- BxyM / outer(ExM, ExF, HM)
-SRB <- sum(BxyM) / sum(BxyF)
+#yr  <- "1990"
+#dxm <- dxmUS[, yr]
+#dxf <- dxfUS[, yr]
+#
+#BxyF <- ExpectedDxMxFmatrix(BxymfUS[[yr]][["Bxyf"]], dxm, dxf)
+#BxyM <- ExpectedDxMxFmatrix(BxymfUS[[yr]][["Bxym"]], dxm, dxf)
+#
+#ExM <- rowSums(ExpectedDx(with(ExUS,Male[Year == as.integer(yr)]), dxm))
+#ExF <- rowSums(ExpectedDx(with(ExUS,Female[Year == as.integer(yr)]), dxf))
+## get harmonic rates for boys, girls
+#FHf <- BxyF / outer(ExM, ExF, HM)
+#FHm <- BxyM / outer(ExM, ExF, HM)
+#SRB <- sum(BxyM) / sum(BxyF)
 #optimize(LotkaHminex, interval = c(-.02,.02), dxm = dxm, dxf = dxf, FHf = FHf, FHm = FHm, SRB = SRB)
 
 
@@ -141,7 +141,7 @@ exMeanIt <- compiler::cmpfun(function(FHf, FHm, dxm, dxf, M = HM, .a = .5:110.5,
         })
         
 
-rUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .dxf, .Ex, .M){
+rUShm <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .dxf, .Ex, .M){
                     
                     Exm <- rowSums(ExpectedDx(with(.Ex, Male[Year == as.integer(yr)]), .dxm[,yr]))
                     Exf <- rowSums(ExpectedDx(with(.Ex, Female[Year == as.integer(yr)]), .dxf[,yr]))
@@ -154,8 +154,8 @@ rUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .dxf
                     LH <- exMeanIt(FHf = FxyHf, FHm = FxyHm, dxm =.dxm[,yr], dxf = .dxf[,yr], M = .M)
                     c(r = LH[1], SRB = LH[2], its = LH[3])
                 }, .Bxy = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS, .M = HM))
-rownames(rUS) <- yearsUS
-rES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .dxm, .dxf, .Ex, .M){
+rownames(rUShm) <- yearsUS
+rEShm <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .dxm, .dxf, .Ex, .M){
                     
                     Exm <- rowSums(ExpectedDx(with(.Ex, Male[Year == as.integer(yr)]), .dxm[,yr]))
                     Exf <- rowSums(ExpectedDx(with(.Ex, Female[Year == as.integer(yr)]), .dxf[,yr]))
@@ -168,17 +168,15 @@ rES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .dxm, .dxf
                     LH <- exMeanIt(FHf = FxyHf, FHm = FxyHm, dxm =.dxm[,yr], dxf = .dxf[,yr], M = .M)
                     c(r = LH[1], SRB = LH[2], its = LH[3])
                 }, .Bxy = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES, .M = HM))
-rownames(rES) <- yearsES
+rownames(rEShm) <- yearsES
+
 
 
 plot(yearsUS, rUS[,1], type = 'l',ylim = c(-.015,.01))
 lines(yearsES, rES[,1], col = "red")
 
 # lez get some stable ey structure:
-r <- rUS[1,1]
-SRB <- rUS[1,2]
-dxm <- dxmUS[,"1969"]
-dxf <- dxfUS[,"1969"]
+
 exMstableex <- function(r, SRB, dxm, dxf, M = HM, .a = .5:110.5){
     p.m <- SRB / (1 + SRB)
     p.f <- 1 / (1 + SRB)
@@ -202,5 +200,252 @@ exMstableex <- function(r, SRB, dxm, dxf, M = HM, .a = .5:110.5){
 }
 
 
-sum(cbind(cym = b * p.m * colSums(t(dxM) * exp(-r * .a)),
-        cyf = b * p.f * colSums(t(dxF) * exp(-r * .a))))
+cyUShm <- do.call(rbind,lapply(as.character(yearsUS), function(yr, rSRB, .dxm, .dxf, .M){
+                    
+                    cbind(Year = as.integer(yr),exMstableex(r = rSRB[yr,1],
+                            SRB = rSRB[yr,2],
+                            dxm = .dxm[,yr],
+                            dxf = .dxf[,yr],
+                            M = .M))
+                },rSRB = rUShm, .dxm = dxmUS, .dxf = dxfUS, .M = HM))
+cyEShm <- do.call(rbind,lapply(as.character(yearsES), function(yr, rSRB, .dxm, .dxf, .M){
+                    
+                    cbind(Year = as.integer(yr),exMstableex(r = rSRB[yr,1],
+                                    SRB = rSRB[yr,2],
+                                    dxm = .dxm[,yr],
+                                    dxf = .dxf[,yr],
+                                    M = .M))
+                },rSRB = rEShm, .dxm = dxmES, .dxf = dxfES, .M = HM))
+dim(cyEShm)
+head(cyUShm)
+#library(Pyramid)
+#for (yr in yearsUS){
+#    Pyramid(males = cyUShm[cyUShm[,"Year"] == yr,"cym"], 
+#            females = cyUShm[cyUShm[,"Year"] == yr,"cyf"], xlim = c(-1,1), main = yr, widths = rep(1,111))
+#    Sys.sleep(1)
+#}
+#for (yr in yearsES){
+#    Pyramid(males = cyEShm[cyEShm[,"Year"] == yr,"cym"], 
+#            females = cyEShm[cyEShm[,"Year"] == yr,"cyf"], xlim = c(-1,1), main = yr, widths = rep(1,111))
+#    Sys.sleep(1)
+#}
+
+# --------------------------------------------------
+# judge stable ESFR vs original ESFR:
+# 1975 and 2009, US and ES:
+
+USesfr <- do.call(rbind,lapply(as.character(yearsUS), function(yr, rSRB, .Bxy, .dxm, .dxf, .Ex, .M, .a = .5:110.5){
+
+                    dxm <- .dxm[,yr]
+                    dxf <- .dxf[,yr]
+                    Exm <- rowSums(ExpectedDx(with(.Ex, Male[Year == as.integer(yr)]), dxm))
+                    Exf <- rowSums(ExpectedDx(with(.Ex, Female[Year == as.integer(yr)]), dxf))
+                    # harmonic mean of exposures
+                    Hxy <- outer(Exm, Exf, .M)
+                    Bxy <- ExpectedDxMxFmatrix(Mat = (.Bxy[[yr]][["Bxyf"]] + .Bxy[[yr]][["Bxym"]]), 
+                            dxm = dxm, dxf = dxf)
+                    Fxy <- Minf0(Mna0(Bxy / Hxy))
+                    bxf <- rowSums(ExpectedDx(colSums(.Bxy[[yr]][["Bxyf"]] + .Bxy[[yr]][["Bxym"]]), dxf))
+                    rowSums(Bxy) - bxf
+                    # copied and pasted from structure function above
+                    # get stable pop structure:
+                    N               <- length(dxm)
+                    dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
+                    # remaining years go down rows. ages over columns
+                    dxmi            <- dxm
+                    dxfi            <- dxf
+                    for (i in 1:N){
+                        dxM[i, 1:length(dxmi)  ] <- dxmi 
+                        dxmi                     <- dxmi[2:length(dxmi) ]
+                        dxF[i, 1:length(dxfi)  ] <- dxfi 
+                        dxfi                     <- dxfi[2:length(dxfi) ]
+                    } 
+                    r       <- rSRB[yr,1]
+                    SRB     <- rSRB[yr,2]
+                    p.m     <- SRB / (1 + SRB)
+                    p.f     <- 1 / (1 + SRB)
+                    
+                    b       <-  1 / sum(colSums(t(dxM) * exp(-r * .a)) * p.m
+                                    + colSums(t(dxF) * exp(-r * .a)) * p.f)
+                    cym     <- b * p.m * colSums(t(dxM) * exp(-r * .a))
+                    cyf     <- b * p.f * colSums(t(dxF) * exp(-r * .a))
+                    
+                    bxy <- outer(cym, cyf, .M) * Fxy
+                    # stable ESFR:
+                    ESFRstm <- Minf0(Mna0(rowSums(bxy) / cym))
+                    ESFRstf <- Minf0(Mna0(colSums(bxy) / cyf))
+                    # original ESFR
+                    ESFRm   <- Minf0(Mna0(rowSums(Bxy) / Exm))
+                    ESFRf   <- Minf0(Mna0(colSums(Bxy) / Exf))
+                    cbind(Year = as.integer(yr), ESFRstm = ESFRstm, ESFRm=ESFRm, ESFRstf = ESFRstf, ESFRf=ESFRf)
+                }, .Bxy = BxymfUS, rSRB = rUShm, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS, .M = HM))
+
+ESesfr <- do.call(rbind,lapply(as.character(yearsES), function(yr, rSRB, .Bxy, .dxm, .dxf, .Ex, .M, .a = .5:110.5){
+                    dxm <- .dxm[,yr]
+                    dxf <- .dxf[,yr]
+                    Exm <- rowSums(ExpectedDx(with(.Ex, Male[Year == as.integer(yr)]), dxm))
+                    Exf <- rowSums(ExpectedDx(with(.Ex, Female[Year == as.integer(yr)]), dxf))
+                    # harmonic mean of exposures
+                    Hxy <- outer(Exm, Exf, .M)
+                    Bxy <- ExpectedDxMxFmatrix((.Bxy[[yr]][["Bxyf"]]+.Bxy[[yr]][["Bxym"]]), dxm, dxf)
+                    Fxy <- Minf0(Mna0(Bxy / Hxy))
+                  
+                    # copied and pasted from structure function above
+                    # get stable pop structure:
+                    N               <- length(dxm)
+                    dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
+                    # remaining years go down rows. ages over columns
+                    dxmi            <- dxm
+                    dxfi            <- dxf
+                    for (i in 1:N){
+                        dxM[i, 1:length(dxmi)  ] <- dxmi 
+                        dxmi                     <- dxmi[2:length(dxmi) ]
+                        dxF[i, 1:length(dxfi)  ] <- dxfi 
+                        dxfi                     <- dxfi[2:length(dxfi) ]
+                    } 
+                    r       <- rSRB[yr,1]
+                    SRB     <- rSRB[yr,2]
+                    p.m     <- SRB / (1 + SRB)
+                    p.f     <- 1 / (1 + SRB)
+                    
+                    b       <-  1 / sum(colSums(t(dxM) * exp(-r * .a)) * p.m
+                                    + colSums(t(dxF) * exp(-r * .a)) * p.f)
+                    cym     <- b * p.m * colSums(t(dxM) * exp(-r * .a))
+                    cyf     <- b * p.f * colSums(t(dxF) * exp(-r * .a))
+                    
+                    bxy <- outer(cym, cyf, .M) * Fxy
+                    # stable ESFR:
+                    ESFRstm <- Minf0(Mna0(rowSums(bxy) / cym))
+                    ESFRstf <- Minf0(Mna0(colSums(bxy) / cyf))
+                    # original ESFR
+                    ESFRm   <- Minf0(Mna0(rowSums(Bxy) / Exm))
+                    ESFRf   <- Minf0(Mna0(colSums(Bxy) / Exf))
+                    cbind(Year = as.integer(yr), ESFRstm = ESFRstm, ESFRm=ESFRm, ESFRstf = ESFRstf, ESFRf=ESFRf)
+                }, .Bxy = BxymfES, rSRB = rEShm, .dxm = dxmES, .dxf = dxfES, .Ex = ExES, .M = HM))
+
+
+y <- 0:110
+#plot(y, USesfr[USesfr[,1] == yr,2], type = 'l',col = "blue")
+#lines(y, USesfr[USesfr[,1] == yr,3], col = "royalblue", lty =2)
+#lines(y, USesfr[USesfr[,1] == yr,4], col = "red")
+#lines(y, USesfr[USesfr[,1] == yr,5], col = "tomato", lty=2)
+head(USFRus1975)
+USFRus1975 <- USesfr[USesfr[,1] == 1975,]
+ESFRus1975 <- ESesfr[ESesfr[,1] == 1975,]
+pdf("/home/triffe/git/DISS/latex/Figures/eSFRharmonic.pdf", height = 5, width = 5)
+par(mai = c(.3, .3, .3, .1), xaxs = "i", yaxs = "i", mfrow = c(2,2))
+plot(y, USFRus1975[,"ESFRstm"], type = 'l', ylim = c(0, .1), xlim = c(0,111), axes = FALSE,
+        col = gray(.2), lwd = 1.5, xlab = "", ylab = "", main = "US, 1975",
+        panel.first = list(rect(0,0,111,0.1,col = gray(.95), border=NA),
+                abline(h = seq(0,.1,by = .01), col = "white"),
+                abline(v = seq(0, 110, by = 10), col = "white"),
+                text(seq(0, 110, by = 10), 0,seq(0, 110, by = 10), pos = 1, cex = .7, xpd = TRUE),
+                text(0,seq(0, .1, by = .01), seq(0, .1, by = .01), pos = 2, cex = .7, xpd = TRUE),
+                text(55, -.007, expression(e[y]), cex = .8, pos = 1, xpd = TRUE),
+                text(-19,.11, "Fertility Rate", cex = .8, xpd = TRUE, pos = 4)))
+lines(y, USFRus1975[,"ESFRm"], lwd = 1, col = gray(.15), lty = 5)
+lines(y, USFRus1975[,"ESFRstf"], lwd = 2, col = gray(.5), lty = 1)
+lines(y, USFRus1975[,"ESFRf"], lwd = 1.5, col = gray(.3), lty = 5)
+legend(58,.1, lty = c(1,5,1,5), col = gray(c(.2,.15,.5,.3)), lwd = c(1.5,1,2,1.5),bty = "n",
+        legend = c("stable males", "initial males", "stable females", "initial females"), xpd = TRUE, cex = .7)
+#dev.off()
+
+par(mai = c(.3, .3, .3, .1), xaxs = "i", yaxs = "i")
+plot(y, ESFRus1975[,"ESFRstm"], type = 'l', ylim = c(0, .1), xlim = c(0,111), axes = FALSE,
+        col = gray(.2), lwd = 1.5, xlab = "", ylab = "", main = "Spain, 1975",
+        panel.first = list(rect(0,0,111,0.1,col = gray(.95), border=NA),
+                abline(h = seq(0,.1,by = .01), col = "white"),
+                abline(v = seq(0, 110, by = 10), col = "white"),
+                text(seq(0, 110, by = 10), 0,seq(0, 110, by = 10), pos = 1, cex = .7, xpd = TRUE),
+                text(0,seq(0, .1, by = .01), seq(0, .1, by = .01), pos = 2, cex = .7, xpd = TRUE),
+                text(55, -.007, expression(e[y]), cex = .8, pos = 1, xpd = TRUE),
+                text(-19,.11, "Fertility Rate", cex = .8, xpd = TRUE, pos = 4)))
+lines(y, ESFRus1975[,"ESFRm"], lwd = 1, col = gray(.15), lty = 5)
+lines(y, ESFRus1975[,"ESFRstf"], lwd = 2, col = gray(.5), lty = 1)
+lines(y, ESFRus1975[,"ESFRf"], lwd = 1.5, col = gray(.3), lty = 5)
+legend(58,.1, lty = c(1,5,1,5), col = gray(c(.2,.15,.5,.3)), lwd = c(1.5,1,2,1.5),bty = "n",
+        legend = c("stable males", "initial males", "stable females", "initial females"), xpd = TRUE, cex = .7)
+
+# 2009
+USFRus2009 <- USesfr[USesfr[,1] == 2009,]
+ESFRus2009 <- ESesfr[ESesfr[,1] == 2009,]
+par(mai = c(.3, .3, .3, .1), xaxs = "i", yaxs = "i")
+plot(y, USFRus2009[,"ESFRstm"], type = 'l', ylim = c(0, .1), xlim = c(0,111), axes = FALSE,
+        col = gray(.2), lwd = 1.5, xlab = "", ylab = "", main = "US, 2009",
+        panel.first = list(rect(0,0,111,0.1,col = gray(.95), border=NA),
+                abline(h = seq(0,.1,by = .01), col = "white"),
+                abline(v = seq(0, 110, by = 10), col = "white"),
+                text(seq(0, 110, by = 10), 0,seq(0, 110, by = 10), pos = 1, cex = .7, xpd = TRUE),
+                text(0,seq(0, .1, by = .01), seq(0, .1, by = .01), pos = 2, cex = .7, xpd = TRUE),
+                text(55, -.007, expression(e[y]), cex = .8, pos = 1, xpd = TRUE),
+                text(-19,.11, "Fertility Rate", cex = .8, xpd = TRUE, pos = 4)))
+lines(y, USFRus2009[,"ESFRm"], lwd = 1, col = gray(.15), lty = 5)
+lines(y, USFRus2009[,"ESFRstf"], lwd = 2, col = gray(.5), lty = 1)
+lines(y, USFRus2009[,"ESFRf"], lwd = 1.5, col = gray(.3), lty = 5)
+legend(58,.1, lty = c(1,5,1,5), col = gray(c(.2,.15,.5,.3)), lwd = c(1.5,1,2,1.5),bty = "n",
+        legend = c("stable males", "initial males", "stable females", "initial females"), xpd = TRUE, cex = .7)
+#dev.off()
+
+par(mai = c(.3, .3, .3, .1), xaxs = "i", yaxs = "i")
+plot(y, ESFRus2009[,"ESFRstm"], type = 'l', ylim = c(0, .1), xlim = c(0,111), axes = FALSE,
+        col = gray(.2), lwd = 1.5, xlab = "", ylab = "", main = "Spain, 2009",
+        panel.first = list(rect(0,0,111,0.1,col = gray(.95), border=NA),
+                abline(h = seq(0,.1,by = .01), col = "white"),
+                abline(v = seq(0, 110, by = 10), col = "white"),
+                text(seq(0, 110, by = 10), 0,seq(0, 110, by = 10), pos = 1, cex = .7, xpd = TRUE),
+                text(0,seq(0, .1, by = .01), seq(0, .1, by = .01), pos = 2, cex = .7, xpd = TRUE),
+                text(55, -.007, expression(e[y]), cex = .8, pos = 1, xpd = TRUE),
+                text(-19,.11, "Fertility Rate", cex = .8, xpd = TRUE, pos = 4)))
+lines(y, ESFRus2009[,"ESFRm"], lwd = 1, col = gray(.15), lty = 5)
+lines(y, ESFRus2009[,"ESFRstf"], lwd = 2, col = gray(.5), lty = 1)
+lines(y, ESFRus2009[,"ESFRf"], lwd = 1.5, col = gray(.3), lty = 5)
+legend(58,.1, lty = c(1,5,1,5), col = gray(c(.2,.15,.5,.3)), lwd = c(1.5,1,2,1.5),bty = "n",
+        legend = c("stable males", "initial males", "stable females", "initial females"), xpd = TRUE, cex = .7)
+dev.off()
+
+
+###############################################
+# competition test:
+# 1975
+
+yr  <- "1990"
+dxm <- dxmUS[, yr]
+dxf <- dxfUS[, yr]
+#
+BxyF <- ExpectedDxMxFmatrix(BxymfUS[[yr]][["Bxyf"]], dxm, dxf)
+BxyM <- ExpectedDxMxFmatrix(BxymfUS[[yr]][["Bxym"]], dxm, dxf)
+#
+exm1 <- with(ExUS,Male[Year == as.integer(yr)])
+exf1 <- with(ExUS,Female[Year == as.integer(yr)])
+ExM1 <- rowSums(ExpectedDx(exm1, dxm))
+ExF1 <- rowSums(ExpectedDx(exf1, dxf))
+## get harmonic rates for boys, girls
+FH <- (BxyF + BxyM) / outer(ExM1, ExF1, HM)
+
+exm2 <- exm1
+exm2[31] <- exm2[31] * 5
+ExM2 <- rowSums(ExpectedDx(exm2, dxm))
+ExF2 <- rowSums(ExpectedDx(exf1, dxf))
+
+Bxy1 <- FH * outer(ExM1, ExF1, HM)
+Bxy2 <- FH * outer(ExM2, ExF2, HM)
+
+Fxm1 <- rowSums(Bxy1) / ExF1
+Fxm2 <- rowSums(Bxy2) / ExF2
+Fxf1 <- colSums(Bxy1) / ExF1
+Fxf2 <- colSums(Bxy2) / ExF2
+
+plot(0:110, Fxm1, type = 'l', col = "blue",lty=2, ylim=c(0,.08))
+lines(0:110, Fxm2, col = "blue")
+lines(0:110, Fxf1, col = "red", lty=2)
+lines(0:110, Fxf2, col = "red")
+
+sum(Fxm1)
+sum(Fxm2)
+
+ExM1.2 <- ExpectedDx(exm1, dxm)
+ExM2.2 <- ExpectedDx(exm2, dxm)
+Fxplit1 <- Fxm1 * (ExM1.2 / rowSums(ExM1.2))
+Fxplit2 <- Fxm2 * (ExM2.2 / rowSums(ExM2.2))
+
+fields::image.plot(Fxplit1-Fxplit2, zlim = c(-.0005,.0005))
