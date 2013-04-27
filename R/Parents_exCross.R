@@ -212,6 +212,9 @@ TotalVarES <- unlist(lapply(ExBxyAallES, function(.ExBxy){
 # BE SURE TO GET NAMES RIGHT
 ESExBxytheta <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/ESExBxytheta.Rdata")))
 USExBxytheta <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/USExBxytheta.Rdata")))
+ESExBxytheta2 <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/ESExBxytheta2.Rdata")))
+USExBxytheta2 <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/USExBxytheta2.Rdata")))
+
 
 # confidence bands are so narrow, we should only plot bands and not center lines..
 # plot it
@@ -227,8 +230,8 @@ plot(yearsUS, TotalVarUS, type = 'n', ylim = c(.04,.07), xlim = c(1968,2010),
                 text(seq(1970,2010,by = 5),.04,seq(1970,2010,by = 5),pos = 1,cex = .7, xpd = TRUE),
                 text(1968,seq(.04,.07,by = .005),seq(.04,.07,by = .005), pos = 2,cex = .7, xpd = TRUE)
         ))
-polygon(c(yearsUS,rev(yearsUS)), c(USExBxytheta[,1],rev(USExBxytheta[,2])), col = "#BBBBBB40", border = gray(.2), lty = 1, lwd = .5)
-polygon(c(yearsES,rev(yearsES)), c(ESExBxytheta[,1],rev(ESExBxytheta[,2])), col = "#BBBBBB40", border = gray(.2), lty = 1, lwd = .5)
+polygon(c(yearsUS,rev(yearsUS)), c(USExBxytheta2[,1],rev(USExBxytheta2[,2])), col = "#BBBBBB40", border = gray(.2), lty = 1, lwd = .5)
+polygon(c(yearsES,rev(yearsES)), c(ESExBxytheta2[,1],rev(ESExBxytheta2[,2])), col = "#BBBBBB40", border = gray(.2), lty = 1, lwd = .5)
 lines(yearsUS, TotalVarUS, lwd = 1, col = gray(.2))
 lines(yearsES, TotalVarES, lwd = 1, col = gray(.2), lty=4)
 
