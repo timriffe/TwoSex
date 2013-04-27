@@ -33,25 +33,20 @@ ages <- 0:110
 Mex75US <- rowSums(ExpectedDx(Px = with(ExUS, Male[Year == 1970]), dx = dxmUS[,"1970"]))
 Fex75US <- rowSums(ExpectedDx(Px = with(ExUS, Female[Year == 1970]), dx = dxfUS[,"1970"]))
 
-# tricky. Matrix must have male ages in rows, female ages in columns
+# Matrix must have male ages in rows, female ages in columns
 
-ExBxy <- ExpectedDxMxFmatrix( BxUS[["1970"]], dxmUS[,"1970"], dxfUS[,"1970"])
-
+ExBxy       <- ExpectedDxMxFmatrix( Mat=BxUS[["1970"]], dxm=dxmUS[,"1970"], dxf=dxfUS[,"1970"])
 expected    <- outer(rowSums(ExBxy), colSums(ExBxy), "*") / sum(ExBxy)
 
-Fxym <- ExBxy / Mex75US
-Fxyf <- t(t(ExBxy) / Fex75US)
-
 # let's do an image, same 1975
-colramp <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"), space = "Lab")
-
+colramp     <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"), space = "Lab")
 
 # plotting pars
-brks <- seq(min(ExBxy, na.rm = TRUE), max(ExBxy, na.rm = TRUE), length.out = 51)
+brks        <- seq(min(ExBxy, na.rm = TRUE), max(ExBxy, na.rm = TRUE), length.out = 51)
 #brks <- seq(min(lExBxy, na.rm = TRUE), max(lExBxy, na.rm = TRUE), length.out = 51)
-g.xy <- seq(0, 100, by = 5)
-gb.xy <- seq(0, 100, by = 10)
-levs <- c(100,seq(500,3000,by=500))     # for contour plot
+g.xy        <- seq(0, 100, by = 5)
+gb.xy       <- seq(0, 100, by = 10)
+levs        <- c(100, seq(500, 3000, by = 500))     # for contour plot
 
 ExBxy[ExBxy == 0]       <- NA
 expected[expected == 0] <- NA
@@ -59,7 +54,7 @@ pdf("/home/triffe/git/DISS/latex/Figures/ObservedvsExpectedBexey.pdf",
         height = 4, width = 6.5)
 
 par(mfrow=c(1,2), mar = c(3,1,2,3))
-image(x = ages + .5, y = ages + .5, t(ExBxy), 
+image(x = ages + .5, y = ages + .5, ExBxy, 
         xlim = c(0, 101), ylim = c(0, 101), zlim = c(0,3100),
         col = colramp(50), breaks = brks, axes = FALSE, asp = 1, 
         panel.first = list(rect(0, 0, 101, 101, col = "#EEEEEE", xpd = TRUE, border = NA), 
@@ -72,7 +67,7 @@ image(x = ages + .5, y = ages + .5, t(ExBxy),
         
         xlab = "", ylab = "")
 # contours
-contour(x = ages + .5, y = ages + .5, t(ExBxy), 
+contour(x = ages + .5, y = ages + .5, ExBxy, 
         levels = levs, labels = levs, add = TRUE)
 # legend
 leg.y <- seq(0,11,length = 50) * (101 / 11) 
@@ -96,7 +91,7 @@ text(-10,110,bquote(.(moth) ~ e[y]), xpd = TRUE, pos = 4, cex = .7)
 # expected bivariate distribution:
 
 par(mar=c(3,2,2,2))
-image(x = ages + .5, y = ages + .5, t(expected), 
+image(x = ages + .5, y = ages + .5, expected, 
         xlim = c(0, 101), ylim = c(0, 101), zlim = c(0,3100),
         col = colramp(50), breaks = brks, axes = FALSE, asp = 1, 
         panel.first = list(rect(0, 0, 101, 101, col = "#EEEEEE", xpd = TRUE, border = NA), 
@@ -113,17 +108,24 @@ text(-15,110,bquote(.(moth) ~ e[y]), xpd = TRUE, pos = 4, cex = .7)
 
 # contours
  
-contour(x = ages + .5, y = ages + .5, t(expected), 
+contour(x = ages + .5, y = ages + .5, expected, 
         levels = levs, labels = levs, add = TRUE)
 # line of homogamy:
 segments(0,0,101,101,col = "#50505050")
 dev.off()
 
 # observed vs expected:
+#ExBxy2       <- ExpectedDxMxFmatrix( Mat=BxUS[["1970"]], dxm=dxmUS[,"1970"], dxf=dxfUS[,"1970"])
+#expected2    <- outer(rowSums(ExBxy2), colSums(ExBxy2), "*") / sum(ExBxy2)
+##
+
+#fields::image.plot(x = ages + .5, y = ages + .5, 
+#        MinfNA(MinfNA(expected2 / sum(expected2)) / MinfNA(ExBxy2 / sum(ExBxy2))), 
+#ylim = c(0,111),xlim = c(0,111))
 
 
-#image(x = ages + .5, y = ages + .5, t(expected), ylim = c(0,111),xlim = c(0,111))
-#image(x = ages + .5, y = ages + .5, t( expected / sum(expected)) - t(ExBxy / sum(ExBxy)) , ylim = c(0,111),xlim = c(0,111))
+#image(x = ages + .5, y = ages + .5, Mna0(MinfNA(ExBxy2 / expected2)) , 
+#        ylim = c(0,111),xlim = c(0,111))
 # total variation distance:
 #
 #ExBxy <- ExpectedDxMxFmatrix( BxUS[["1970"]], dxmUS[,"1970"], dxfUS[,"1970"])
@@ -133,6 +135,9 @@ dev.off()
 #ks.test(ExBxy,expected )
 #
 #expecteda    <- outer(rowSums(BxUS[["1970"]]), colSums(BxUS[["1970"]]), "*") / sum(BxUS[["1970"]])
+
+#sum((ExBxy2 / expected2) == 0, na.rm=TRUE)
+#hist(ExBxy2 / expected2)
 
 
 
