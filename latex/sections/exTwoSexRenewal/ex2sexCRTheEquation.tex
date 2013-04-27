@@ -54,7 +54,19 @@ The marginal predictions of birth counts, $\widehat{B_y}$ and
 $\widehat{B_{y'}}$, in the stable population will be determined by
 fixed fertility rates and population exposures, which are a function of the
 deaths distribution and the growth rate, $r$, as in the other $e_y$-structured 
-models presented in this dissertation. As elsewhere, we will use sex-specific
+models presented in this dissertation. 
+
+For instance, since $\widehat{B_y} = P_yF_y$, we can determine the year $t$
+births as follows:
+
+\begin{equation}
+\label{eq:ex2sexCRunity}
+B(t) = \int_{y=0}^\infty \int_{y'=0}^\infty
+A\left(R_{y,y'},\mathbb{M}\left(\;Py(t)Fy, P_{y'}(t)F_{y'} \right)\right) \dd y
+\dd y'
+\end{equation} 
+
+As elsewhere, we will use sex-specific
 fertility rates, i.e. specific to sex of birth and sex of progenitor, and divide
 the production of each sex between the two sexes, weighted according to the sex
 ratio at birth. The sex ratio at birth will not necessarily be the same in the
@@ -66,7 +78,8 @@ stable sex ratio at birth, $S$, we can estimate the growth rate, $r$, using:
 1 = \int_{y=0}^\infty \int_{y'=0}^\infty
 A\left(R_{y,y'},\mathbb{M}\left(\;\int_{a=y}^\infty F_y \varsigma d_a
 e^{-ra} \dd a, \int _{a'=y'}^\infty F_{y'} (1-\varsigma) d_{a'} e^{-ra'} \dd
-a'\right)\right)
+a'\right)\right) \dd y
+\dd y'
 \end{equation} 
 where $y$ ($a$) index male remaining years (age), and $y'$ ($a'$) index female
 remaining years (age). Fertility rates, $F_y$ and $F_{y'}$ include both sexes of
