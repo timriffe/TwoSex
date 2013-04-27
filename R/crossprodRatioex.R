@@ -27,17 +27,17 @@ dxfUS <- dxfUS %col% colSums(dxfUS)
 dxmES <- dxmES %col% colSums(dxmES)
 dxfES <- dxfES %col% colSums(dxfES)
 
-Expect <- compiler::cmpfun(function(m1,m2,p=2){
+Expect <- compiler::cmpfun(function(m1,m2,p=-2){
     Minf0(Mna0(outer(m1,m2, "*") / stolarsky.mean(sum(m1), sum(m2), p = p)))
 })
 RatioAdj <- compiler::cmpfun(function(Ratio, BxyExp){
     (Ratio * BxyExp) * Minf0(Mna0((sum(BxyExp) / sum(Ratio * BxyExp))))
 })
 
-LotkaCrossRatioCoaleex <- compiler::cmpfun(function(BxyM, BxyF, 
+rCrossRatioIt <- compiler::cmpfun(function(BxyM, BxyF, 
                 Exm, Exf, 
                 dxm, dxf, 
-                RatioM, RatioF, p = 2,
+                RatioM, RatioF, p = -2,
                 .a = .5:110.5, maxit = 2e2, tol = 1e-15){
             N               <- length(dxm)
             dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
@@ -75,35 +75,41 @@ LotkaCrossRatioCoaleex <- compiler::cmpfun(function(BxyM, BxyF,
                     sum(RatioAdj(RatioF, 
                                     Expect(rowSums(FexMF) * rowSums(dxM) * pmi,
                                             colSums(FexFF) * rowSums(dxF) * pfi, p)))
+           T.guess <-  (sum( RatioAdj(RatioM, 
+                                   Expect(.a * rowSums(FexMM) * rowSums(dxM) * pmi,
+                                           .a * colSums(FexFM) * rowSums(dxF) * pfi, p))) +
+                   sum(RatioAdj(RatioF, 
+                                   Expect(.a * rowSums(FexMF) * rowSums(dxM) * pmi,
+                                           .a * colSums(FexFF) * rowSums(dxF) * pfi, p))) ) / R0
            # starting val for r, assuming above NRR and mean remaining life expectancy at reproduction of 60 years
-           r2     <- log(R0) / 60
+           ri     <- log(R0) /  T.guess
            
            for(i in 1:maxit){
-               r1 <- r2
                # produce residual 
                deltai <- 1 - (sum( RatioAdj(RatioM, 
-                                       Expect(rowSums(FexMM) * rowSums(dxM * exp(-r1 * .a)) * pmi,
-                                               colSums(FexFM) * rowSums(dxF * exp(-r1 * .a)) * pfi, p))) +
+                                       Expect(rowSums(FexMM) * rowSums(dxM * exp(-ri * .a)) * pmi,
+                                               colSums(FexFM) * rowSums(dxF * exp(-ri * .a)) * pfi, p))) +
                              sum(RatioAdj(RatioF, 
-                                       Expect(rowSums(FexMF) * rowSums(dxM * exp(-r1 * .a)) * pmi,
-                                               colSums(FexFF) * rowSums(dxF * exp(-r1 * .a)) * pfi, p))))
+                                       Expect(rowSums(FexMF) * rowSums(dxM * exp(-ri * .a)) * pmi,
+                                               colSums(FexFF) * rowSums(dxF * exp(-ri * .a)) * pfi, p))))
                # improve r
-               r2    <- r1 - (deltai / (60 - (deltai / r1)))
+               ri    <- ri - (deltai / (T.guess - (deltai / ri)))
                # improve SRB using improved R
                SRBi  <- sum( RatioAdj(RatioM, 
-                                           Expect(rowSums(FexMM) * rowSums(dxM * exp(-r2 * .a)) * pmi,
-                                                   colSums(FexFM) * rowSums(dxF * exp(-r2 * .a)) * pfi, p))) /
+                                           Expect(rowSums(FexMM) * rowSums(dxM * exp(-ri * .a)) * pmi,
+                                                   colSums(FexFM) * rowSums(dxF * exp(-ri * .a)) * pfi, p))) /
                         sum(RatioAdj(RatioF, 
-                                           Expect(rowSums(FexMF) * rowSums(dxM * exp(-r2 * .a)) * pmi,
-                                                   colSums(FexFF) * rowSums(dxF * exp(-r2 * .a)) * pfi, p)))
+                                           Expect(rowSums(FexMF) * rowSums(dxM * exp(-ri * .a)) * pmi,
+                                                   colSums(FexFF) * rowSums(dxF * exp(-ri * .a)) * pfi, p)))
                # get back proportions to simplify above formulas
                pmi <- SRBi / (1 + SRBi)
                pfi <- 1 / (1 + SRBi)
+               
                if (abs(deltai)<tol){
                    break
                }
            }
-           c(r = r2, SRB = SRBi)
+           c(r = ri, SRB = SRBi)
         })
 # takes very long time
 #DifferentPvals <- lapply(seq(-5,5,by=.1), function(p){
@@ -119,7 +125,7 @@ LotkaCrossRatioCoaleex <- compiler::cmpfun(function(BxyM, BxyF,
 #                    RatioM  <- Minf0(Mna0(BxyM / (outer(rowSums(BxyM), colSums(BxyM)) / sum(BxyM))))
 #                    RatioF  <- Minf0(Mna0(BxyF / (outer(rowSums(BxyF), colSums(BxyF)) / sum(BxyF))))
 #                    
-#                    LotkaCrossRatioCoaleex(BxyM, BxyF, Exm, Exf, dxm, dxf, RatioM, RatioF, p = .p)
+#                    rCrossRatioIt(BxyM, BxyF, Exm, Exf, dxm, dxf, RatioM, RatioF, p = .p)
 #                   
 #                }, .Bxy = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS, .p = p))   
 #        })
@@ -137,7 +143,7 @@ LotkaCrossRatioCoaleex <- compiler::cmpfun(function(BxyM, BxyF,
 # after mid 1980s there was virtually no difference between p=-5 and p=5 (this interval is wide)
 
 
-rUScp <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .dxf, .Ex, .p){
+rUScp2 <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .dxf, .Ex, .p){
                     
                     dxm <- .dxm[,yr]
                     dxf <- .dxf[,yr]
@@ -146,15 +152,13 @@ rUScp <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .d
                    
                     BxyM    <- ExpectedDxMxFmatrix(.Bxy[[yr]][["Bxym"]], dxm, dxf) 
                     BxyF    <- ExpectedDxMxFmatrix(.Bxy[[yr]][["Bxyf"]], dxm, dxf) 
-                    RatioM  <- Minf0(Mna0(BxyM / (outer(rowSums(BxyM), colSums(BxyM)) / sum(BxyM))))
-                    RatioF  <- Minf0(Mna0(BxyF / (outer(rowSums(BxyF), colSums(BxyF)) / sum(BxyF))))
-                    
-                    LotkaCrossRatioCoaleex(BxyM, BxyF, Exm, Exf, dxm, dxf, RatioM, RatioF, p = .p)
-                   
-                }, .Bxy = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS, .p = 2))
+                    RatioM  <- Minf0(Mna0(BxyM / (outer(rowSums(BxyM), colSums(BxyM),"*") / sum(BxyM))))
+                    RatioF  <- Minf0(Mna0(BxyF / (outer(rowSums(BxyF), colSums(BxyF),"*") / sum(BxyF))))
+                    rCrossRatioIt(BxyM, BxyF, Exm, Exf, dxm, dxf, RatioM, RatioF, p = .p)
+                }, .Bxy = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS, .p = -2))
 rownames(rUScp) <- yearsUS
 
-
+fields::image.plot(RatioM)
 
 
 rEScp <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .dxm, .dxf, .Ex, .p){
@@ -169,23 +173,69 @@ rEScp <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .dxm, .d
                     RatioM  <- Minf0(Mna0(BxyM / (outer(rowSums(BxyM), colSums(BxyM)) / sum(BxyM))))
                     RatioF  <- Minf0(Mna0(BxyF / (outer(rowSums(BxyF), colSums(BxyF)) / sum(BxyF))))
                     
-                    LotkaCrossRatioCoaleex(BxyM, BxyF, Exm, Exf, dxm, dxf, RatioM, RatioF, p = .p)
+                    rCrossRatioIt(BxyM, BxyF, Exm, Exf, dxm, dxf, RatioM, RatioF, p = .p)
                     
-                }, .Bxy = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES, .p = 2))
+                }, .Bxy = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES, .p = -2))
 rownames(rEScp) <- yearsES
 
 plot(yearsUS, rUScp[,1], type = 'l', ylim = c(-.015,.01))
-lines(yearsUS, rUS[,1], lty = 2)
+#lines(yearsUS, rUS[,1], lty = 2)
 #polygon(c(yearsES,rev(yearsES)), c(rEScpp5[,1],rev(rEScpm5[,1])), border = NA, col = "#55555550")
 lines(yearsES, rEScp[,1], col = "red")
-lines(yearsES, rES[,1], lty = 2, col = "red")
+#lines(yearsES, rES[,1], lty = 2, col = "red")
 abline(h=0)
 plot(yearsES,abs(rEScp[,1] / rES[,1]), type = 'l')
 plot(yearsUS,abs(rUScp[,1] / rUS[,1]), type = 'l', ylim = c(0,1))
 
-
+#------------------------------------------------------------------
+# show example of Ratio object
 # test IPF
+#ExBxy2       <- ExpectedDxMxFmatrix( Mat=BxUS[["1970"]], dxm=dxmUS[,"1970"], dxf=dxfUS[,"1970"])
+#expected2    <- outer(rowSums(ExBxy2), colSums(ExBxy2), "*") / sum(ExBxy2)
+##
 
 
+yr     <- "1975"
+dxm    <- dxmUS[,yr] ; dxf <- dxfUS[,yr]
+Bxy    <- ExpectedDxMxFmatrix(BxymfUS[[yr]][["Bxym"]] + BxymfUS[[yr]][["Bxyf"]], dxm, dxf) 
+Ratio  <- Minf0(Mna0(Bxy / (outer(rowSums(Bxy), colSums(Bxy),"*") / sum(Bxy))))
 
 
+# let's do an image, same 1975
+colramp     <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(9, "RdBu"), space = "Lab")
+
+# plotting pars
+brks        <- seq(-6, 6, length.out = 51)
+#brks <- seq(min(lExBxy, na.rm = TRUE), max(lExBxy, na.rm = TRUE), length.out = 51)
+g.xy        <- seq(0, 100, by = 5)
+gb.xy       <- seq(0, 100, by = 10)
+levs        <- c(-6, 6, seq(500, 3000, by = 500))     # for contour plot
+levs <- c(.01,.1,.5,.75,1.25,2,10,100,1000)
+ExBxy[ExBxy == 0]       <- NA
+expected[expected == 0] <- NA
+pdf("/home/triffe/git/DISS/latex/Figures/exCPRatioExample.pdf", height = 5, width = 5)
+par(mai = c(.4,.3,.3,.2), xaxs = "i", yaxs = "i")
+image(x = ages + .5, y = ages + .5, MinfNA(log(Ratio)), 
+        xlim = c(0, 101), ylim = c(0, 101), zlim = c(.5,7),
+        col = rev(colramp(50)), breaks = brks, axes = FALSE, asp = 1,
+        xlab = "", ylab = "", 
+        panel.first = list(rect(0, 0, 101, 101, col = "#EEEEEE", xpd = TRUE, border = NA), 
+                abline(h = g.xy, col = "white", lwd = .5),
+                abline(v = g.xy, col = "white", lwd = .5),
+                text(0, gb.xy, gb.xy, pos = 2, cex = .5, xpd = TRUE),
+                text(gb.xy, 0, gb.xy, pos = 1, cex = .5, xpd = TRUE),
+                segments(0, gb.xy, -1, gb.xy, xpd = TRUE),
+                segments(gb.xy, 0, gb.xy, -1, xpd = TRUE)))
+# contours
+contour(x = ages + .5, y = ages + .5,  MinfNA(log(Ratio)), 
+        levels = log(levs), labels = levs, add = TRUE)
+# axis labels
+fath <- "Father"
+moth <- "Mother"
+text(50,-4, bquote(.(fath) ~ e[y]), xpd = TRUE, cex = .7, pos =1)
+text(-8,105,bquote(.(moth) ~ e[y]), xpd = TRUE, pos = 4, cex = .7)
+#
+segments(0,0,101,101,col = "#50505050")
+dev.off()
+
+(BirthWeightedAvg <- sum(Bxy * abs(Ratio), na.rm=TRUE) / sum(Bxy)) # very small
