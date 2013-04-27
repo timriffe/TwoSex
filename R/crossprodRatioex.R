@@ -238,4 +238,5 @@ text(-8,105,bquote(.(moth) ~ e[y]), xpd = TRUE, pos = 4, cex = .7)
 segments(0,0,101,101,col = "#50505050")
 dev.off()
 
-(BirthWeightedAvg <- sum(Bxy * abs(Ratio), na.rm=TRUE) / sum(Bxy)) # very small
+(BirthWeightedAvg <- sum(Bxy * exp(abs(log(Ratio))), na.rm=TRUE) / sum(Bxy)) # very small
+
