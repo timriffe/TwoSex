@@ -1,4 +1,4 @@
-
+\FloatBarrier
 The present section is motivated by the desire for a non-linear two-sex model of
 $e_y$-structured population growth that takes advantage of the observation that
 the observed joint distribution of births by remaining years of fathers 
@@ -7,20 +7,34 @@ distribution, taking the male and female marginals as given. We have noted
 that the overall distributional distance
 between observed and expected counts is typically very small (see e.g.
 Figure~\ref{fig:TotalVarobsexpex}), but we have not described any patterns that
-may exist in the difference between these two distributions. There is indeed a
-common pattern to the departure between the observed and expected distributions
-of $e_y$ structured births. \todo{show this pattern in Figure in appendix?} 
+may exist in the difference between these two distributions. 
 
-The method presented here will thus stay true to the stable population concept
+There is indeed a common pattern to the departure between the observed and
+expected distributions of $e_y$ structured births, as seen in Figure~\ref{fig:exCPratioexample} for
+the example of 1975, US. We note the greatest departures in the four extreme
+corners of this surface, which are also the locations in the joint distribution 
+with the lowest birth counts. The average absolute departure percentage is here
+only 9.4\% when weighted by the number of observed births.
+
+\begin{figure}[!ht]
+  \centering
+    \caption{Example ratio of observed to expected joint distribution of
+    $e_y$-classified births. US, 1975.}
+     % figure produced in /R/crossprodRatioex.R
+     \includegraphics{Figures/exCPRatioExample.pdf}
+     \label{fig:exCPratioexample}
+\end{figure}
+
+The method presented here stays true to the stable population concept
  of fixed male and female $e_y$-specific fertility rates, but will add a second
  fixed component, a constant \textit{ratio} between $B_{y,y'}$ and
  $\mathbb{E}(B_{y,y'})$, which will be used as an adjustment instrument, in
  effect providing flexibility in the male and female marginal rates, while forcing
  consistency (via a mean expected count matrix), both in the total birth count
- and in the $e_y$-distribution of births. The method to be presented here will be shown to posses
- several desirable properties for two-sex models.
+ and in the $e_y$-distribution of births. This method, described in
+ following, will be seen to have several desirable properties for two-sex
+ models.
  
- 
-
+\FloatBarrier
 
 
