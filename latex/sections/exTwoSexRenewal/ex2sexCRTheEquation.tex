@@ -17,7 +17,7 @@ divide by a mean of the male and female total predictions as follows:
 \widehat{B_y} \dd y, \int \widehat{B_{y'}} \dd y')}
 \end{equation}
 where $\widehat{B_y}$ is calculated using the constant base rate for males,
-$F_y$, applied to male exposures, $E_y$, and likewise for females. $M()$ is a
+$F_y$, applied to male exposures, $E_y$, and likewise for females. $M()$ is any
 mean function. For flexibility, one could use a generalized mean, such as the
 Stolarsky mean or Lehmer mean, for $M()$, or any specific mean function, such as
 the harmonic mean, if desired. The choice of mean function in the denominator
@@ -58,21 +58,45 @@ models presented in this dissertation.
 
 For instance, since $\widehat{B_y} = P_yF_y$, we can determine the year $t$
 births as follows:
-
 \begin{equation}
-\label{eq:ex2sexCRunity}
+\label{eq:ex2sexCRunity1}
 B(t) = \int_{y=0}^\infty \int_{y'=0}^\infty
 A\left(R_{y,y'},\mathbb{M}\left(\;Py(t)Fy, P_{y'}(t)F_{y'} \right)\right) \dd y
 \dd y'
 \end{equation} 
-\todo{work into unity equation bit by bit}
-As elsewhere, we will use sex-specific
-fertility rates, i.e. specific to sex of birth and sex of progenitor, and divide
-the production of each sex between the two sexes, weighted according to the sex
-ratio at birth. The sex ratio at birth will not necessarily be the same in the
-initial and stable populations, but does not vary by much. Assuming we know the
-stable sex ratio at birth, $S$, we can estimate the growth rate, $r$, using:
-
+Of course population by remaining years, $P_y$, is a function of $P_a$ and the
+deaths distribution, $d_a$, and we know that $P_a$ is a function of past births
+and survival probabilities, $P_a = \varsigma B(t-a)p_a$, (assuming constant
+mortality and proportion male of births, $\varsigma$). So, we may rewrite
+Equation~\eqref{eq:ex2sexCRunity1} in terms of past births:
+\begin{equation}
+\label{eq:ex2sexCRunity2}
+\begin{split}
+B(t) = \int_{y=0}^\infty \int_{y'=0}^\infty
+A\left(R_{y,y'},\mathbb{M}\left(\;Fy \int_{a=0}^\infty\varsigma
+B(t-a)d_{a+y}\dd a,\right. \right. \\\left.
+\left.F_{y'}\int_{a'=0}^\infty(1-\varsigma) B(t-a')d_{a'+y'} \dd a'\right)\right) \dd y \dd y'
+\end{split}
+\end{equation}
+since the $p_a$ cancels out $\int _a^\infty d_a \dd a$ in the denominator of
+Equation~\eqref{eq:dxredist}. As one may suspect, if the hypothetical
+population is left to evolve endogenously under constant vital rates, $d_a$
+and $F_y$, eventually the size of each new cohort will be related to the size
+of the previous cohort by a fixed and constant factor equal to $e^r$, where
+$r$ is the two-sex intrinsic growth rate. In this case, we may rewrite
+Equation~\eqref{eq:ex2sexCRunity2} in terms of year $t$ births:
+\begin{equation}
+\label{eq:ex2sexCRunity3}
+\begin{split}
+B(t) = \int_{y=0}^\infty \int_{y'=0}^\infty
+A\left(R_{y,y'},\mathbb{M}\left(\;Fy \int_{a=0}^\infty\varsigma
+B(t)e^{-ra}d_{a+y}\dd a\right. \right., \\ \left.
+\left.F_{y'}\int_{a'=0}^\infty(1-\varsigma) B(t)e^{-ra'}d_{a'+y'} \dd a'\right)\right) \dd y \dd y'
+\end{split}
+\end{equation}
+Dividing out by $B(t)$ we arrive at the familiar Lotka unity-equation form,
+which allows us to isolate and estimate $r$ as a function of vital rates in the
+initial year:
 \begin{equation}
 \label{eq:ex2sexCRunity}
 1 = \int_{y=0}^\infty \int_{y'=0}^\infty
@@ -81,25 +105,12 @@ e^{-ra} \dd a, \int _{a'=y'}^\infty F_{y'} (1-\varsigma) d_{a'} e^{-ra'} \dd
 a'\right)\right) \dd y
 \dd y'
 \end{equation} 
-where $y$ ($a$) index male remaining years (age), and $y'$ ($a'$) index female
-remaining years (age). Fertility rates, $F_y$ and $F_{y'}$ include both sexes of
-offspring, and $\varsigma$ is derived from $S$ and is used to weight sex of
+Fertility rates, $F_y$ and $F_{y'}$ are standard $e$SFR, including both sexes
+of offspring, and $\varsigma$ is used to weight sex of
 progenitor, not sex of offspring. As will be seen below, in order to fully estimate $r$, it is best
-to estimate $r$ and $S$ together.
+to estimate $r$ and $\varsigma$ together, since there is a pattern to
+$\varsigma$ over $y$, and the population structure is expected to change
+somewhat between the initial and stable states. 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\FloatBarrier
