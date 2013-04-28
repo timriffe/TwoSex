@@ -111,6 +111,51 @@ rCrossRatioIt <- compiler::cmpfun(function(BxyM, BxyF,
            }
            c(r = ri, SRB = SRBi, iter = i)
         })
+        
+rCrossRatiocy <- compiler::cmpfun(function(r, SRB, dxm, dxf, .a = .5:110.5){
+    pmi <- SRB / (1+SRB)
+    pfi <- 1 / (1+SRB)
+    N               <- length(dxm)
+    dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
+    # remaining years go down rows. ages over columns
+    dxmi            <- dxm
+    dxfi            <- dxf
+    for (i in 1:N){
+        dxM[i, 1:length(dxmi)  ] <- dxmi 
+        dxmi                     <- dxmi[2:length(dxmi) ]
+        
+        dxF[i, 1:length(dxfi)  ] <- dxfi 
+        dxfi                     <- dxfi[2:length(dxfi) ]
+    } 
+    b <- 1 / sum(rowSums(dxM * exp(-r * .a)) * pmi + rowSums(dxF * exp(-r * .a)) * pfi)
+    
+    cym <- b * pmi * rowSums(dxM * exp(-r * .a))
+    cyf <- b * pfi * rowSums(dxF * exp(-r * .a))
+    cbind(cym, cyf)
+})
+rCrossRatiocyWide <- compiler::cmpfun(function(r, SRB, dxm, dxf, .a = .5:110.5){
+            pmi <- SRB / (1+SRB)
+            pfi <- 1 / (1+SRB)
+            N               <- length(dxm)
+            dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
+            # remaining years go down rows. ages over columns
+            dxmi            <- dxm
+            dxfi            <- dxf
+            for (i in 1:N){
+                dxM[i, 1:length(dxmi)  ] <- dxmi 
+                dxmi                     <- dxmi[2:length(dxmi) ]
+                
+                dxF[i, 1:length(dxfi)  ] <- dxfi 
+                dxfi                     <- dxfi[2:length(dxfi) ]
+            } 
+            b <- 1 / sum(rowSums(dxM * exp(-r * .a)) * pmi + rowSums(dxF * exp(-r * .a)) * pfi)
+            
+            cym <- b * pmi * dxM * exp(-r * .a)
+            cyf <- b * pfi * dxF * exp(-r * .a)
+            list(cym=cym, cyf=cyf)
+        })
+
+
 # takes very long time
 #DifferentPvals <- lapply(seq(-5,5,by=.1), function(p){
 #         do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .dxf, .Ex, .p){
@@ -143,7 +188,7 @@ rCrossRatioIt <- compiler::cmpfun(function(BxyM, BxyF,
 # after mid 1980s there was virtually no difference between p=-5 and p=5 (this interval is wide)
 
 
-rUScp2 <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .dxf, .Ex, .p){
+rUScp <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .dxf, .Ex, .p){
                     
                     dxm <- .dxm[,yr]
                     dxf <- .dxf[,yr]
@@ -279,13 +324,7 @@ IPFpred2 <- compiler::cmpfun(function(Bxy, Exm1, Exm2, Exf1, Exf2, marM = mean, 
             BxyA
         })
 
-Expect <- compiler::cmpfun(function(m1,m2,p=-2){
-            Minf0(Mna0(outer(m1,m2, "*") / stolarsky.mean(sum(m1), sum(m2), p = p)))
-        })
-RatioAdj <- compiler::cmpfun(function(Ratio, BxyExp){
-            (Ratio * BxyExp) * Minf0(Mna0((sum(BxyExp) / sum(Ratio * BxyExp))))
-        })
-yr <- 1975
+
 CompUS <- do.call(rbind, lapply(yearsUS[-length(yearsUS)], function(yr, .Bxy, .Ex, .dxm, .dxf){
                     yrc         <- as.character(yr)
                     yrcp1       <- as.character(yr+1)
@@ -359,27 +398,105 @@ length(yearsUS)
 # ----------------------------------------------------------
 # 3) check competition
 
+yr <- 1975
 yrc         <- as.character(yr)
-Bt          <- ExpectedDxMxFmatrix(.Bxy[[yrc]], .dxm[,yrc], .dxf[,yrc])
-Exf1        <- rowSums(ExpectedDx(with(.Ex,Female[Year == yr]), .dxf[,yrc]))
-#Exf2        <- rowSums(ExpectedDx(with(.Ex,Female[Year == yr]), .dxf[,yrcp1]))
-Exm1        <- rowSums(ExpectedDx(with(.Ex,Male[Year == yr]), .dxm[,yrc]))
-#Exm2        <- rowSums(ExpectedDx(with(.Ex,Male[Year == yr]), .dxm[,yrcp1]))
-Exm2        <- Exm1
-Exm2[31]    <- Exm2[31] * 1.5
-Exf2        <- Exf1
+Bt          <- ExpectedDxMxFmatrix(BxUS[[yrc]], dxmUS[, yrc], dxfUS[, yrc])
 Ratio       <- Minf0(Mna0(Bt / (outer(rowSums(Bt), colSums(Bt)) / sum(Bt))))
+# age-classified rates:
+Exf     <- with(ExUS,Female[Year == yr])
+Exm     <- with(ExUS,Male[Year == yr])
+Bxm     <- rowSums(BxUS[[yrc]])
+Bxf     <- colSums(BxUS[[yrc]])
+Fxm     <- Bxm / Exm
+Fxf     <- Bxf / Exf
+.a <- .5:110.5
+a <- 0:110
+#plot(a ,Fxf, type = 's', ylim = c(0,.14))
+#lines(a ,Fxm, type = 's', col = "blue")
 
-Bpm         <- Minf0(Mna0(rowSums(Bt) / Exm1)) * Exm2
-Bpf         <- Minf0(Mna0(colSums(Bt) / Exf1)) * Exf2
+# how do these distribute out over ex? (last M for matrix)
 
-Expec       <- Minf0(Mna0(outer(Bpm,Bpf, "*") / mean(c(sum(Bpm), sum(Bpf)))))
-Pred        <- RatioAdj(Ratio, Expec)
+Fym <- Minf0(Mna0(rowSums(Bt) / rowSums(ExpectedDx(Exm, dxmUS[,yrc]))))
+Fyf <- Minf0(Mna0(colSums(Bt) / rowSums(ExpectedDx(Exf, dxfUS[,yrc]))))
 
-plot(0:110, rowSums(Pred), type = 'l', col = "red")
-lines(0:110, rowSums(Bt), col = "blue")
+FxmM    <- ExpectedDx(Fxm, dxmUS[,yrc])
+FxfM    <- ExpectedDx(Fxf, dxfUS[,yrc])
+# now what are the row-wise pdfs?
+FxmPDF  <- Minf0(Mna0(FxmM / rowSums(FxmM)))  # use these to redist?
+FxfPDF  <- Minf0(Mna0(FxfM / rowSums(FxfM)))  #
 
-plot(0:110, rowSums(Pred) / rowSums(Bt), type = 'l', ylim = c(.95,1.05))
+#plot(a, rowSums(FxmM), type = 's',col="blue")
+#lines(a, rowSums(FxfM), type = 's')
+# OK, now get stable pop:
+r               <- rUScp[yrc,"r"]
+SRB             <- rUScp[yrc,"SRB"]
+cy1             <- rCrossRatiocyWide(r, SRB, dxmUS[,yrc], dxfUS[,yrc])
+cym1            <- cy1[[1]]
+cyf1            <- cy1[[2]]
+# inflate one cohort of males
+cym2            <- cym1
+cym2[, 36]      <- cym2[,36] * 1.25
+cyf2            <- cyf1
 
-plot(0:110, colSums(Pred) / colSums(Bt), type = 'l', ylim = c(.99,1.02))
+bpm1         <- Fym * rowSums(cym1)
+bpf1         <- Fyf * rowSums(cyf1)
+Expec1       <- Expect(bpm1,bpf1,p=-2)
+Pred1        <- RatioAdj(Ratio, Expec1)
+
+plot(a,colSums(rowSums(Pred1 / rowSums(cym1)) * FxmPDF),type= 'l',col = "blue")
+lines(a,Fxm,lty=2,col="blue")
+lines(a,colSums(colSums(Pred1 / rowSums(cyf1)) * FxfPDF),col="red")
+lines(a,Fxf,lty=2,col = "red")
+# but compare with ageified ex rates
+plot(a,colSums(rowSums(Pred1 / rowSums(cym1)) * FxmPDF),type= 'l',col = "blue")
+lines(a,colSums(Fym * FxmPDF),lty=2,col="blue")
+lines(a,colSums(colSums(Pred1 / rowSums(cyf1)) * FxfPDF),col="red")
+lines(a,colSums(Fyf * FxfPDF),lty=2,col = "red")
+
+# now make pred 2:
+bpm2         <- Fym * rowSums(cym2)
+bpf2         <- Fyf * rowSums(cyf2)
+Expec2       <- Expect(bpm2,bpf2,p=-2)
+Pred2        <- RatioAdj(Ratio, Expec2)
+mp1 <- rowSums(Pred1 / rowSums(cym1))
+mp2 <- rowSums(Pred2) / rowSums(cym2) # new male rates
+plot(a,mp1/mp2,type= 'l',col = "blue")
+
+rowSums(Pred1) / cym1
+
+
+mp1a <- colSums(Minf0(Mna0(rowSums(Pred1) / cym1)))
+mp2a <- colSums(Minf0(Mna0(rowSums(Pred2) / cym2)))
+plot(a,mp2a/mp1a,type= 'l',col = "blue", ylim = c(.99,1.01))
 abline(h=1)
+
+
+plot(a,colSums(mp * FxmPDF),type= 'l',col = "blue")
+lines(a,colSums(rowSums(Pred1 / rowSums(cym1)) * FxmPDF), col = "red")
+
+
+FxmPDF
+
+
+#fields::image.plot(Minf0(Mna0((Pred2/sum(Pred2)) - (Pred1/sum(Pred1)))))
+
+
+sum(hmm2)
+sum(hmm1)
+plot(a,colSums(hmm2)/sum(hmm2),type= 'l',col = "blue")
+abline(v=30)
+lines(a,colSums(hmm1)/sum(hmm1),lty=2,col="blue")
+
+plot(Minf0(Mna0(colSums(hmm2)/colSums(hmm1))),type = 'l', ylim = c(.98,1.03))
+
+plot(a,(colSums(hmm2)/sum(hmm2)) / (colSums(hmm1)/sum(hmm1)), type = 'l',col = "blue")
+abline(h=1.25)
+
+plot(a,(colSums(hmm2)/sum(hmm2)) / (colSums(hmm1)/sum(hmm1)), type = 'l',col = "blue", ylim = c(.95,1.05))
+abline(h=1.25)
+
+lines(a,colSums(colSums(Pred2 / rowSums(cyf2)) * FxfPDF),col="red")
+lines(a,colSums(Fyf * FxfPDF),lty=2,col = "red")
+
+plot(a,colSums(rowSums(Pred2 / rowSums(cym2)) * FxmPDF) / colSums(rowSums(Pred1 / rowSums(cym1)) * FxmPDF), type = 'l')
+
