@@ -42,7 +42,9 @@ A\left(R_{y,y'},\mathbb{M}\left(\;\int_{a=y}^\infty F_y \varsigma^0 d_a \dd a,
   \item Use the improved $r$ to re-estimate the sex ratio at birth, using
   sex-specific fertility rates, $F_y^{M-M}$ (father-son), $F_y^{M-F}$
   (father-daughter), $F_{y'}^{F-F}$ (mother-daughter) and $F_{y'}^{F-M}$
-  (mother-son) fertility rates:
+  (mother-son) fertility rates\footnote{This formula is ugly, but it is just
+  Equation~\eqref{eq:ex2sexCRunity} twice; once with fertility rates for male
+  births and again with fertility rates for female births.}:
   \begin{adjustwidth}{-1in}{0in}
   \begin{equation}
   S^{i+1} = \frac{\int_{y=0}^\infty \int_{y'=0}^\infty
@@ -58,7 +60,7 @@ d_{a'}e^{-r^{i+1}a'} \dd a'\right)\right)}
   \frac{S^{i+1}}{1+S^{i+1}}$ .
   \item With the updated $r$ and $\varsigma$, repeat steps 5-7 until $\delta$
   reduces to 0. Typically one achieves maximum double floating point precision
-  after around 20 iterations, though fewer iterations are required for
+  in 5-20 iterations, though fewer iterations are required for
   most practical applications.
 \end{enumerate}
 

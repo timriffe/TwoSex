@@ -109,7 +109,7 @@ rCrossRatioIt <- compiler::cmpfun(function(BxyM, BxyF,
                    break
                }
            }
-           c(r = ri, SRB = SRBi)
+           c(r = ri, SRB = SRBi, iter = i)
         })
 # takes very long time
 #DifferentPvals <- lapply(seq(-5,5,by=.1), function(p){
@@ -158,9 +158,6 @@ rUScp2 <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .
                 }, .Bxy = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS, .p = -2))
 rownames(rUScp) <- yearsUS
 
-fields::image.plot(RatioM)
-
-
 rEScp <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .dxm, .dxf, .Ex, .p){
                     
                     dxm <- .dxm[,yr]
@@ -188,7 +185,7 @@ plot(yearsES,abs(rEScp[,1] / rES[,1]), type = 'l')
 plot(yearsUS,abs(rUScp[,1] / rUS[,1]), type = 'l', ylim = c(0,1))
 
 #------------------------------------------------------------------
-# show example of Ratio object
+# 1) show example of Ratio object
 # test IPF
 #ExBxy2       <- ExpectedDxMxFmatrix( Mat=BxUS[["1970"]], dxm=dxmUS[,"1970"], dxf=dxfUS[,"1970"])
 #expected2    <- outer(rowSums(ExBxy2), colSums(ExBxy2), "*") / sum(ExBxy2)
@@ -240,3 +237,149 @@ dev.off()
 
 (BirthWeightedAvg <- sum(Bxy * exp(abs(log(Ratio))), na.rm=TRUE) / sum(Bxy)) # very small
 
+# -----------------------------------------------------------------------
+# 2) demonstrate IPF superiority in predicting year t+1 joint birth distribution
+IPFpred2 <- compiler::cmpfun(function(Bxy, Exm1, Exm2, Exf1, Exf2, marM = mean, tol = 1e-15, maxit = 20){
+            
+            # starting rates
+            FxyF        <- Minf0(Mna0(colSums(Bxy) / Exf1))
+            FxyM        <- Minf0(Mna0(rowSums(Bxy) / Exm1))
+            # predicted counts
+            Mpred       <- FxyM * Exm2
+            Fpred       <- FxyF * Exf2
+            # starting vals    
+            Bxy2        <- Bxy1 <- Bxy
+            
+            # sums will differ
+            Msum        <- sum(Mpred)
+            Fsum        <- sum(Fpred)
+            # take a mean of the male and female marginal totals
+            Nsum        <- marM(c(Msum, Fsum))
+            # rescale so that marginals match
+            Mpredrsc    <- Mpred * (Nsum / Msum)
+            Fpredrsc    <- Fpred * (Nsum / Fsum)
+            # get a startin value for comparisons (assoc-free)
+            BxyB        <- outer(Mpredrsc,Fpredrsc,"*") / Nsum
+            for (i in maxit){
+                # rows then cols
+                Bxy1 <- Bxy1 * Minf0(Mna0(Mpredrsc / rowSums(Bxy1)))
+                Bxy1 <- t(t(Bxy1) * Minf0(Mna0(Fpredrsc / colSums(Bxy1))))
+                
+                # cols then rows
+                Bxy2 <- t(t(Bxy2) * Minf0(Mna0(Fpredrsc / colSums(Bxy2))))
+                Bxy2 <- Bxy2 * Minf0(Mna0(Mpredrsc / rowSums(Bxy2)))
+                
+                # mean for next it
+                BxyA <- (Bxy1 + Bxy2) / 2
+                if (sum(abs(BxyA-BxyB))< tol){
+                    break
+                }
+                BxyB <-Bxy2 <- Bxy1 <- BxyA
+            }
+            BxyA
+        })
+
+Expect <- compiler::cmpfun(function(m1,m2,p=-2){
+            Minf0(Mna0(outer(m1,m2, "*") / stolarsky.mean(sum(m1), sum(m2), p = p)))
+        })
+RatioAdj <- compiler::cmpfun(function(Ratio, BxyExp){
+            (Ratio * BxyExp) * Minf0(Mna0((sum(BxyExp) / sum(Ratio * BxyExp))))
+        })
+yr <- 1975
+CompUS <- do.call(rbind, lapply(yearsUS[-length(yearsUS)], function(yr, .Bxy, .Ex, .dxm, .dxf){
+                    yrc         <- as.character(yr)
+                    yrcp1       <- as.character(yr+1)
+                    Bt          <- ExpectedDxMxFmatrix(.Bxy[[yrc]], .dxm[,yrc], .dxf[,yrc])
+                    Btp1test    <- ExpectedDxMxFmatrix(.Bxy[[yrcp1]], .dxm[,yrcp1], .dxf[,yrcp1])
+                    Exm1        <- rowSums(ExpectedDx(with(.Ex,Male[Year == yr]), .dxm[,yrc]))
+                    Exm2        <- rowSums(ExpectedDx(with(.Ex,Male[Year == (yr + 1)]), .dxm[,yrcp1]))
+                    Exf1        <- rowSums(ExpectedDx(with(.Ex,Female[Year == yr]), .dxf[,yrc]))
+                    Exf2        <- rowSums(ExpectedDx(with(.Ex,Female[Year == (yr + 1)]), .dxf[,yrcp1]))
+                    
+                    IPFpred     <- IPFpred2(Bt, Exm1 = Exm1, Exm2 = Exm2, Exf1 = Exf1, Exf2 = Exf2, marM = mean)
+                    Ratio       <- Minf0(Mna0(Bt / (outer(rowSums(Bt), colSums(Bt)) / sum(Bt))))
+                   
+                    Bpm         <- Minf0(Mna0(rowSums(Bt) / Exm1)) * Exm2
+                    Bpf         <- Minf0(Mna0(colSums(Bt) / Exf1)) * Exf2
+                    
+                    Expec       <- Minf0(Mna0(outer(Bpm,Bpf, "*") / mean(c(sum(Bpm), sum(Bpf)))))
+                    Pred        <- RatioAdj(Ratio, Expec)
+                    
+                    IPFpdf      <- IPFpred / sum(IPFpred)   # IPF predicted pdf
+                    CRpdf       <- Pred / sum(Pred)         # CR predicted pdf
+                    Test        <- Btp1test / sum(Btp1test) # pdf observed from t plus 1
+                    
+                    c(IPF = 1 - sum(pmin(IPFpdf, Test)), CR = 1 - sum(pmin(CRpdf, Test)), 
+                            IPFmales = 1 - sum(pmin(rowSums(IPFpdf), rowSums(Test))),
+                            IPFfem = 1 - sum(pmin(colSums(IPFpdf), colSums(Test))),
+                            CRmales = 1 - sum(pmin(rowSums(CRpdf), rowSums(Test))),
+                            CRfem = 1 - sum(pmin(colSums(CRpdf), colSums(Test))))
+                }, .Bxy = BxUS, .Ex = ExUS, .dxm = dxmUS, .dxf = dxfUS))
+
+CompES <- do.call(rbind, lapply(yearsES[-length(yearsES)], function(yr, .Bxy, .Ex, .dxm, .dxf){
+                    yrc         <- as.character(yr)
+                    yrcp1       <- as.character(yr+1)
+                    Bt          <- ExpectedDxMxFmatrix(.Bxy[[yrc]], .dxm[,yrc], .dxf[,yrc])
+                    Btp1test    <- ExpectedDxMxFmatrix(.Bxy[[yrcp1]], .dxm[,yrcp1], .dxf[,yrcp1])
+                    Exm1        <- rowSums(ExpectedDx(with(.Ex,Male[Year == yr]), .dxm[,yrc]))
+                    Exm2        <- rowSums(ExpectedDx(with(.Ex,Male[Year == (yr + 1)]), .dxm[,yrcp1]))
+                    Exf1        <- rowSums(ExpectedDx(with(.Ex,Female[Year == yr]), .dxf[,yrc]))
+                    Exf2        <- rowSums(ExpectedDx(with(.Ex,Female[Year == (yr + 1)]), .dxf[,yrcp1]))
+                    
+                    IPFpred     <- IPFpred2(Bt, Exm1 = Exm1, Exm2 = Exm2, Exf1 = Exf1, Exf2 = Exf2, marM = mean)
+                    Ratio       <- Minf0(Mna0(Bt / (outer(rowSums(Bt), colSums(Bt)) / sum(Bt))))
+                    
+                    Bpm         <- Minf0(Mna0(rowSums(Bt) / Exm1)) * Exm2
+                    Bpf         <- Minf0(Mna0(colSums(Bt) / Exf1)) * Exf2
+                    
+                    Expec       <- Minf0(Mna0(outer(Bpm,Bpf, "*") / mean(c(sum(Bpm), sum(Bpf)))))
+                    Pred        <- RatioAdj(Ratio, Expec)
+                    
+                    IPFpdf      <- IPFpred / sum(IPFpred)   # IPF predicted pdf
+                    CRpdf       <- Pred / sum(Pred)         # CR predicted pdf
+                    Test        <- Btp1test / sum(Btp1test) # pdf observed from t plus 1
+                    
+                    c(IPF = 1 - sum(pmin(IPFpdf, Test)), CR = 1 - sum(pmin(CRpdf, Test)))
+                }, .Bxy = BxES, .Ex = ExES, .dxm = dxmES, .dxf = dxfES))
+
+head(CompUS)
+plot(1969:2008, CompUS[,2] / CompUS[,1], type = 'l')
+plot(1969:2008, CompUS[,5] / CompUS[,3], type = 'l')
+lines(1969:2008, CompUS[,6] / CompUS[,4], col = 'red')
+abline(h=1)
+sum(CompUS[,5] < CompUS[,3])
+sum(CompUS[,6] < CompUS[,4])
+
+plot(1975:2008, CompES[,2] / CompES[,1], type = 'l')
+
+sum(CompES[,2] < CompES[,1])
+sum(CompUS[,2] < CompUS[,1])
+length(yearsUS)
+
+# ----------------------------------------------------------
+# 3) check competition
+
+yrc         <- as.character(yr)
+Bt          <- ExpectedDxMxFmatrix(.Bxy[[yrc]], .dxm[,yrc], .dxf[,yrc])
+Exf1        <- rowSums(ExpectedDx(with(.Ex,Female[Year == yr]), .dxf[,yrc]))
+#Exf2        <- rowSums(ExpectedDx(with(.Ex,Female[Year == yr]), .dxf[,yrcp1]))
+Exm1        <- rowSums(ExpectedDx(with(.Ex,Male[Year == yr]), .dxm[,yrc]))
+#Exm2        <- rowSums(ExpectedDx(with(.Ex,Male[Year == yr]), .dxm[,yrcp1]))
+Exm2        <- Exm1
+Exm2[31]    <- Exm2[31] * 1.5
+Exf2        <- Exf1
+Ratio       <- Minf0(Mna0(Bt / (outer(rowSums(Bt), colSums(Bt)) / sum(Bt))))
+
+Bpm         <- Minf0(Mna0(rowSums(Bt) / Exm1)) * Exm2
+Bpf         <- Minf0(Mna0(colSums(Bt) / Exf1)) * Exf2
+
+Expec       <- Minf0(Mna0(outer(Bpm,Bpf, "*") / mean(c(sum(Bpm), sum(Bpf)))))
+Pred        <- RatioAdj(Ratio, Expec)
+
+plot(0:110, rowSums(Pred), type = 'l', col = "red")
+lines(0:110, rowSums(Bt), col = "blue")
+
+plot(0:110, rowSums(Pred) / rowSums(Bt), type = 'l', ylim = c(.95,1.05))
+
+plot(0:110, colSums(Pred) / colSums(Bt), type = 'l', ylim = c(.99,1.02))
+abline(h=1)
