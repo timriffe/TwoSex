@@ -30,12 +30,6 @@ dxfES <- dxfES %col% colSums(dxfES)
 
 
 # some sensitivity tests
-#SRBi <- 1.04
-#SRBi <- 1.06
-#SRBi <- 1
-#SRBi <- 1.12
-#SRBi <- .8
-#SRBi <- 1.3
 exTwoSexLinearCoaleR <- compiler::cmpfun(function(dxm, dxf, FexFF, FexFM, FexMM, FexMF, 
                 .a = .5:110.5, sigma = .5, maxit = 2e2, tol = 1e-15){  
             N               <- length(dxm)
@@ -184,12 +178,9 @@ US <-do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxymf, .dxm, .dxf
                               Ty.0 = Ty.0, Ty.5 = Ty.5, Ty.1 = Ty.1, 
                               R0.0 = R0.0, R0.5 = R0.5, R0.1 = R0.1)
                         }, .Bxymf = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS))
-
+rownames(US) <- yearsUS
                         
                         
-dimnames(US) <- list(yearsUS, c("$r^{\\upsilon (\\sigma = 0)}$"  , "$r^{\\upsilon (\\sigma = .5)}$"  , "$r^{\\upsilon (\\sigma = 1)}$",
-        "$T^{\\upsilon (\\sigma = 0)}$"  , "$T^{\\upsilon (\\sigma = .5)}$"  , "$T^{\\upsilon (\\sigma = 1)}$",
-        "$R_0^{\\upsilon (\\sigma = 0)}$", "$R_0^{\\upsilon (\\sigma = .5)}$", "$R_0^{\\upsilon (\\sigma = 1)}$"))
 
 ES <-do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxymf, .dxm, .dxf, .Ex){
                             yri     <- as.integer(yr)
@@ -233,11 +224,18 @@ ES <-do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxymf, .dxm, .dxf
                               Ty.0 = Ty.0, Ty.5 = Ty.5, Ty.1 = Ty.1, 
                               R0.0 = R0.0, R0.5 = R0.5, R0.1 = R0.1)
                         }, .Bxymf = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES))
-
+rownames(ES) <- yearsES
+                        
+# manual block on table creation
+save.tables <- FALSE
+if (save.tables){                    
 dimnames(ES) <- list(yearsES, c("$r^{\\upsilon (\\sigma = 0)}$"  , "$r^{\\upsilon (\\sigma = .5)}$"  , "$r^{\\upsilon (\\sigma = 1)}$",
                 "$T^{\\upsilon (\\sigma = 0)}$"  , "$T^{\\upsilon (\\sigma = .5)}$"  , "$T^{\\upsilon (\\sigma = 1)}$",
                 "$R_0^{\\upsilon (\\sigma = 0)}$", "$R_0^{\\upsilon (\\sigma = .5)}$", "$R_0^{\\upsilon (\\sigma = 1)}$"))
-        
+dimnames(US) <- list(yearsUS, c("$r^{\\upsilon (\\sigma = 0)}$"  , "$r^{\\upsilon (\\sigma = .5)}$"  , "$r^{\\upsilon (\\sigma = 1)}$",
+                "$T^{\\upsilon (\\sigma = 0)}$"  , "$T^{\\upsilon (\\sigma = .5)}$"  , "$T^{\\upsilon (\\sigma = 1)}$",
+                "$R_0^{\\upsilon (\\sigma = 0)}$", "$R_0^{\\upsilon (\\sigma = .5)}$", "$R_0^{\\upsilon (\\sigma = 1)}$"))
+
 library(xtable)
 print(xtable(ES, digits = c(0,4,4,4,2,2,2,3,3,3), align = c("c","c","c","c","c","c","c","c","c","c")),
         sanitize.colnames.function = identity, 
@@ -246,9 +244,12 @@ print(xtable(ES, digits = c(0,4,4,4,2,2,2,3,3,3), align = c("c","c","c","c","c",
 print(xtable(US, digits = c(0,4,4,4,2,2,2,3,3,3), align = c("c","c","c","c","c","c","c","c","c","c")),
         sanitize.colnames.function = identity, 
         file = "/home/triffe/git/DISS/latex/xtables/ex2sexlinearUS.tex",floating=FALSE)
-
+}
 #
 
+# manual block on figure creation
+make.fig <- FALSE
+if (male.fig){
 pdf("/home/triffe/git/DISS/latex/Figures/exLotka2sexlinear.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, US[, 2], type = 'n', ylim = c(-.016,.01),xlim = c(1968,2010), axes = FALSE,
@@ -281,7 +282,7 @@ legend(1970,-.007,
                 expression(ES~sigma == .5),
                 expression(ES~sigma == 1)), xpd = TRUE)
 dev.off()
-
+}
 # TODO: change text?
 #US[,1] < US[,3]
 #ES[,1] < ES[,3]
@@ -317,6 +318,11 @@ dev.off()
 #                }, .Bxymf = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS))
 
 # ---------------------------------------------
+
+# This is a manual block on the remainder of the code here, so that the above can be source()ed
+# the below does some stable pyramids, transient analysis, etc. several Figures produced
+do.rest <- FALSE
+if (do.rest){
 
 StableStructUS.5 <- lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .dxm, .dxf, .sigma){  
                     yri     <- as.integer(yr)
@@ -443,10 +449,10 @@ StableStructES.5 <- lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .d
 #        
 
 # objects manually created from exLotka1Sex.R
-DiffCoefryUSm[,1]
-DiffCoefryUSf[,1]
-DiffCoefryESm[,1]
-DiffCoefryESf[,1]
+#DiffCoefryUSm[,1]
+#DiffCoefryUSf[,1]
+#DiffCoefryESm[,1]
+#DiffCoefryESf[,1]
 
 thetaUS <- unlist(lapply(StableStructUS.5,"[[",1))
 thetaES <- unlist(lapply(StableStructES.5,"[[",1))
@@ -643,3 +649,4 @@ wmean(.5:110.5,dxmUS[,yr])
 wmean(.5:110.5,mx2dxHMD(mxmUS[,yr]*.8))
 wmean(.5:110.5,mx2dxHMD(mxmUS[,yr]*1.2))
 
+}

@@ -42,28 +42,28 @@ HM <- compiler::cmpfun(function(x,y){
         })
 
 # residual function
-LotkaHminex <- compiler::cmpfun(function(r, dxm, dxf, FHf, FHm, SRB, M = HM, .a = .5:110.5){
-          
-            N               <- length(dxm)
-            dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
-            # remaining years go down rows. ages over columns
-            dxmi            <- dxm
-            dxfi            <- dxf
-            for (i in 1:N){
-                dxM[i, 1:length(dxmi)  ] <- dxmi 
-                dxmi                     <- dxmi[2:length(dxmi) ]
-                
-                dxF[i, 1:length(dxfi)  ] <- dxfi 
-                dxfi                     <- dxfi[2:length(dxfi) ]
-            }  
-            p.m <- SRB / (1 + SRB)
-            p.f <- 1/ (1 + SRB)
-            (1 - sum(outer(p.m * colSums(t(dxM) / exp(-r * .a)), 
-                     p.f * colSums(t(dxF) / exp(-r * .a)),
-                     M) * (FHf + FHm)))^2
-                          
-            
-        })
+#LotkaHminex <- compiler::cmpfun(function(r, dxm, dxf, FHf, FHm, SRB, M = HM, .a = .5:110.5){
+#          
+#            N               <- length(dxm)
+#            dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
+#            # remaining years go down rows. ages over columns
+#            dxmi            <- dxm
+#            dxfi            <- dxf
+#            for (i in 1:N){
+#                dxM[i, 1:length(dxmi)  ] <- dxmi 
+#                dxmi                     <- dxmi[2:length(dxmi) ]
+#                
+#                dxF[i, 1:length(dxfi)  ] <- dxfi 
+#                dxfi                     <- dxfi[2:length(dxfi) ]
+#            }  
+#            p.m <- SRB / (1 + SRB)
+#            p.f <- 1/ (1 + SRB)
+#            (1 - sum(outer(p.m * colSums(t(dxM) / exp(-r * .a)), 
+#                     p.f * colSums(t(dxF) / exp(-r * .a)),
+#                     M) * (FHf + FHm)))^2
+#                          
+#            
+#        })
 #yr  <- "1990"
 #dxm <- dxmUS[, yr]
 #dxf <- dxfUS[, yr]
@@ -172,11 +172,12 @@ rownames(rEShm) <- yearsES
 
 
 
-plot(yearsUS, rUS[,1], type = 'l',ylim = c(-.015,.01))
-lines(yearsES, rES[,1], col = "red")
+#plot(yearsUS, rUS[,1], type = 'l',ylim = c(-.015,.01))
+#lines(yearsES, rES[,1], col = "red")
 
 # lez get some stable ey structure:
-
+do.cy <- FALSE
+if (do.cy){
 exMstableex <- function(r, SRB, dxm, dxf, M = HM, .a = .5:110.5){
     p.m <- SRB / (1 + SRB)
     p.f <- 1 / (1 + SRB)
@@ -216,8 +217,8 @@ cyEShm <- do.call(rbind,lapply(as.character(yearsES), function(yr, rSRB, .dxm, .
                                     dxf = .dxf[,yr],
                                     M = .M))
                 },rSRB = rEShm, .dxm = dxmES, .dxf = dxfES, .M = HM))
-dim(cyEShm)
-head(cyUShm)
+#dim(cyEShm)
+#head(cyUShm)
 #library(Pyramid)
 #for (yr in yearsUS){
 #    Pyramid(males = cyUShm[cyUShm[,"Year"] == yr,"cym"], 
@@ -229,11 +230,13 @@ head(cyUShm)
 #            females = cyEShm[cyEShm[,"Year"] == yr,"cyf"], xlim = c(-1,1), main = yr, widths = rep(1,111))
 #    Sys.sleep(1)
 #}
-
+}
 # --------------------------------------------------
 # judge stable ESFR vs original ESFR:
 # 1975 and 2009, US and ES:
 
+do.esfr.fig <- FALSE
+if (do.esfr.fig){
 USesfr <- do.call(rbind,lapply(as.character(yearsUS), function(yr, rSRB, .Bxy, .dxm, .dxf, .Ex, .M, .a = .5:110.5){
 
                     dxm <- .dxm[,yr]
@@ -402,12 +405,13 @@ lines(y, ESFRus2009[,"ESFRf"], lwd = 1.5, col = gray(.3), lty = 5)
 legend(58,.1, lty = c(1,5,1,5), col = gray(c(.2,.15,.5,.3)), lwd = c(1.5,1,2,1.5),bty = "n",
         legend = c("stable males", "initial males", "stable females", "initial females"), xpd = TRUE, cex = .7)
 dev.off()
+}
 
-
-###############################################
+# --------------------------------------------------
 # competition test:
 # 1975
-
+run.comp.code <- FALSE
+if (run.comp.code){
 yr  <- "1990"
 dxm <- dxmUS[, yr]
 dxf <- dxfUS[, yr]
@@ -449,3 +453,4 @@ Fxplit1 <- Fxm1 * (ExM1.2 / rowSums(ExM1.2))
 Fxplit2 <- Fxm2 * (ExM2.2 / rowSums(ExM2.2))
 
 fields::image.plot(Fxplit1-Fxplit2, zlim = c(-.0005,.0005))
+}

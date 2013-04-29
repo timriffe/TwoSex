@@ -1,0 +1,49 @@
+\FloatBarrier
+
+We have applied the iterative $r$ (and SRB) estimation procedure as outlined in
+Section~\ref{sec:rexIPFfindr} to produce estimates of the intrinsic growth rate,
+$r$ for each year of the US and Spanish data. The IPF method only produces a
+single estimate of $r$, and there is little room for the demographer to force
+results in one direction or another, as was the case for the dominance-weighted
+two-sex solution from Section~\ref{sec:ex2sexdomweights}. One may
+arbitrarily choose which global mean to use at the outset for the IPF procedure,
+but this will not move the $r$ estimate by much in practical situations. We
+compared the artithmetic and harmonic means, and only found differences when $r$
+was very close to zero, in which case precision may have been more of an issue
+than differences per se. We judge that the choice ought not be given too much
+weight. Results presented in following used the harmonic mean for IPF. This is
+not to be confused with rate balancing by using a single joint fertility rate
+and the harmonic mean of male and female exposures.
+
+Figure~\ref{fig:exIPFr} displays the trend in the intrinsic growth rate for
+the US and Spanish popualtions as compared with the single-sex (sex-dominant)
+growth rates. One sees that results are consistent and believable, but very
+difficult to differentiate from those of the dominance-weighted $r$ from
+Section~\ref{sec:ex2sexdomweights} or the generalized means (harmonic, say) of
+Section~\ref{sec:ex2sexschoen}. $r$ is not the only result of interest, and so
+it is more informative to compare on the basis of other results, such as the
+intrinsic $e$SFR, which changes from the initial to stable states, both for the present model and
+for the case of generalized means, or other properties, such as competition and
+substitutability.
+
+ \begin{figure}[ht!]
+        \centering  
+          \caption{Two-sex $r$ calculated using IPF for remaining-years
+          classified data, compared with $r^m$ and $r^f$. US, 1969-2009 and
+          Spain, 1975-2009.}
+           % figure produced in /R/IPFex.R
+           \includegraphics{Figures/exIPFr}
+          \label{fig:exIPFr}
+\end{figure}
+
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Male and female initial and stable $e$SFR. US and
+          Spain, 1975 and 2009.}
+           % figure produced in /R/IPFex.R
+           \includegraphics{Figures/eSFRIPF}
+          \label{fig:eSFRIPF}
+\end{figure}
+
+\FloatBarrier

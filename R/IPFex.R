@@ -158,8 +158,245 @@ rES <- do.call(rbind, lapply(as.character(yearsES), function(yr, .Bxymf, .Ex, .d
                             dxm = .dxm[,yr], dxf =  .dxf[,yr], M = .M)
                 },.Bxymf = BxymfES, .Ex = ExES, .dxm = dxmES, .dxf = dxfES, .M = mean))
 
+rownames(rUS) <- yearsUS
+rownames(rES) <- yearsES
 
-plot(yearsES, rES[,1], col = "red", type = 'l', xlim = range(yearsUS))
-lines(yearsUS, rUS[,1], col = "blue")
-        abline(h=0)
-        
+rUSipfhm <- do.call(rbind, lapply(as.character(yearsUS), function(yr, .Bxymf, .Ex, .dxm, .dxf, .M){
+                    
+                    Bxym <- ExpectedDxMxFmatrix(.Bxymf[[yr]][["Bxym"]], .dxm[,yr], .dxf[,yr])
+                    Bxyf <- ExpectedDxMxFmatrix(.Bxymf[[yr]][["Bxyf"]], .dxm[,yr], .dxf[,yr])
+                    Exm  <- rowSums(ExpectedDx(with(.Ex,Male[Year == as.integer(yr)]), .dxm[,yr]))
+                    Exf  <- rowSums(ExpectedDx(with(.Ex,Female[Year == as.integer(yr)]), .dxf[,yr]))
+                    rexIPFit(Bxym = Bxym, Bxyf = Bxyf, 
+                            Exm = Exm, Exf = Exf, 
+                            dxm = .dxm[,yr], dxf =  .dxf[,yr], M = .M)
+                },.Bxymf = BxymfUS, .Ex = ExUS, .dxm = dxmUS, .dxf = dxfUS, .M = harmonic.mean))
+rESipfhm <- do.call(rbind, lapply(as.character(yearsES), function(yr, .Bxymf, .Ex, .dxm, .dxf, .M){
+                    
+                    Bxym <- ExpectedDxMxFmatrix(.Bxymf[[yr]][["Bxym"]], .dxm[,yr], .dxf[,yr])
+                    Bxyf <- ExpectedDxMxFmatrix(.Bxymf[[yr]][["Bxyf"]], .dxm[,yr], .dxf[,yr])
+                    Exm  <- rowSums(ExpectedDx(with(.Ex,Male[Year == as.integer(yr)]), .dxm[,yr]))
+                    Exf  <- rowSums(ExpectedDx(with(.Ex,Female[Year == as.integer(yr)]), .dxf[,yr]))
+                    rexIPFit(Bxym = Bxym, Bxyf = Bxyf, 
+                            Exm = Exm, Exf = Exf, 
+                            dxm = .dxm[,yr], dxf =  .dxf[,yr], M = .M)
+                },.Bxymf = BxymfES, .Ex = ExES, .dxm = dxmES, .dxf = dxfES, .M = harmonic.mean))
+rownames(rUSipfhm) <- yearsUS
+rownames(rESipfhm) <- yearsES
+#plot((rUSipfhm[,1] - rUS[,1]) / ((rUSipfhm[,1] + rUS[,1])/2),type = 'l')
+#plot(rUSipfhm[,1])
+#lines(rUS[,1])
+# this will take a minute:
+# source("/home/triffe/git/DISS/R/ExLotka2SexLinear.R") # upper and lower bounds are dominance weighted 0 and 1,
+# which are identical to the single-sex r estimates.
+# produce the dominance weighted r estimates for comparison.
+
+# in order, 0, .5, 1 for sigmas
+#plot(rUS[, 1] / US[, 2] )
+#plot(US[,3] - rmUS[,1]) # rmUS came from exLotka1Sex.R
+
+make.fig <- FALSE
+if (make.fig){
+pdf("/home/triffe/git/DISS/latex/Figures/exIPFr.pdf")
+par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+plot(yearsUS, rUSipfhm[, 1], type = 'n', ylim = c(-.016,.01),xlim = c(1968,2010), axes = FALSE,
+        xlab = "", ylab = "",
+        panel.first = list(rect(1968,-.016,2010,.01,col = gray(.95), border=NA),
+                abline(h = seq(-.016,.01,by = .002), col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(-.016,.01,by = .002),seq(-.016,.01,by = .002), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10),-.016, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, -.0175, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1966,.0115, "r", cex = 1, xpd = TRUE)))
+polygon(c(yearsUS, rev(yearsUS)), c(US[, 1], rev(US[, 3])), col = "#99999950", border = NA)
+lines(yearsUS, US[, 3],col = gray(.2), lwd = 1, lty = 5)
+lines(yearsUS, US[, 1],col = gray(.2), lwd = 1, lty = 5)
+lines(yearsUS, rUSipfhm[, 1],col = gray(.2), lwd = 2)
+
+polygon(c(yearsES, rev(yearsES)), c(ES[, 1], rev(ES[, 3])), col = "#99999950", border = NA)
+lines(yearsES, ES[, 3],col = gray(.2), lwd = 1, lty = 5)
+lines(yearsES, ES[, 1],col = gray(.2), lwd = 1, lty = 5)
+lines(yearsES, rESipfhm[, 1],col = gray(.2), lwd = 2, lty = 1)
+
+text(c(1995, 1992.372, 1995, 1988, 1983.303, 1988),
+        c(0.0038379231,  0.0001698981,  0.0018907000, -0.0039962537, -0.0069850148,-0.0059887611),
+        c(expression(r^m~US),expression(r^f~US),expression(r^IPF~US),expression(r^m~ES),
+        expression(r^f~ES),expression(r^IPF~ES)), pos = c(4,1,4,4,1,4))
+segments(c(1995.5,1995.349,1989,1988.564,1993.064,1983.787),
+        c(0.0037473546,0.0017095629,-0.0041321065,-0.0061698981,-0.0001018074,-0.0073020046),
+        c(1992.926,1994.588,1985.934,1986.764,1994.103,1985.034),
+        c( 0.0026152481,0.0009397305,-0.0051736444,-0.0072114361,0.0006227407,-0.0067585935))
+dev.off()
+
+}
+
+# ESFR stable:
+do.esfr.ipf <- FALSE
+if (do.esfr.ipf){
+rUSesfr <- do.call(rbind, lapply(as.character(yearsUS), function(yr, .Bxymf, .Ex, .dxm, .dxf, .rSRB, .M, .a = .5:110.5){
+                    # stable pop parameters
+                    r               <- .rSRB[yr, 1]
+                    SRB             <- .rSRB[yr, 2]
+                    p.m             <- SRB / (1 + SRB)
+                    p.f             <- 1 / (1 + SRB)
+                    
+                    dxm             <- .dxm[,yr]
+                    dxf             <- .dxf[,yr]
+                    N               <- length(dxm)
+                    dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
+                    # remaining years go down rows. ages over columns
+                    dxmi            <- dxm
+                    dxfi            <- dxf
+                    for (i in 1:N){
+                        dxM[i, 1:length(dxmi)  ] <- dxmi 
+                        dxmi                     <- dxmi[2:length(dxmi) ]
+                        
+                        dxF[i, 1:length(dxfi)  ] <- dxfi 
+                        dxfi                     <- dxfi[2:length(dxfi) ]
+                    } 
+                    # stable pops (not scaled to sum to 1)
+                    Exm2 <- p.m * colSums(t(dxM) * exp(-r*.a))
+                    Exf2 <- p.f * colSums(t(dxF) * exp(-r*.a))
+   
+                    #
+                    Bxy    <- ExpectedDxMxFmatrix(.Bxymf[[yr]][["Bxym"]]+.Bxymf[[yr]][["Bxyf"]], .dxm[,yr], .dxf[,yr])
+                  
+                    Exm     <- rowSums(ExpectedDx(with(.Ex,Male[Year == as.integer(yr)]), .dxm[,yr]))
+                    Exf     <- rowSums(ExpectedDx(with(.Ex,Female[Year == as.integer(yr)]), .dxf[,yr]))
+                    
+                    Fxm    <- Minf0(Mna0(rowSums(Bxy) / Exm))
+                    Fxf    <- Minf0(Mna0(colSums(Bxy) / Exf))
+                    esfrs <- IPFpred(Bxy = Bxy, 
+                            Exm1 = Exm, Exm2 = Exm2, Exf1 = Exf, Exf2 = Exf2, marM = .M)
+                    cbind(Year = as.integer(yr), Mst = esfrs$FxmPred, Fst = esfrs$FxfPred, Minit = Fxm, Finit = Fxf)
+                },.Bxymf = BxymfUS, .Ex = ExUS, .dxm = dxmUS, .dxf = dxfUS, .rSRB = rUSipfhm,.M = mean))
+rESesfr <- do.call(rbind, lapply(as.character(yearsES), function(yr, .Bxymf, .Ex, .dxm, .dxf, .rSRB, .M, .a = .5:110.5){
+                    # stable pop parameters
+                    r               <- .rSRB[yr, 1]
+                    SRB             <- .rSRB[yr, 2]
+                    p.m             <- SRB / (1 + SRB)
+                    p.f             <- 1 / (1 + SRB)
+                    
+                    dxm             <- .dxm[,yr]
+                    dxf             <- .dxf[,yr]
+                    N               <- length(dxm)
+                    dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
+                    # remaining years go down rows. ages over columns
+                    dxmi            <- dxm
+                    dxfi            <- dxf
+                    for (i in 1:N){
+                        dxM[i, 1:length(dxmi)  ] <- dxmi 
+                        dxmi                     <- dxmi[2:length(dxmi) ]
+                        
+                        dxF[i, 1:length(dxfi)  ] <- dxfi 
+                        dxfi                     <- dxfi[2:length(dxfi) ]
+                    } 
+                    # stable pops (not scaled to sum to 1)
+                    Exm2 <- p.m * colSums(t(dxM) * exp(-r*.a))
+                    Exf2 <- p.f * colSums(t(dxF) * exp(-r*.a))
+                    
+                    #
+                    Bxy    <- ExpectedDxMxFmatrix(.Bxymf[[yr]][["Bxym"]]+.Bxymf[[yr]][["Bxyf"]], .dxm[,yr], .dxf[,yr])
+           
+                    Exm     <- rowSums(ExpectedDx(with(.Ex,Male[Year == as.integer(yr)]), .dxm[,yr]))
+                    Exf     <- rowSums(ExpectedDx(with(.Ex,Female[Year == as.integer(yr)]), .dxf[,yr]))
+                    
+                    Fxm    <- Minf0(Mna0(rowSums(Bxy) / Exm))
+                    Fxf    <- Minf0(Mna0(colSums(Bxy) / Exf))
+                    
+                    esfrs <- IPFpred(Bxy = Bxy, 
+                            Exm1 = Exm, Exm2 = Exm2, Exf1 = Exf, Exf2 = Exf2, marM = .M)
+                    cbind(Year = as.integer(yr), Mst = esfrs$FxmPred, Fst = esfrs$FxfPred, Minit = Fxm, Finit = Fxf)
+                },.Bxymf = BxymfES, .Ex = ExES, .dxm = dxmES, .dxf = dxfES, .rSRB = rESipfhm,.M = mean))
+
+#y <- 0:110
+#yr <- 1975
+#
+#for (yr in yearsUS){
+#
+#USyr <- rUSesfr[rUSesfr[,1]==yr, ]
+#plot(y, USyr[, 2], type = 'l', ylim = c(0,.1), col = "blue")
+#lines(y, USyr[, 3], col = "red")
+#lines(y, USyr[, 4], col = "blue", lty = 2)
+#lines(y, USyr[, 5], col = "red", lty = 2)
+##locator(1) manual forward click
+#}
+
+USFRus1975 <- rUSesfr[rUSesfr[,1]==1975, ]
+ESFRus1975 <- rESesfr[rESesfr[,1]==1975, ]
+y <- 0:110
+pdf("/home/triffe/git/DISS/latex/Figures/eSFRIPF.pdf", height = 5, width = 5)
+par(mai = c(.3, .3, .3, .1), xaxs = "i", yaxs = "i", mfrow = c(2,2))
+plot(y, USFRus1975[,"Mst"], type = 'l', ylim = c(0, .1), xlim = c(0,111), axes = FALSE,
+        col = gray(.2), lwd = 1.5, xlab = "", ylab = "", main = "US, 1975",
+        panel.first = list(rect(0,0,111,0.1,col = gray(.95), border=NA),
+                abline(h = seq(0,.1,by = .01), col = "white"),
+                abline(v = seq(0, 110, by = 10), col = "white"),
+                text(seq(0, 110, by = 10), 0,seq(0, 110, by = 10), pos = 1, cex = .7, xpd = TRUE),
+                text(0,seq(0, .1, by = .01), seq(0, .1, by = .01), pos = 2, cex = .7, xpd = TRUE),
+                text(55, -.007, expression(e[y]), cex = .8, pos = 1, xpd = TRUE),
+                text(-19,.11, "Fertility Rate", cex = .8, xpd = TRUE, pos = 4)))
+lines(y, USFRus1975[,"Minit"], lwd = 1, col = gray(.15), lty = 5)
+lines(y, USFRus1975[,"Fst"], lwd = 2, col = gray(.5), lty = 1)
+lines(y, USFRus1975[,"Finit"], lwd = 1.5, col = gray(.3), lty = 5)
+legend(58,.1, lty = c(1,5,1,5), col = gray(c(.2,.15,.5,.3)), lwd = c(1.5,1,2,1.5),bty = "n",
+        legend = c("stable males", "initial males", "stable females", "initial females"), xpd = TRUE, cex = .7)
+#dev.off()
+
+par(mai = c(.3, .3, .3, .1), xaxs = "i", yaxs = "i")
+plot(y, ESFRus1975[,"Mst"], type = 'l', ylim = c(0, .1), xlim = c(0,111), axes = FALSE,
+        col = gray(.2), lwd = 1.5, xlab = "", ylab = "", main = "Spain, 1975",
+        panel.first = list(rect(0,0,111,0.1,col = gray(.95), border=NA),
+                abline(h = seq(0,.1,by = .01), col = "white"),
+                abline(v = seq(0, 110, by = 10), col = "white"),
+                text(seq(0, 110, by = 10), 0,seq(0, 110, by = 10), pos = 1, cex = .7, xpd = TRUE),
+                text(0,seq(0, .1, by = .01), seq(0, .1, by = .01), pos = 2, cex = .7, xpd = TRUE),
+                text(55, -.007, expression(e[y]), cex = .8, pos = 1, xpd = TRUE),
+                text(-19,.11, "Fertility Rate", cex = .8, xpd = TRUE, pos = 4)))
+lines(y, ESFRus1975[,"Minit"], lwd = 1, col = gray(.15), lty = 5)
+lines(y, ESFRus1975[,"Fst"], lwd = 2, col = gray(.5), lty = 1)
+lines(y, ESFRus1975[,"Finit"], lwd = 1.5, col = gray(.3), lty = 5)
+legend(58,.1, lty = c(1,5,1,5), col = gray(c(.2,.15,.5,.3)), lwd = c(1.5,1,2,1.5),bty = "n",
+        legend = c("stable males", "initial males", "stable females", "initial females"), xpd = TRUE, cex = .7)
+
+# 2009
+USFRus2009 <- rUSesfr[rUSesfr[,1] == 2009,]
+ESFRus2009 <- rESesfr[rESesfr[,1] == 2009,]
+par(mai = c(.3, .3, .3, .1), xaxs = "i", yaxs = "i")
+plot(y, USFRus2009[,"Mst"], type = 'l', ylim = c(0, .1), xlim = c(0,111), axes = FALSE,
+        col = gray(.2), lwd = 1.5, xlab = "", ylab = "", main = "US, 2009",
+        panel.first = list(rect(0,0,111,0.1,col = gray(.95), border=NA),
+                abline(h = seq(0,.1,by = .01), col = "white"),
+                abline(v = seq(0, 110, by = 10), col = "white"),
+                text(seq(0, 110, by = 10), 0,seq(0, 110, by = 10), pos = 1, cex = .7, xpd = TRUE),
+                text(0,seq(0, .1, by = .01), seq(0, .1, by = .01), pos = 2, cex = .7, xpd = TRUE),
+                text(55, -.007, expression(e[y]), cex = .8, pos = 1, xpd = TRUE),
+                text(-19,.11, "Fertility Rate", cex = .8, xpd = TRUE, pos = 4)))
+lines(y, USFRus2009[,"Minit"], lwd = 1, col = gray(.15), lty = 5)
+lines(y, USFRus2009[,"Fst"], lwd = 2, col = gray(.5), lty = 1)
+lines(y, USFRus2009[,"Finit"], lwd = 1.5, col = gray(.3), lty = 5)
+legend(58,.1, lty = c(1,5,1,5), col = gray(c(.2,.15,.5,.3)), lwd = c(1.5,1,2,1.5),bty = "n",
+        legend = c("stable males", "initial males", "stable females", "initial females"), xpd = TRUE, cex = .7)
+#dev.off()
+
+par(mai = c(.3, .3, .3, .1), xaxs = "i", yaxs = "i")
+plot(y, ESFRus2009[,"Mst"], type = 'l', ylim = c(0, .1), xlim = c(0,111), axes = FALSE,
+        col = gray(.2), lwd = 1.5, xlab = "", ylab = "", main = "Spain, 2009",
+        panel.first = list(rect(0,0,111,0.1,col = gray(.95), border=NA),
+                abline(h = seq(0,.1,by = .01), col = "white"),
+                abline(v = seq(0, 110, by = 10), col = "white"),
+                text(seq(0, 110, by = 10), 0,seq(0, 110, by = 10), pos = 1, cex = .7, xpd = TRUE),
+                text(0,seq(0, .1, by = .01), seq(0, .1, by = .01), pos = 2, cex = .7, xpd = TRUE),
+                text(55, -.007, expression(e[y]), cex = .8, pos = 1, xpd = TRUE),
+                text(-19,.11, "Fertility Rate", cex = .8, xpd = TRUE, pos = 4)))
+lines(y, ESFRus2009[,"Minit"], lwd = 1, col = gray(.15), lty = 5)
+lines(y, ESFRus2009[,"Fst"], lwd = 2, col = gray(.5), lty = 1)
+lines(y, ESFRus2009[,"Finit"], lwd = 1.5, col = gray(.3), lty = 5)
+legend(58,.1, lty = c(1,5,1,5), col = gray(c(.2,.15,.5,.3)), lwd = c(1.5,1,2,1.5),bty = "n",
+        legend = c("stable males", "initial males", "stable females", "initial females"), xpd = TRUE, cex = .7)
+dev.off()
+
+
+}
+
+
