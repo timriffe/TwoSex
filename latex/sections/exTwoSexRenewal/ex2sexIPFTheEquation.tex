@@ -40,22 +40,24 @@ B(t) = \int _{y=0}^\infty \int _{y'=0}^\infty IPF\Bigg(\tau\;,\;
  y'
 \end{split}
 \end{equation}
-
-which reduces to our unity equation:
-\begin{equation}
+which reduces to our Lotka-type unity equation:
+\begin{align}
 \label{eq:ex2sexIPFunity3}
-\begin{split}
-1 = \int _{y=0}^\infty \int _{y'=0}^\infty IPF\Bigg(\tau\;,\;
- \int_{a=0}^\infty \varsigma e^{-ra}d_{a+y} \dd a\;, \\ 
- \int_{a'=0}^\infty (1-\varsigma) e^{-ra'}d_{a'+y'} \dd a'\Bigg) \dd y \dd
- y'
-\end{split}
-\end{equation}
-
-
-
-
-
+1 &= \int _{y=0}^\infty F_{y}^{M\ast} \int_{a=0}^\infty \varsigma e^{-ra}d_{a+y}
+\dd a \dd y \\ 
+&= \int _{y'=0}^\infty F_{y'}^{F\ast} \int_{a'=0}^\infty
+(1-\varsigma) e^{-ra'}d_{a'+y'} \dd a' \dd y'
+\end{align}
+where
+\begin{align}
+B_{y,y'}^\ast &= IPF\Bigg(\tau\;,\;
+ \int_{a=0}^\infty \varsigma e^{-ra}d_{a+y} \dd a\;,\;
+ \int_{a'=0}^\infty (1-\varsigma) e^{-ra'}d_{a'+y'} \dd a'\Bigg) \\
+F_{y}^{M\ast} &= \frac{\int_{0=y'}^\infty B_{y,y'}^\ast \dd
+y}{\int_{a=0}^\infty\varsigma e^{-ra}d_{a+y} \dd a} \\
+F_{y'}^{F\ast} &= \frac{\int_{0=y}^\infty B_{y,y'}^\ast \dd
+y}{\int_{a'=0}^\infty (1-\varsigma) e^{-ra'}d_{a'+y'} \dd a'} 
+\end{align}
 
 
 
