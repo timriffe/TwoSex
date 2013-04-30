@@ -3,28 +3,41 @@
 We have applied the iterative $r$ (and SRB) estimation procedure as outlined in
 Section~\ref{sec:rexIPFfindr} to produce estimates of the intrinsic growth rate,
 $r$ for each year of the US and Spanish data. The IPF method only produces a
-single estimate of $r$, and there is little room for the demographer to force
-results in one direction or another, as was the case for the dominance-weighted
-two-sex solution from Section~\ref{sec:ex2sexdomweights}. One may
-arbitrarily choose which global mean to use at the outset for the IPF procedure,
-but this will not move the $r$ estimate by much in practical situations. We
-compared the artithmetic and harmonic means, and only found differences when $r$
-was very close to zero, in which case precision may have been more of an issue
-than differences per se. We judge that the choice ought not be given too much
-weight. Results presented in following used the harmonic mean for IPF. This is
-not to be confused with rate balancing by using a single joint fertility rate
-and the harmonic mean of male and female exposures.
+single estimate of $r$, and there is less room for the demographer to influence
+results in one direction or another than there is for the case for the
+dominance-weighted two-sex solution from Chapter~\ref{sec:ex2sexdomweights}. One may
+arbitrarily choose which global mean to use at the outset for the IPF
+procedure\footnote{i.e. one may choose the mean to use in order to make the male
+and female margins sum properly prior to initiating the iterative adjustment.},
+but this will not move the $r$ estimate by much \textit{unless} $r$ is in
+general far from 0 and the sex-gap in $r$ is large. This is not to be confused
+with rate balancing by using a single joint fertility rate and the harmonic 
+mean of male and female exposures.
 
-Figure~\ref{fig:exIPFr} displays the trend in the intrinsic growth rate for
-the US and Spanish popualtions as compared with the single-sex (sex-dominant)
-growth rates. One sees that results are consistent and believable, but very
-difficult to differentiate from those of the dominance-weighted $r$ from
-Section~\ref{sec:ex2sexdomweights} or the generalized means (harmonic, say) of
-Section~\ref{sec:ex2sexschoen}. $r$ is not the only result of interest, and so
-it is more informative to compare on the basis of other results, such as the
-intrinsic $e$SFR, which changes from the initial to stable states, both for the present model and
-for the case of generalized means, or other properties, such as competition and
-substitutability.
+Figure~\ref{fig:exIPFr} displays the trend in the arithmetic and harmonic
+IPF-estimated intrinsic growth rates for the US and Spanish populations as compared with the single-sex
+(sex-dominant) growth rates. Results are in general consistent and
+believable. For the US population for these data it makes essentially no
+difference whether one were to choose the arithmetic or harmonic means at the
+initial marginal adjustment in the IPF prodedure\footnote{Both the arithmetic
+and harmonic series are plotted, but there is no point in differentiating the
+label as they are essentially superimposed.}, but for the Spanish population the
+choice entails a considerable difference in results. The arithmetic
+adjustment yields results very close to the dominance-weighted two-sex $r$ with
+$\sigma = 0.5$ from Chapter~\ref{sec:ex2sexdomweights} (comparison not shown),
+but the harmonic rate behaves rather differently. During the mid-late 1990s the
+harmonic IPF $r$ was not bracketted by the single-sex $r$ values (which we
+need not demand of it). If one needed to then decide between the arithmetic and
+harmonic means (or others) for the initial IPF marginal adjustment, it is
+advised to base the decision on properties of the mean, in which case the
+harmonic mean is preferable because it respects availability, homogeneity and
+monotonicity. To be clear, the choice between means for the IPF marginal
+adjustment is distinct from the choice of means for the method presented in
+Chapter~\ref{sec:ex2sexschoen}. In Chapter~\ref{sec:ex2sexschoen} mean functions
+were used for exposures of each $y,y'$ combination, whereas in the IPF model the
+mean is applied globally and then birth matrix counts are \textit{shaken up}
+until both margins match, which usually requires minimal \textit{shifting about}
+of birth counts.
 
  \begin{figure}[ht!]
         \centering  
@@ -36,6 +49,21 @@ substitutability.
           \label{fig:exIPFr}
 \end{figure}
 
+Still $r$ is not the only result of interest, and model differences in $r$
+estimates are not so large as to be able to judge model preferability. It
+is more informative to compare on the basis of other results, such as 
+the intrinsic $e$SFR, which changes from the initial to stable states, both for the present model and
+for the case of generalized means, or on other properties, such as competition
+and substitutability. Figure~\ref{fig:eSFRIPF} shows initial versus stable
+fertility rates from the IPF method\footnote{Rates calculated with $r$
+and $SRB$ from IPF method using initial harmonic mean marginal adjustment.}
+specific to remaining years of life for males and females in two different years. 
+For several years of the US data, there was virtually no difference between initial 
+and stable rates (more so even than 2009 from Figure~\ref{fig:eSFRIPF}). For
+the Spanish population, differences tended to be much larger, except for 1980
+where the size of the initial-stable gap is similar to US 2009 (not shown). As
+one may expect, differences between initial and stable rates are driven entirely 
+by changes in the proportions male and female in population structure. 
 
 \begin{figure}[ht!]
         \centering  
@@ -45,5 +73,54 @@ substitutability.
            \includegraphics{Figures/eSFRIPF}
           \label{fig:eSFRIPF}
 \end{figure}
+
+That there are differences between initial and stable $e$SFR on average implies
+a difference between initial and stable $e_y$-total fertility rates, $e$TFR.
+Figure~\ref{fig:exIPFTFRdiff} displays this TFR difference (stable minus
+initial $e$TFR) for each year of data, and it is informative to see that 1)
+male and female $e$TFR differences roughly (not exactly) mirror each other and
+2) the female trend in this difference (or minus the male trend) follows the
+overall pattern of development in $r$ for both countries. This is quite
+different from the same exercise displayed in Figure~\ref{fig:eSFRharmonic} for
+the harmonic mean stable population.
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Difference between stable and initial $e$TFR, males and
+          females (IPF method). US, 1969-2009 and Spain,
+          1975-2009.}
+           % figure produced in /R/IPFex.R
+           \includegraphics{Figures/exIPFTFRdiff}
+          \label{fig:exIPFTFRdiff}
+\end{figure}
+
+The first observation
+is to be expected for the present method, and will owe in the first place to the
+harmonic-mean initial adjustment of the marginal male and female birth
+predictions. Beyond the initial rescaling, further (but smaller) differences may
+accrue from the iterative procedure itself, but these are reflected more in
+differences in the distribution than in levels. Of course, male and female rates
+in the IPF method adjust in opposite directions. 
+
+The second observation owes
+in part to the changes in stable population structure due to changes in the sex
+ratio at birth and stable growth parameter. When $r$ moves down, the pyramid
+becomes relatively bottom-heavy, but more so for males than females, and so the
+sex ratio between 40 and 60 remaining years shifts toward females, which means
+that stable TFR for females must drop in order balance with males (for whom the
+movement goes in just the opposite direction.). Further, decreases in SRB-- due
+either to real changes in propensity, but primarily due to movement in rates
+along the $e_y$-pattern to SRB-- imply increases in male rates. Note that the
+dominance-weighted method also entails differences in fertility rates
+between initial and stable states, but these are less worth exploring, as there
+is no age-interaction or even proper male-female interaction, and these
+differences may be primarily attributed to the domince parameter, $\sigma$,
+which entails constant rescaling.
+
+Further worth mentioning for the IPF model are differences between the initial
+and stable distributions. This is notable because 1) the dominance-weighted
+model has no such property and 2) these differences behave
+
+
 
 \FloatBarrier

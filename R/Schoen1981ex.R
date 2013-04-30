@@ -326,13 +326,51 @@ ESesfr <- do.call(rbind,lapply(as.character(yearsES), function(yr, rSRB, .Bxy, .
                     cbind(Year = as.integer(yr), ESFRstm = ESFRstm, ESFRm=ESFRm, ESFRstf = ESFRstf, ESFRf=ESFRf)
                 }, .Bxy = BxymfES, rSRB = rEShm, .dxm = dxmES, .dxf = dxfES, .Ex = ExES, .M = HM))
 
+UScomphm <- do.call(rbind, lapply(yearsUS, function(yr, .esfr){
+                    thisyr <- .esfr[.esfr[,1] == yr, 2:5]
+                    TFRs <- colSums(thisyr)
+                    mdiffcoef <- 1 - sum(pmin(thisyr[,1] / sum(thisyr[,1]), thisyr[,2] / sum(thisyr[,2])))
+                    fdiffcoef <- 1 - sum(pmin(thisyr[,3] / sum(thisyr[,3]), thisyr[,4] / sum(thisyr[,4])))
+                    c(TFRs,mdiffcoef=mdiffcoef,fdiffcoef=fdiffcoef)
+                },.esfr = USesfr)) 
+EScomphm <- do.call(rbind, lapply(yearsES, function(yr, .esfr){
+                    thisyr <- .esfr[.esfr[,1] == yr, 2:5]
+                    TFRs <- colSums(thisyr)
+                    mdiffcoef <- 1 - sum(pmin(thisyr[,1] / sum(thisyr[,1]), thisyr[,2] / sum(thisyr[,2])))
+                    fdiffcoef <- 1 - sum(pmin(thisyr[,3] / sum(thisyr[,3]), thisyr[,4] / sum(thisyr[,4])))
+                    c(TFRs,mdiffcoef=mdiffcoef,fdiffcoef=fdiffcoef)
+                },.esfr = ESesfr)) 
+# 1)
+# plot difference between stable and initial eTFR:
+pdf("/home/triffe/git/DISS/latex/Figures/eTFRharmonic.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
+plot(yearsUS, UScomphm[,1] - UScomphm[,2], type = 'l', ylim = c(-.1, .1), xlim = c(1968,2010), axes = FALSE,
+        col = gray(.2), lwd = 2, xlab = "", ylab = "",
+        panel.first = list(rect(1968, -.1, 2010, .1,col = gray(.95), border=NA),
+                abline(h = seq(-.1, .1, by = .025), col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(-.1, .1, by = .05),round(seq(-.1, .1, by = .05),2), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10), -.1, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, -.11, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1967, .11, "TFR diff", cex = 1, xpd = TRUE)))
+lines(yearsUS,UScomphm[,3] - UScomphm[,4], col = gray(.5), lwd = 2)
+lines(yearsES,EScomphm[,1] - EScomphm[,2],col = gray(.2), lty = 5)
+lines(yearsES,EScomphm[,3] - EScomphm[,4], col = gray(.5), lwd = 2,lty = 5)
+
+text(c(1990.918, 1991.334, 1990.849, 1991.057), 
+        c(-0.02716403,  0.02811804, -0.08514278,  0.08137760),
+        c("US males","US females","ES males","ES females"),pos = 4)
+dev.off()
+
+
+
 
 y <- 0:110
 #plot(y, USesfr[USesfr[,1] == yr,2], type = 'l',col = "blue")
 #lines(y, USesfr[USesfr[,1] == yr,3], col = "royalblue", lty =2)
 #lines(y, USesfr[USesfr[,1] == yr,4], col = "red")
 #lines(y, USesfr[USesfr[,1] == yr,5], col = "tomato", lty=2)
-head(USFRus1975)
+
 USFRus1975 <- USesfr[USesfr[,1] == 1975,]
 ESFRus1975 <- ESesfr[ESesfr[,1] == 1975,]
 pdf("/home/triffe/git/DISS/latex/Figures/eSFRharmonic.pdf", height = 5, width = 5)
@@ -405,6 +443,8 @@ lines(y, ESFRus2009[,"ESFRf"], lwd = 1.5, col = gray(.3), lty = 5)
 legend(58,.1, lty = c(1,5,1,5), col = gray(c(.2,.15,.5,.3)), lwd = c(1.5,1,2,1.5),bty = "n",
         legend = c("stable males", "initial males", "stable females", "initial females"), xpd = TRUE, cex = .7)
 dev.off()
+
+# end block
 }
 
 # --------------------------------------------------

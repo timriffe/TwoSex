@@ -190,14 +190,14 @@ rownames(rESipfhm) <- yearsES
 # source("/home/triffe/git/DISS/R/ExLotka2SexLinear.R") # upper and lower bounds are dominance weighted 0 and 1,
 # which are identical to the single-sex r estimates.
 # produce the dominance weighted r estimates for comparison.
-
+# plot(rESipfhm[,1] / rES[,1], ylim = c(.8,1.3))
 # in order, 0, .5, 1 for sigmas
 #plot(rUS[, 1] / US[, 2] )
 #plot(US[,3] - rmUS[,1]) # rmUS came from exLotka1Sex.R
 
 make.fig <- FALSE
 if (make.fig){
-pdf("/home/triffe/git/DISS/latex/Figures/exIPFr.pdf")
+pdf("/home/triffe/git/DISS/latex/Figures/exIPFr.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, rUSipfhm[, 1], type = 'n', ylim = c(-.016,.01),xlim = c(1968,2010), axes = FALSE,
         xlab = "", ylab = "",
@@ -212,20 +212,22 @@ polygon(c(yearsUS, rev(yearsUS)), c(US[, 1], rev(US[, 3])), col = "#99999950", b
 lines(yearsUS, US[, 3],col = gray(.2), lwd = 1, lty = 5)
 lines(yearsUS, US[, 1],col = gray(.2), lwd = 1, lty = 5)
 lines(yearsUS, rUSipfhm[, 1],col = gray(.2), lwd = 2)
-
+lines(yearsUS, rUS[, 1],col = gray(.1), lwd = 1)
+#lines(yearsUS,rUShm[,1],col="red")
 polygon(c(yearsES, rev(yearsES)), c(ES[, 1], rev(ES[, 3])), col = "#99999950", border = NA)
 lines(yearsES, ES[, 3],col = gray(.2), lwd = 1, lty = 5)
 lines(yearsES, ES[, 1],col = gray(.2), lwd = 1, lty = 5)
 lines(yearsES, rESipfhm[, 1],col = gray(.2), lwd = 2, lty = 1)
-
-text(c(1995, 1992.372, 1995, 1988, 1983.303, 1988),
-        c(0.0038379231,  0.0001698981,  0.0018907000, -0.0039962537, -0.0069850148,-0.0059887611),
+lines(yearsES, rES[, 1],col = gray(.1), lwd = 1)
+#lines(yearsES,rEShm[,1],col="red")
+text(c(1995, 1992.372, 1995, 1988, 1983.303, 1988, 1983.303),
+        c(0.0038379231,  0.0001698981,  0.0018907000, -0.0039962537, -0.0069850148,-0.0059887611,-0.010019060),
         c(expression(r^m~US),expression(r^f~US),expression(r^IPF~US),expression(r^m~ES),
-        expression(r^f~ES),expression(r^IPF~ES)), pos = c(4,1,4,4,1,4))
-segments(c(1995.5,1995.349,1989,1988.564,1993.064,1983.787),
-        c(0.0037473546,0.0017095629,-0.0041321065,-0.0061698981,-0.0001018074,-0.0073020046),
-        c(1992.926,1994.588,1985.934,1986.764,1994.103,1985.034),
-        c( 0.0026152481,0.0009397305,-0.0051736444,-0.0072114361,0.0006227407,-0.0067585935))
+        expression(r^f~ES),expression(r^{IPF(ar)}~ES), expression(r^{IPF(hm)~ES})), pos = c(4,1,4,4,1,4,1))
+segments(c(1995.5,1995.349,1989,1988.564,1993.064,1983.787,1984.549),
+        c(0.0037473546,0.0017095629,-0.0041321065,-0.0061698981,-0.0001018074,-0.0073020046,-0.010154913),
+        c(1992.926,1994.588,1985.934,1986.764,1994.103,1985.034,1987.249),
+        c( 0.0026152481,0.0009397305,-0.0051736444,-0.0072114361,0.0006227407,-0.0067585935,-0.008479395))
 dev.off()
 
 }
@@ -309,17 +311,61 @@ rESesfr <- do.call(rbind, lapply(as.character(yearsES), function(yr, .Bxymf, .Ex
                     cbind(Year = as.integer(yr), Mst = esfrs$FxmPred, Fst = esfrs$FxfPred, Minit = Fxm, Finit = Fxf)
                 },.Bxymf = BxymfES, .Ex = ExES, .dxm = dxmES, .dxf = dxfES, .rSRB = rESipfhm,.M = mean))
 
+              
+UScomp <- do.call(rbind, lapply(yearsUS, function(yr, .esfr){
+                    thisyr <- .esfr[.esfr[,1] == yr, 2:5]
+                    TFRs <- colSums(thisyr)
+                    mdiffcoef <- 1 - sum(pmin(thisyr[,1] / sum(thisyr[,1]), thisyr[,3] / sum(thisyr[,3])))
+                    fdiffcoef <- 1 - sum(pmin(thisyr[,2] / sum(thisyr[,2]), thisyr[,4] / sum(thisyr[,4])))
+                    c(TFRs,mdiffcoef=mdiffcoef,fdiffcoef=fdiffcoef)
+                },.esfr = rUSesfr))  
+EScomp <- do.call(rbind, lapply(yearsES, function(yr, .esfr){
+                    thisyr <- .esfr[.esfr[,1] == yr, 2:5]
+                    TFRs <- colSums(thisyr)
+                    mdiffcoef <- 1 - sum(pmin(thisyr[,1] / sum(thisyr[,1]), thisyr[,3] / sum(thisyr[,3])))
+                    fdiffcoef <- 1 - sum(pmin(thisyr[,2] / sum(thisyr[,2]), thisyr[,4] / sum(thisyr[,4])))
+                    c(TFRs,mdiffcoef=mdiffcoef,fdiffcoef=fdiffcoef)
+                },.esfr = rESesfr))  
+
+# plot differences in TFR:
+pdf("/home/triffe/git/DISS/latex/Figures/exIPFTFRdiff.pdf",height=5, width=5)
+par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
+plot(yearsUS, UScomp[,1] - UScomp[,3], type = 'l', ylim = c(-.3, .5), xlim = c(1968,2010), axes = FALSE,
+        col = gray(.2), lwd = 2, xlab = "", ylab = "",
+        panel.first = list(rect(1968, -.3, 2010, .5,col = gray(.95), border=NA),
+                abline(h = seq(-.3, .5, by = .1), col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(-.3, .5, by = .1),round(seq(-.3, .5, by = .1),1), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10), -.3, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, -.35, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1967, .54, "TFR diff", cex = 1, xpd = TRUE)))
+lines(yearsUS,UScomp[,2] - UScomp[,4], col = gray(.5), lwd = 2)
+lines(yearsES,EScomp[,1] - EScomp[,3],col = gray(.2), lty = 5)
+lines(yearsES,EScomp[,2] - EScomp[,4], col = gray(.5), lwd = 2,lty = 5)
+
+text(rep(1990,4), c(0.1099981, -0.1030401,  0.3203396, -0.216),
+        c("US males","US females","ES males","ES females"),pos = 4)
+dev.off()
+
+
+
+
+# -----------------------
+lines(EScomp[,5])
+lines(EScomp[,6])
+
+
 #y <- 0:110
 #yr <- 1975
 #
-#for (yr in yearsUS){
+#for (yr in yearsES){
 #
-#USyr <- rUSesfr[rUSesfr[,1]==yr, ]
-#plot(y, USyr[, 2], type = 'l', ylim = c(0,.1), col = "blue")
+#USyr <- rESesfr[rESesfr[,1]==yr, ]
+#plot(y, USyr[, 2], type = 'l', ylim = c(0,.1), col = "blue", main = yr)
 #lines(y, USyr[, 3], col = "red")
 #lines(y, USyr[, 4], col = "blue", lty = 2)
 #lines(y, USyr[, 5], col = "red", lty = 2)
-##locator(1) manual forward click
+#locator(1) #manual forward click
 #}
 
 USFRus1975 <- rUSesfr[rUSesfr[,1]==1975, ]

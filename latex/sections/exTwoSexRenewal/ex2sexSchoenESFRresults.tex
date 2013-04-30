@@ -8,7 +8,18 @@ be followed to produce structures that are also very similar to those
 previously displayed for the weighted-dominance case where $\sigma =
 0.5$. Instead, in order to better grasp the meaning of this particular
 model, we display the initial versus stable $e_y$-specific fertility rates for a
-pair of years from the US and Spanish data.
+pair of years from the US and Spanish data. This author has never seen such
+comparisons done for age-classified models, even when formulas are given to
+calculate the stable TFR. 
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Male and female initial and stable $e$SFR (harmonic mean
+          method). US and Spain, 1975 and 2009.}
+           % /R/Schoen1981ex.R
+           \includegraphics{Figures/eSFRharmonic}
+          \label{fig:eSFRharmonic}
+\end{figure}
 
 One aspect of the present model that may not be obvious is that male and female marginal
 fertility rates indeed change from the initial state in each time point along
@@ -26,15 +37,6 @@ different in the initial versus stable states. Figure~\ref{fig:eSFRharmonic}
 compares the initial $e$SFR vectors for each sex with their ultimate stable
 values for 1975 and 2009 in the US and Spain.
 
-\begin{figure}[ht!]
-        \centering  
-          \caption{Male and female initial and stable $e$SFR. US and
-          Spain, 1975 and 2009.}
-           % /R/Schoen1981ex.R
-           \includegraphics{Figures/eSFRharmonic}
-          \label{fig:eSFRharmonic}
-\end{figure}
-
 In general, initial rates will differ from stable rates as a function of the
 degree of difference in the initial versus stable population structures. Where
 initial and stable structures are similar, marginal fertility rates are not
@@ -46,7 +48,27 @@ consequence in our experience). To draw an example from the current figure, note
 that marginal rates for 1975 US females are higher in the stable than in the
 initial states. This means that females in the stable population are relatively
 less abundant than in the initial population. Rates for males in this case must
-on average move downward to compensate. This model property applies in like manner to the analogous age-classified model
+on average move downward to compensate. This model property applies in like 
+manner to the analogous age-classified model
 presented earlier in Section~\ref{sec:ageharmonic}.
+
+One may compare the full series of initial versus stable fertility rates, by
+summing over remaining years within each year to arrive at $e$TFR, and then
+taking the difference between stable and initial $e$TFR. The results of this
+exercise are displayed in Figure~\ref{fig:eTFRharmonic}. As one might expect,
+the male and female $e$TFR differences mirror each other. These differences will
+be due primarily to changes in the sex structure between the initial and stable
+states, and since fertility rates are calculated on the mean of male and female
+exposure, male and female $e$TFR will be pulled in opposite directions.
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Difference between stable and initial $e$TFR, males and
+          females (harmonic mean method). US, 1969-2009 and Spain,
+          1975-2009.}
+           % figure produced in /R/Schoen1981ex.R
+           \includegraphics{Figures/eTFRharmonic}
+          \label{fig:eTFRharmonic}
+\end{figure}
 
 \FloatBarrier
