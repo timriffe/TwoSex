@@ -26,8 +26,9 @@ previous Equation~\eqref{eq:rexpressPy}, the result of which was:
 P_y = \int_{a=0}^\infty \varsigma B(t-a)d_{a+y} \dd a
 \end{equation}
  where $\varsigma$ is of course the proportion
-male and the survival function is just the sum of future deaths: $p_a = \int _a^\infty d_a \dd a$. This identity
-allows us to rewrite Equation~\eqref{eq:Bharmonicex1} in terms of past births:
+male of births and the survival function is just the sum of future deaths: $p_a
+= \int _{x=a}^\infty d_x \dd x$. This identity allows us to rewrite
+Equation~\eqref{eq:Bharmonicex1} in terms of past births:
  \begin{equation}
  \label{eq:Bharmonicex1}
  B(t) = \int \int F_{y,y'}^H H\Bigg(\varsigma \int _0^\infty B(t-a)d_{a+y}\dd
@@ -38,7 +39,7 @@ which when left to renew itself for many years on-end, will eventually attain a
 constant rate of growth, $r$, in which case we may rewrite
 Equation~\eqref{eq:Bharmonicex1} in entirely in terms of year $t$ births:
  \begin{equation}
- \label{eq:Bharmonicex1}
+ \label{eq:Bharmonicex2}
  B(t) = \int \int F_{y,y'}^H H\Bigg(\varsigma \int _0^\infty
  B(t)e^{-ra}d_{a+y}\dd a\;\;,\;\; (1-\varsigma) \int _0^\infty
  B(t)e^{-ra'}d_{a'+y'} \dd a'\Bigg) \dd y \dd y'
@@ -51,5 +52,6 @@ equation, which permits us to estimate the stable growth parameter, $r$:
  e^{-ra}d_{a+y}\dd a\;\;,\;\; (1-\varsigma) \int _0^\infty
  e^{-ra'}d_{a'+y'} \dd a'\Bigg) \dd y \dd y'
  \end{equation}
-
+As in other two-sex models, $\varsigma$ is also best estimated along with $r$
+rather than assumed from the outset.
  \FloatBarrier

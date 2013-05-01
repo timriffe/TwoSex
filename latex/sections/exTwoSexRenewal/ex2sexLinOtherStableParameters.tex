@@ -1,21 +1,8 @@
  \FloatBarrier
 \label{sec:2sexlinearother}
 Once two-sex linear $r$ has been found for the given $\sigma$, one may
-proceed to find the corrsponding both-sex $T$ using:
-\todo{maybe remove the sigmas altogether from this equation?}
-\begin{equation}
-T = \frac{\splitfrac{
-   \big((1 - \sigma)  \int _{y'=0}^\infty \int_{a'=y'}^\infty 
-       a'e^{-ra'} (1-\varsigma)d_{a'}^F \left( f_{y'}^{F-F} + f_{y'}^{F-M}
-       \right) \dd a'\dd y'}{ + \sigma \int_{y=0}^\infty \int _{a=y}^\infty a
-       e^{-ra}\varsigma d_{a}^M \left( f_{y}^{M-M}+ f_{y}^{M-F} \right) \dd a
-       \dd y \big)}}{\splitfrac{\big( (1 - \sigma) \int_{y'=0}^\infty \int_{a'=y'}^\infty e^{-ra'} (1-\varsigma)d_{a'}^F \left(
-   f_{y'}^{F-F} + f_{y'}^{F-M} \right) \dd a'\dd y'}{ +\sigma \int _{y=0}^\infty
-   \int_{a=y}^\infty e^{-ra} \varsigma d_{a}^M \left( f_{y}^{M-M} + f_{y}^{M-F}
-   \right) \dd a \dd y \big)}}
-\end{equation}
-
-Follow Equation~\eqref{eq:R0fromTy} to derive $R_0$ from $r$ and $T$. 
+proceed to find the two-sex mean length of generation $T$ and stable $R_0$,
+replacing the first guesses used in the iterative procedure described above.
 
 The stable sex ratio at birth, $S$ (and thencefrom $\varsigma$), is given from
 the iterative calibration of $r$. From this, we can derive the stable
@@ -44,7 +31,7 @@ c_{y} = b \varsigma \int _{a=y}^\infty
 e^{-ra} d_{a}^M \dd a'
 \label{eq:stablecy}
 \end{align}
-where:
+where of course,
 \begin{equation}
 1 = \int c_{y'} \dd y' + \int c_{y} \dd y
 \end{equation}
