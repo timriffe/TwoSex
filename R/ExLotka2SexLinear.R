@@ -28,10 +28,9 @@ dxfUS <- dxfUS %col% colSums(dxfUS)
 dxmES <- dxmES %col% colSums(dxmES)
 dxfES <- dxfES %col% colSums(dxfES)
 
-
 # some sensitivity tests
 exTwoSexLinearCoaleR <- compiler::cmpfun(function(dxm, dxf, FexFF, FexFM, FexMM, FexMF, 
-                .a = .5:110.5, sigma = .5, maxit = 2e2, tol = 1e-15){  
+                .a = .5:110.5, sigma = .5, maxit = 2e3, tol = 1e-15){  
             N               <- length(dxm)
             dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
             # remaining years go down rows. ages over columns
@@ -47,50 +46,45 @@ exTwoSexLinearCoaleR <- compiler::cmpfun(function(dxm, dxf, FexFF, FexFM, FexMM,
             
              # assuming r = 0
             # first guess at SRB
-            SRBi <- sum(rowSums(dxM) * FexMM + rowSums(dxF) * FexFM) / 
-                    sum(rowSums(dxM) * FexMF + rowSums(dxF) * FexFF)
+            p.m  <- 1.05 / 2.05
+            p.f  <- 1 / 2.05
+            SRBi <- sum(sigma * p.m * rowSums(dxM) * FexMM + (1 - sigma) * p.f * rowSums(dxF) * FexFM) / 
+                    sum(sigma * p.m * rowSums(dxM) * FexMF + (1 - sigma) * p.f * rowSums(dxF) * FexFF)
             # derive proportions male and female
             p.m <- SRBi / (1 + SRBi)
             p.f <- 1 / (1 + SRBi)
             # guess at R0
-            R0      <-   (sigma * sum(p.m * dxM * (FexMF + FexMM)) + 
-                        (1 - sigma) * sum(p.f * dxF * (FexFF + FexFM))) 
-            T.guess <- wmean(.a,
-                    sigma * p.m * rowSums(dxM) * (FexMM + FexMF) +
-                            (1 - sigma) * p.f * rowSums(dxF) * (FexFF + FexFM)
-            )
-            r2      <- log(R0) / T.guess
+            R0      <-   (sigma * sum(p.m * rowSums(dxM) * (FexMF + FexMM)) + 
+                        (1 - sigma) * sum(p.f * rowSums(dxF) * (FexFF + FexFM))) 
+            T.guess <- sum(.a * sigma * p.m * rowSums(dxM) * (FexMF + FexMM) + 
+                        .a * (1 - sigma) * p.f * rowSums(dxF) * (FexFF + FexFM)) / R0
+            r.i      <- log(R0) / T.guess
             
             # be careful to discount Fex by SRB appropriately for males / females
-            # prior to specification
-            # Based on Coale (1957)
-            for (i in 1:maxit){ # 15 is more than enough!
-                #cat(r2,i,"\n")
-                r1 <- r2
+            # prior to specification sigma
+            # Based on modification of Coale (1957)
+            for (i in 1:maxit){ # 
                 deltai <- 1 - sum(
-                        sigma * rowSums(p.m * dxM %col% (1 / exp(-r1 * .a))) * (FexMM + FexMF) + # male - female   
-                                (1-sigma) * rowSums(p.f * dxF %col% (1 / exp(-r1 * .a))) * (FexFF + FexFM)  # female - female
-                )
+                        sigma * rowSums(p.m * t(t(dxM) * exp(-r.i * .a))) * (FexMM + FexMF) + # male - female   
+                        (1 - sigma) * rowSums(p.f * t(t(dxF) * exp(-r.i * .a))) * (FexFF + FexFM)  # female - female
+                ) 
                 # the mean generation time self-corrects 
                 # according to the error produced by the Lotka equation
-                r2 <- r1 - (deltai / (T.guess - (deltai / r1))) 
+                r.i <- r.i - (deltai / (T.guess - (deltai / r.i))) 
+          
                 # update SRB
-                SRBi <- sum(rowSums(p.m * dxM %col% (1 / exp(-r2 * .a))) * FexMM + 
-                                 rowSums(p.f * dxF %col% (1 / exp(-r2 * .a))) * FexFM) / 
-                        sum(rowSums(p.m * dxM %col% (1 / exp(-r2 * .a))) * FexMF + 
-                                 rowSums(p.f * dxF %col% (1 / exp(-r2 * .a))) * FexFF)
+                SRBi <- sum(rowSums(sigma * p.m * t(t(dxM) * exp(-r.i * .a))) * FexMM + 
+                                 rowSums( (1 - sigma) * p.f * t(t(dxF) * exp(-r.i * .a))) * FexFM) / 
+                        sum(rowSums(sigma * p.m * t(t(dxM) * exp(-r.i * .a))) * FexMF + 
+                                 rowSums( (1 - sigma) * p.f * t(t(dxF) * exp(-r.i * .a))) * FexFF)
                 p.m <- SRBi / (1 + SRBi)
                 p.f <- 1 / (1 + SRBi)
-                if (abs(r2 - r1) <= tol | zapsmall(abs(deltai)) <= tol){
+                if (abs(deltai) < tol){
                     break
                 }
                 
             }
-            
-            if (i == maxit){
-                cat("WARNING: max iterations reached, r may not be solution")
-            }
-            return(c(r=r2, SRB=SRBi))  
+            return(c(r = r.i, SRB = SRBi))  
 
             })
 exTwoSexLinearTy <- compiler::cmpfun(function(r, SRB, dxm, dxf, 
@@ -107,12 +101,13 @@ exTwoSexLinearTy <- compiler::cmpfun(function(r, SRB, dxm, dxf,
                 dxF[i, 1:length(dxfi)  ] <- dxfi 
                 dxfi                     <- dxfi[2:length(dxfi) ]
             }     
-            p.m <- SRB / (1+SRB)
-            p.f <- 1 / (1+SRB)
-            wmean(.a,
-                    sigma * rowSums(p.m * dxM %col% (1 / exp(-r * .a))) * (FexMM + FexMF) +
-                           (1-sigma) * rowSums(p.f*dxF %col% (1 / exp(-r * .a))) * (FexFF + FexFM)
-            )
+            p.m <- SRB / (1 + SRB)
+            p.f <- 1 / (1 + SRB)
+            
+            sum(sigma * rowSums(.a * p.m * t(t(dxM) * exp(-r * .a))) * (FexMM + FexMF) +
+                (1-sigma) * rowSums(.a * p.f * t(t(dxF) * exp(-r * .a))) * (FexFF + FexFM)) / 
+            sum(sigma * rowSums(p.m * t(t(dxM) * exp(-r * .a))) * (FexMM + FexMF) +
+                (1-sigma) * rowSums(p.f * t(t(dxF) * exp(-r * .a))) * (FexFF + FexFM))
         })
 
 exTwoSexStableAge <- compiler::cmpfun(function(r, SRB, dxm, dxf, .a = .5:110.5){
@@ -128,11 +123,11 @@ exTwoSexStableAge <- compiler::cmpfun(function(r, SRB, dxm, dxf, .a = .5:110.5){
         dxfi <- dxfi[2:length(dxfi) ]
     }  
     # birth rate
-    b <- 1 / (sum(rowSums((SRB / (1 + SRB)) * dxM %col% (1 / exp(-r * .a)))) +
-                sum(rowSums((1 / (1 + SRB)) * dxF %col% (1 / exp(-r * .a))))
+    b <- 1 / (sum(rowSums((SRB / (1 + SRB)) * t(t(dxM)* exp(-r * .a)))) +
+                sum(rowSums((1 / (1 + SRB)) * t(t(dxF) * exp(-r * .a))))
                 )
-    cym <- b * (SRB / (1 + SRB)) * rowSums(dxM %col% (1 / exp(-r * .a)))
-    cyf <- b * (1 / (1 + SRB)) * rowSums(dxF %col% (1 / exp(-r * .a)))
+    cym <- b * (SRB / (1 + SRB)) * rowSums(t(t(dxM)* exp(-r * .a)))
+    cyf <- b * (1 / (1 + SRB)) * rowSums(t(t(dxF)* exp(-r * .a)))
     cbind(cym = cym, cyf = cyf)
         })
 
@@ -179,9 +174,7 @@ US <-do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxymf, .dxm, .dxf
                               R0.0 = R0.0, R0.5 = R0.5, R0.1 = R0.1)
                         }, .Bxymf = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS))
 rownames(US) <- yearsUS
-                        
-                        
-
+        
 ES <-do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxymf, .dxm, .dxf, .Ex){
                             yri     <- as.integer(yr)
                             .dxm. <- .dxm[, yr]
@@ -457,9 +450,9 @@ StableStructES.5 <- lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .d
 thetaUS <- unlist(lapply(StableStructUS.5,"[[",1))
 thetaES <- unlist(lapply(StableStructES.5,"[[",1))
 
-plot(yearsUS, thetaUS, type = 'l')
-lines(yearsUS, DiffCoefryUSm[,1], col = "blue")
-lines(yearsUS, DiffCoefryUSf[,1], col = "red")
+#plot(yearsUS, thetaUS, type = 'l')
+#lines(yearsUS, DiffCoefryUSm[,1], col = "blue")
+#lines(yearsUS, DiffCoefryUSf[,1], col = "red")
 
 mxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata"))) 
 mxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata"))) 
@@ -642,11 +635,11 @@ dev.off()
 
 
 
-plot(0:110,mx2dxHMD(mxmUS[,yr]*.8),type = 'l')
-lines(0:110,mx2dxHMD(mxmUS[,yr]*1.2),col = "red")
-
-wmean(.5:110.5,dxmUS[,yr])
-wmean(.5:110.5,mx2dxHMD(mxmUS[,yr]*.8))
-wmean(.5:110.5,mx2dxHMD(mxmUS[,yr]*1.2))
+#plot(0:110,mx2dxHMD(mxmUS[,yr]*.8),type = 'l')
+#lines(0:110,mx2dxHMD(mxmUS[,yr]*1.2),col = "red")
+#
+#wmean(.5:110.5,dxmUS[,yr])
+#wmean(.5:110.5,mx2dxHMD(mxmUS[,yr]*.8))
+#wmean(.5:110.5,mx2dxHMD(mxmUS[,yr]*1.2))
 
 }

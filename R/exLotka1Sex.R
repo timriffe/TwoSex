@@ -61,25 +61,24 @@ exOneSexCoaleR <- function(Fex, dx, .a = .5:110.5, maxit = 1e2, tol = 1e-15, r.s
         dxM[i, 1:length(dxi)  ] <- dxi 
         dxi <- dxi[2:length(dxi) ]
     }     
-    R0      <- sum(dxM*Fex)
-    T.guess <- wmean(.a,rowSums(dxM)*Fex) # assuming r = 0
-    r2      <- log(R0) / T.guess
+    R0      <- sum(dxM * Fex)
+    T.guess <- sum(.a * dxM * Fex) / R0 # assuming r = 0
+    r.i      <- log(R0) / T.guess
    
     # be careful to discount Fex by SRB appropriately for males / females
     # prior to specification
     # Based on Coale (1957)
     for (i in 1:maxit){ # 15 is more than enough!
        #cat(r2,i,"\n")
-        r1 <- r2
-        deltai <- 1 - sum(rowSums(dxM %col% (1 / exp(-r1 * .a))) * Fex)
+        deltai <- 1 - sum(rowSums(t(t(dxM) * exp(-r.i * .a))) * Fex)
         # the mean generation time self-corrects 
         # according to the error produced by the Lotka equation
-        r2 <- r1 - (deltai / (T.guess - (deltai / r1))) 
-        if (abs(r2 - r1) <= tol | zapsmall(abs(deltai)) <= tol){
+        r.i <- r.i - (deltai / (T.guess - (deltai / r.i))) 
+        if (abs(deltai) <= tol){
             break
         }
     }
-    return(r2)  
+    return(r.i)  
 }
 
 ex1SexStableAge <- function(r, Fex, dx, .a = .5:110.5){
@@ -103,7 +102,7 @@ exOneSexTy <- function(r, Fex, dx, .a = .5:110.5){
         dxM[i, 1:length(dxi)  ] <- dxi 
         dxi <- dxi[2:length(dxi) ]
     }     
-    wmean(.a, rowSums(dxM %col% (1 / exp(-r * .a))) * Fex)
+    wmean(.a, rowSums(t(dxM) * (1 / exp(-r * .a))) * Fex)
 }
 
 
