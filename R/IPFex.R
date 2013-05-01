@@ -104,6 +104,7 @@ rexIPFit <- compiler::cmpfun(function(Bxym, Bxyf, Exm, Exf, dxm, dxf, M = mean,
             r.i <- log(R0.hat) / T.hat
             
             for (i in 1:maxit){
+                # get adjusted rates for the given r.i
                 Fxpredm <- IPFpred(Bxym, 
                         Exm1 = Exm, 
                         Exm2 = p.m * colSums(exp(-r.i * .a) * t(dxM)),  # now we scale for generation size
@@ -116,15 +117,19 @@ rexIPFit <- compiler::cmpfun(function(Bxym, Bxyf, Exm, Exf, dxm, dxf, M = mean,
                         Exf1 = Exf, 
                         Exf2 = p.f * colSums(exp(-r.i * .a) * t(dxF)),
                         marM = M)
+                # get residual
                 # need to divide by two
                 delta.i <- (2 - sum(p.m * colSums(exp(-r.i * .a) * t(dxM)) * (Fxpredm[[1]]+Fxpredf[[1]]) + 
                               p.f * colSums(exp(-r.i * .a) * t(dxF)) * (Fxpredm[[2]]+Fxpredf[[2]]))) / 2
+                # update r
                 r.i <- r.i - (delta.i / ( T.hat  - (delta.i / r.i)))
-                
+                # update SRB estimate. Same as above but for boy and girl births separately. take ratio as such
+                # no need to re-update fertility prior to this. wont' speed things any
                 SRB.i <- sum(p.m * colSums(exp(-r.i * .a) * t(dxM)) * Fxpredm[[1]] + 
                                         p.f * exp(-r.i * .a) * colSums(exp(-r.i * .a) * t(dxF)) * Fxpredm[[2]]) / 
                         sum(p.m * colSums(exp(-r.i * .a) * t(dxM)) * Fxpredf[[1]] + 
                                         p.f * colSums(exp(-r.i * .a) * t(dxF)) * Fxpredf[[2]])
+                # convertto proportions male and female
                 p.m <- (SRB.i / (1 + SRB.i))
                 p.f <- (1 / (1 + SRB.i))
                 
