@@ -218,7 +218,7 @@ ES <-do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxymf, .dxm, .dxf
                               R0.0 = R0.0, R0.5 = R0.5, R0.1 = R0.1)
                         }, .Bxymf = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES))
 rownames(ES) <- yearsES
-                        
+
 # manual block on table creation
 save.tables <- FALSE
 if (save.tables){                    

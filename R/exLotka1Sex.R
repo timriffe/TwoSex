@@ -39,18 +39,18 @@ LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) / 1e5
 #------------------------------------------------------------
 # minimizer function for 1 sex ex-perspective renewal function:
 # use with: optimize()
-exOneSexMin <- function(r, dx, Fex, .a = .5:110.5){
-    # get the overlapped / staggered dx structure
-    N               <- length(Fex)
-    dxM  <- matrix(0, ncol = N, nrow = N)
-    # remaining years go down rows. ages over columns
-    dxi  <- dx
-    for (i in 1:N){
-        dxM[i, 1:length(dxi)  ] <- dxi 
-        dxi <- dxi[2:length(dxi) ]
-    }     
-    (1 - sum(rowSums(dxM %col% (1 / exp(-r * .a))) * Fex)) ^ 2
-}
+#exOneSexMin <- function(r, dx, Fex, .a = .5:110.5){
+#    # get the overlapped / staggered dx structure
+#    N               <- length(Fex)
+#    dxM  <- matrix(0, ncol = N, nrow = N)
+#    # remaining years go down rows. ages over columns
+#    dxi  <- dx
+#    for (i in 1:N){
+#        dxM[i, 1:length(dxi)  ] <- dxi 
+#        dxi <- dxi[2:length(dxi) ]
+#    }     
+#    (1 - sum(rowSums(dxM %col% (1 / exp(-r * .a))) * Fex)) ^ 2
+#}
 
 exOneSexCoaleR <- function(Fex, dx, .a = .5:110.5, maxit = 1e2, tol = 1e-15, r.start = 0.001){  
     
@@ -90,8 +90,8 @@ ex1SexStableAge <- function(r, Fex, dx, .a = .5:110.5){
         dxi <- dxi[2:length(dxi) ]
     }  
     # birth rate
-    b <- 1 / sum(rowSums(dxM %col% (1 / exp(-r * .a))))
-    b * rowSums(dxM %col% (1 / exp(-r * .a)))
+    b <- 1 / sum(t(dxM) * exp(-r * .a))
+    b * rowSums(t(t(dxM) * exp(-r * .a)))
 }
 
 exOneSexTy <- function(r, Fex, dx, .a = .5:110.5){
@@ -102,7 +102,8 @@ exOneSexTy <- function(r, Fex, dx, .a = .5:110.5){
         dxM[i, 1:length(dxi)  ] <- dxi 
         dxi <- dxi[2:length(dxi) ]
     }     
-    wmean(.a, rowSums(t(dxM) * (1 / exp(-r * .a))) * Fex)
+    sum(rowSums(.a*t(t(dxM) * exp(-r * .a))) * Fex) /
+            sum(rowSums(t(t(dxM) * exp(-r * .a))) * Fex)   
 }
 
 
