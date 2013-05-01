@@ -1,25 +1,24 @@
  \FloatBarrier
 \label{sec:2sexlinearother}
-Once two-sex linear $r$ has been found for the given $\sigma$, one may
-proceed to find the two-sex mean length of generation $T$ and stable $R_0$,
+Once two-sex linear $r$ and the stable proportion male of births, $\varsigma$,
+have been found for the given $\sigma$, one may proceed to find the 
+two-sex mean length of generation $T$ and stable $R_0$,
 replacing the first guesses used in the iterative procedure described above.
 
-The stable sex ratio at birth, $S$ (and thencefrom $\varsigma$), is given from
-the iterative calibration of $r$. From this, we can derive the stable
-population sex ratio, $\bar{S}$:
+We can derive the stable population sex ratio, $\bar{S}$:
 \begin{equation}
-\bar{S} = \frac{ \int_{y=0}^\infty \int_{a=y}^\infty e^{-ra} d_{a}^M \dd a \dd
-y}{\int_{y'=0}^\infty \int_{a'=y'}^\infty e^{-ra'} d_{a'}^F \dd a' \dd
-y'}
+\bar{S} = \frac{ \int_{y=0}^\infty \int_{a=y}^\infty \varsigma e^{-ra} d_{a}^M
+\dd a \dd y}{\int_{y'=0}^\infty \int_{a'=y'}^\infty (1-\varsigma) e^{-ra'}
+d_{a'}^F \dd a' \dd y'}
 \end{equation}
 
 The both-sex stable birth rate, $b$ is given by:
 \begin{equation}
-b = \frac{1}{
+b = \Bigg[
             \splitfrac{\big( \int _{y'=0}^\infty
             \int _{a'=y'}^\infty e^{-r a'} (1-\varsigma) d_{a'}^F \dd a' \dd
             y'}{ + \int _{y=0}^\infty \int _{a=y}^\infty
-             e^{-r a} \varsigma d_{a}^M \dd a \dd y\big)}  }                   
+             e^{-r a} \varsigma d_{a}^M \dd a \dd y\big)} \Bigg] ^{-1}          
 \end{equation}
 which can be used to derive the stable $e_y$-structure of males and females,
 $c_y$ and $c_{y'}$, respectively:
