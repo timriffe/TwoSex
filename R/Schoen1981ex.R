@@ -444,8 +444,49 @@ legend(58,.1, lty = c(1,5,1,5), col = gray(c(.2,.15,.5,.3)), lwd = c(1.5,1,2,1.5
         legend = c("stable males", "initial males", "stable females", "initial females"), xpd = TRUE, cex = .7)
 dev.off()
 
+# diff coefs
+
+
+
+pdf("/home/triffe/git/DISS/latex/Figures/exhmESFRdiffcoef.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+plot(yearsUS, UScomphm[,"mdiffcoef"], type = 'l', ylim = c(0, .05), xlim = c(1968,2010), axes = FALSE,
+        col = gray(.2), lwd = 1.5, xlab = "", ylab = "",
+        panel.first = list(rect(1968,0,2010,.05,col = gray(.95), border=NA),
+                abline(h = seq(0,.05,by = .005), col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(seq(1970, 2010, by = 10), 0,seq(1970, 2010, by = 10), pos = 1, cex = .7, xpd = TRUE),
+                text(1968,seq(0, .05, by = .01), seq(0, .05, by = .01), pos = 2, cex = .7, xpd = TRUE),
+                text(1990, -.003, "Year", cex = .8, pos = 1, xpd = TRUE),
+                text(1963,.053, expression(theta~eSFR), cex = .8, xpd = TRUE, pos = 4)))
+lines(yearsUS, UScomphm[,"fdiffcoef"], lwd = 2, col = gray(.4), lty = 1)
+lines(yearsES, EScomphm[,"mdiffcoef"], lwd = 1, col = gray(.2), lty = 5)
+lines(yearsES, EScomphm[,"fdiffcoef"], lwd = 2, col = gray(.4), lty = 5)
+legend("topleft", lty = c(1,1,5,5), col = gray(c(.2,.4,.2,.4)), lwd = c(1,2,1,2),bty = "n",
+        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
+#
+dev.off()
+
+
+
 # end block
 }
+
+# ----------------------------
+# transient dynamics?
+
+do.transient <- FALSE
+if (do.transient){
+    
+    
+    # think about it
+    
+    
+}
+
+
+
+
 
 # --------------------------------------------------
 # competition test:

@@ -1,16 +1,16 @@
 \FloatBarrier
-As described in Section~\ref{sec:schoenexiterative}, the iterative technique to
-optimize the two-sex $r$ for the present population model is here run for each year of data. $r$ itself
+The iterative technique described in Section~\ref{sec:schoenexiterative} to
+optimize the two-sex $r$ (and the SRB) for the present population model is here
+run for each year of data. $r$ itself
 is not visually distinguishable from the previous weighted dominance model where $\sigma = 0.5$,
 and so we do not bother to display yet another time series of $r$. The case is
 similar for the ultimate 2-sex stable population structure. Equation~\eqref{eq:schoenexcy} can 
 be followed to produce structures that are also very similar to those
 previously displayed for the weighted-dominance case where $\sigma =
-0.5$. Instead, in order to better grasp the meaning of this particular
-model, we display the initial versus stable $e_y$-specific fertility rates,
-$e$SFR, for a pair of years from the US and Spanish data. This author has never
-seen such comparisons done for age-classified models, even when formulas are given to
-calculate the stable TFR. 
+0.5$. Neither do we endeavor to measure the transient dynamics of the present
+model, as has been done for the dominance-weighted two-sex model. Instead, in order to better grasp the meaning of
+this particular model, we display the initial versus stable $e_y$-specific fertility rates, $e$SFR, for a pair of years from the US and Spanish data. This author has never seen such comparisons done for
+age-classified models, even when formulas are given to calculate the stable TFR. 
 
 \begin{figure}[ht!]
         \centering  
@@ -53,7 +53,7 @@ on average move downward to compensate. This model property applies in like
 manner to the analogous age-classified model
 presented earlier in Section~\ref{sec:ageharmonic}.
 
-One may compare the full series of initial versus stable fertility rates, by
+One may compare the full series of initial versus stable fertility rates by
 summing over remaining years within each year to arrive at $e$TFR, and then
 taking the difference between stable and initial $e$TFR. The results of this
 exercise are displayed in Figure~\ref{fig:eTFRharmonic}. As one might expect,
@@ -75,5 +75,17 @@ smaller for the US population than for the Spanish population.
           \label{fig:eTFRharmonic}
 \end{figure}
 
-\todo{shape?}
+
+
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{Difference coefficient, $\theta$, between stable and initial
+          $e$SFR distributions, males and females (harmonic mean method). US, 1969-2009
+          and Spain, 1975-2009.}
+           % figure produced in /R/Schoen1981ex.R
+           \includegraphics{Figures/exhmESFRdiffcoef}
+          \label{fig:exhmESFRdiffcoef}
+\end{figure}
+
 \FloatBarrier
