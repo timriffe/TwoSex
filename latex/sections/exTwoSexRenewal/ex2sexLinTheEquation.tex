@@ -6,70 +6,99 @@ there is perfect male dominance, and when $\sigma = 0$ there is perfect female
 dominance. Of course, births to girls are subject to female mortality and births
 to boys are subject to male mortality. As with
 Equation~\eqref{eq:exLotkafemales}, this mortality enters in the equation by way
-of the $d_x$ distribution used to distribute births over life expectancies. Use
-the following formula to estimate the two-sex intrinsic growth rate, $r$:
+of the $d_x$ distribution used to distribute births over life expectancies. If
+one knows the sex ratio at birth, expressed as the proportion male of births,
+$\varsigma$, then year $t$ births $B(t)$ can be expressed as follows:
 
 \begin{equation}
-\label{eq:lineartwosexrenewal}
+\label{eq:lin2sexBt}
+B(t) = \int_{y=0}^\infty \sigma \varsigma P_y(t) F_y \dd y + \int_{y'=0}^\infty
+(1-\sigma) (1-\varsigma) P_{y'}(t) F_{y'} \dd y'
+\end{equation}
+where $P_y(t)$ and $P_{y'}(t)$ are the male and female year $t$ population
+counts classified by exact remaining years $y$ (exposures when discrete), and
+$F_y$ and $F_{y'}$ are remaining-years classified fertility rates, $e$SFR
+(including both sexes of birth). Of course, $P_y$ can be expressed in terms
+of past births in a roundabout way:
+\begin{align}
+\label{eq:rexpressPy}
+P_y &= \int_{a=0}^\infty P_a \frac{d_{a+y}}{p_a} \dd a \notag \\
+    &= \int_{a=0}^\infty \varsigma B(t-a)p_a \frac{d_{a+y}}{p_a} \dd a \notag \\
+    &= \int_{a=0}^\infty \varsigma B(t-a)d_{a+y} \dd a
+\end{align}
+
+where $p_a$ is the probability of surviving to age $a$, which is just the same
+as $\int_{x=a}^\infty d_x \dd x$. Plugging the last line into
+Equation~\eqref{eq:lin2sexBt}, we have:
+\begin{equation}
 \begin{split}
-1 = (1 - \sigma) 
-            \int _{y'=0}^\infty \int _{a'=y'}^\infty e^{-ra'}
-                      (1 - \varsigma) d_{a'}^F \left(f_{y'}^{F-F} +
-                      f_{y'}^{F-M}\right) \dd a' \dd y' \\ + \;\sigma
-            \int _{y=0}^\infty \int _{a=y}^\infty e^{-ra}
-                     \varsigma d_{a}^M  \left(f_{y}^{M-M} +
-                     f_{y}^{M-F}\right)\dd a \dd y
+\label{eq:lin2sexBt2}
+B(t) = \int_{y=0}^\infty \int_{a=0}^\infty \sigma \varsigma B(t-a)d_{a+y} 
+F_y \dd a \dd y \\+ \int_{y'=0}^\infty \int_{a=0}^\infty (1-\sigma)
+(1-\varsigma) B(t-a')d_{a'+y'} F_{y'} \dd y' \dd a'
 \end{split}
 \end{equation}
-, where $a'$, $y'$, $a$ and $y$ index female age, female remaining years, male
-age and male remaining years, respectively. $\varsigma$ is the
-proportion male at birth for the stable population, which may either be assumed
-or estimated simultaneously wth $r$-- the iterative estimation strategy
-outlined here outlines how to estimate these two parameters simultaneously.
-Fertility superscripts identify sex of progenitor followed by sex of offspring, 
-and $d_x$ must accord with the sex of offspring. Such specific rates are chosen 
-because data that would permit empirical studies of the two-sex problem are 
-typically sufficiently rich to allow for cross-tabulations by age of both parents as well as sex of birth. 
-Therefore, Equation~\eqref{eq:lineartwosexrenewal} assumes that rates are
-available by sex of progenitor, birth (4 combinations) and age (to be transformed to remaining years), 
-and no additional variable is required for the sex ratio at birth. Indeed,
-Equation~\ref{eq:lineartwosexrenewal} does not require such specific rates,
-since rates of reach progenitor sex are simply summed, but sex-sex-specific
-rates will be needed downstream for the calculation of other stable quantities,
-so it is advisable to treat them as inputs from the start.
+if left to evolve for long enough the size of consecutive birth cohorts will be
+related by a constant factor, $e^r$, and this property allows us to rewrite
+Equation~\eqref{eq:lin2sexBt2} in terms of years $t$ births:
+\begin{equation}
+\begin{split}
+\label{eq:lin2sexBt3}
+B(t) = \int_{y=0}^\infty \int_{a=0}^\infty \sigma \varsigma B(t)e^{-ra}d_{a+y} 
+F_y \dd a \dd y \\+ \int_{y'=0}^\infty \int_{a=0}^\infty (1-\sigma)
+(1-\varsigma) B(t)e^{-ra'}d_{a'+y'} F_{y'} \dd y' \dd a'
+\end{split}
+\end{equation} 
+Dividing both sides by $B(t)$ brings us to the familiar-looking
+Lotka-type unity equation, which can be used to estimate the two-sex intrinsic
+growth rate, $r$:
+\begin{equation}
+\begin{split}
+\label{eq:lineartwosexrenewal}
+1 = \int_{y=0}^\infty \int_{a=0}^\infty \sigma \varsigma e^{-ra}d_{a+y} 
+F_y \dd a \dd y \\+ \int_{y'=0}^\infty \int_{a=0}^\infty (1-\sigma)
+(1-\varsigma) e^{-ra'}d_{a'+y'} F_{y'} \dd y' \dd a'
+\end{split}
+\end{equation} 
+where $\varsigma$ is the proportion male at birth for the \textit{stable}
+population, which may either be assumed or estimated simultaneously with $r$-- the 
+iterative estimation strategy outlined below describes how to estimate these two
+parameters simultaneously. Equation~\eqref{eq:lineartwosexrenewal} does 
+not assume that fertility rates are
+available by sex of birth (4 combinations), but these will be needed in
+following in order to simultaneously calibrate the sex ratio at birth.
 
-Weights, $\sigma$ and $1-\sigma$ are divided by 2 because
-total births are counted twice in total (males and females from males \&
-males and females from females). One could just as easily optimize to a sum of
-2 on the left-hand side rather than discount weights.
-
-The linear two-sex $r$, $r^\upsilon$, extracted from~\eqref{eq:lineartwosexrenewal} 
-is \textit{not} guaranteed to be bounded by the $e_x$-structured $r^f$ and $r^m$,
-and indeed $r^f$ and $r^m$ may not be recovered by setting $\sigma$ to 0 or 1,
-respectively. This is so because the model includes births of both sexes to
-progenitors of each sex, which changes the age-specific fertility curves
-somewhat. That is to say, manipulation of $\sigma$ is insufficient to make the
-one-sex model a degenerate case of the present model. $\sigma$ can only be
-understood as indicative of the balance of dominance in fertility rates between
-the sexes. The later choice would both reduce the complexity of
-Equation~\ref{eq:lineartwosexrenewal} and guarantee exact bounds of $r^f$ and $r^m$ 
-when $\sigma$ is set to 0 and 1, respectively. This author does not recognize 
-the theoretical or practical merits of the single-sex modelling choice, as it 
-is not the case that males are responsible for the birth of boys and females 
-for the birth of girls\footnote{\citet{pollard1948measurement} took this idea
-even further by swapping sexes: The fertility functions in this paper are based 
-on the births of boys to mothers and girls to fathers, i.e. $M-F$ and $F-M$ fertility. This is parsimonious 
-in terms of getting quick results that are guaranteed to fall within reasonable bounds, but is less
-intuitively appealing}. This stance couples with the author's choice to not
-include an explicit, let alone constant, variable for the sex ratio at birth.
+The dominance-weighted two-sex $r$ extracted from~\eqref{eq:lineartwosexrenewal} 
+is bounded by the $e_y$-structured $r^f$ and $r^m$,
+and indeed $r^f$ and $r^m$ are recovered by setting $\sigma$ to 0 and 1,
+respectively. That is to say, setting $\sigma$ to 1 or 0 makes the single-sex
+model a degenerate case of the present model. This works because the
+dominance-weighted model uses both sexes of birth for each sex of progenitor,
+but appropriately weights the radix of progenitor by the sex ratio at birth.
+In the single-sex model, one may conceive of the progenitor radix as
+unweighted, whereas fertility is indeed weighted. In the end, $\sigma$ has the
+same effect, and the border cases are identical. The dominance-weighted model
+would not have this property if only a single sex of offspring were included in
+ fertility. This author does not recognize any theoretical or practical merits
+ of the single-sex modelling choice, as it is not the case that males are 
+ responsible for the birth of boys and females for the birth of 
+ girls\footnote{Or vice versa, as we saw in
+ Section~\ref{sec:pollardage}. \citet{pollard1948measurement} took this idea
+ even further by swapping sexes: The fertility functions in this paper 
+ are based on the births of boys to mothers and girls to 
+fathers, i.e. $M-F$ and $F-M$ fertility. This we saw was parsimonious in terms 
+of getting quick results that are guaranteed to fall within reasonable 
+bounds, but is even less intuitively appealing.}.
 
 It must be
-noted that the value of $r^\upsilon$ is dependant upon the choice of $\sigma$, 
+noted that the two-sex value of $r$ is dependant upon the choice of $\sigma$, 
 and that no guidelines are provided for choosing a good value of $\sigma$. 
 This ambiguity also exists in the age-structured variant of the present model. 
-For $e_x$-structured models, it has been claimed that sex-divergence is lesser than is the case for
+For $e_y$-structured models, it has been claimed that sex-divergence is 
+lesser than is the case for
 age-structured models. Recall that this was the case for predictions of birth
-counts, and not for the growth parameter, $r^\upsilon$. The
-difference between the $e_x$-structured $r^f$ and $r^m$ is not necessarily lesser than is the case for
-the age-structured $r^f$ and $r^m$. This will be discussed further along with
-empirical results for the two populations considered in this dissertation.
+counts, and not for the growth parameter, $r$. The
+difference between the $e_y$-structured $r^f$ and $r^m$ is not necessarily 
+lesser than is the case for the age-structured $r^f$ and $r^m$. This will be
+discussed further along with empirical results for the two populations 
+considered in this dissertation.

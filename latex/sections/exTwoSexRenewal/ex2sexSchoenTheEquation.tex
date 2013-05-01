@@ -20,15 +20,13 @@ calculate the births for a given year:
  B(t) = \int \int F_{y,y'}^H H\Big(P_{y}^m(t), P_{y'}^f(t)\Big) \dd y \dd
  y'
  \end{equation}
-The population count $P_y$ is, however, easily related to past births in a
-roundabout way:
-\begin{align}
-P_y &= \int_{a=0}^\infty P_a \frac{d_{a+y}}{l_a} \dd a \notag \\
-    &= \int_{a=0}^\infty \varsigma B(t-a)p_a \frac{d_{a+y}}{p_a} \dd a \notag \\
-    &= \int_{a=0}^\infty \varsigma B(t-a)d_{a+y} \dd a
-\end{align}
-where $\varsigma$ is of course the proportion male and the survival function is
-just the sum of future deaths: $p_a = \int _a^\infty d_a \dd a$. This identity
+The population count $P_y$ is, however, easily related to past births via the
+previous Equation~\eqref{eq:rexpressPy}, the result of which was:
+\begin{equation}
+P_y = \int_{a=0}^\infty \varsigma B(t-a)d_{a+y} \dd a
+\end{equation}
+ where $\varsigma$ is of course the proportion
+male and the survival function is just the sum of future deaths: $p_a = \int _a^\infty d_a \dd a$. This identity
 allows us to rewrite Equation~\eqref{eq:Bharmonicex1} in terms of past births:
  \begin{equation}
  \label{eq:Bharmonicex1}
