@@ -58,7 +58,7 @@ results in an important way. Averaged over all years, ages $<= 20$ all had missi
 missingness of more than 60\%. This may affect results if the age-pattern of
 males of unrecorded age differs from that of males of recorded age in a
 non-trivial way. This uncertainty enters into the male
-age-pattern of fertility, as well as the bivariate
+age-pattern of fertility, as well as the joint
 age distribution of births (age of mother by age of father) may affect results
 for the US where these age-specific data are used.
 
@@ -84,8 +84,8 @@ population exposures\footnote{At the time of this writing, exposures from the
 Human Fertility Database (\url{www.humanfertility.org}) may have been more
 appropriate for certain age groups, but since we prefer to use all ages
 $0-110+$, HMD exposures were utilized instead.} and population counts by age,
-sex and year and the deaths distribution, $d_x$, from the sex-specific lifetables. $d_x$ informaion was 
-always rescaled to sum to 1, which minimized rounding errors and simplified
+sex and year and the deaths distribution, $d_x$, from the sex-specific
+lifetables. $d_x$ information was always rescaled to sum to 1, which minimized rounding errors and simplified
 programming. Other items drawn from the HMD but used less consistently
 included, mortality hazards, $\mu_x$, survival curves, $l_x$ (also rescaled so that $l_0 = 1$), 
 lifetable exposures, $L_x$,
@@ -106,11 +106,11 @@ as the unusually large 1941 cohort, this procedure will have the effect of
 decreasing the size of large cohorts and increasing the size of small neighboring cohorts. This is
 highly undesirable for any demographic study and is apparently a legacy
 practice that will soon cease\footnote{Thanks to Dr. Amand Blanes for bringing
-this issue to my attention. The INE will likely release new retrospective
-population estimates during the course of 2013, but these will come too late
-for incorporation into the present dissertation.}. In this dissertation, this
+this issue to my attention. The INE has as of April 2013 released new
+retrospective population estimates without this defect, but have come too
+late for incorporation into the present dissertation.}. In this dissertation, this
 distortion will be most noticeable in the calculation of event-exposure rates, 
-wherein the numberator has not been subject to this exogenous smoothing, but 
+wherein the numerator has not been subject to this exogenous smoothing, but 
 the denominator has. It is unfortunately the case that alternative sources of 
 population estimates for Spain are in worse condition. These effects will echo through all HMD mortality
 estimates for Spain, as well as our own fertility calculations. 
@@ -136,11 +136,47 @@ original shortcomings.
 The user will also note that most results are derived deterministically.
 Accounting for uncertainty in many of the results presented here would provide
 the reader with more insight into particular kinds of results, such as projected
-results or stable population structures occassionally displayed in figures.
+results or stable population structures occasionally displayed in figures.
 Several of the methods to be presented in following are novel to the field of
-demography, and so we may look upon the results dervied therefrom as test
-results. The addition of stocasticity to these methods, if they are deemed of
+demography, and so we may look upon the results derived therefrom as test
+results. The addition of stochasticity to these methods, if they are deemed of
 worth, is left open as a branch for improvement. Here we only wish to point out
 that the majority of figures will, for this reason, not contain confidence or
 credibility bounds.
 
+\subsection{Some notation conventions in this dissertation}
+At times we will use acronyms and shorthand in the text body of this document in
+order to save space and reduce repetition of long phrases. Earlier in this
+introduction, the term \textit{remaining-years} was used as a prefix to words
+such as \textit{structure}, but this quickly becomes arduous. We often use $e_y$
+as shorthand for remaining-years, so that we may speak of e.g. $e_y$-structured
+populations. $e$ is appropriate because the value is an expectation, $y$ is
+consistently (we hope) used in this thesis to index exact remaining years of
+life, while $a$ or $x$ index chronological age, and $e_x$ is the expectation of 
+remaining years for persons of exact age $x$. $e_y$ appears in plot tiles and
+axes as well as in the text. When the ages or remaining years of males and
+females must be differentiated, we apply $a'$, $y'$ for females and $a$, $y$ for
+males. Otherwise, $a$ and $y$ are ambiguous.
+
+Other demographic acronyms and shorthand, some common and some novel are used
+throughout, such as:
+\begin{description}
+  \item[$r$] Also known as the intrinsic growth rate, Lotka's $r$ the
+  instataneous rate of growth, the Malthusian parameter. $r^m$ refers to $r$ for
+  males and $r^f$ for females.
+  \item [$T$] the mean length of a generation in the stable population.
+  \item [$R_0$] the net reproduction rate, also known as the net reproduction
+  ratio or $NRR$; the ratio of the average offspring cohort size to the average
+  parent cohort size in the stable population.
+  \item [$TFR$] the total fertility rate for age-structured populations.
+  \item [$eTFR$] the total fertility rate for $e_y$-structured populations.
+  \item [$ASFR$] age-specific fertility rates.
+  \item [$eSFR$] $e_y$-specific fertility rates.
+  \item [superscripts] ${X}^m$, ${X}^f$, ${X}^M$, ${X}^F$, ${X}^{M-M}$,
+  ${X}^{M-F}$, ${X}^{F-F}$, ${X}^{F-M}$ (where $X$ could be any variable) always
+  refer to males and females, and are mostly intuitive. Where two
+  superscripts are used, the first refers to sex of parent and the second
+  refers to sex of offspring. Changes in use are noted in text. I apologize for
+  inconsistency here, but at least these superscripts seem to present no
+  particular obstacle for understanding.
+\end{description}
