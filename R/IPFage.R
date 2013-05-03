@@ -297,7 +297,29 @@ legend(1995, .015, pch = 9, bty = "n", legend = c(expression(r^IPF(hm) > r^(sing
 dev.off()
 
 # ----------------------------------------------------------
+# test monotonicity
+Bxy <- BxymfUS[["1975"]][["Bxym"]] + BxymfUS[["1975"]][["Bxyf"]]
+#
+Fxf <- colSums(Bxy) / with(ExUS, Female[Year == 1975])
+Fxm <- rowSums(Bxy) / with(ExUS, Male[Year == 1975])
 
+FxPred <- IPFpred(Bxy, 
+        Exm1 = with(ExUS, Male[Year == 1975]), 
+        Exm2 = with(ExUS, 2*Male[Year == 1975]), 
+        Exf1 = with(ExUS, Female[Year == 1975]), 
+        Exf2 = with(ExUS, 2*Female[Year == 1975]), marM = harmonic.mean)
 
+plot(0:110,FxPred[[1]],type='l')
+lines(0:110,Fxm,lty=2,col="blue")
 
+plot(FxPred[[1]]-Fxm)
 
+FxPred <- IPFpred(Bxy, 
+        Exm1 = with(ExUS, Male[Year == 1975]), 
+        Exm2 = with(ExUS, .5*Male[Year == 1975]), 
+        Exf1 = with(ExUS, Female[Year == 1975]), 
+        Exf2 = with(ExUS, .5*Female[Year == 1975]), marM = harmonic.mean)
+plot(0:110,FxPred[[1]],type='l')
+lines(0:110,Fxm,lty=2,col="blue")
+
+plot(FxPred[[1]]-Fxm)
