@@ -14,18 +14,25 @@ same way for a long time before a cure for the itching is discovered?
 \end{singlespace}
 
 Many reflections on the findings of this dissertation have been planted in the
-text where this seemed approriate. Here we attempt a synthesis of the
+text where deemed approriate. Here we attempt a synthesis of the
 knowledge produced from the process of writing this dissertation and from the
 dissertation itself.
 
 What do we know that we did not know before?
 
-The common two-sex methods for age-structured populations tend to produce very
-similar results. Of the small set of methods presented in this dissertation, for
-insertion into a population projection engine, we recommend either:
+The common two-sex methods for age-structured or remaining-years tend to produce
+very similar results, and the common two-sex methods for
+remaining-years-structured or remaining-years tend to produce very similar
+results. However, remaining years models and age-structured models will
+produce different results, just as male and female single-sex models produce
+different and conflicting results. We will reflect on the conflicting
+definitions of age later. In order to account for sex divergence in
+projections or self-contained models, of those methods treated in
+this dissertation, we recommend from the following three adjustment strategies:
 
-1) the weighted-dominance method of \citet{goodman1967age}, probably with a
-dominance parameter of $0.5$, such that equal information is taken from male and female
+\begin{enumerate}
+\item The weighted-dominance method of \citet{goodman1967age}, probably with
+a dominance parameter of $0.5$, such that equal information is taken from male and female
 weights. This method wins on ease of implementation, and it produces reasonable
 reasults for population structures typically observed (i.e. without 0s in
 reproductive ages). It is also containable in a static Leslie matrix, although
@@ -33,10 +40,47 @@ we did not explain this construction for age-structured two-sex populations. The
 method has a drawback in that the model itself is less appealing, as it does 
 not allow for proper interaction between the sexes, or between ages.
 
-2) the mean method, with the mean either set to harmonic, logrithmic,
+\item The mean method, with the mean either set to harmonic, logrithmic,
 geometric or an unnamed mean in that approximate range and that has the property
 of falling to zero if one sex is absent. This method is appealing because the
 male and female marginal fertility rates for a given year are determined
 dynamically by what is happening in each age-combination of males and females.
 
+\item The IPF method is the most flexible, as it incorporates inter-age
+competition. That the method is iterative presents no real drawback, as any of
+the above methods is best implemented in a scripted language, and the method is
+not perceptibly slower than the alternatives. The properties of IPF are easy to
+demonstrate but difficult to prove, and so it has received less attention from
+mathematicians and ODE modellers. For the demographer designing a projection
+aparatus, IPF is nonetheless a convenient choice. This method is in need of
+comparison with the recent contribution from \citet{choo2006estimating}, which
+has been show to satisfy the same axioms.
+\end{enumerate}
 
+Each of these three methods has advantages and disadvantages, and it is up to
+the demographer to evaluate the optimal choice for the particular projective or
+modelling scenario. All three of these methods work equally well in
+age-structured and remaining-years structured projections. These three
+adjustment techniques work just the same for projections that incorporate
+assumptions about future developments in fertility. In this case, the
+demographer makes assumptions about the male and female paths of fertility rate development and adjusts in each
+iteration to force agreement in results. For the method based on a mean of age
+(or remaining years) - specific combinations of male and female exposures, the
+incorporation of sophisticated assumptions entails more care, as these must be
+distributed over a matrix. If this proposition is inconvenient, one may prefer
+either IPF or dominance weighting, which rely on on marginal fertility
+distributions for adjustments beyond the initial year.
+
+
+
+
+We have shown that populations may be projected while structured by
+remaining years of life. We have also shown that if oneThese considerations
+transfer to the case of remaining-years structured populations as well. 
+
+To the extent that fertility rates and the sex ratio at
+birth vary along the path to stability, one may wonder whether any of the
+\textit{interactive} two sex models are at odds with the notion of invariance 
+in stable populations. Once in the state of stability, of course, both population 
+structure and marginal male and female fertility rates are invariant, which
+means that the two-sex problem itself vanishes. In any of the interactive models
