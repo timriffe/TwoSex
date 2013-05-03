@@ -1,8 +1,42 @@
 \FloatBarrier
 \label{sec:reflections}
 
+\todo{Chapter under development!}
+
+\begin{singlespace}
+\begin{quote}
+ If somebody scratches the spot where he has an itch, do we have to see 
+ some progress? Isn't genuine scratching otherwise, or genuine itching 
+itching? And can't this reaction to an irritation continue in the 
+same way for a long time before a cure for the itching is discovered?
+\citep{wittgenstein1984culture}
+\end{quote}
+\end{singlespace}
+
 Many reflections on the findings of this dissertation have been planted in the
-text where this seemed approriate. Here we are expected to synthesize the
+text where this seemed approriate. Here we attempt a synthesis of the
 knowledge produced from the process of writing this dissertation and from the
 dissertation itself.
+
+What do we know that we did not know before?
+
+The common two-sex methods for age-structured populations tend to produce very
+similar results. Of the small set of methods presented in this dissertation, for
+insertion into a population projection engine, we recommend either:
+
+1) the weighted-dominance method of \citet{goodman1967age}, probably with a
+dominance parameter of $0.5$, such that equal information is taken from male and female
+weights. This method wins on ease of implementation, and it produces reasonable
+reasults for population structures typically observed (i.e. without 0s in
+reproductive ages). It is also containable in a static Leslie matrix, although
+we did not explain this construction for age-structured two-sex populations. The
+method has a drawback in that the model itself is less appealing, as it does 
+not allow for proper interaction between the sexes, or between ages.
+
+2) the mean method, with the mean either set to harmonic, logrithmic,
+geometric or an unnamed mean in that approximate range and that has the property
+of falling to zero if one sex is absent. This method is appealing because the
+male and female marginal fertility rates for a given year are determined
+dynamically by what is happening in each age-combination of males and females.
+
 

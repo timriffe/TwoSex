@@ -296,6 +296,11 @@ remaining years}
       \input{sections/exTwoSexRenewal/ex2sexIPFOtherStableParameters.tex}
     \subsection{The model applied to the US and Spanish data}
       \input{sections/exTwoSexRenewal/ex2sexIPFresults.tex}
+
+% exit from \part tip found
+% http://stackoverflow.com/questions/1483396/how-to-explicitly-end-a-part-in-latex-with-hyperref
+\bookmarksetup{startatroot}    % this is it
+\addtocontents{toc}{\bigskip}  % perhaps as well
 \chapter{Reflections}
   \input{sections/Reflections/ReflectionsOpeningParagraphs.tex}
 
