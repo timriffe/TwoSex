@@ -14,73 +14,208 @@ same way for a long time before a cure for the itching is discovered?
 \end{singlespace}
 
 Many reflections on the findings of this dissertation have been planted in the
-text where deemed approriate. Here we attempt a synthesis of the
+text where deemed appropriate. Here we attempt a synthesis of the
 knowledge produced from the process of writing this dissertation and from the
-dissertation itself.
+dissertation itself. The common two-sex methods for age- or remaining-years
+structured models tend to produce very similar results. However, remaining-years
+and age-structured models are also incongruous, just as male and female
+single-sex models produce incongruous results. We discuss the complimentary definitions 
+of age later. 
 
-What do we know that we did not know before?
+First we consider some practical aspects of two-sex models. As mentioned
+previously, the two-sex problem comes to the fore when projecting population into the
+future. The most common practice to avoid disagreement between the sexes is to
+use only the age-specific fertility rates of females, which is just the same as
+using the \citet{goodman1967age} model with the dominance parameter set to
+accept 100\% of model information from female fertility rates. There are
+very few projections that do not make this assumption. Assuming female dominance
+in one way or another is so widespread that newcomers to demography often perceive 
+it as a given, or in the worst case adopt the
+practice dogmatically. For others, the implementation is too complex or
+else the requisite transition rates are not available. Both of these later
+two obstacles may be overcome by removing nuptial states from the model
+altogether, as we have done in this dissertation. 
 
-The common two-sex methods for age-structured or remaining-years tend to produce
-very similar results, and the common two-sex methods for
-remaining-years-structured or remaining-years tend to produce very similar
-results. However, remaining years models and age-structured models will
-produce different results, just as male and female single-sex models produce
-different and conflicting results. We will reflect on the conflicting
-definitions of age later. In order to account for sex divergence in
-projections or self-contained models, of those methods treated in
-this dissertation, we recommend from the following three adjustment strategies:
+Formal demographers, however, have long taken the discrepancy seriously, at
+least for purposes of consistent model design. These mathematical models
+have been the driving force behind this dissertation effort. We have at
+times simplified two-sex models from their original form, and one offshoot of
+this choice is that these models may be of potential use in applied demography.
+The \texttt{R} code used to produce our results should be recyclable or else may
+easily be quarried to such ends. It therefore behooves us to recommend from
+amongst the methods explored in this dissertation. In order to account for sex
+divergence in projections or self-contained models, of those methods treated in this dissertation, 
+we recommend from the following three adjustment strategies:
 
 \begin{enumerate}
 \item The weighted-dominance method of \citet{goodman1967age}, probably with
 a dominance parameter of $0.5$, such that equal information is taken from male and female
-weights. This method wins on ease of implementation, and it produces reasonable
-reasults for population structures typically observed (i.e. without 0s in
+weights is a reasonable choice. This method wins on ease of implementation, and
+it produces reasonable results for population structures typically observed (i.e. without 0s in
 reproductive ages). It is also containable in a static Leslie matrix, although
-we did not explain this construction for age-structured two-sex populations. The
+we only explained this construction for $e_y$-structured populations. The
 method has a drawback in that the model itself is less appealing, as it does 
-not allow for proper interaction between the sexes, or between ages.
+not allow for proper interaction between the sexes, or between ages, but for
+purposes of age-sex population projections on a 10-40 year horizon, the simple
+model is well worth further consideration in our opinion.
 
-\item The mean method, with the mean either set to harmonic, logrithmic,
-geometric or an unnamed mean in that approximate range and that has the property
-of falling to zero if one sex is absent. This method is appealing because the
-male and female marginal fertility rates for a given year are determined
-dynamically by what is happening in each age-combination of males and females.
+\item The mean method from Sections~\ref{sec:ageharmonic} and
+\ref{sec:ex2sexschoen} for age and remaining-years structured models
+respectively, is also a reasonable choice. In this case, we recommend
+implementation with the mean either set to harmonic, logarithmic, geometric or
+an unnamed mean in that approximate range and that has the property of 
+falling to zero if one sex is absent. We opine that there is no point in
+quibbling over which of these means is best, as observed human populations do
+not exhibit the extreme sex ratios required to produce results that are
+meaningfully different. This method is appealing because the male and female
+marginal fertility rates for a given year are determined dynamically by 
+what is happening in each age-combination of males and females, and the range
+of means listed here allows for some degree of \textit{bottlenecking} due to
+the minority sex. The model is also of parsimonious design, easy to understand,
+and straightforward to implement.
 
-\item The IPF method is the most flexible, as it incorporates inter-age
-competition. That the method is iterative presents no real drawback, as any of
-the above methods is best implemented in a scripted language, and the method is
+\item The IPF method is the most flexible of these three, because it
+incorporates inter-age competition and substitution. That the method is
+iterative presents no real drawback, as any of the above methods is best 
+implemented in a scripted language, and the method is
 not perceptibly slower than the alternatives. The properties of IPF are easy to
 demonstrate but difficult to prove, and so it has received less attention from
 mathematicians and ODE modellers. For the demographer designing a projection
-aparatus, IPF is nonetheless a convenient choice. This method is in need of
+apparatus, IPF is nonetheless a convenient choice. This method is in need of
 comparison with the recent contribution from \citet{choo2006estimating}, which
-has been show to satisfy the same axioms.
+has similar properties.
 \end{enumerate}
 
 Each of these three methods has advantages and disadvantages, and it is up to
 the demographer to evaluate the optimal choice for the particular projective or
 modelling scenario. All three of these methods work equally well in
-age-structured and remaining-years structured projections. These three
+age-structured and remaining-years structured projections. Further, these three
 adjustment techniques work just the same for projections that incorporate
 assumptions about future developments in fertility. In this case, the
 demographer makes assumptions about the male and female paths of fertility rate development and adjusts in each
-iteration to force agreement in results. For the method based on a mean of age
-(or remaining years) - specific combinations of male and female exposures, the
-incorporation of sophisticated assumptions entails more care, as these must be
+iteration to force agreement in results. For the method (2) based on a mean of
+age- (or remaining-years) specific combinations of male and female exposures,
+the incorporation of sophisticated assumptions entails more care, as these must be
 distributed over a matrix. If this proposition is inconvenient, one may prefer
-either IPF or dominance weighting, which rely on on marginal fertility
+either IPF or dominance weighting, which rely only on marginal fertility
 distributions for adjustments beyond the initial year.
 
+Further, we have demonstrated that mean-based (2) and IPF (3) methods each
+entail changes to the marginal male and female rates after adjustment, and one
+may wonder whether these adjusted rates have any predictive power per se-- for
+instance adequately adjusting for foreseen changes in population structure--, or
+whether they are a modelling artifact to be disregarded in favor of the total 
+(unstructured) birth count. We have demonstrated that this feature exists,
+and we have shown instances where the two methods make predictions that are at
+odds. We do not follow up this observation with an empirical comparison
+to check whether (2) or (3) hit the mark closer in terms of distribution
+prediction. This therefore remains an intriguing question that could tip the
+balance in favor of preferring one of these two methods over the other. A
+priori, we expect IPF (3) to display more appropriate sensitivity amidst abrupt
+changes in cohort size, but we do not know whether the magnitude of adjustment is
+appropriate. 
 
-
-
-We have shown that populations may be projected while structured by
-remaining years of life. We have also shown that if oneThese considerations
-transfer to the case of remaining-years structured populations as well. 
+Of course, the demographer may also compare with two-sex models not treated
+in this dissertation, incorporate nuptial states into the model, and so
+forth. In this case, the two-sex method is transferred to nuptiality
+(match-making, pairing, marriage) as the event being predicted, but the
+adjustment procedures are one and the same. Such a projection would
+entail more sophisticated construction, more data inputs, and the incorporation of more hypotheses,
+namely hypotheses about changes in marriage rates as well as changes in marital
+and extramarital fertility. For populations with high proportions of
+extramarital fertility, extra data are required to approximate the formation of
+non-marital mated pairs, e.g. transitions into and out of cohabitation, as well
+as fertility fertility rates that apply to this subpopulation (and mortality
+rates if supposed different). This is to say that the addition of further state
+considerations to fertility assumptions greatly increases the model complexity
+and data requirements.
 
 To the extent that fertility rates and the sex ratio at
 birth vary along the path to stability, one may wonder whether any of the
-\textit{interactive} two sex models are at odds with the notion of invariance 
-in stable populations. Once in the state of stability, of course, both population 
-structure and marginal male and female fertility rates are invariant, which
-means that the two-sex problem itself vanishes. In any of the interactive models
+\textit{interactive} two sex models are at odds with the notion of
+rate invariance in stable populations. Once in the state of stability, of
+course, both population structure and marginal male and female fertility rates are invariant, which
+implies that the two-sex problem itself vanishes. In this case, for both the
+mean and the IPF methods, the stable adjusted marginal fertility rates become
+invariant, and the male and female rates yield the same results, making the
+population tautologically \textit{dominance-indifferent}. In any of the
+interactive models the element held fixed prior to stability are not rates, but
+some standard. For IPF, the element held constant in our 
+description is the original cross-classified birth matrix and the corresponding 
+male and female marginal rates. For the mean-based method, one holds constant 
+the standard rate matrix, as well as the mean function itself, but the marginal 
+rates produced by these standards have been shown to indeed change over time
+under these modelling assumptions.
+
+This author has provided no proof that the stable rate of growth
+attained in the various two-sex age-structured and remaining-years structured
+models are unique, necessary or ergodic. There is a possibility that under some
+real conditions the stabilizing trajectory arrives in a limit cycle, which this
+author considers a particular variety of stability. \citet{wijewickrema1980weak}
+and \citet{chung1990phd, chung1994cycles} explore the possibility of such cycles
+and bifurcations in two-sex models, but this and many other dynamic
+properties remain to be explored for remaining-years structured two-sex
+populations. We have omitted any sensitivity analysis, although this would
+enhance our ability to compare age-classified and remaining-years
+classified models. We have in some cases measured the total amount of
+oscillation in population structure between the initial and stable states, but
+we have not examined its path. We have also not checked whether the end state
+is truly ergodic or somehow dependent on initial conditions. These and most
+other transient properties of the models presented in this dissertation have
+been ignored, and are particularly ripe for exploration for the new family of
+remaining-years structured models that we propose.
+
+We have shown that populations may be projected while structured by
+remaining years of life. We have also revealed that populations under these two
+structures, calculated using data from one and the same population, even one and the same
+sex, imply different results. Specifically, for the data used in this
+dissertation, remaining-years structured data tended to imply higher
+reproductive values than age-structured data($r$, $R_0$, TFR, and so
+on). At first glance, one would expect the direction of difference to be
+negative rather than positive because we took the simplest possible course of
+redistributing population counts (or exposures) from all age classes rather than
+only from age classes in ages typically identified as reproductive ages. The
+outcome is positive because the age-ditributions of marginal birth counts and
+population counts are different, but redistributed by the same lifetable death
+distribution. We ought not expect differing intitial distributions to wind up
+proportionally in the same remaining years classes. Hence, the sum of these
+ratios (events to exposures) over remaining years is also different. TFR, for
+instance, is higher for remaining-years structured data than the age-equivalent
+measure because on average there is less exposure per birth in the newly
+redistributed data.
+
+One may question whether there is any sense in allowing non-reproductive ages
+into remaining-years exposures, and to this we have three responses. The first
+comes by manner of analogy to age-specific fertility distributions, which
+have tails that are longer than most people feel comfortable imagining, 
+both for males and females. For males and
+females there are so-called central ages of reproduction and there are
+less-common ages of reproduction. Even for ages typically measured, say
+45-49 for females, not all persons captured in these exposures are truly
+exposed to the risk of fertility, and everyone knows this. Indeed a minority
+of females in this age group are truly at risk of fertility. This does not imply
+that the rate calculated is invalid, but rather that the rates is\ldots low.
+This is one reason why a large portion of fertility studies deal with the
+measurement of the proximate determinants of fertility-- these
+factors differentiate exposure for purposes of calculating more specific rates.
+Age-specific rates are valid without such differentiation, as they help purge
+our measurement of distortions from a certain degree of population structure. 
+
+As \citet{stolnitz1949recent} so eloquently describe, demographic rates are
+never fully purged of population structure. We may nonetheless \textit{de}structure in
+any of myriad ways, and remaining-years structure is the way that we have shed
+light upon in this dissertation. No claim is made about whether chronological or
+thanatological age are the more efficient classifying variable for population
+data, nor that one is more pure than the other. In sum, we have in this
+dissertation provided yet another alternative structuring variable, and if one
+questions the validity of a rate calculated on the basis of blended age groups,
+one may ask: 1) how many persons are expected to die in $y$ years and 2) how
+many births this year were to persons expected to die in $y$ years, and there we
+have everything needed to calculate a rate. This is what we have done. Further
+refinements are possible and are worthy of exploration.
+
+The second response to the potentialempirical regularity
+
+Third - awareness
+
+
