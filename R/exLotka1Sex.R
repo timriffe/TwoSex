@@ -233,6 +233,7 @@ rfLES <- unlist(lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Lx, Bxymf,
 
 #-----------------------------------------------
 # add normal Lotka r to series
+# it's pretty noisy, but will pass
 pdf("/home/triffe/git/DISS/latex/Figures/exLotka1sex2.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, rmUS[, 1], type = 'n', ylim = c(-.02,.011),xlim = c(1968,2010), axes = FALSE,
