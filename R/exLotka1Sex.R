@@ -210,26 +210,63 @@ rfLES <- unlist(lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Lx, Bxymf,
 
 # -----------------------------------------------------
 # Figure
-pdf("/home/triffe/git/DISS/latex/Figures/exLotka1sex.pdf", height = 5, width = 5)
+#pdf("/home/triffe/git/DISS/latex/Figures/exLotka1sex.pdf", height = 5, width = 5)
+#par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+#plot(yearsUS, rmUS[, 1], type = 'n', ylim = c(-.016,.01),xlim = c(1968,2010), axes = FALSE,
+#        xlab = "", ylab = "",
+#        panel.first = list(rect(1968,-.016,2010,.01,col = gray(.95), border=NA),
+#                abline(h = seq(-.016,.01,by = .002), col = "white"),
+#                abline(v = seq(1970, 2010, by = 5), col = "white"),
+#                text(1968, seq(-.016,.01,by = .002),seq(-.016,.01,by = .002), pos = 2, cex = .8, xpd = TRUE),
+#                text(seq(1970, 2010, by = 10),-.016, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+#                text(1990, -.0175, "Year", cex = 1, pos = 1, xpd = TRUE),
+#                text(1966,.0115, "r", cex = 1, xpd = TRUE)))
+#
+#lines(yearsUS, rmUS[, 1],col = gray(.2), lwd = 2)
+#lines(yearsUS, rfUS[, 1],col = gray(.5), lwd = 2.5)
+#lines(yearsES, rmES[, 1],col = gray(.2), lwd = 2, lty = 5)
+#lines(yearsES, rfES[, 1],col = gray(.5), lwd = 2.5, lty = 5)
+#
+#legend(1970,-.01, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
+#        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
+#dev.off()
+
+#-----------------------------------------------
+# add normal Lotka r to series
+pdf("/home/triffe/git/DISS/latex/Figures/exLotka1sex2.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
-plot(yearsUS, rmUS[, 1], type = 'n', ylim = c(-.016,.01),xlim = c(1968,2010), axes = FALSE,
+plot(yearsUS, rmUS[, 1], type = 'n', ylim = c(-.02,.011),xlim = c(1968,2010), axes = FALSE,
         xlab = "", ylab = "",
-        panel.first = list(rect(1968,-.016,2010,.01,col = gray(.95), border=NA),
-                abline(h = seq(-.016,.01,by = .002), col = "white"),
+        panel.first = list(rect(1968,-.02,2010,.011,col = gray(.95), border=NA),
+                abline(h = seq(-.02,.011,by = .0025), col = "white"),
                 abline(v = seq(1970, 2010, by = 5), col = "white"),
-                text(1968, seq(-.016,.01,by = .002),seq(-.016,.01,by = .002), pos = 2, cex = .8, xpd = TRUE),
-                text(seq(1970, 2010, by = 10),-.016, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
-                text(1990, -.0175, "Year", cex = 1, pos = 1, xpd = TRUE),
-                text(1966,.0115, "r", cex = 1, xpd = TRUE)))
+                text(1968, seq(-.02,.011,by = .005),seq(-.02,.011,by = .005), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10),-.02, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, -.022, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1966,.0125, "r", cex = 1, xpd = TRUE)))
 
-lines(yearsUS, rmUS[, 1],col = gray(.2), lwd = 2)
-lines(yearsUS, rfUS[, 1],col = gray(.5), lwd = 2.5)
-lines(yearsES, rmES[, 1],col = gray(.2), lwd = 2, lty = 5)
-lines(yearsES, rfES[, 1],col = gray(.5), lwd = 2.5, lty = 5)
+lines(yearsUS, rmUS[, 1],col = gray(.2), lwd = 2.5)
+lines(yearsUS, rfUS[, 1],col = gray(.5), lwd = 3)
+lines(yearsES, rmES[, 1],col = gray(.2), lwd = 2.5, lty = 5)
+lines(yearsES, rfES[, 1],col = gray(.5), lwd = 3, lty = 5)
 
-legend(1970,-.01, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
-        legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
+lines(yearsUS, rmLUS,col = gray(.2), lwd = 1)
+lines(yearsUS, rfLUS,col = gray(.5), lwd = 1)
+lines(yearsES, rmLES,col = gray(.2), lwd = 1, lty = 5)
+lines(yearsES, rfLES,col = gray(.5), lwd = 1, lty = 5)
+
+legend(1969,-.0085, lty = c(1,1,5,5,1,1,5,5), 
+        col = gray(c(.2,.5,.2,.5,.2,.5,.2,.5)), 
+        lwd = c(2.5,3,2.5,3,1,1,1,1),
+        bty = "n",
+        legend = c(expression(US~males~e[y]), expression(US~females~e[y]), 
+                expression(ES~males~e[y]), expression(ES~females~e[y]),
+                "US males age", "US females age", "ES males age", "ES females age"), 
+        xpd = TRUE, cex = .8)
 dev.off()
+
+
+
 
 # Lotka stable age:
 
