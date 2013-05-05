@@ -52,11 +52,10 @@ indicators that can be derived from this method (not treated here) should
 make up a valuable new component to the contemporary demographer's toolbox, as well 
 as help inform current population debates. 
 
-It will suffice for the time being to
-illustrate that for Spain and the US in the years trated in this dissertation,
-the remaining-years-structured population pyramid has been many times more
-stable. This we will demonstrate by again making use of the difference
-coefficient, $\theta$ from Equation~\ref{eq:coefdiff}, where $f_1$ is the
+For Spain and the US in the years trated in this dissertation,
+the remaining-years-structured population pyramid has been much more
+stable over time than the corresponding age-structured pyramid. This we will
+demonstrate by again making use of the difference coefficient, $\theta$ from Equation~\ref{eq:coefdiff}, where $f_1$ is the
 population structure for year $t$ and $f_2$ is the population structure from
 year $t+1$ (males and females, together, scaled to sum to 1). We iteratively
 produce $\theta$, comparing year $t$ and $t+1$ for age-structured pyramids in
@@ -90,5 +89,40 @@ compared with that from year $t+10$ will be much more stable than the same
 comparison for the standard population. This lesson will reap dividends
 throughout the remainder of this dissertation; we will exploit this observation
 without investigating much further into its causes.
+
+To satisfy our curiosity about whether this finding is true only of these two
+populations and these particular years, or whether it is a pattern we would
+expect to see over a wider range of populations, we expand the exercise to the
+entirety of the Human Mortality Database, and summarize findings even more than
+the above. The data used here include all 46 populations and subpopulations
+ in the HMD at the time of this writing. Instead of calculating the year-on-year
+ difference coefficient only for 1-year lags, we calculate it for lags 1-50.
+ This we do first for each population and each lag over the entire span of years
+ available for each population. We then take an unweighted arithmetic mean over
+ all difference coefficients for the given lag for all countries combined. This is a rough
+ gauge because not all populations are available for the same number of years,
+ and the exercise is susceptible to much improvement. Nonetheless, it serves as 
+ strong evidence of our claim that
+ $e_y$-structured populations are more stable over time than age-structured populations.
+  We then repeat the exercise for years $1950+$ only, which serves to remove most 
+  major mortality crises from the data. For the first
+ lag, a total of 4267 population-specific year-on-year difference coefficients
+ are calculated, 2133 when the lag is equal to 50. For years after 1950 the
+ respective numbers are 2478 and 344. The results are displayed in
+ Figure~\ref{fig:PyramidStabilityAll}, and we conclude that it is an acceptable
+  rule of thumb to say that remaining
+ years-structured populations are in general twice as stable as age-structured
+ populations, thrice as stable for comparisons within a 10-year horizon.
+ 
+\begin{figure}
+      \centering
+      % Figure made in HMDeyStability.R
+      \caption{Relative stability of $e_y$-structured populations to
+                age-structured populations, year $t$ vs $t+lag$, ratio of
+                $\theta$, All HMD populations, all years available and years
+                since 1950}
+         \includegraphics{Figures/PyramidStabilityThetaRatioAll}
+      \label{fig:PyramidStabilityAll} 
+\end{figure}
 
 \FloatBarrier

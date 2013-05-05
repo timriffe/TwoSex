@@ -80,7 +80,7 @@ plot(1969:2008, StabUS[,2]/StabUS[,1], type = 'l', ylim = c(0,.8), xlim = c(1968
                 text(1968, seq(0, .8, by = .1),seq(0, .8, by = .1), pos = 2, cex = .8, xpd = TRUE),
                 text(seq(1970, 2009, by = 10),0, seq(1970, 2009, by = 10), pos = 1, cex = .8, xpd = TRUE),
                 text(1990, -.05, "Year", cex = 1, pos = 1, xpd = TRUE),
-                text(1968.5,.87, expression(frac(theta~e[x],theta~age)), cex = 1, xpd = TRUE)))
+                text(1968.5,.87, expression(frac(theta~e[y],theta~age)), cex = 1, xpd = TRUE)))
 
 lines(1975:2008, StabES[,2]/StabES[,1], lwd = 2.5, col = gray(.5), lty = 5)
 
@@ -187,7 +187,7 @@ plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim =
         abline(h = seq(0, 110, by = 10), col = "white"),
         text(seq(-1, 1, by = .2),0, xlabs, xpd = TRUE, pos = 1, cex = .7),
         text(-1, seq(0, 110, by = 10), seq(0, 110, by = 10), pos = 2, xpd = TRUE, cex = .7),
-        text(-1.17, 116, expression(e[x]), xpd = TRUE, cex = 1),
+        text(-1.17, 116, expression(e[y]), xpd = TRUE, cex = 1),
         text(0, -12, "Percentage", xpd = TRUE, cex = 1),
       ))
 
@@ -292,7 +292,7 @@ plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim =
                 abline(h = seq(0, 110, by = 10), col = "white"),
                 text(seq(-1, 1, by = .2),0, xlabs, xpd = TRUE, pos = 1, cex = .7),
                 text(-1, seq(0, 110, by = 10), seq(0, 110, by = 10), pos = 2, xpd = TRUE, cex = .7),
-                text(-1.17, 116, expression(e[x]), xpd = TRUE, cex = 1),
+                text(-1.17, 116, expression(e[y]), xpd = TRUE, cex = 1),
                 text(0, -12, "Percentage", xpd = TRUE, cex = 1),
         ))
 PyramidOutline(Pym1p, Pyf1p, scale =100, border = "red", xpd = TRUE, lwd = .5) 
