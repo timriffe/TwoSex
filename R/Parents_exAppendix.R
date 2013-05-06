@@ -161,23 +161,23 @@ exTFRmUSlim <- colSums(exSFRUSmlim, na.rm = TRUE)
 exTFRfUSlim <- colSums(exSFRUSflim, na.rm = TRUE)
 exTFRmESlim <- colSums(exSFRESmlim, na.rm = TRUE)
 exTFRfESlim <- colSums(exSFRESflim, na.rm = TRUE)
+par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
 
 pdf("/home/triffe/git/DISS/latex/Figures/exTFRlim1555.pdf", height = 5, width = 5)
-par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
-plot(yearsUS, exTFRmUSlim, type = 'l', ylim = c(2, 7), xlim = c(1968,2010), axes = FALSE,
+plot(yearsUS, exTFRmUSlim, type = 'l', ylim = c(1.5, 6), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
-        panel.first = list(rect(1968, 2, 2010, 7,col = gray(.95), border=NA),
+        panel.first = list(rect(1968, 1.5, 2010, 6,col = gray(.95), border=NA),
                 abline(h = seq(2, 7, by = .5), col = "white"),
                 abline(v = seq(1970, 2010, by = 5), col = "white"),
-                text(1968, seq(2, 7, by = .5),seq(2,7, by = .5), pos = 2, cex = .8, xpd = TRUE),
-                text(seq(1970, 2010, by = 10), 2, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
-                text(1990, 1.8, "Year", cex = 1, pos = 1, xpd = TRUE),
-                text(1965, 7.2, expression(e[y], "             -TFR"), cex = 1, xpd = TRUE)))
+                text(1968, seq(1.5, 6, by = .5),seq(1.5,6, by = .5), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10), 1.5, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, 1.3, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1965, 6.3, expression(e[y], "             -TFR"), cex = 1, xpd = TRUE)))
 lines(yearsUS, exTFRfUSlim, lwd = 2.5, col = gray(.5))
 lines(yearsES, exTFRmESlim, lwd = 2, col = gray(.2), lty = 5)
 lines(yearsES, exTFRfESlim, lwd = 2.5, col = gray(.5), lty = 5)
 
-legend(1995, 7, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
+legend(1990, 6, lty = c(1,1,5,5), col = gray(c(.2,.5,.2,.5)), lwd = c(2,2.5,2,2.5),bty = "n",
         legend = c("US males", "US females", "ES males", "ES females"), xpd = TRUE)
 dev.off()
 
