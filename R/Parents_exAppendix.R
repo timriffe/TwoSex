@@ -100,7 +100,7 @@ text(1969 + shift, seq(0, 100, by = 10), seq(0, 100, by = 10), pos = 2, cex = .7
 text(seq(1970, 2010, by = 10), 0, seq(1970, 2010, by = 10), pos = 1, cex = .7, xpd = TRUE)
 text(seq(1970, 2010, by = 10) + shift, 0, seq(1970, 2010, by = 10), pos = 1, cex = .7, xpd = TRUE)
 # axis labels
-text(c(1965, 1965 + shift), 108, expression(e[x]), xpd = TRUE)
+text(c(1965, 1965 + shift), 108, expression(e[y]), xpd = TRUE)
 text(c(1990, 1990 + shift), -7, "Year", xpd = TRUE)
 text(c(1990, 1990 + shift), 105, c("Male","Female"), cex = .8, xpd = TRUE)
 # legend
@@ -142,7 +142,7 @@ text(1975 + shift, seq(0, 100, by = 10), seq(0, 100, by = 10), pos = 2, cex = .7
 text(seq(1980, 2010, by = 10), 0, seq(1980, 2010, by = 10), pos = 1, cex = .7, xpd = TRUE)
 text(seq(1980, 2010, by = 10) + shift, 0, seq(1980, 2010, by = 10), pos = 1, cex = .7, xpd = TRUE)
 # axis labels
-text(c(1971, 1971 + shift), 108, expression(e[x]), xpd = TRUE)
+text(c(1971, 1971 + shift), 108, expression(e[y]), xpd = TRUE)
 text(c(1990, 1990 + shift), -7, "Year", xpd = TRUE)
 text(c(1990, 1990 + shift), 105, c("Male","Female"), cex = .8, xpd = TRUE)
 # legend
@@ -172,7 +172,7 @@ plot(yearsUS, exTFRmUSlim, type = 'l', ylim = c(2, 7), xlim = c(1968,2010), axes
                 text(1968, seq(2, 7, by = .5),seq(2,7, by = .5), pos = 2, cex = .8, xpd = TRUE),
                 text(seq(1970, 2010, by = 10), 2, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
                 text(1990, 1.8, "Year", cex = 1, pos = 1, xpd = TRUE),
-                text(1965, 7.2, expression(e[x], "             -TFR"), cex = 1, xpd = TRUE)))
+                text(1965, 7.2, expression(e[y], "             -TFR"), cex = 1, xpd = TRUE)))
 lines(yearsUS, exTFRfUSlim, lwd = 2.5, col = gray(.5))
 lines(yearsES, exTFRmESlim, lwd = 2, col = gray(.2), lty = 5)
 lines(yearsES, exTFRfESlim, lwd = 2.5, col = gray(.5), lty = 5)
@@ -261,7 +261,7 @@ text(1969 + shift, seq(0, 100, by = 10), seq(0, 100, by = 10), pos = 2, cex = .7
 text(seq(1970, 2010, by = 10), 0, seq(1970, 2010, by = 10), pos = 1, cex = .7, xpd = TRUE)
 text(seq(1970, 2010, by = 10) + shift, 0, seq(1970, 2010, by = 10), pos = 1, cex = .7, xpd = TRUE)
 # axis labels
-text(c(1965, 1965 + shift), 108, expression(e[x]), xpd = TRUE)
+text(c(1965, 1965 + shift), 108, expression(e[y]), xpd = TRUE)
 text(c(1990, 1990 + shift), -7, "Year", xpd = TRUE)
 text(c(1990, 1990 + shift), 105, c("Male","Female"), cex = .8, xpd = TRUE)
 # legend
@@ -303,7 +303,7 @@ text(1975 + shift, seq(0, 100, by = 10), seq(0, 100, by = 10), pos = 2, cex = .7
 text(seq(1980, 2010, by = 10), 0, seq(1980, 2010, by = 10), pos = 1, cex = .7, xpd = TRUE)
 text(seq(1980, 2010, by = 10) + shift, 0, seq(1980, 2010, by = 10), pos = 1, cex = .7, xpd = TRUE)
 # axis labels
-text(c(1971, 1971 + shift), 108, expression(e[x]), xpd = TRUE)
+text(c(1971, 1971 + shift), 108, expression(e[y]), xpd = TRUE)
 text(c(1990, 1990 + shift), -7, "Year", xpd = TRUE)
 text(c(1990, 1990 + shift), 105, c("Male","Female"), cex = .8, xpd = TRUE)
 # legend
@@ -333,7 +333,7 @@ plot(yearsUS, exTFRmUSlim, type = 'l', ylim = c(1.5, 5.5), xlim = c(1968,2010), 
                 text(1968, seq(1.5, 5.5, by = .5),seq(1.5,5.5, by = .5), pos = 2, cex = .8, xpd = TRUE),
                 text(seq(1970, 2010, by = 10), 1.5, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
                 text(1990, 1.3, "Year", cex = 1, pos = 1, xpd = TRUE),
-                text(1965, 5.7, expression(e[x], "             -TFR"), cex = 1, xpd = TRUE)))
+                text(1965, 5.7, expression(e[y], "             -TFR"), cex = 1, xpd = TRUE)))
 lines(yearsUS, exTFRfUSlim, lwd = 2.5, col = gray(.5))
 lines(yearsES, exTFRmESlim, lwd = 2, col = gray(.2), lty = 5)
 lines(yearsES, exTFRfESlim, lwd = 2.5, col = gray(.5), lty = 5)
@@ -441,7 +441,7 @@ text(1969 + shift, seq(0, 100, by = 10), seq(0, 100, by = 10), pos = 2, cex = .7
 text(seq(1970, 2010, by = 10), 0, seq(1970, 2010, by = 10), pos = 1, cex = .7, xpd = TRUE)
 text(seq(1970, 2010, by = 10) + shift, 0, seq(1970, 2010, by = 10), pos = 1, cex = .7, xpd = TRUE)
 # axis labels
-text(c(1965, 1965 + shift), 108, expression(e[x]), xpd = TRUE)
+text(c(1965, 1965 + shift), 108, expression(e[y]), xpd = TRUE)
 text(c(1990, 1990 + shift), -7, "Year", xpd = TRUE)
 text(c(1990, 1990 + shift), 105, c("Male","Female"), cex = .8, xpd = TRUE)
 # legend
@@ -483,7 +483,7 @@ text(1975 + shift, seq(0, 100, by = 10), seq(0, 100, by = 10), pos = 2, cex = .7
 text(seq(1980, 2010, by = 10), 0, seq(1980, 2010, by = 10), pos = 1, cex = .7, xpd = TRUE)
 text(seq(1980, 2010, by = 10) + shift, 0, seq(1980, 2010, by = 10), pos = 1, cex = .7, xpd = TRUE)
 # axis labels
-text(c(1971, 1971 + shift), 108, expression(e[x]), xpd = TRUE)
+text(c(1971, 1971 + shift), 108, expression(e[y]), xpd = TRUE)
 text(c(1990, 1990 + shift), -7, "Year", xpd = TRUE)
 text(c(1990, 1990 + shift), 105, c("Male","Female"), cex = .8, xpd = TRUE)
 # legend
@@ -513,7 +513,7 @@ plot(yearsUS, exTFRmUSlim, type = 'l', ylim = c(2.5, 9.5), xlim = c(1968,2010), 
                 text(1968, seq(3, 9, by = 1),seq(3, 9, by = 1), pos = 2, cex = .8, xpd = TRUE),
                 text(seq(1970, 2010, by = 10), 2.5, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
                 text(1990, 2.2, "Year", cex = 1, pos = 1, xpd = TRUE),
-                text(1965, 9.85, expression(e[x], "             -TFR"), cex = 1, xpd = TRUE)))
+                text(1965, 9.85, expression(e[y], "             -TFR"), cex = 1, xpd = TRUE)))
 lines(yearsUS, exTFRfUSlim, lwd = 2.5, col = gray(.5))
 lines(yearsES, exTFRmESlim, lwd = 2, col = gray(.2), lty = 5)
 lines(yearsES, exTFRfESlim, lwd = 2.5, col = gray(.5), lty = 5)
@@ -589,7 +589,7 @@ plot(yearsUS, exTFRmUSlim, type = 'l', ylim = c(2.5, 9.5), xlim = c(1968,2010), 
                 text(1968, seq(3, 9, by = 1),seq(3, 9, by = 1), pos = 2, cex = .8, xpd = TRUE),
                 text(seq(1970, 2010, by = 10), 2.5, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
                 text(1990, 2.2, "Year", cex = 1, pos = 1, xpd = TRUE),
-                text(1965, 9.85, expression(e[x], "             -TFR"), cex = 1, xpd = TRUE)))
+                text(1965, 9.85, expression(e[y], "             -TFR"), cex = 1, xpd = TRUE)))
 lines(yearsUS, exTFRfUSlim, lwd = 2.5, col = gray(.5))
 lines(yearsES, exTFRmESlim, lwd = 2, col = gray(.2), lty = 5)
 lines(yearsES, exTFRfESlim, lwd = 2.5, col = gray(.5), lty = 5)
