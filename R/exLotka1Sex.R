@@ -39,18 +39,17 @@ LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) / 1e5
 #------------------------------------------------------------
 # minimizer function for 1 sex ex-perspective renewal function:
 # use with: optimize()
-#exOneSexMin <- function(r, dx, Fex, .a = .5:110.5){
-#    # get the overlapped / staggered dx structure
-#    N               <- length(Fex)
-#    dxM  <- matrix(0, ncol = N, nrow = N)
-#    # remaining years go down rows. ages over columns
-#    dxi  <- dx
-#    for (i in 1:N){
-#        dxM[i, 1:length(dxi)  ] <- dxi 
-#        dxi <- dxi[2:length(dxi) ]
-#    }     
-#    (1 - sum(rowSums(dxM %col% (1 / exp(-r * .a))) * Fex)) ^ 2
-#}
+exOneSexMin <- compiler::cmpfun(function(r, dx, Fex, .a = .5:110.5){
+    # get the overlapped / staggered dx structure
+    N    <- length(Fex)
+    dxM  <- matrix(0, ncol = N, nrow = N)
+    dxi  <- dx
+    for (i in 1:N){
+        dxM[i, 1:length(dxi)  ] <- dxi 
+        dxi <- dxi[2:length(dxi) ]
+    }   
+    1 - sum(rowSums(t(t(dxM) * exp(-r * .a))) * Fex)
+})
 
 exOneSexCoaleR <- function(Fex, dx, .a = .5:110.5, maxit = 1e2, tol = 1e-15, r.start = 0.001){  
     
@@ -252,7 +251,7 @@ lines(yearsES, rmES[, 1],col = gray(.2), lwd = 2.5, lty = 5)
 lines(yearsES, rfES[, 1],col = gray(.5), lwd = 3, lty = 5)
 
 lines(yearsUS, rmLUS,col = gray(.2), lwd = 1)
-lines(yearsUS, rfLUS,col = gray(.5), lwd = 1)
+lines(yearsUS, rfLUS,col = grexOneSexMinay(.5), lwd = 1)
 lines(yearsES, rmLES,col = gray(.2), lwd = 1, lty = 5)
 lines(yearsES, rfLES,col = gray(.5), lwd = 1, lty = 5)
 
@@ -262,7 +261,7 @@ legend(1969,-.0085, lty = c(1,1,5,5,1,1,5,5),
         bty = "n",
         legend = c(expression(US~males~e[y]), expression(US~females~e[y]), 
                 expression(ES~males~e[y]), expression(ES~females~e[y]),
-                "US males age", "US females age", "ES males age", "ES females age"), 
+                "US males ageexOneSexMin", "US females age", "ES males age", "ES females age"), 
         xpd = TRUE, cex = .8)
 dev.off()
 
@@ -285,7 +284,7 @@ rownames(rfES) <- yearsES
 names(rmLUS) <- yearsUS
 names(rfLUS) <- yearsUS
 names(rmLES) <- yearsES
-names(rfLES) <- yearsES
+names(rfLES) <- yearsESexOneSexMin
 
 PxUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")))
 PxES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
@@ -328,7 +327,7 @@ DiffCoefryUSf <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bx, .
                     cyst    <- ex1SexStableAge(r = rmat[yr,"r"], Fex = Fex, dx = .dx[, yr])
                     
                     # preesnt structure
-                    cy      <- Py / sum(Py)
+                    cy      <-exOneSexMin Py / sum(Py)
                     
                     cast    <- LotkaStableAge(r = rL[yr], Lx = .Lx[,yr], Fx = Bx / Ex)
                     ca.now  <- Px / sum(Px)
@@ -356,7 +355,7 @@ DiffCoefryESm <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bx, .
                     cast    <- LotkaStableAge(r = rL[yr], Lx = .Lx[,yr], Fx = Bx / Ex)
                     ca.now  <- Px / sum(Px)
                     # difference coef
-                    c(extheta = 1-sum(pmin(cyst, cy)), Lotkatheta =  1-sum(pmin(cast, ca.now)))
+                    c(extheta exOneSexMin= 1-sum(pmin(cyst, cy)), Lotkatheta =  1-sum(pmin(cast, ca.now)))
                 }, .Bx = BxymfES, .Ex = ExES, .Px = PxES, .Lx = LxmES, .dx = dxmES, rmat = rmES, rL = rmLES))
 
 DiffCoefryESf <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .dx, .Lx, rmat, rL){  
@@ -373,7 +372,7 @@ DiffCoefryESf <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bx, .
                     # stable structure
                     cyst    <- ex1SexStableAge(r = rmat[yr,"r"], Fex = Fex, dx = .dx[, yr])
                     
-                    # preesnt structure
+                    # preesnt exOneSexMinstructure
                     cy      <- Py / sum(Py)
                     
                     cast    <- LotkaStableAge(r = rL[yr], Lx = .Lx[,yr], Fx = Bx / Ex)
@@ -418,7 +417,7 @@ library(parallel)
 #                            }, .Ex = Ex)
 #                    BirthsSim <- matrix(rpois(n=length(Bx)*1000, lambda = Bx), ncol = 1000)
 #                    
-#                    BySim <- BirthsSim * 0 
+#                    BySim <- exOneSexMinBirthsSim * 0 
 #               
 #                    for (i in 1:1000){
 #                        BySim[,i] <- rowSums(ExpectedDx(BirthsSim[,i], dxSim[,i]))
@@ -727,4 +726,13 @@ lines(exp(rmUS[,1]*rmUS[,2]))
 rmLUS - rmUS[,1]
 
 
+# ----------------------------------------------------
+# check solution unique and concave:
+yr <- "1975"
+Eym <- rowSums(ExpectedDx(with(ExUS,Male[ExUS$Year == as.integer(yr)]), dxmUS[, yr]))
 
+Bym <-  rowSums(ExpectedDx(rowSums(BxymfUS[[yr]][["Bxym"]], na.rm = TRUE), dxmUS[, yr]))
+Fym <- Minf0(Mna0(Bym / Eym))
+resids <- sapply(seq(-.5,.5,by=.001),exOneSexMin, dx = dxmUS[, yr], Fex = Fym)
+plot(seq(-.5,.5,by=.001),resids,type = 'l')
+abline(h=0)
