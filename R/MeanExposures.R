@@ -5,8 +5,8 @@
 # this script simply calculates a given mean exposure. This should be run by hand, as it's non trivial.
 # hence the faile brake at the top here: don't want to source it by accident!
 
-# within the script, change N to e.g. 1, 2 or 3, and be sure to change the resultant file name.
-# to end in e.g. 1x1, 2x2 or 3x3
+# within the script, change N to e.g., 1, 2 or 3, and be sure to change the resultant file name.
+# to end in e.g., 1x1, 2x2 or 3x3
 run.this.script <- FALSE
 if (run.this.script){
 

@@ -226,7 +226,7 @@ plot(1970:2009, p.u.vec, type = 'l', col = 'red')
 lines(1970:2009, p.l.vec, col = "blue")
 
 # now instead of optimizing over the whole pdf, optimize over local pdfs-
-# e.g. 3x3 cells of 3x3 blocks? something like that.
+# e.g., 3x3 cells of 3x3 blocks? something like that.
 wmean(matrix(c(2,3,4,5),2), )
 wmeanM2 <- compiler::cmpfun(function(M1, M2, w.frac){
     M1 * w.frac + M2 * w.frac
