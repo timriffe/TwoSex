@@ -1,0 +1,258 @@
+\FloatBarrier
+\label{sec:IPF}
+\citet{mc1975models} introduced a well-established method called iterative
+proportional fitting (IPF)\footnote{Also called matrix-raking.}, often used for
+rescaling tables, to the two-sex problem for marriage models. We will apply
+the method to fertility only, though the reader may consult
+\citet{mc1975models} or \citet{Matthews2013} for details on how to apply
+this method in the case of marriage matching. This method works by starting with
+a known cross-tabulation of births, in our case from the base year $t$. First compute 
+the marginal fertility rates for males and females (ASFR). Apply the male and
+female ASFR to exposures predicted for some future year $t+n$ to produce
+initially-predicted marginal birth count distributions, the sums of which will 
+never agree (as was illustrated in Section~\ref{sec:divbirth}). These new
+marginal distributions may be uniformly rescaled according to some mean of their
+respective sums. The mean function chosen will only affect results when the
+sex-gap in predicted births is very large\footnote{we have compared overall
+results using arithmetic and harmonic means, and found no noteworthy difference. 
+All results will be in terms of the harmonic mean for this first rescaling.}.
+
+Now that the male and female sums for year $t+n$ agree, we iteratively
+rescale the original birth matrix according to the male and female
+predicted margins, alternating between male (row) and female (column) margins
+until the new birth matrix margins sum exactly to the predicted margins. Of
+course, the resulting matrix will differ depending on whether one begins with
+rows or with column margins, and so we adopt the recommendation of
+\citet{Matthews2013}, taking the element-wise average of the two
+possible outcome matrices in each iteration before advancing to the next
+iteration. We continue this iterative process until it no longer makes any
+difference whether we first scale rows or first scale columns, and accept the
+resulting \textit{raked} matrix as our year $t+n$ prediction. Other algorithms
+exist for IPF, and IPF is also often used internally in log-linear model
+implementations, but we adhere to these easy-to-understand steps.
+
+Using IPF, 1) male and female rates are guaranteed to agree, 2) structural 0s
+are not problematic, and 3) the inter-age competition axiom is fulfilled,
+which has not been the case with methods previously described. To illustrate
+this property, we execute the following experiment: Taking initial birth count
+and exposure data from US, 1975, we calculate male and female ASFR. We then
+apply the male and female 1975 ASFR to exposures from 1980, and proceed with the
+above-described method, finally settling on a predicted birth matrix for 1980,
+from which we calculate new ASFR vectors for males and females (1980
+predictions that agree). This is the base prediction that we will compare with.
+Now we increase 1980 age-25 males (only) by 50\% and repeat the IMP procedure,
+producing new ASFR predictions for males and for females.
+Figure~\ref{fig:IPFcomp} shows the ratio of the hypothetical (age-25 male
+exposure increased by 50\%) 1980 ASFR to the base 1980 ASFR prediction.
+
+Figure~\ref{fig:IPFcomp} illustrates the competition axiom because age-25 male
+rates decrease more than neighboring ages, and rate for male ages closest to 25
+decrease by more than ages farther from 25 (in fact the ratio is monotonic in
+either direction from 25-- ideal). Female rates increase as well, also as a
+rough function of proportional \textit{intermating} with age-25 males in the
+1975 birth matrix. Here we see only the difference
+in rates-- in terms of birth counts, age-25 males would have a large increase, while all other ages would experience decreases (lower rates applied to the same exposures).
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{ASFR after increasing 1980 male exposure by 50\% compared
+          with base 1980 ASFR prediction. Based on US 1975 ASFR and birth
+          matrix.}
+           % figure produced in/R/IPFage.R
+           \includegraphics{Figures/IPFagecompetitiontest}
+          \label{fig:IPFcomp}
+\end{figure}
+
+\paragraph{Iterative proportional fitting in models of population growth: }
+
+The formulas to formalize the use of IPF fertility balancing will take on a
+different appearance than those seen thus far. Note that the basic inputs to the
+IPF function to constrain male and female fertility rates will be:
+$IPF(B_{a,a'}(t), F_a^M(t), F_{a'}^F(t),P_a(t+n),P_{a'}(t+n))$, where $B_{a,a'}$
+is the cross-classified birth matrix, $F_a^M$ and $F_{a'}^F$ are male and female ASFR,
+and $P_a$ and $P_{a'}$ are future population estimates (exposures when
+discrete). The function produces adjusted ASFR for \textit{both} males and females,
+$F_a^{M^\ast}$, $F_{a'}^{F\ast}$. Let us define a shorthand where the year
+$\tau$ is the year used as the standard for the IPF method, bearing in mind that
+``$\tau$'' in $IPF(\tau, p^M, p^F)$ indicates the first three arguments from
+year $\tau$ (births and male and female ASFR), whereas the later two arguments, that which we would like
+to adjust to, may change according to our ends. $F_a^{M^\ast(\tau,p^M, p^F)}$
+will be the IPF adjusted male ASFR based on year $\tau$ data, and
+$F_{a'}^{F^\ast(\tau,p^M, p^F)}$ the female ASFR output from the same procedure.
+Then assuming constant mortality and continuous functions, we may define year $t$ total births as a
+function of past births as:
+
+\begin{align}
+B(t) &= \int_{a=0}^\infty \varsigma B(t-a)p_aF_a^{M^\ast(\tau,p^M, p^F)}\dd a
+\\ &= \int_{a'=0}^\infty (1-\varsigma) B(t-a')p_{a'}F_{a'}^{F^\ast(\tau,p^M,
+p^F)}\dd a'
+\end{align}
+which works either with males or with females, since the IPF function already
+balances fertility such that total births will be the same whether predicted by
+males or females. $\varsigma$ is the proportion male at birth. If mortality is
+held constant and $IPF(\tau,p^M, p^F)$ is always based on the same year $\tau$ 
+constant information, the population will eventually begin
+to grow at a constant rate $r$ which can be estimated from the following
+equation:
+\begin{align}
+\label{eq:IPFtricky}
+1 &= \int_{a=0}^\infty \varsigma e^{-ra}p_aF_a^{M^\ast(\tau,p^{M\infty},
+p^{F\infty})}\dd a \\ 
+&= \int_{a'=0}^\infty (1-\varsigma) e^{-ra'}p_{a'}F_{a'}^{F^\ast(\tau,p^{M\infty},
+p^{F\infty})}\dd a'
+\end{align}
+where $p^{M\infty}$ for males is just the full age pattern of
+$\varsigma e^{-ra}p_a$, and $p^{F\infty}$ is the full age pattern
+from $(1-\varsigma) e^{-ra'}p_{a'}$ analogously for females. 
+
+\paragraph{Estimating the intrinsic growth rate: } The estimation of
+$r$ using this equation is based on the same principles that have been presented
+earlier, but differs in some details. First, note
+that either version of Equation~\eqref{eq:IPFtricky} requires full information from both
+males and females, so we may as well add the two right-side components and make
+the equation sum to two:
+\begin{equation}
+\label{eq:IPFugly}
+2 = \int_{a=0}^\infty \int_{a'=0}^\infty \varsigma
+e^{-ra}p_aF_a^{M^\ast(\tau,p^{M\infty}, p^{F\infty})} + (1-\varsigma)
+e^{-ra'}p_{a'}F_{a'}^{F^\ast(\tau,p^{M\infty}, p^{F\infty})}\dd a' \dd a
+\end{equation}
+As in some earlier iterative $r$-estimation instructions given in this
+dissertation, one does well to allow $\varsigma$ to be determined by the
+exposure-weighted average of sex ratios that vary over age of mother and father.
+This information we retain in the sex-sex-specific fertility functions: $F_a^{M-M}$,
+$F_a^{M-F}$, $F_{a'}^{F-F}$, $F_{a'}^{F-M}$, which therefore enter two
+separate IPF functions, one for boy births and one for girl births. For
+notational convenience, we indicate the sex of birth with a second superscript,
+where $F_a^{M-M^\ast(\tau,p^{M\infty}, p^{F\infty})}$ and
+$F_{a'}^{F-M^\ast(\tau,p^{M\infty}, p^{F\infty})}$ indicate IPF-adjusted
+father-son and mother-son fertility. The second superscript indicates that
+the same sex-specificity applies to the three arguments from year $\tau$: The 
+cross-classified birth matrix for boy births, and the two sex-sex-specific ASFR
+vectors, $F_a^{M-M}$ and $F_{a'}^{F-M}$.  $F_a^{M-F^\ast(\tau,p^{M\infty},
+p^{F\infty})}$ and $F_{a'}^{F-F^\ast(\tau,p^{M\infty}, p^{F\infty})}$ are the
+respective girl-birth adjusted fertility vectors. With these components, we can
+now describe the iterative procedure to locate $r$ and simultaneously the stable
+SRB.
+
+\begin{enumerate}
+  \item Make a rough guess at $R_0$, $\widehat{R_0}$, assuming that $r = 0$:
+  \begin{equation}
+  \widehat{R_0} = \int_{a=0}^\infty \varsigma p_aF_a^{M^\ast(\tau,p^{M},
+  p^{F})} \dd a
+  \end{equation}
+  in other words, where the IPF arguments $p^{M}$ and $p^{F}$ are simply the
+  male and female survival functions ($L_a$ discrete). One could also write this
+  in terms of female and obtain the same result.
+  \item Make a rough guess at the both-sex mean time between generations,
+  $\widehat{T}$ by weighting $a$ and $a'$ into Equation~\eqref{eq:IPFugly},
+  and dividing the resulting sum by $2\widehat{R_0}$.
+  \item With these two quantities, establish a first guess at $r$,
+  $r^{(0)}$, as:
+  \begin{equation}
+  r^{(0)} = \frac{ln(\widehat{R_0})}{\widehat{T}}
+  \end{equation}
+  Further, make a first guess at the stable SRB, $S^0$, using
+  the observed year $t$ sex ratio at birth, and derive $\varsigma^{(0)}$.
+  \item With these starting values, $r^{(0)}$ and $\varsigma^{(0)}$, we begin
+  the iterative process by first using IPF to determine the male and female
+  both-sex fertility rates (i.e. normal ASFR) that correspond with
+  $\varsigma^{(0)} p_a^Me^{r^{(0)}a}$ and $(1-\varsigma^{(0)})p_{a'}^Fe^{r^{(0)}a'}$, for
+  instance, $F_a^{M^\ast(\tau,p^{M}(0), p^{F}(0))}$ for males, and plugging
+  these two fertility vectors, along with $r^{(0)}$ and $\varsigma^{(0)}$ into
+  Equation~\eqref{eq:IPFugly}, which produces a residual, $2\delta^{(i)}$ \footnote{i.e. 
+  simply divide the residual by two to get the effective $\delta^{(i)}$}.
+  \item Next, improve the estimate of $r^{i+1}$ using: 
+  \begin{equation}
+  r^{(i+1)} = r^{(i)} + \frac{\delta^{(i)}}{\widehat{T} -
+\frac{\delta ^{(i)}}{r^{(i)} }}
+  \end{equation}
+  \item Using the updated $r^{(i+1)}$, redo the sex-sex-specific IPF-adjusted
+  fertility rates, and then update the running estimate of the stable
+  sex-ratio at birth, $S$:
+  \begin{equation}
+  S^{(i+1)} = \frac{\int_{a=0}^\infty \varsigma^{(i)}
+  e^{-r^{(i+1)}a}p_aF_a^{M-M^\ast(\tau,p^{M(i+1)}, p^{F(i+1)})}}{\int_{a=0}^\infty
+  \varsigma^{(i)} e^{-r^{(i+1)}a}p_aF_a^{M-F^\ast(\tau,p^{M(i+1)}, p^{F(i+1)})}}
+  \end{equation}
+  from which we update the proportion male for the next iteration:
+  \begin{equation}
+  \varsigma^{(i+1)} = \frac{S^{(i+1)}}{S^{(i+1)}+1}
+  \end{equation} 
+  Note that since the IPF adjustment balances the male and female fertility
+  rates, we would arrive at the same value using females as the reference.
+  \item Use the new $\varsigma^{(i+1)}$ and $r^{(i+1)}$ to restart the process
+  in step 4, repeating steps 4-6 until $\delta^{(i)}$ drops to zero, which
+  in our experience typically happens in a mere 5-7 iterations.
+\end{enumerate}
+
+We have been explicit in these instructions because the implementation of this
+method is not obvious, and it requires more moving parts than other
+methods. Nonetheless this particular method converges much faster.
+
+\paragraph{Summary of IPF method applied to models of population growth:
+}
+Models of two-sex population renewal that incorporate IPF-adjustment of
+fertility rates\textit{Other configurations are surely possible, such as the
+substantively more complete model described by \citet{Matthews2013}, wherein IPF
+is used for marriage-balancing and fertility rates are marital-state-specific
+as well.} perform well with respect to many of our axiomatic considerations.
+Particularly, fulfillment of the competition axiom is not a trivial achievement, 
+and it also more or less tops off the list of important axioms: 1) The solution
+ meets the availability axiom, 2) is first degree homogeneous, 3) is monotonous, 4) is symmetrical with
+respect the sexes, 5) and is sensitive to substitution and competition. There is no
+guarantee for bracketing, although the solution will always track and typically
+be bracketed by the single-sex intrinsic growth rates. 
+
+IPF fertility (marriage) balancing, properly attributed to \citet{mc1975models}
+in this context, is regularly mentioned in reviews of possible two-sex solutions \footnote{See e.g.
+the review inside \citet{ianelli2005gender}.}, but is not typically
+evaluated alongside more analytical
+methods\footnote{The two most widely cited
+reviews of methods are \citet{keyfitz1972mathematics} and
+\citet{pollard1973mathematical} both precede the introduction of IPF to
+marriage or fertility models. \citet{ianelli2005gender} mentions but does not
+evaluate the method, possibly because it is not commensurable with the
+differential equation framework employed by these authors. Individual authors proposing
+two-sex solutions have rarely evaluated the method, possibly because the implementation
+is cumbersome.} precisely due to its iterative nature. This ought not be a
+drawback to us, given that our method for optimizing $r$ is also iterative,
+rather than analytic. Properties may be judged empirically (as we have done),
+but have to this author's knowledge never been proven with mathematical rigour,
+and this may never be accomplished. As such, the method may be categorized as ad
+hoc, but apparently no more than other methods presented here\footnote{\citet{mc1975models} 
+provides an unconvincing sociological justification for IPF in marriage
+models.}.
+
+\paragraph{The method applied to the US and Spanish data:}
+
+We have used the IPF method described earlier to calculate the two-sex intrinsic
+growth rate for each year of the US and Spanish data. Within the IPF process, we
+have mentioned that the demographer has a choice of mean functions for the
+initial balancing of the male and female marginal sums. Both arithmetic and
+harmonic means were tested, and produced no visually discernible differences.
+This is good, if we would like to minimize the effects of the demographer's
+subjectivity in obtaining results. In Figure~\ref{fig:IPFager}, we display
+results from using the harmonic mean internally in the IPF fitting. Note that
+$r$ is not bracketed in some years for the US, but that these are years where 
+the sex-gap itself was trivial, and so may be due to
+rounding. That the result is not bracketed need not be of any concern, as we
+need not guarantee it. On the whole, the method falls squarely between $r^m$ and
+$r^f$, as do most other methods presented thus far. In keeping with common
+practice in two-sex modeling, the judgement of the method will rest not on this
+result, but rather on the method's earlier-discussed properties.
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{IPF intrinsic growth rates, $r$, compared with
+          single-sex $r^m$ and $r^f$. US, 1969-2009 and Spain, 1975-2009.}
+           % figure produced in/R/IPFage.R
+           \includegraphics{Figures/IPFager.pdf}
+          \label{fig:IPFager}
+\end{figure}
+
+
+
+
+\FloatBarrier
+

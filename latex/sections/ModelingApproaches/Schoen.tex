@@ -1,0 +1,243 @@
+\FloatBarrier
+\label{sec:ageharmonic}
+\begin{singlespace}
+\begin{quote}
+Now of everything that is continuous and divisible, it is possible to take the larger 
+part, or the smaller part, or an equal part, and these parts may be larger, smaller, 
+and equal either with respect to the thing itself or relatively to us; the equal part
+ being a mean between excess and deficiency. By the mean of the thing I denote a point 
+ equally distant from either extreme, which is one and the same for everybody; by the 
+ mean relative to us, that amount which is neither too much nor too little, and this 
+ is not one and the same for everybody.
+\citetalias{rackham1947trans}
+\end{quote}
+\end{singlespace}
+
+The most instinctual two-sex fertility (marriage) solution is to symmetrically
+(with respect to the sexes) utilize information from the vital rates of both
+sexes. Mean functions have been compared in the past\citep[see
+e.g.][]{keyfitz1972mathematics}, but rated in terms of utility with difficulty.
+In terms of the axioms mentioned in Section~\ref{sec:axioms}--rather than
+performance-- the harmonic mean function has fared the best amongst a variety of
+means. Schoen \citep{schoen1978standardized, schoen1977two, schoen1981harmonic}
+provided a rationale and derivation for using the harmonic mean in order to 
+balance marriage rates. \citet{martcheva2001mathematics} found evidence of
+poor performance for the harmonic mean in projective scenarios. The same
+strategy can be used to balance fertility rates, which is what we will do here. The method requires as inputs a matrix of birth counts cross-tabulated by age of father, $a$, and age of mother $a'$ 
+and male and female exposures classified by age. The harmonic mean
+\begin{equation}
+\label{eq:harmonic}
+H(P_a^m, P_{a'}^f) = \frac{2 P_a^m P_{a'}^f}{P_a^m + P_{a'}^f}
+\end{equation}
+is applied to male and female exposures in order to find an intermediate
+denominator from which to calculate rates, $F_{a,a'}^H$:
+ \begin{equation}
+ \label{eq:harmonicrate}
+ F_{a,a'}^H = \frac{B_{a,a'}}{H(P_a^m, P_{a'}^f)}
+ \end{equation}
+which in the stable population is assumed constant in time rather than
+assuming constant male and female rates separately. In order to estimate 
+a birth count in some future year $t+n$, calculate the harmonic mean
+of male and female exposures and multiply into the constant harmonic rate:
+ \begin{equation}
+ B(t+n) = \int \int F_{a,a'}^H H\Big(P_{a}^m(t+n), P_{a'}^f(t+n)\Big) \dd a \dd
+ a'
+ \end{equation}
+which we can rewrite to make year $t$ births a function of past births in the
+renewal equation:
+ \begin{equation}
+ B(t) = \int \int F_{a,a'}^H H\Big(\varsigma B(t-a)p_a^m, (1-\varsigma) B(t-a)
+ p_{a'}^f\Big) \dd a
+ \dd a'
+ \end{equation}
+where $p_a^m$ and $p_{a'}^f$ are the male and female probabilities of surviving
+from birth until age $a$, $a'$, and $\varsigma$ is the proportion male of
+births, here assumed constant over age and time, though this may be relaxed.
+Rewriting in this way brings us to a stable population framework. \citet{schoen1977two} 
+proposed his own rectangular stable population framework, which 
+will not be treated here. As $t$ becomes large, the annual growth factor
+approaches a constant value equal to $e^r$, which can be estimated from the
+following Lotka-type unity function: 
+
+\begin{equation}
+\label{eq:lotkaH}
+1 = \int _{a=0}^\infty \int _{a'=0}^\infty F_{a,a'} H\Big(\varsigma
+e^{-ra}p_a^m, (1-\varsigma)e^{-ra'}p_{a'}^f\Big)\dd a' \dd a
+\end{equation}
+where $F_{a,a'}^H$ is the constant fertility rate to be applied to the harmonic
+mean of male and female exposures, $p_a^m$ and $p_{a'}^f$ are the male
+and female radix-1 survival functions. $\varsigma$ serves to make the
+male and female radices sum to 1, and also accounts for the fact that males and
+females have slightly different $l_0$ values. 
+
+\paragraph{Estimating $r$: } The two-sex harmonic intrinsic growth rate, $r$ can
+be estimated in two ways, either assuming $\varsigma$ constant from the start
+(likely based on the initial data) and using a generic optimizer, or by modifying the iterative procedure
+suggested by \citet{coale1957new}, which works best if one simultaneously
+estimates $r$ and $\varsigma$ (i.e. allowing $\varsigma$ to adjust to the
+population structure, as it is known to vary with age). Here we will describe
+the practical steps involved in the latter.
+
+\begin{enumerate}
+  \item Calculate the constant harmonic fertility rates for male and female
+  births separately, $F_{a,a'}^{mH}$ and $F_{a,a'}^{fH}$
+  \item Make a first estimate of the stable sex ratio at birth, $\hat{S}$; the
+  initial observed sex ratio at birth is a good choice. From $S^0$ we derive a
+  first estimate of the proportion male of births, $\varsigma^0$ (where
+  superscripts indicate the iteration):
+  \begin{equation}
+  \varsigma^0 = \frac{S^0}{S^0+1}
+  \end{equation}
+  \item Find a first rough estimate of the net reproduction rate,
+  $\widehat{R_0}$, assuming a growth rate of 0 and using the both-sex
+  harmonic fertility rate $F_{a,a'}^{H} = F_{a,a'}^{mH} + F_{a,a'}^{fH}$:
+  \begin{equation}
+  \label{R0guessschoen}
+  \widehat{R_0} = \int_{a=o}^\infty \int_{a'=0}^\infty H(\varsigma^0 p_a^m,
+  (1-\varsigma^0)p_{a'}^f) F_{a,a'}^{H} \dd a' \dd a
+  \end{equation}
+  \item Assume a reasonable both-sex mean generation time, $\widehat{T}$.
+  Weighting $a$ and $a'$ into Equation~\eqref{R0guessschoen} and then dividing
+  by $\widehat{R_0}$ yields a good estimate of this. Otherwise one may simply
+  choose a reasonable age, such as 30, or some mean of the male and female
+  single-sex mean ages at reproduction.
+  \item Calculate an initial value of $r$, $r^0$ as:
+  \begin{equation}
+  r^0 = \frac{log(\widehat{R_0})}{\widehat{T}}
+  \end{equation}
+  \item Now that we have a starting value, $r^0$, calculate a residual,
+  $\delta^0$, from equation~\eqref{eq:lotkaH}:
+  \begin{equation}
+  \delta^i = 1 - \int _{a=0}^\infty \int _{a'=0}^\infty H(\varsigma^i p_a^m
+  e^{-r^ia}, (1-\varsigma^i)p_{a'}^fe^{-r^ia'}) F_{a,a'}^H \dd a' \dd a
+  \end{equation}
+  \item Use $\delta^i$ to improve the estimate of $r$, $r^{i+1}$:
+  \begin{equation}
+  r^{i+1} = r^i - \frac{\delta^i}{\widehat{T} - \frac{\delta^i}{r^i}}
+  \end{equation}
+  \item Use the improved estimate of $r$ to update $\varsigma$:
+  \begin{align}
+  S^{i+1} &= \frac{\int_{a=o}^\infty \int_{a'=0}^\infty H(\varsigma^i
+  e^{-r^{i+1}a} p_a^m, (1-\varsigma^i)^i e^{-r^{i+1}a'}p_{a'}^f) F_{a,a'}^{mH} \dd a' \dd a
+  }{\int_{a=o}^\infty \int_{a'=0}^\infty H(\varsigma^i e^{-r^{i+1}a}
+  p_a^m, (1-\varsigma^i)^i e^{-r^{i+1}a'}p_{a'}^f) F_{a,a'}^{fH} \dd a' \dd a }
+  \\
+  \varsigma^{i+1} &= \frac{S^{i+1}}{S^{i+1}+1}
+  \end{align}
+  \item Plug the new $\varsigma$ and $r$ estimates into step 5, to estimate a
+  new residual, $\delta$, repeating steps 6-8 until $\delta$ vanishes to 0.
+  Typicaly around 20 iterations are needed in order to reduce $\delta$ to
+  be less than double floating point machine tolerance.
+\end{enumerate}
+
+This iterative procedure simultaneously produces an estimate of the stable
+sex ratio at birth $S$ and the both-sex intrinsic growth rate, $r$. Really,
+there is little room for $S$ to move between the initial and stable states,
+since boy and girl births are in essence produced by (the harmonic mean of) both
+males and females in this procedure. $S$
+will only vary from the initial sex ratio at birth to the extent that there is
+both an age pattern to the sex ratio at birth and the male and female stable age
+structures differ from the initial age structures. Estimating both parameters at
+the same time does not present a practical problem in the present case, and the
+procedure converges faster than if $S$ is left assumed at some constant value.
+
+One could abandon the iterative $r$ estimation procedure outlined above
+and perform a standard cohort component projection, for instance using a
+two-sex Leslie matrix. In this case, the fertility component of the Leslie
+matrix would need to be updated between each iteration using equation~\ref{eq:asfrH} for either
+males or females. One cannot easily perform standard matrix analysis of this
+Leslie matrix, however, as it is not static in the standard way.
+
+\paragraph{Other stable quantities: } Once one has identified the stable $r$ and
+$S$, one may move on to estimate other stable parameters of interest, such as the 
+both-sex stable birth rate, $b$:
+
+\begin{equation}
+b = \frac{1}{\int_{a = 0}^\infty e^{-ra} \varsigma p_a^m \dd a + \int_{a' =
+0}^\infty e^{-ra'} \varsigma p_{a'}^f \dd a'}
+\end{equation}
+which may be used to calculate the male and female stable age structures, $c_a$
+and $c_{a'}$:
+
+\begin{equation}
+c_a =  \varsigma  e^{-ra} p_a^m
+\end{equation}
+and analagously for females, where
+\begin{equation}
+1 = \int c_a + \int c_{a'}
+\end{equation}
+and the total population sex ratio, $S^{tot}$ is the ratio of these:
+\begin{equation}
+S^{tot} = \frac{\int c_a}{\int c_{a'}}
+\end{equation}
+
+\paragraph{Summary of the harmonic mean method: } The stable system outline here
+is not taken word-for-word from Schoen's advice, but it is consistent with the 
+notion of a constant \textit{force of attraction},
+$F_{a,a'}^H$, and non-linear balancing of fertility rates based on the harmonic
+mean of male and female exposures. The method presented here is only partially
+sensitive across all ages to changes in the exposure of a single age in one sex.
+That is to say, an increase in males of age $a$ will increase observed fertility rates for all ages
+of females that share rates with males of age $a$. Further, females with
+higher rates, $F_{a,a'}^H$, will typically observe greater increases, though this
+depends on the distribution within $F^H$ and on relative exposure levels.
+Lacking from this implementation are decreases in rates for males whose ages are close
+to $a$, so-called spillover effects\citep{choo2006estimating}. That is to say,
+an increase in age $a$ males, will not affect rates of males age $a-n$ or $a+n$, 
+despite the fact that the pool of potential mates, females over
+all ages $a'$, is shared. One would expect, ceteris paribus, that males of
+similar ages would experience a decrease in rates, since some proportion of the
+female pool will have been redirected to the increased stock of age $a$ males.
+Hence, the model lacks this sense of competition. All other axioms appear to be
+satisfied, except for that of bracketing, which we also deem superfluous.
+Further, the harmonic mean is biased toward the minority sex, which is also intuitive.
+ As stated before, one cannot empirically establish (for
+humans) the ideal functional form of the fertility (marriage) function.
+
+One satisfying property of the present method is that the harmonic mean
+rates do not respond rigidly to mismatched population sizes between males and
+females, but rather the mean rate is sensitive to relative size of male and
+female stocks. In this way, the function is more dynamic than a weighted mean,
+or Das Gupta's method presented in the previous section. Indeed, if the
+demographer is not satisfied with the elasticity of the harmonic mean, one may
+change $H()$ for any mean function, such as a generalized mean. An infinite number of other means
+will also have the same desirable properties as the harmonic mean, such as 
+dropping to 0 in the absence of one sex. Most means with this property that have
+names (harmonic, geometric, logorithmic, \ldots) will produce almost
+indistinguishably similar results. All such mean solutions will be symmetric
+(blind) with respect to the sexes, although one could easily include weights.
+
+\paragraph{The method applied to the US and Spanish data: }
+In addittion to the harmonic mean, we have produced estimates of $r$ using the
+geometric and logorithmic means, as well as the minimum function.
+Figure~\ref{fig:schoenr} shows only the results of the harmonic mean and minimum
+functions, as the geometric and logorithmic $r$ estimates would not be visually
+distinguishable from those of the harmonic mean. From this lesson, we confirm
+that if one is to use a mean function as a 2-sex fertility (marriage) function,
+it really makes little difference which mean function one chooses, as long as it
+satisfies the availability condition. The minimum function yields the least
+consistent results, sometimes greater than the harmonic mean, sometimes less
+than the harmonic mean, sometimes bracketed by the single-sex $r$ values, and
+sometimes not. We note that the minimum function deviates the greatest from the
+single-sex $r$ values when the sex-gap is trivial, and in these instances it is
+always higher. The harmonic mean series is here always bracketed by the
+single-sex $r$ values, although this is not a necessary result.
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{$r$ according to harmonic mean and minimum fertility
+          functions compared with single sex intrinsic growth rates. US,
+          1969-2009, and Spain, 1975-2009}
+           % /R/Schoen1981.R
+           \includegraphics{Figures/HMager}
+          \label{fig:schoenr}
+\end{figure}
+
+In terms of complexity of implementation, solutions based on mean functions are
+marginally less demanding than the Das Gupta solution, but this is primarily
+because mean functions are more readily understood. The mean solution is seen as
+onceptually simpler, yet yielding similar results and with more desirable
+properties than either of the preceeding solutions. In following, we will
+present two iterative fertility functions that allow for competition between age-groups of the same sex.
+
+\FloatBarrier

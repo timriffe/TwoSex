@@ -1,0 +1,185 @@
+\FloatBarrier
+\label{sec:googmanage}
+\citet{goodman1967age}, in an age-extension to \citet{goodman1953population},
+provided a series of discrete formulas for calculating the
+stable age-sex-structure of given a series of vital rates similar to those
+treated earlier. In particular, let us define the radix-1 survival functions,
+$p_a$ for males and $p_{a'}$ for females, as well as four fertility
+functions specific to sex of progenitor and sex of birth:
+$F_a^{M-M}$, $F_a^{M-F}$, $F_{a'}^{F-F}$ and  $F_{a'}^{F-M}$, where the first
+superscript indicates sex of progenitor and the second superscript indicates sex
+of birth. If $P_a(t)$ are males of age $a$ in year $t$, and $P_{a'}(t)$ are
+females, then everything aligns properly in a tautological way:
+\begin{align}
+B(t) &= \int_{a=0}^\infty P_a(t) (F_a^{M-M}(t)+F_a^{M-F}(t)) \dd a
+     &= \int_{a'=0}^\infty P_{a'}(t) (F_{a'}^{F-F}(t)+F_{a'}^{F-M}(t)) \dd a'
+\end{align}
+and so forth for each sex of birth separately. However, $n$ years hence this
+will no longer be the case. The female dominant model declares that in general
+for any given year
+\begin{equation}
+\label{eq:fdominanceSimple}
+B(t) = \int_{a'=0}^\infty P_{a'}(t) (F_{a'}^{F-F}+F_{a'}^{F-M}) \dd a'
+\end{equation}
+and it is assumed that male rates will simply adjust in accordance with this
+such that the model is internally consistent. If assumed constant, female rates
+in this case could refer to any year and there will be no room for
+inconsistency, and so we drop the $t$ index.
+Equation~\eqref{eq:fdominanceSimple} is just the same as:
+\begin{equation}
+\label{eq:fdominancesigma}
+B(t) = 1 \cdot \int_{a'=0}^\infty P_{a'}(t) (F_{a'}^{F-F}+F_{a'}^{F-M}) \dd a' +
+       0 \cdot \int_{a=0}^\infty P_a(t) (F_a^{M-M}+F_a^{M-F}) \dd a
+\end{equation}
+where the 1 before females gives them 100\% of the weight in determining births,
+and the 0 before the male integral give 0\% of the weight to males. The way
+Goodman describes it, females in Equation~\ref{eq:fdominancesigma} determine
+births 100\% of the time and males 0\% of the time. One could just easily
+swap the 0 and the 1 to have a male dominant model, or in general assign two
+weights that sum to 1 for a mixed dominance model. If we define the male weight
+as $\sigma$ and the female weight as $1-\sigma$, then we have the general
+weighted dominance model:
+\begin{equation}
+\label{eq:dominancesigma}
+B(t) = (1-\sigma) \cdot \int_{a'=0}^\infty P_{a'}(t) (F_{a'}^{F-F}+F_{a'}^{F-M})
+\dd a' + \sigma \cdot \int_{a=0}^\infty P_a(t) (F_a^{M-M}+F_a^{M-F}) \dd a
+\end{equation}
+and everything is accounted for. As per usual, we may go on to define $P_a$ as
+male births from $t-a$ years ago, $B^M(t-a)$ , discounted by the probability of
+surviving to age $a$, $P_a = B^M(t-a)p_a$, and likewise for females. If the
+proportion male at birth is captured in $\varsigma$, then we can rewrite the
+later as $P_a = \varsigma B(t-a)p_a$, and analogously for females. Plugging
+these into Equation~\eqref{eq:dominancesigma}, we obtain year $t$ births in
+terms of past births:
+\begin{equation}
+\label{eq:dominancebirths}
+\begin{split}
+B(t) = (1-\sigma) \cdot \int_{a'=0}^\infty (1-\varsigma) B(t-a')p_a'
+(F_{a'}^{F-F}+F_{a'}^{F-M}) \dd a' \\
++ \sigma \cdot \int_{a=0}^\infty \varsigma B(t-a)p_a (F_a^{M-M}+F_a^{M-F}) \dd
+a
+\end{split}
+\end{equation}
+which when left to evolve according to fixed rate schedules for many years will
+eventually stabilize to:
+\begin{equation}
+\label{eq:dominancebirthsstab}
+\begin{split}
+B(t) = (1-\sigma) \int_{a'=0}^\infty (1-\varsigma) B(t)p_ae^{-ra'}
+(F_{a'}^{F-F}+F_{a'}^{F-M}) \dd a' \\
++ \sigma \int_{a=0}^\infty \varsigma B(t)p_{a'}e^{-ra'}
+(F_a^{M-M}+F_a^{M-F}) \dd a
+\end{split}
+\end{equation}
+where $r$ is a constant growth rate equal for males and females, and year $t$
+births can then be endogenously related. Dividing by $B(t)$ we arrive at the
+Lotka-type unity equation:
+\begin{equation}
+\label{eq:goodmanunity}
+\begin{split}
+1 = (1-\sigma) \int_{a'=0}^\infty (1-\varsigma) e^{-ra'}p_a
+(F_{a'}^{F-F}+F_{a'}^{F-M}) \dd a' \\
++ \sigma \int_{a=0}^\infty \varsigma e^{-ra'}p_{a'} (F_a^{M-M}+F_a^{M-F})
+\dd a
+\end{split}
+\end{equation}
+from which we need only estimate $r$ in order to derive the full suite stable
+population parameters, such as two-sex mean generation length and stable
+population structure. In following, we describe the steps to estimate $r$
+iteratively.
+
+\paragraph{Estimating $r$: } 
+Assuming some fixed proportion male at birth, one can simply use a generic
+optimizer on Equation~\eqref{eq:goodmanunity} to estimate the stable growth
+rate, $r$. However, since males and females each have an age-pattern to
+the sex-ratio at birth, changes in population structure between the initial and
+stable states will entail a different total SRB, as it is just a weighted
+average of the sex-age-specific sex ratios at birth. For this reason, we 
+calibrate the stable SRB, $S$, simultaneously with $r$. In
+practice, this presents no problems, as the SRB is rather limited in its
+movement between the stable and initial states, and it only subtly tweaks $r$
+compared to simply assuming some $S$. The steps to estimate $r$ and $S$ are
+similar to those outlined elsewhere in this dissertation, and are based on a
+modification of \citet{coale1957new}, which converges very quickly and is easy
+to implement. For a given $\sigma$ between 0 and 1:
+
+\begin{enumerate}
+  \item Establish a rough estimate of the net reproduction rate, $R_0$, assuming
+  that $r = 0$ and assuming some value of SRB (such as the year $t$ observed
+  SRB) and derive $\hat{\varsigma} = \frac{SRB}{1 + SRB}$
+  \begin{equation}
+  \label{eq:R0itgoodman}
+  \begin{split}
+\widehat{R_0} = (1-\sigma) \int_{a'=0}^\infty (1-\hat{\varsigma})
+p_{a'}(F_{a'}^{F-F}+F_{a'}^{F-M}) \dd a' \\ + \sigma  \int_{a=0}^\infty
+\hat{\varsigma} p_a(F_a^{M-M}+F_a^{M-F}) \dd a
+\end{split}
+  \end{equation}
+  \item Establish a guess at the mean generation length, $\widehat{T}$, by
+  weighting $a$ and $a'$, respectively, into Equation~\eqref{eq:R0itgoodman} and
+  then dividing by $\widehat{R_0}$. With $\widehat{T}$ and $\widehat{R_0}$,
+  derive the starting value of, $r$, $r^{0}$ as:
+  \begin{equation}
+  r^{0} = \frac{log(\widehat{R_0})}{\widehat{T}}
+  \end{equation}
+  \item Plug $r^{i}$ and $\varsigma^i$ into
+  Equation~\eqref{eq:goodmanunity}, producing a residual, $\delta^{i}$.
+  \item Use $\delta^{i}$ to update the estimate of $r$ using:
+   \begin{equation}
+  r^{i+1} = r^i - \frac{\delta^i}{\widehat{T} - \frac{\delta^i}{r^i}}
+  \end{equation}
+  \item Now update the estimate of $S$ using
+   \begin{equation}
+        S^{i+1} = \frac{(1-\sigma) \int_{a'=0}^\infty
+         (1-\varsigma^i)p_{a'}e^{-r^{i+1}a'} F_{a'}^{F-M} \dd a' + 
+         \sigma  \int_{a=0}^\infty \varsigma^i p_ae^{-r^{i+1}a} F_a^{M-M} \dd
+         a}{ (1-\sigma) \int_{a'=0}^\infty
+         (1-\varsigma^i)p_{a'}e^{-r^{i+1}a'} F_{a'}^{F-F} \dd a' + 
+         \sigma  \int_{a=0}^\infty \varsigma^i p_ae^{-r^{i+1}a} F_a^{M-F} \dd a}
+  \end{equation}
+  from which we derive $\varsigma^{i+1} = \frac{S^{i+1}}{1+S^{i+1}}$
+  \item Repeat steps 3-5 until $\delta$ is reduced to 0, which takes around 20
+  iterations (much less for most practical purposes).
+\end{enumerate}
+
+\paragraph{The method applied to the US and Spanish data: } We apply the
+above-described method to the US and Spanish data for each year to produce
+estimates of $r$ according to $\sigma = 0$, $\sigma = 1$ and $\sigma = 0.5$,
+corresponding to female dominance, male dominance and mixed dominance. The
+results, displayed in Figure~\ref{fig:Goodmanr} show the mixed dominance case to
+be intermediate to the single-sex dominant series. 
+
+\begin{figure}[ht!]
+        \centering  
+          \caption{$r$ according to dominance-weights, $\sigma = 0, 0.5, 1$.
+          US, 1969-2009, and Spain, 1975-2009}
+           % /R/Goodman.R
+           \includegraphics{Figures/Goodmanager}
+          \label{fig:Goodmanr}
+\end{figure}
+
+\paragraph{Summary of the method: }
+Female dominance in this case is identical to the female single-sex model, and
+analogously for males, and so we see that Goodman's model is bracketed. One concludes that the present
+model is indeed expedient-- more so than \citet{mitra1978derivation} and similar
+in complexity to \citet{pollard1948measurement}. The model is has a desirable
+design feature that neither of the preceding models has in that 
+births of both sexes from each parent are accounted for, in a sense liberating
+the model from limited single-sex rate dependence, but with the added cost of 
+including a parameter to weight the male and female radices according 
+to a sex ratio at birth. The sex ratio at birth, which was the complicating factor in
+\citet{mitra1978derivation} is here made endogenous and inherent with ease
+simply because rates of each sex of birth are considered. Rather than an
+overdetermining obstacle, the SRB is an aid in optimizing (in our experience).
+One shortcoming, since the male and female components to the model are
+additive, is that the availability axiom is not met. Homogeneity and
+monotonicity are indeed met, but all axioms of an interactive nature are left
+unattended to. For populations within the range of age-structured often
+observed, we would not expect anomalous results in projective scenarios. The
+expediency of this model lends itself to encapsulation in a two-sex Leslie
+matrix, which remains fixed throughout a projection. This model will indeed be
+implemented in the remaining-years perspective to be explored later in this
+dissertation, and in that case we will present the corresponding projection
+matrix in addition to other stable quantities.
+
+\FloatBarrier
