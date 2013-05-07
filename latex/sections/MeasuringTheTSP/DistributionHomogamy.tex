@@ -4,15 +4,15 @@ any given year varies greatly from the distribution that would be expected if
 age of mother and age of father were selected randomly according to the two
 single-sex distributions.
 
-The expected cross-classified age distribution $\textbf{E}(B(x,x'))$, that which
+The expected cross-classified age distribution $\textbf{E}(B(a,a'))$, which
 we would observe on average if age-mixing were random, is defined as:
 
 \begin{equation}
 \label{eq:expected}
-\textbf{E}\left[B_{x,x'}\right] = \frac{B_x B_{x'}}{\int _{x = \alpha} ^\beta
-\int _{x' \alpha} ^\beta B_{x,x'} \; \dd x \;\dd x'}
+\textbf{E}\left[B_{a,a'}\right] = \frac{B_a B_{a'}}{\int _{a = \alpha} ^\beta
+\int _{a' \alpha} ^\beta B_{a,a'} \; \dd a \;\dd a'}
 \end{equation}
-where $x$ indexes age of father and $x'$ indexes age of mother.
+where $a$ indexes age of father and $a'$ indexes age of mother.
 
 \begin{figure}[ht!]
         \centering  
@@ -26,17 +26,17 @@ where $x$ indexes age of father and $x'$ indexes age of mother.
 \end{figure}
 
 Visual inspection of surfaces of the observed and expected birth counts in
-Figure~\ref{fig:US1970obsexp} confirms they are indeed quite different: The
+Figure~\ref{fig:US1970obsexp} confirms they are indeed quite different: the
 observed surface (left) shows a stronger homogamy-hypergamy pattern than the
 expected surface (right). How similar are the
-observed and association-free $B_{xy}$ distributions to each other? Again, we
+observed and association-free $B_{a,a'}$ distributions to each other? Again, we
 can use a dissimilarity index, and re-apply Equation~\ref{eq:coefdiff} to the
-present data, where $f_1$ is $B_{xy}$ and $f_2$ is $\textbf{E}(B_{xy})$, both scaled 
+present data, where $f_1$ is $B_{a,a'}$ and $f_2$ is $\textbf{E}(B_{a,a'})$, both scaled 
 to sum to 1. $\theta$ is constrained to fall between 0 and 1, where 1 indicates that the
 two distributions are separate and 0 indicates identical distributions. In 1970 USA,
-$\theta$ was equal to $0.47$, a value which could be understood to stand for the
+$\theta$ was equal to $0.47$, a value that could be understood to stand for the
 degree of residual preference. Precisely, it is the proportion of these two
-distributions that is not shared. 47\% is rather high-- it means that the 1970
+distributions that is not shared. 47\% is rather high -- it means that the 1970
 heterogamy pattern is far from random. If we further decide that marginal
 age-distributions are not to be taken for granted, then 47\% is a lower limit to
 the departure from randomness.
@@ -48,22 +48,22 @@ in nature) that covaries with age differently for the two sexes, so as to give
 the appearance of age preferences. Furthermore, as \citet{bergstrom1994sweden}
 demonstrate, pair matching may just as easily occur as a function of individual
 preferences for event (mating, marriage) timing coupled with relative
-availability, which follows partly from cohort size. This is consistent with
-\citet{bhrolchain2001flexibility}, who argues that age preferences for
-mates are highly adaptive. Indeed, \citet{esteve2009long} concludes that
-observed heterogramy patterns in Spain have been codetermined by changing
+availability, which follows partly from cohort size. This is consistent with the
+argument that age preferences
+for mates are highly adaptive in \citet{bhrolchain2001flexibility}. Indeed,
+\citet{esteve2009long} conclude that observed heterogramy patterns in Spain have been codetermined by changing
 age-preferences.
 
 Despite this ambiguity in mechanisms behind age combination patterns, one can
 create a rough index of the strength of hypergamy or homogamy, based on the
 matrices represented in Figure~\ref{fig:US1970obsexp}. Giving equal reproductive
-bounds to the birth count matrix $B_{xy}$ makes a square matrix, from which we
+bounds to the birth count matrix $B_{a,a'}$ makes a square matrix, from which we
 can separate the upper and lower triangles. Here, the lower triangle, $L$,
-of $B_{xy}$ contains births due to age-hypergamous (father's age > mother's
+of $B_{a,a'}$ contains births due to age-hypergamous (father's age > mother's
 age) parents and the upper triangle $U$ contains births due to
 age-hypogamous parents. Thus, a simple measure of total hypergamy, $\widehat{H}$, 
 can be taken as a ratio of the total births in $L$ versus $U$, or in shorthand 
-$\frac{B_{x>y}}{B_{x<y}}$, excluding single-age exact homogamy on the matrix
+$\frac{B_{a>a'}}{B_{a<a'}}$, excluding single-age exact homogamy on the matrix
 diagonal. This is the gender asymmetry ratio from \citet{esteve2009long}.
 
 \begin{equation}
@@ -71,9 +71,9 @@ diagonal. This is the gender asymmetry ratio from \citet{esteve2009long}.
 \end{equation}
 
 In this case, the $\widehat{H}$ will be calculated for the observed and expected
-birth matrices. US data from 1970 yields and observed $\widehat{H}$ of $7.37$
+birth matrices. US data from 1970 yields an observed $\widehat{H}$ of $7.37$
 versus an expected $\textbf{E}(\widehat{H})$ of $1.75$. That the later value is
-greater than 1 may be surprising, given that the $\textbf{E}(B_{xy})$ is purged
+greater than 1 may be surprising, given that the $\textbf{E}(B_{a,a'})$ is purged
 of association. It is due, as mentioned above, to differences in the shape
 and span of male and female single-sex fertility. For reference, I
 will call this ``structural'' or ``latent'' hypergamy, as opposed to the
@@ -84,8 +84,8 @@ into any of the thus-far mentioned two-sex models, they characterize the
 population in a basic way, and aid in understanding macro-level patterns. 
 
 Let us then calculate two times series, one for total difference,
-Figure~\ref{fig:Theta} \footnote{95\% confidence bands are produced
-    using the method from Figure~\ref{fig:ASFRdissimilarity}}, and another for
+Figure~\ref{fig:Theta}, \footnote{95\% confidence bands are produced
+    using the method from Figure~\ref{fig:ASFRdissimilarity}} and another for
     our three measures of hypergamy, Figure~\ref{fig:HypergamyStrength}.
 \begin{figure}[!ht]
   \centering
@@ -103,26 +103,26 @@ expected distribution of births, random with respect to age of
 partner. Since the decline in the departure from randomness in Spain 
 may also be seen as closing a gap, one could just as
 easily transform the data as such and view the secular change as one of an
-\textit{accelerated} approach toward randomness\footnote{i.e. One could see the
-acceleration by taking the logit of the trend in $\theta$ shown.}. The US
+\textit{accelerated} approach toward randomness.\footnote{i.e., One could see
+the acceleration by taking the logit of the trend in $\theta$ shown.} The US
 underwent a similar approach toward randomness from 1969 until around 1985,
-since which time the trend has gradually trended upward. In recent years, the
+since which time the trend has gradually moved upward. In recent years, the
 departure from randomness in the US has been considerably higher than in Spain.
 
 Developments with respect to our rough indicators of hypergamy have been more
 consistent between the two countries, both of which have undergone nearly
-monotonic declines\footnote{Or perhaps more clearly \textit{monotonic
-non-increases}} in all three hypergamy indicators, save for the US since the mid
-1990s, which has held constant. The greatest drivers of the larger downward trend
+monotonic declines\footnote{Or perhaps more clearly, \textit{monotonic
+non-increases}.} in all three hypergamy indicators, save for the US since the
+mid 1990s, which has held constant. The greatest drivers of the larger downward trend
 have been declines in excess hypergamy: those more imaginably a result of
 behavior and preference. In both countries, excess hypergamy is greater than
 latent hypergamy, though it would appear that this observation may not hold forever. The author
- speculates that we may one day see a crossover, with latent hypergamy-- that
+ speculates that we may one day see a crossover, with latent hypergamy -- that
 which is more or less a product of sex-differences in fertility distributions,
-and which owes in part to evolved differences in the reproductive span-- obtaining a
-greater proportion of total hypergamy than excess hypergamy. In essence, the
+and which owes in part to evolved differences in the reproductive span --
+obtaining a greater proportion of total hypergamy than excess hypergamy. In essence, the
 downward trend for Spain confirms the observations of \citet{esteve2009long}
-about the recent decrease in age hypergamy for Spain\footnote{One difference,
+about the recent decrease in age hypergamy for Spain.\footnote{One difference,
 however, is that \citet{esteve2009long} examines marriage patterns, while we
 examine fertility patterns, though these two are expected to covary.}
 
@@ -130,7 +130,7 @@ examine fertility patterns, though these two are expected to covary.}
   \centering
     % figure produced in
     % /R/ObservedVsExpectedBivariateBirthDistribution.R
-    \caption{Strength of Hypergamy, $\frac{B_{x>y}}{B_{x<y}}$, total, structural
+    \caption{Strength of hypergamy, $\frac{B_{x>y}}{B_{x<y}}$, total, structural
     and excess. USA, 1969-2010 and Spain, 1975-2009}
     \includegraphics{Figures/StrengthHypergamy}      
     \label{fig:HypergamyStrength}
@@ -143,23 +143,23 @@ interest to the designer of two-sex reproductive models that incorporate
  model varieties make use of information about births cross-tabulated by
  ages of both parents, assuming that some aspect of this distribution
  (rather than the single-sex marginal distributions) is constant in time.
- This assumption will only be valid to the extent that bivariate age patterns in
+ This assumption will be valid only to the extent that bivariate age patterns in
  fertility rates are not codetermined by changing population structure and
  preferences. For this reason we have illustrated some aspects of the changes 
  observed in these underlying distributions over time. 
  
 Models have been
  known to make all manner of assumptions, from the simplicity of 
- fixed age-matching, to sophisticated combinations of age-preferences 
+ fixed age-matching to sophisticated combinations of age-preferences 
  interacting with availability conditions. Even the latent hypergamy 
  indicator of Figure~\ref{fig:HypergamyStrength} does not contain information 
  about how much of observed change is due to preference, say, in the age at 
- childbearing, or relations between males and females with respect to the timing 
- of childbirth. Nonetheless, it should be clear that the joint distribution
+ childbearing, or to relations between males and females with respect to the
+ timing of childbirth. Nonetheless, it should be clear that the joint distribution
 with respect to age of progenitor is far from random and often in a state of
 flux. This observation is a motivation behind certain non-linear
 (population-dependent) extensions to two-sex solutions, as well as for separate
-preference functions. In this dissertation, we will not explore solutions that
-involve separate age-preference functions, but in this section we have to a
-certain extent shown why this modeling choice can be attractive-- Change is at
+preference functions. In this dissertation, we do not explore solutions that
+involve separate \textit{preference} functions, but in this section we have to a
+certain extent shown why this modeling choice can be attractive -- Change is at
 times large enough to be worth modeling in its own right.

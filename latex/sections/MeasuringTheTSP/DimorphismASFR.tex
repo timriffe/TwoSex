@@ -8,10 +8,10 @@ influence on the direction and magnitude of the sex gap in reproductive indices.
 To be explicit, fertility rates are in this section (and previous sections) defined 
 as births classified by age of progenitor divided by person-years exposure classified by age of progenitor.
 There are myriad ways to quantify fertility that demographers are well familiar
-with. This section will only point out a few measures that are deemed by the
+with. This section will point out only a few measures that are deemed by the
 author to be relevant to the two-sex problem. Other factors that are known to
 affect observed fertility, such as parity distributions and marital states, are
-not discussed. We will briefly exposure differences between males and females as
+not discussed. We briefly explore differences between males and females as
 they pertain to the magnitude and distribution of fertility rates. Magnitude is summarized in
 terms of the total fertility rate (TFR), and much more attention is given to the
 fertility distribution, which will be summarized by characterizing differences
@@ -27,7 +27,7 @@ of male fertility is said to be on the increase in recent years.
  % TFR 1969- 2010
 \begin{figure}[ht!]
         \centering  
-          \caption{Male and Female Total Fertility Rates, 1969-2009, USA and
+          \caption{Male and female total fertility rates, 1969-2009, USA and
           Spain}
            % figure produced in /R/IllustrateDivergence.R
            \includegraphics{Figures/TFR}
@@ -43,7 +43,7 @@ this crossover was observed around 1988, and in Spain around 1998.
 % ASFR for 1975, both countries
 \begin{figure}[ht!]
         \centering  
-          \caption{Male and Female Age-Specific Fertility Rates, 1975, USA and
+          \caption{Male and female age-specific fertility rates, 1975, USA and
           Spain}
            % figure produced in /R/IllustrateDivergence.R
            \includegraphics{Figures/ASFR1975}  
@@ -56,7 +56,7 @@ US. The distributions have moved over time, but some stylized observations will
 pertain in any year. Namely, the steep increase in fertility rates over young
 ages follows a similar pattern for males and females, but begins some 4-6 years
 later for males than for females in these two populations. Peak male fertility
-will be around 7 years later than peak female fertility, and this spread widens
+occurs around 7 years later than peak female fertility, and this spread widens
 over the ages in which fertility declines, creating a longer and fatter
 right-side tail for male ASFR than for female ASFR. 
 
@@ -70,17 +70,17 @@ right-side tail for male ASFR than for female ASFR.
           \label{fig:TFRboundsseries}
 \end{figure}
 
-The physiological bounds to fertility, menarche and menopause for
+The physiological bounds to fertility -- menarche and menopause for
 females -- spermarche and andropause for males -- are well known. These may be
 considered semi-rigid bounds. One might also derive bounds based on the ages
-where fertility crosses some decided-upon threshold\footnote{i.e. take a
+where fertility crosses some decided-upon threshold.\footnote{i.e., take a
 strategy similar to that proposed in \citet{coale1971age} for choosing the
-starting age of marriage.}. Figure~\ref{fig:TFRboundsseries} displays the
+starting age of marriage.} Figure~\ref{fig:TFRboundsseries} displays the
 results of choosing lower and upper bounds as those ages that contain 99\% of
-all fertility, along with the median age\footnote{In other words, quantiles are
+all fertility, along with the median age.\footnote{In other words, quantiles are
 taken from the ASFR distribution, not observed birth counts. Non-integer results are derived from
 discrete single-age ASFR by taking quantiles from ASFR after linear
-interpolation between single-age midpoints, all assumed to be mid-interval.}. 
+interpolation between single-age midpoints, all assumed to be mid-interval.} 
 These statistical bounds fall within the physiological bounds, necessarily. 
 
 In general, we note that the central ages of fertility have tended to shift more
@@ -88,16 +88,16 @@ over time than the upper and lower statistical bounds, particularly swiftly for
 both males and females in Spain in the 1990s, though the upper bound for
 Spanish males increased in parallel to the median over the same period. The
 statistical upper bound applied here has been increasing in recent years for
-both US and Spanish females, and by 2009 was about a half year higher than in
+both US and Spanish females, and by 2009 was about a half-year higher than in
 1969. The upper bound for Spanish females decreased about 2 years from 1975
-to 1995, and has since increased to be just half a year lower than in 1975. Over
+to 1995, and has since increased to be just a half-year lower than in 1975. Over
 the period studied, median ages of ASFR have increased by around 5 years for
 males and females in both countries. It is particularly noteworthy that Spanish
 male and female median ages and upper bounds diverged for much of the period
 examined, much more so than for the US.
 
 One way to judge the overall dissimilarity of these two distributions is to
-calculate a simple difference coefficient, $\theta$, namely:
+calculate a simple difference coefficient, $\theta$:
 
 \begin{equation}
 \label{eq:coefdiff}
@@ -111,26 +111,26 @@ indicator to each year of data for the US and Spain. 95\% simulated confidence
 bands are presented, along with the direct estimate of
 $\theta$. 
 
-The indicator of overlap/divergence, $\theta$ is
-used in several times in this dissertation. The author was unable to locate
+The indicator of overlap/divergence, $\theta$, is
+used in several times in this dissertation. We were unable to locate
 an analytic solution for produce confidence estimates of this measure, but
-some idea of variability presents complimentary information and may be of
+some idea of variability presents complementary information and may be of
 interest. To approximate the level of uncertainty that might be present in the
-data, the following procedure has been used: 1) Birth counts are drawn randomly
+data, the following procedure has been used. 1) Birth counts are drawn randomly
 with replacement 1000 times from the poission distribution, with the parameter
 $\lambda$ equal to the observed birth count. 2) Fertility rates are
 re-calculated for males and females by dividing the simulated births by
 exposures extracted from the HMD. 3) sex-specific ASFR is interpolated linearly
 in age-steps of .01. 4) The 1000 interpolated ASFR series are each scaled to sum
-to 1, and then compared (male vs female) using Equation~\ref{eq:coefdiff}, producing 1000 estimates of
-$\theta$. 5) The represented confidence bands are the .025 and .975 quantiles
+to 1, and then compared (male vs. female) using Equation~\ref{eq:coefdiff},
+producing 1000 estimates of $\theta$. 5) The represented confidence bands are the .025 and .975 quantiles
 of the simulated $\theta$ distribution. This is the procedure used to represent
 uncertainty in all later instances of this statistic as well, with
 modifications noted accordingly. 
 
 In the case of the US, confidence bands are in fact very narrow. $\theta$ has followed
 a wave pattern in both the US and Spain in the years studied here, though 
-quite differently between the two countries. US male and female fertility rate
+quite differently between the two countries. US male and female fertility-rate
 distributions are on the whole more similar than Spanish males and females. The
 US underwent overall divergence until around 1980, then rates converged until
 around 2003, since which time they have slowly begun to diverge again. Spanish
@@ -140,7 +140,7 @@ be given any weight, and without consulting other sources of information, one
 might presume that male and female rates in both countries will begin to diverge
 again over the next decade. However, it is unknown at this time whether the
 longer pattern in this indicator would indeed be sinusoidal\footnote{Births by
-age of mother and father are indeed available for a further 3 or so decades
+age of mother and father are indeed available for a further three or so decades
 before the start of this series, but these have not been converted to
 useable data by this author.}.
 
@@ -159,7 +159,7 @@ rather of distributions. These marginal distributions will exert influence on
 two-sex divergence even if all other factors, including TFR, are equal between
 males and females. This is because fertility will be weighted differently along
 the sex-specific survival curves. The decomposition of the sex-gap in
-intrinsic growth rates to be presented in a later section will examine fertility
+intrinsic growth rates presented in a later section examines fertility
 effects both with and without the shape and level effects separated.
 
  \FloatBarrier

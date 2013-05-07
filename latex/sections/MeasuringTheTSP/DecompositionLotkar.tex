@@ -3,31 +3,31 @@
 The main aspects of vital rates that contribute to the two-sex problem have by
 now been illustrated, as has the maginitude of the problem, both in terms of
 intrinsic growth rates and incongruous predictions of births. The primary
-factors contributing to differences in $r$ have been indicated as mortality, fertility
-and the sex ratio at birth. This section takes the extra step of segmenting and
+factors contributing to differences in $r$ have been indicated as mortality,
+fertility, and the sex ratio at birth. This section takes the extra step of segmenting and
 quantifying differences between the intrinsic growth rates $r^m$ and $r^f$ into
-consituent parts for fertility, mortality and the sex ratio at birth. Breaking the 
-components to the gap, a pure data exercise, enables us to
+consituent parts for fertility, mortality, and the sex ratio at birth. Breaking
+the components to the gap, a pure data exercise, enables us to
 visualize how the two-sex problem (in terms of $r$) has evolved over time, and
 lends to a better understanding of why we observe the gap in the first place.
 
-The exercise carried out is as follows: Equation~\eqref{eq:lotkaeqSRB} has been
+The exercise carried out is as follows. Equation~\eqref{eq:lotkaeqSRB} has been
 functionalized and applied to the US and Spanish data for males and females,
 with $r$ estimated using the method of \citet{coale1957new}. The inputs to the
 function are the mortality hazard, $\mu_a$, from which the survival function,
 $p_a$, is derived internally using the Human Mortality Database Methods
-Protocol \citep{wilmoth2007methods}\footnote{Indeed it makes no difference how
+Protocol \citep{wilmoth2007methods},\footnote{Indeed, it makes no difference how
 mortality is specified, as the sum of the components that contribute to the
 sex gap in $r$ will always be the same. The age distribution of the mortality
 component of the decomposition will, however, depend on whether the
-mortality input is specified as $\mu_x$, $d_x$, $l_x$ or directly as $L_x$ (the
+mortality input is specified as $\mu_x$, $d_x$, $l_x$, or directly as $L_x$ (the
 discretized Lotka formula requires lifetable exposures, $L_x$, instead of the 
-lifetable survival function $l_x$). While we do not display the age pattern of
+lifetable survival function, $l_x$). While we do not display the age pattern of
 any of the decomposition components, decomposing based on $mu_x$ would be the
 most comparable in this instance, since the hazards in each age are independent
-of other ages, which is not the case for $d_x$, $l_x$ or $L_x$.}, ASFR, $f_a$,
-and $\varsigma _a$, the proportion of fertility by age that is girls for females, boys for males.
-Each of these inputs is separate for males and females, and thus equation
+of other ages, which is not the case for $d_x$, $l_x$, or $L_x$.} ASFR, $f_a$,
+and $\varsigma _a$ -- the proportion of fertility by age that is girls for
+females, boys for males. Each of these inputs is separate for males and females, and thus
 Equation~\eqref{eq:lotkaeqSRB} is evaluated twice, once for males and again for
 females. Each evaluation will therefore produce estimates of the year $t$
 instrinsic growth rates $r^m$ and $r^f$, and it is the gap between
@@ -56,27 +56,27 @@ pseudo-continuous approximation outlined in \citet{horiuchi2008decomposition}.
 This method allows for arbitrary reduction of error in the decomposition, and
 virtually arbitarary specification of the function itself (here our Equation
 ~\eqref{eq:lotkaeqSRB} but with $p_a$ a function of $\mu_a$) as well as the
-number and variety of parameters the function assumes (here $\mu _a$, $f_a$ and $\varsigma _a$). 
-This is ideal for
+number and variety of parameters the function assumes (here $\mu _a$, $f_a$, and
+$\varsigma _a$). This is ideal for
 the present case, since the functional form of the Lotka equation decomposed
 here is \textit{somewhat} novel, and specification of a unique decomposition
 formula would be potentially tedious. Output from the decomposition is given as
 vectors of age-specific contributions from sex-differences in $\mu
-_a$, $f_a$ and $\varsigma _a$ to the observed gap, $r^m$ - $r^f$. The values 
+_a$, $f_a$, and $\varsigma _a$ to the observed gap, $r^m$ - $r^f$. The values 
 of these age-specific contributions to the observed gap may be either negative or
 positive, but always sum to the observed gap, with a small arbitrary
-error\footnote{In the present case, the author has ensured that the error of
+error.\footnote{In the present case, we have ensured that the error of
 decomposition is negligible and trivial. This is indeed computationally
-intensive, but leaves no room for doubt in the interpretation of results.}. We
+intensive, but leaves no room for doubt in the interpretation of results.} We
 do not explore the age-patterns to the contributions in $r^m$ - $r^f$, but
 rather sum the age-vectors for each of the three components, yielding a total of
-three components to the sex gap in $r$, one for mortality, another for
+three components to the sex gap in $r$: one for mortality, another for
 fertility, and a third for the sex ratio at birth itself. The exercise is
 repeated for each year of data and summarized in Figures~\ref{fig:DecomprUS}
 and~\ref{fig:DecomprES}.
-\FloatBarrier
+
 Positive values in Figures~\ref{fig:DecomprUS} and~\ref{fig:DecomprES} reflect
-component-specific contributions act in the direction of $r^m > r^f$, while
+component-specific contributions acting in the direction of $r^m > r^f$, while
 negative values act in the direction of $r^m < r^f$. The sum of the three
 components in each year is equal to the total observed gap. 
 
@@ -86,11 +86,11 @@ subtly over time, decreasing on average in both countries, it is rather
 consistent when compared to fertility and mortality. Just the reverse, and 
 also as expected, mortality has consistently worked in
 favor of $r^m < r^f$. This effect has tended to decline gradually over time in
-both countries studied\footnote{The author offers no prediction about whether or
-not we will one day observe a crossover in the mortality component to working
+both countries studied.\footnote{The author offers no prediction about whether
+or not we will one day observe a crossover in the mortality component to working
 in favor of $r^m > r^f$, but such an observation would indeed be consistent
 with the direction of change observed over the period studied in both the US
-and Spain.}. 
+and Spain.} 
 
 The fertility component sheds more light on the observed gap than
 the other two factors, as its direction of influence has been ambiguous, almost
@@ -103,18 +103,18 @@ trend would predict a neutral effect of fertility in the US by around 2020.
 Indeed male and female fertility rates are calculated on the basis of the same
 total number of births, and thus differences in rates are due primarily to the
 interaction between the fertility distribution and differences in
-exposure\footnote{i.e. if one measures the \textit{level} of fertility in
+exposure\footnote{i.e., if one measures the \textit{level} of fertility in
 terms of total births, necessarily shared between males and females.}. One notes
 that the decomposition could in this way continue ad infinitum, since 
 observed exposures are the result of past fertility, mortality and sex
  ratios at birth. Indeed, an interactive two-sex model would also have fertility rates
-themselves a function of exposures.
+themselves as a function of exposures.
 
 One further level of complexity may with little effort be added to the present
-excercise, by splitting the $f_a$ (ASFR) into two components, one for the shape
+excercise, by splitting the $f_a$ (ASFR) into two components: one for the shape
 over age $\rho _a$ and another for the overall level, $\tau$. In this case, 
 $\rho _a$ is the fertility pdf and $\tau$ is TFR. $\tau \rho _a = f_a = ASFR$.
-In this way, $\rho _a$ may is to be understood as indicative of differences
+In this way, $\rho _a$ is understood as indicative of differences
 between males and females in the distribution over age of fertility. This will
 include effects from differences in the reproductive span as well as differences
 in the mean and other parts of the distribution. $\tau$ (TFR) is now independent
@@ -127,15 +127,15 @@ similar fashion in Figures~\ref{fig:DecomprUS2}~and~\ref{fig:DecomprES2}.
 
 Figures~\ref{fig:DecomprUS2}~and~\ref{fig:DecomprES2} demonstrate that fertility
 effects are more complex than meets the eye. In both countries, the effects of
-the shape of fertility and level of ferility were at times countervailing. The 
-effect due to the shape in fertility was in several years of greater maginitude 
+the shape of fertility and level of fertility were at times countervailing. The 
+effect due to the shape of fertility was in several years of greater maginitude 
 than that due to the level of fertility, especially for the Spanish
-population, though TFR, the overall level of fertility, tended to be more
+population -- though TFR, the overall level of fertility, tended to be more
 determinant. One notes that most of the major changes in fertility in
-Figure~\ref{fig:DecomprUS} were evidently due to TFR. For the Spanish population
-fertility effects were more evenly split between shape and level components,
+Figure~\ref{fig:DecomprUS} were evidently due to TFR. For the Spanish
+population, fertility effects were more evenly split between shape and level components,
 though both have changed sign.
-
+\FloatBarrier
 \begin{figure}[h!]
         \centering
         \begin{subfigure}
@@ -155,7 +155,7 @@ though both have changed sign.
 \end{figure}
 
 \FloatBarrier
-From these trends it should be clear that:
+From these trends several things should be clear:
 \begin{itemize}
   \item There are factors that work in favor of $r^m
 > r^f$ and vice versa, and others that are ambiguous.
@@ -166,7 +166,7 @@ is not necessary, though males have a strong positive bias in the form of the
 sex ratio at birth.
   \item Fertility is the most volatile of the three factors represented here,
   and it is the main factor that changes the sign of the gap.
-  \item Part of the fertility effects are due to differences in the distribution
+  \item Part of the fertility effects is due to differences in the distribution
   of fertility over age and part is due to the overall level. Both of these
   components are also of ambiguous sign
   \item These two fertility components identified are potentially of similar
@@ -182,10 +182,10 @@ attention. In any case, a two-sex model of population renewal must account for
 unified account of population reproductivity.
 
 One may rightly notice that we have not considered the interaction of age in our
-current treatment of the sex gap in $r$. Given their inconsistent behavior
+current treatment of the sex gap in $r$. Given their inconsistent behavior,
 fertility data are evidently in need of more exploration in this direction than
 either mortality dimorphism or the sex ratio at birth. The following section 
 provides an empirical summary and exploration of what kinds of age interactions
-may be present in fertility data. Results to follow are intended to invite
-reflection, and will not be quantified in a further decomposition. 
+may be present in fertility data. The results to follow are intended to invite
+reflection, and are not quantified in a further decomposition. 
  \FloatBarrier

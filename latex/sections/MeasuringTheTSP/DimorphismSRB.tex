@@ -5,24 +5,25 @@ birth. Since sex ratios at birth are typically greater than one, ceteris paribus
 are given a greater $l_0$. To a certain extent, this advantage in $l_0$ is
 offset by greater attrition due to excess male mortality. In this way, effective
 sex ratios in reproductive ages can be ambiguously greater than or less than 1,
-depending both on the sex ratio at birth and mortality conditions. The
+depending both on the sex ratio at birth and on mortality conditions. The
 single-sex Lotka Equation~\eqref{eq:lotkaeq} does not incorporate a third
 variable for the sex ratio at birth, since we assume that rates can be
 calculated separately by sex of birth. Equation~\eqref{eq:lotkaeq} could be
-modified to incorporate such a variable, for instance, where $\varsigma$ is
-$\tfrac{1}{1+SRB}$ for females and $\tfrac{SRB}{1+SRB}$ for males, and $m_a$
-changes to either $f_a^F$ or $f_a^M$ to become either male or female ASFR. For
-females, Equation~\ref{eq:lotkaeq} changes to:
+modified to incorporate such a variable, for instance, where $\varsigma$ is the
+proportion male of births, $\tfrac{SRB}{1+SRB}$ -- $1 - \varsigma$ for
+females -- and $m_a$ changes to either $f_a^F$ or $f_a^M$ to become either male
+or female ASFR. For males, Equation~\ref{eq:lotkaeq} changes to:
 
 \begin{equation}
 \label{eq:lotkaeqSRB}
-1 = \int _0 ^\infty e^{-ra}p_a^F \varsigma_a^F f_a^F \dd a 
+1 = \int _0 ^\infty e^{-ra}p_a^M \varsigma_a f_a^M \dd a 
 \end{equation}
-The male version is the same, with superscripts changed tp $^M$. In
-Equation~\eqref{eq:lotkaeqSRB}, the sex ratio at birth is not assumed constant 
-over age of mother or father, since SRB is known to decrease with age.
-Figure~\ref{fig:SRB1975} demonstrates the age pattern (i.e. age of mother or
-father) for the US and Spain in 1975.
+The female version is the same, with superscripts changed tp $^M$. In
+Equation~\eqref{eq:lotkaeqSRB}, the sex ratio at birth is not assumed to
+be constant over age of mother or father, since SRB is known to decrease with
+age, although in the stable population the total SRB does not change. Figure~\ref{fig:SRB1975}
+demonstrates the age pattern (i.e., age of mother or father) for the US and
+Spain in 1975.
 
 \begin{figure}[ht!]
         \centering  
@@ -37,20 +38,20 @@ father) for the US and Spain in 1975.
 The age pattern to sex ratio at birth is susceptible to random
 fluctuations. However, since the age-specific vector $\varsigma _a$ is summed
 over age in~\eqref{eq:lotkaeqSRB}, these fluctuations are smoothed out, and in
-fact, results will be identical to those from \eqref{eq:lotkaeq}. That there is
+fact results will be identical to those from \eqref{eq:lotkaeq}. That there is
 an age pattern to the sex ratio at birth makes evident that the total sex ratio 
 at birth is nothing more than the birth-weighted
 average of the age-specific sex ratios at birth. Since in any projection, or virtual projection
-(as in the case of the stable population model), the initial and final population 
+(as in the case of the stable population model) the initial and final population 
 structure will differ, one should not blindly assume or force a constant SRB valid 
 for both the initial and stable states
-if more information is available\footnote{This later condition was the basis of
-the two-sex stable population model presented in \citet{mitra1982alternative,mitra1978derivation,mitra1976effect}, and is in the
-opinion of this author an unreasonable condition.}.
+if more information is available.\footnote{This latter condition was the basis
+of the two-sex stable population model presented in \citet{mitra1982alternative,mitra1978derivation,mitra1976effect}, and is in the
+opinion of this author an unreasonable condition.}
 
 Aside from random fluctuations, especially evident in the oldest and youngest
 ages, the age-pattern of SRB undergoes subtle changes over time. Further, there
-are interactions in SRB by age of mother and age of father (these later two
+are interactions in SRB by age of mother and age of father (the latter two
 also being marginal distributions). These are aspects that may also be
 considered if models rely upon fertility rates cross-classified by age of mother
 and father. Therefore, to the extent that there is a trend over time in the SRB
@@ -68,33 +69,34 @@ age-patterns of fertility.
 \end{figure}
 
 Note that there has been a general downward trend in the SRB in both Spain and
-the United States in the period studied, that Spain has had a
+the United States in the period studied. Spain has had a
 higher\footnote{The difference between the US and Spain is also significant, not
-shown.} SRB, peaking at over 1.09 in 1981\footnote{These high figures for
+shown.} SRB, peaking at over 1.09 in 1981,\footnote{These high figures for
 Spain agree with tabulations from other sources, such as the INE itself, or the
 Human Mortality Database. The spike around 1980 does not reflect the
 preceding historical trend. There is ample evidence that such peaks in the SRB
 are typical around wartime\citep{james2009variations}. The elevated levels of
 domestic terrorism and counter-terrorism throughout Spain covary similarly with
 this particular peak, and I speculate that the same mechanisms
-that have been hypothesized for wartime SRB may have been behind this anomaly.}, but falling ever since,
-first precipitously, then gradually. Since the population of Spain is smaller, the series 
+that have been hypothesized for wartime SRB may have been behind this anomaly.} 
+but falling ever since,
+first precipitously then gradually. Since the population of Spain is smaller, the series 
 is much more volatile, but the trend is nonetheless clear in both countries. It 
 is particularly relevant to note that the assumption of a constant SRB of 1.05 in
- population projections in Spain would have been and still would be very far from 
- observed values, and would affect the resulting population structure. This is 
- relevant not just for two-sex models\footnote{Two-sex models are, however, especially 
- advised to take special care with the SRB.}, but also for standard female-dominant 
+ population projections in Spain would have been, and still would be, very far
+ from observed values, and would affect the resulting population structure. This is 
+ relevant not just for two-sex models,\footnote{Two-sex models are, however,
+ especially advised to take special care with the SRB.} but also for standard female-dominant 
  projections, which treat males as a residual, splitting births based on some
 assumption about the SRB.
 
 This section is about dimorphism. The sex ratio at birth
 falls in the domain of fertility, but is co-determined by unobserved mortality
-(not treated here), as one of the determinants of the sex ratio at birth must be
-sex-differentials in fetal mortality\citep{hassold1983sex}. This variety of
+(not treated here) because one of the determinants of the sex ratio at birth
+must be sex-differentials in fetal mortality\citep{hassold1983sex}. This variety of
 dimorphism is especially relevant for the ultimate sex structure of populations, since 
 male and female survival curves are subject 
 to differing radices (starting populations). For single-sex stable population
 models, the male growth rate will necessarily be given an extra boost by SRB-inflated fertility
-rates. This effect will be separated in the decomposition presented in
+rates. This effect is separated in the decomposition presented in
 Section~\ref{sec:Decompr}.
