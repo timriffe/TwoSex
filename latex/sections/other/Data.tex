@@ -2,34 +2,35 @@
 \begin{quote}
 The most important part about models is what is left out of them. The second
 most important part about models is what is in them. The least important part
-models are the results-- Ken Wachter\footnote{Quote from April \nth{9}, 2013.}
+about models are the results-- Ken Wachter\footnote{Quote from April \nth{9},
+2013.}
 \end{quote}
 \end{singlespace}
 
 All calculations in this dissertation, unless otherwise cited, are original 
 and based on a small number of publicly available datasets that have
 been modified and standardized according to a strict and simple protocol, as
-described in following. Since the same small number of datasets
+described in the following. Since the same small number of datasets
 is used throughout this document, sources are not cited in situ, but rather
 always refer to the same sources, as described here. Only two populations are
 treated, Spain (ES) and the United States (US). Similar data for France was also
-located, but was not included as it covered a shorted range of years. 
+located, but was not included as it covered a shorter range of years. 
 Since the data used in this work are so simple, calculations presented are
 expected to be replicable for a variety of other populations, though not for
 populations where births by age of father are not available.
 
 \subsection{Birth counts}
 Birth counts for Spain and the US were not available in tables of the format
-required for this dissertation. For this reason, birth counts were tabulated from birth
+required for this dissertation. For this reason, birth-counts were tabulated from birth
 register microdata publicly available as fixed-width text files from the 
 Instituto Nacional de Estadistica (INE)\citep{MNPnacimientos} for Spain and the
-National Center for Health Statistics (NCHS) (INE)\citep{NCHS19692009} for the US. For Spain, 
-the years 1975-2009 are used and for the US, the years 1969-2009 are used
+National Center for Health Statistics (NCHS) (INE)\citep{NCHS19692009} for the US. For Spain 
+the years 1975-2009 are used and for the US the years 1969-2009 are used
 consistently throughout this dissertation. At the time of this writing, further
 years are available, but not included. Earlier years for the US are also
 available in earlier official publications, but these have not been digitized
 for inclusion in this dissertation. Cross-tabulations for each year included age
-of mother, age of father and sex of birth. Resident status was not used as a
+of mother, age of father, and sex of birth. Resident status was not used as a
 selection criterion for births in either country.
 
 In all cases for both countries, age of mother was
@@ -58,7 +59,7 @@ results in an important way. Averaged over all years, ages $<= 20$ all had missi
 missingness of more than 60\%. This may affect results if the age-pattern of
 males of unrecorded age differs from that of males of recorded age in a
 non-trivial way. This uncertainty enters into the male
-age-pattern of fertility, as well as the joint
+age-pattern of fertility, and the joint
 age distribution of births (age of mother by age of father) may affect results
 for the US where these age-specific data are used.
 
@@ -71,7 +72,7 @@ upper ages of mothers, this will be visible in respective age
 patterns, but the effect on overall results (TFR, growth rates) will be
 trivial.
 
-Where birth counts are not required differentiated by sex of birth, for
+Where birth counts are not required to be differentiated by sex of birth, for
 instance, we sum over sex. Birth counts by age of mother are always taken from
 the column margin of the birth matrix, while age of father is the row margin.
 This practice helps to minimize the number of data objects used.
@@ -84,10 +85,10 @@ population exposures\footnote{At the time of this writing, exposures from the
 Human Fertility Database (\url{www.humanfertility.org}) may have been more
 appropriate for certain age groups, but since we prefer to use all ages
 $0-110+$, HMD exposures were utilized instead.} and population counts by age,
-sex and year and the deaths distribution, $d_x$, from the sex-specific
+sex, and year, and the deaths distribution, $d_x$, from the sex-specific
 lifetables. $d_x$ information was always rescaled to sum to 1, which minimized rounding errors and simplified
 programming. Other items drawn from the HMD but used less consistently
-included, mortality hazards, $\mu_x$, survival curves, $l_x$ (also rescaled so that $l_0 = 1$), 
+included mortality hazards, $\mu_x$, survival curves, $l_x$ (also rescaled so that $l_0 = 1$), 
 lifetable exposures, $L_x$,
 life expectancies, $e_x$, and death counts by Lexis triangles. Each of these
 items is used in single-age format, with ages $0-110+$. The open age group,
@@ -105,10 +106,10 @@ procedure over age by the INE. Where abrupt changes in cohort size occur, such
 as the unusually large 1941 cohort, this procedure will have the effect of
 decreasing the size of large cohorts and increasing the size of small neighboring cohorts. This is
 highly undesirable for any demographic study and is apparently a legacy
-practice that will soon cease\footnote{Thanks to Dr. Amand Blanes for bringing
+practice that will soon cease.\footnote{Thanks to Dr. Amand Blanes for bringing
 this issue to my attention. The INE has as of April 2013 released new
-retrospective population estimates without this defect, but have come too
-late for incorporation into the present dissertation.}. In this dissertation, this
+retrospective population estimates without this defect, but these have come too
+late for incorporation into the present dissertation.} In this dissertation, this
 distortion will be most noticeable in the calculation of event-exposure rates, 
 wherein the numerator has not been subject to this exogenous smoothing, but 
 the denominator has. It is unfortunately the case that alternative sources of 
@@ -126,11 +127,11 @@ information in less space and is more intuitive for the reader. The reader
 should understand that data are used primarily to illustrate the concepts under discussion, rather
 than in search of some empirical truth. The two
 above-mentioned caveats for the data used herein (missing fathers' age in the
-US, and faulty population estimates for Spain) should be born in mind when
+US, and faulty population estimates for Spain) should be borne in mind when
 interpreting some figures, such as age-specific fertility curves. We do not
 expect either of these two data drawbacks to affect summary results 
 (e.g., growth rates, $r$) in a noticeable way, and we expect that any
-\textit{broad} conclusions arrived at in following will be robust to these
+\textit{broad} conclusions arrived at in the following will be robust to these
 original shortcomings. 
 
 The user will also note that most results are derived deterministically.
@@ -140,16 +141,16 @@ results or stable population structures occasionally displayed in figures.
 Several of the methods to be presented in following are novel to the field of
 demography, and so we may look upon the results derived therefrom as test
 results. The addition of stochasticity to these methods, if they are deemed of
-worth, is left open as a branch for improvement. Here we only wish to point out
+worth, is left open as a branch for improvement. Here we wish only to point out
 that the majority of figures will, for this reason, not contain confidence or
 credibility bounds.
 
 \subsection{Some notation conventions in this dissertation}
 At times we will use acronyms and shorthand in the text body of this document in
 order to save space and reduce repetition of long phrases. Earlier in this
-introduction, the term \textit{remaining-years} was used as a prefix to words
+introduction, the term \textit{remaining years} was used as a prefix to words
 such as \textit{structure}, but this quickly becomes arduous. We often use $e_y$
-as shorthand for remaining-years, so that we may speak of e.g., $e_y$-structured
+as shorthand for remaining years, so that we may speak of e.g., $e_y$-structured
 populations. $e$ is appropriate because the value is an expectation, $y$ is
 consistently (we hope) used in this thesis to index exact remaining years of
 life, while $a$ or $x$ index chronological age, and $e_x$ is the expectation of 
@@ -159,14 +160,14 @@ females must be differentiated, we apply $a'$, $y'$ for females and $a$, $y$ for
 males. Otherwise, $a$ and $y$ are ambiguous.
 
 Other demographic acronyms and shorthand, some common and some novel are used
-throughout, such as:
+throughout:
 \begin{description}
-  \item[$r$] Also known as the intrinsic growth rate, Lotka's $r$ the
+  \item[$r$] also known as the intrinsic growth rate, Lotka's $r$, the
   instataneous rate of growth, the Malthusian parameter. $r^m$ refers to $r$ for
   males and $r^f$ for females.
   \item [$T$] the mean length of a generation in the stable population.
   \item [$R_0$] the net reproduction rate, also known as the net reproduction
-  ratio or $NRR$; the ratio of the average offspring cohort size to the average
+  ratio or NRR; the ratio of the average offspring cohort size to the average
   parent cohort size in the stable population.
   \item [$TFR$] the total fertility rate for age-structured populations.
   \item [$eTFR$] the total fertility rate for $e_y$-structured populations.
