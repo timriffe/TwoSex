@@ -1,10 +1,10 @@
 
 Population projections rarely incorporate males into fertility assumptions. This
 assumption, that fertility depends only on females, is called female-dominance,
-and in Chapter~\ref{ch:Measuring} we have shown that female dominance is not an
+and in Chapter~\ref{ch:Measuring} we showed that female dominance is not an
 innocuous assumption for the case of age-structured models. In
 Chapter~\ref{sec:exstructuredrenewal} we showed that female dominance is also
-not an onnocuous assumption for the case of remaining-years structured
+not an innocuous assumption for the case of remaining-years structured
 populations. In Chapter~\ref{sec:modelingapproaches} for chronological age and
 the chapters of Part 3 for thanatological age, we set out to provide a suite of
 standard working examples of solutions of two-sex adjustment methods so that 
@@ -17,18 +17,18 @@ As mentioned previously, the two-sex problem comes to the fore when projecting
 population into the future. The most common practice to avoid disagreement between the sexes is to
 assume female dominance, which characterizes the female single-sex Lotka
 renewal model, and is a degenerate case of the
-\citet{goodman1967age} two-sex model from Section~\ref{sec:googmanage} with the
-dominance parameter set to accept 100\% of model information from female fertility rates. 
-There are very few population projections produced for consumption beyond
-two-sex studies themselves that do not make this assumption. Assuming female dominance
-in one way or another is so widespread that newcomers to demography often 
-perceive it as a given, or in the worst case adopt the
+\citet{goodman1967age} two-sex model from Section~\ref{sec:googmanage} with the 
+dominance parameter set to accept 100\% of model information from female
+fertility rates. There are very few population projections produced for 
+consumption beyond two-sex studies themselves that do not make this assumption. 
+Assuming female dominance in one way or another is so widespread that newcomers
+to demography often perceive it as a given, or in the worst case adopt the
 practice dogmatically. For others, the implementation is too complex or
 else the requisite transition rates are not available. Both of these later
-two obstacles may be overcome by removing nuptial states from the model
+two obstacles may be overcome by omitting nuptial states from the model
 altogether, as we have done in this dissertation. 
 
-Formal demographers have long taken the sex-discrepancy seriously, at
+Formal demographers have long taken sex-divergence seriously, at
 least for purposes of consistent model design. These mathematical models
 have been the driving force behind this dissertation effort. We have at
 times simplified two-sex models from their original form. One offshoot of
@@ -37,7 +37,7 @@ demography. The \texttt{R} code used to produce our results should be recyclable
 or else may easily be quarried to such ends. It therefore behooves us to recommend from
 amongst the methods explored in this dissertation. In order to account for sex
 divergence in projections or self-contained models, of those methods treated in this dissertation, 
-we recommend from the following three adjustment strategies:
+we recommend from the following three adjustment strategies.
 
 \begin{enumerate}
 \item The weighted-dominance method of \citet{goodman1967age} from
@@ -48,9 +48,10 @@ weights. This method wins on parsimony, ease of implementation and it has the
 simplest data inputs. It produces reasonable results for population
 structures typically observed (i.e. without 0s in reproductive ages). It is also 
 containable in a static Leslie matrix, although
-we only explained this construction for populations structured by
-thanatological age. The method has a drawback in that the model itself is less
-appealing, as it does not allow for proper interaction between the sexes, or
+we only explain this construction for populations structured by
+thanatological age (see Section~\ref{sec:ex1sexleslie}). The method has a
+drawback in that the model itself is less appealing, as it does not allow 
+for proper interaction between the sexes, or
 between ages. However, for purposes of production age-sex population projections
 within a 40-year horizon, the simplest model is well worth consideration in our opinion.
 
@@ -59,7 +60,7 @@ within a 40-year horizon, the simplest model is well worth consideration in our 
 respectively, is also a reasonable choice. In this case, we recommend
 implementation with the mean either set to harmonic, logarithmic, geometric or
 an unnamed general mean in that approximate range (with the property of 
-falling to zero if one sex is absent). We opine that there is no point in
+falling to zero if one sex is absent). There is no point in
 quibbling over which of these means is best, as observed human populations do
 not exhibit the extreme sex ratios required to produce results that are
 meaningfully different. If one were to segment the population further into
@@ -79,12 +80,12 @@ these three, because it incorporates competition and substitution between ages (
 years). That the
 method is iterative presents no real drawback, as any of the above methods is best 
 implemented in a scripted language, and the method is
-not perceptibly computationally slower than the alternatives. The properties of
+not perceptibly slower to calculate than the alternatives. The properties of
 IPF are easy to demonstrate but difficult to prove, and so it has received less attention from
 mathematicians and continuous equation modelers. For the demographer designing
 a projection apparatus, IPF is nonetheless a convenient choice. This method is in need of
 comparison with the recent contribution from \citet{choo2006estimating}, which
-has similar properties.
+has similar properties, but which we do not discuss.
 \end{enumerate}
 
 Each of these three methods has advantages and disadvantages, and it is up to
@@ -104,16 +105,16 @@ distributions for adjustments beyond the initial year.
 
 Further, we have demonstrated that mean-based (2) and IPF (3) methods each
 entail changes to the marginal male and female rates after adjustment, and one
-may wonder whether these adjusted rates have any predictive power per se-- for
-instance adequately adjusting for foreseen changes in population structure--, or
-whether they are a modeling artifact to be disregarded in favor of the total 
+may wonder whether these adjusted rates have any predictive power per se -- for
+instance adequately adjusting for foreseen changes in population structure --
+or whether they are a modeling artifact to be disregarded in favor of the total 
 (unstructured) birth count. We have demonstrated that this feature exists,
 and we have shown instances where the two methods make predictions that are at
 odds. We do not follow up this observation with an empirical comparison
 to check whether (2) or (3) hit the mark closer in terms of
 fertility distribution prediction. This therefore remains an intriguing question
-that has been ignored thus far and that could tip the balance in favor of
-preferring one of these two methods over the other. A priori, we expect IPF (3) 
+that has been ignored thus far in the literature and that could tip the balance
+in favor of preferring one of these two methods over the other. A priori, we expect IPF (3) 
 to display more appropriate sensitivity amidst abrupt
 changes in cohort size, but we do not know whether the magnitude and
 distribution of adjustment is appropriate. 
@@ -131,26 +132,29 @@ non-marital mated pairs, e.g., transitions into and out of cohabitation, as well
 as fertility fertility rates that apply to this subpopulation (and mortality
 rates if supposed different). This is to say that the addition of further state
 considerations to fertility assumptions greatly increases the model complexity
-and data requirements and so is not likely to be appealing to projection
-designers unless the states themselves are necessary and interesting.
+and data requirements and so it is not likely to be appealing to projection
+designers unless predictions of the states themselves are necessary or
+inherently interesting.
 
 To the extent that fertility rates and the sex ratio at
 birth vary along the path to stability, one may wonder whether any of the
 \textit{interactive} two sex models are at odds with the notion of
-rate invariance in stable populations. Once in the state of stability, of
-course, both population structure and marginal male and female fertility rates are invariant, which
-implies that the two-sex problem itself vanishes. In this case, for both the
-mean and the IPF methods, the stable adjusted marginal fertility rates become
-invariant, and the male and female rates yield the same results, making the
-population tautologically \textit{dominance-indifferent}. In any of the
+rate invariance in stable populations. In any of the
 interactive models the element held fixed prior to stability are not rates, but
 some standard. For IPF, the element held constant in our 
 description is the original cross-classified birth matrix and the corresponding 
 male and female marginal rates. For the mean-based method, one holds constant 
 the standard rate matrix, as well as the mean function itself, but the marginal 
 rates produced by these standards have been shown to indeed change over time
-under these modeling assumptions.
+under these modeling assumptions. Once in the state of stability, of
+course, both population structure and marginal male and female fertility rates are invariant, which
+implies that the two-sex problem itself vanishes. In this case, for both the
+mean and the IPF methods, the stable adjusted marginal fertility rates become
+invariant, and the male and female rates yield the same results, making the
+population tautologically \textit{dominance-indifferent}.
 
-
-
-
+These recommendations are made not for the sake of modeling, but for the sake of
+applied demography -- projections. The first two of these recommendations namely
+violate at least one axiom, and the last recommendation (IPF), though easy to
+program, is a sort of black box, and it is difficult to describe in a
+parsimonious way.
