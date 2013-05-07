@@ -1,15 +1,15 @@
 \FloatBarrier
 \label{sec:dasgupta}
-\citet{gupta1978alternative} states\footnote{and this fits nicely into the flow
-of our own presentation.} ``The lesson we learn from the above is that our
+\citet{gupta1978alternative} states``The lesson we learn from the above is that our
 starting point must not be the formulation of two equations, one for $B_M(t)$ and another for
 $B_F(t)$, but of a single equation for $B(t)$ with the help of a bisexual
 fertility function that can explain the occurrence of births of type $(a,a')$ in
-terms of the availability of both males and females''.
+terms of the availability of both males and females.''\footnote{and this fits
+nicely into the flow of our own presentation.} 
 
 Das Gupta introduced a series of proposals for two-sex reproduction models
-throughout the decade of the 1970s \citep{gupta1972two, gupta1973us,
-gupta1976interactive, gupta1978alternative}, of which we will present the last
+throughout the 1970s \citep{gupta1972two, gupta1973us,
+gupta1976interactive, gupta1978alternative}, of which we present the last
 one. To summarize how the model works, imagine we would like to determine a
 unified two-sex fertility rate, $F_{a,a'}$. Here it is clear
 what to put in the numerator, as births can be tabulated by the ages of both parents.
@@ -17,7 +17,7 @@ what to put in the numerator, as births can be tabulated by the ages of both par
 suggestion is to derive a series of probability density functions that apply to
 each age of potential mother and each age of potential father from information
 contained in the matrix of observed births. Define these age-specific pdfs for
-males, $U_{a,a'}$, and for females, $V_{a,a'}$ as:
+males, $U_{a,a'}$, and for females, $V_{a,a'}$ as follows:
 
 \begin{align}
 U_{a,a'} &= \frac{B_{a,a'}}{\int B_{a,a'} \dd a'}\\
@@ -25,15 +25,15 @@ V_{a,a'} &= \frac{B_{a,a'}}{\int B_{a,a'} \dd a}
 \end{align}
 In discrete terms, one establishes two matrices, arranged according to our
 standard in this dissertation with male age in rows and female age over columns.
-The row marginal sums for $U_{a,a'}$ all equal 1 and the column marginal sums of
-$V_{a,a'}$ all equal 1\footnote{both with the exception of ages with no
-fertility, which are left as 0 if undefined.}. One then calculates Das Gupta's
+The row marginal sums for $U_{a,a'}$ and the column marginal sums of
+$V_{a,a'}$ all equal 1\footnote{Both have the exception of ages with no
+fertility, which are left as 0 if undefined.}. We then calculate Das Gupta's
 approximation of bisexual exposure, $E_{a,a'}$, by redistributing male and
-female age-specific exposure and summing for each combination of age:
+female age-specific exposure and summing for each combination of age
 \begin{equation}
 E_{a,a'} = U_{a,a'}E_a + V_{a,a'}E_{a'}
 \end{equation}
-which is then used as the denominator to calculate $F_{a,a'}$:
+which is then used as the denominator to calculate $F_{a,a'}$
 \begin{equation}
 F_{a,a'} = \frac{B_{a,a'}}{E_{a,a'}}
 \end{equation}
@@ -41,14 +41,14 @@ which is assumed constant in the stable model. As elsewhere, define the
 male and female radix-1 survival functions, $p_a$, and $p_{a'}$, and a sex ratio
 at birth, $S$, from which we determine the proportion male at
 birth, $\varsigma=\frac{S}{1+S}$. Then Das Gupta's two-sex renewal
-function becomes:
+function becomes
 \begin{equation}
 B(t) = \int_{a=0}^\infty \int_{a'=0}^\infty \Big( \varsigma U_{a,a'} B(t-a) p_a
 + (1-\varsigma)V_{a,a'}B(t-a) p_{a'}\Big)F_{a,a'} \dd a \dd a'
 \end{equation}
-If $U_{a,a'}$, $V_{a,a'}$, $\varsigma$ and $F_{a,a'}$ are assumed constant, then
-as $t$ approaches infinity, the intrinsic rate of growth, $r$, will stabilize.
-$r$ is estimated from the Lotka-type unity equation:
+If $U_{a,a'}$, $V_{a,a'}$, $\varsigma$, and $F_{a,a'}$ are assumed to
+be constant, then as $t$ becomes large, the intrinsic rate of growth, $r$,
+will stabilize. $r$ is estimated from the Lotka-type unity equation:
 \begin{equation}
 \label{eq:Guptaeq}
 1 = \int_{a=0}^\infty \int_{a'=0}^\infty \Big( \varsigma U_{a,a'} e^{-ra} p_a
@@ -56,17 +56,17 @@ $r$ is estimated from the Lotka-type unity equation:
 \end{equation}
 \paragraph{Estimating Das Gupta's $r$: } The value of $r$ that solves
 Equation~\eqref{eq:Guptaeq} can either be found using an iterative 
-process similar to that proposed by \citet{coale1957new}, which we present
-because it converges very fast:
+process similar to that proposed by \citet{coale1957new}, or be using a general
+optimizer. We present the iterative method because it converges very quickly.
 
 \begin{enumerate}
   \item establish a starting value for $r$,
-$r^{(0)}$ and a trial two-sex mean generation length
+$r^{(0)}$, and a trial two-sex mean generation length
 $\widehat{T}$. For both values, one may use simple
-assumptions, such as the arithmetic means of the single sex Lotka parameters.
+assumptions, such as the arithmetic means of the single-sex Lotka parameters.
   \item Plug the trial $r^{(0)}$ into Equation~\eqref{eq:Guptaeq}
   to calculate a residual, $\delta ^{(1)}$.
-  \item Improve the estimate of $r^{i+1}$ using:
+  \item Improve the estimate of $r^{i+1}$ using
   \begin{equation}
   r^{(i+1)} = r^{(i)} + \frac{\delta^{(i)}}{\widehat{T} -
 \frac{\delta ^{(i)}}{r^{(i)} }}
@@ -76,10 +76,10 @@ assumptions, such as the arithmetic means of the single sex Lotka parameters.
 \end{enumerate}
 
 \paragraph{Summary of the method: } \citet{gupta1978alternative} assumes that exposure to risk of
- age $a$ males is not evenly distributed over each age of potential female mate-
- i.e. that it is not random\footnote{As opposed to an earlier rendition of
- this method \citep{gupta1972two}}. Rather, the exposure to risk is partitioned
- over ages of potential mates according to the distribution present in a given 
+ age $a$ males is not evenly distributed over each age of potential female
+ mate -- i.e., that it is not random\footnote{As opposed to an earlier rendition
+ of this method \citep{gupta1972two}.}. Rather, the exposure to risk is
+ partitioned over ages of potential mates according to the distribution present in a given 
  cross-classified birth matrix. In partitioning exposure in this way for each
  age of male and female, the cross-classified male and female risks are additive, and
  form the total exposure to risk. 
@@ -89,7 +89,7 @@ assumptions, such as the arithmetic means of the single sex Lotka parameters.
  distribution should be based on cross-classified birth tabulations, which will
  likely be laden with structural artifacts. For example, as relatively large
  cohorts pass through reproductive ages, they will tend to produce more births
- than neighboring cohorts-- even if the large cohorts also suffer lower rates.
+ than neighboring cohorts -- even if the large cohorts also suffer lower rates.
  This will cause a spike along a particular age margin in the birth matrix,
  usually for both males and females of the larger cohort. This birth spike will
  be present in the exposure redistribution matrices, $U_{a,a'}$ and
@@ -97,23 +97,23 @@ assumptions, such as the arithmetic means of the single sex Lotka parameters.
  This is problematic even in the first iteration of a projection, as the
  hypothetical large cohort will have moved up one age. This artifact will
 become a characteristic of the stable population even as abrupt cohort size
-differences vanish with time. The initial structural artifacts in the supposed
-constant parameters thus enter into both exposures and rates. 
+differences vanish with time. The initial structural artifacts in the 
+supposed-constant parameters thus enter into both exposures and rates. 
 
 The present model also removes some of the anomalies that
-result from single-sex fertility assumptions-- $F_{a,a'}$ is the fertility of
+result from single-sex fertility assumptions -- $F_{a,a'}$ is the fertility of
 both sexes, and $\varsigma$ enters into Equation~\eqref{eq:Guptaeq} as a radix
 weight for the male and female population structures. There is no dominance
 parameter in this model, per se. \citet{gupta1978alternative} does not mention
 whether the method will always produce an $r$ that is bracketed by the
 single-sex $r$ values, although in a previous paper
 \citep{gupta1976interactive} he appeared to give this property axiom
-status\footnote{yellin1977comparison had since proved bracketing to be an
-extraneous constraint.}.
+status.\footnote{\citet{yellin1977comparison} had since proved bracketing to be
+an extraneous constraint.}
  
  To the extent that exposure within the model is a function of both males and
  females, this model may be said to be interactive. One may notice that since
- exposure is additive that the model will behave poorly in the absence of one
+ exposure is additive the model will behave poorly in the absence of one
  potentially reproductive age-sex combination in the future (births for this
  age would not drop to 0 as they should). This possibility would not likely
  arise in practice, but it is still the most basic and necessary of
@@ -125,23 +125,23 @@ extraneous constraint.}.
 \paragraph{The method applied to the US and Spanish data: } We estimate Das
 Gupta's intrinsic growth rate for each year of the US and Spanish data. In each
 year of data for both populations, $r$ is bracketed by $r^m$ and $r^f$. The
-relative poisition between $r^m$ and $r^f$ does not appear to follow any
-particular mean function-- it is consistently greater than any of the mean
-functions that satisfy the availability axiom, such as the geometic, harmonic or
-logorithmic means (to be explored in following).
+relative position between $r^m$ and $r^f$ does not appear to follow any
+particular mean function -- it is consistently greater than any of the mean
+functions that satisfy the availability axiom, such as the geometic, harmonic,
+or logorithmic means (to be explored in the following).
 
 \begin{figure}[ht!]
         \centering  
-          \caption{$r$ from Das Gupta (1978) and single sex intrinsic growth rates. US, 1969-2009, and Spain, 1975-2009}
+          \caption{$r$ from Das Gupta (1978) and single-sex intrinsic growth rates. US, 1969-2009, and Spain, 1975-2009}
            % /R/DasGupta.R
            \includegraphics{Figures/Gupta1978r}
           \label{fig:Gupta1978r}
 \end{figure}
 
 For purposes of prediction and ease of implementation, Das Gupta's model is
-close to acceptable, though in following we will explore some models that are
-somewhat more palatable and more widely studied, starting with models whose
+close to acceptable, though in the following we explore some models that
+are somewhat more palatable and more widely studied, starting with models whose
 two-sex fertility rates are derived from mean functins of the male
-and female rates \citet{schoen1981harmonic}.
+and female rates \citep{schoen1981harmonic}.
 
 \FloatBarrier

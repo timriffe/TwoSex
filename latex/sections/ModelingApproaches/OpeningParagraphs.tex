@@ -2,17 +2,18 @@
 \label{sec:modelingapproaches}
 \begin{singlespace}
 \begin{quote}
-The purpose of models is not to fit data but to sharpen questions-- Samuel
+The purpose of models is not to fit data but to sharpen questions -- Samuel
 Karlin\footnote{Quote from the \nth{11} annual R. A. Fisher Memorial Lecture
 given at the Royal Society of London on April \nth{20}, 1983.}
 \end{quote}
 \end{singlespace}
 
-The an assessment of the magnitude and vital rate components to the two-sex
+An assessment of the magnitude and vital rate components to the two-sex
 problem in age-structured populations was presented in the previous
 chapter for the cases of the US and Spanish populations. That a fundamental
 discrepancy exists between the male and female single-sex models was already
-empirically demonstrated by \citet{kuczynski1932fertility} in the early 1930s, and formally introduced to
+empirically demonstrated by \citet{kuczynski1932fertility} in the early 1930s, 
+and formally introduced to
 the discipline of demography in the late 1940s by
 \citet{karmel1947relations, karmel1948measurement}, since which time interest
 has continued in waves. It is the case that the discrepancy thus far has no real 
@@ -20,14 +21,14 @@ solution in the sense of a necessarily true
 solution. Instead what is meant by a two-sex \textit{solution} is a method to
 balance male and female vital rates so as to produce the same estimate of births (or marriages), 
 or else the same structured stable population. This is
-perhaps part of the reason why interest has continued-- there are many ways in which this goal
-might be achieved. All methods proposed have incurred some degree of trade-off
-between convenience, simplicity, realistic design and results that are
+perhaps part of the reason why interest has continued -- there are many ways in
+which this goal might be achieved. All methods proposed have incurred some degree of trade-off
+between convenience, simplicity, realistic design, and results that are
 consistent with expectations.
  
 The point of departure for the goal in formal demography of balancing male and
-female rates is the following: For the single-sex case-- the classic Lotka
-model captured in Equation~\eqref{eq:lotkaeq}-- we have a coherent model that
+female rates is the following. For the single-sex case -- the classic Lotka
+model captured in Equation~\eqref{eq:lotkaeq} -- we have a coherent model that
 works for each sex separately but produces undesirable results when modeled in parallel for both
 sexes. What modifications must we introduce to the model, such that a single
 estimate of the intrinsic growth rate, $r$, is produced while maintaining a
@@ -39,58 +40,58 @@ could be summarized in terms of producing a single prediction of births in
 future projected years. Namely, what changes should we admit to the cohort
 component projection method such that the model accepts both male and
 female inputs but produces consistent output in the form of single estimates of
-male and female births.
+male and female births?
 
 Classifying two-sex models into families of models that share similar qualities
-is non-trivial. We will present an imperfectly arranged subset of models that
-have thus far appeared in the literature, focusing primarily on those models
-related to those that we will modify later in this dissertation for the case of
+is non-trivial. We present an imperfectly arranged subset of models that
+have thus far appeared in the literature, focusing primarily on models
+related to those that we modify later in this dissertation for the case of
 population structured by remaining years of life. These include models amenable
-to using single-age discrete aggregate data, that do not require a global
-optimization of a large number of parameters, and that do not include marital
+to using single-age discrete aggregate data, which do not require a global
+optimization of a large number of parameters, and which do not include marital
 or other states. In other words, the models presented here exclude most recent
-advances in the two-sex modeling per se, which have been in the areas of agent 
+advances in the two-sex modeling per se, which have been in the areas of agent-
 based models and differential equations. That is to say, we do not delve into the 
 interior workings of mating or marriage markets or individual interactions, or
 into the epidemiological or econometric interests in the two-sex problem in general. Work
 is kept in the domain of classical aggregate demography, and models easily
 summarized in terms of unified renewal equations. In this sense the work of
 this chapter is not \textit{cutting-edge}, but rather one of standardizing, at
-time translating models from their original context to fit ours. In all cases,
+times translating models from their original context to fit ours. In all cases,
 we attempt to give step-by-step instructions for how to calculate the
 two-sex intrinsic growth rate, $r$, to ensure reproducibility of results.
 
 We begin by classifying into a single group those two-sex models whose
-constituent parts have essentially been the male and female single-sex models;
-i.e. those models that have adhered to the concept of single-sex fertility. In this group
-we could first place the exceedingly simple solution that consists in taking some 
+constituent parts have essentially been the male and female single-sex models --
+i.e., those models that have adhered to the concept of single-sex fertility. In
+this group we could first place the exceedingly simple solution that consists in taking some 
 mean of the male and female single-sex intrinsic growth rates to produce a 
 both-sex $r$, without digging into the workings of the model
-itself\citep[e.g.][]{kuczynski1932fertility}. We will discuss two models that
+itself \citep[e.g., ][]{kuczynski1932fertility}. We will discuss two models that
 fall into this class, one parsimonious and effective, another intricate. Both
-models will be seen to yield results in line with expectations, but to suffer
-particular drawbacks. The first model which we will briefly discuss is that
-which appeared in \citet{pollard1948measurement}. This will be followed by
+models yield results in line with expectations, but suffer
+particular drawbacks. The first model, which we briefly discuss, is that
+which appeared in \citet{pollard1948measurement}. This is followed by
 a longer explanation of the less intuitive model in \citet{mitra1978derivation}.
-Neither of these two models will later be translated to the remaining years
+Neither of these two models is later translated to the remaining-years
 perspective.
 
-Next we briefly explain a linear model that makes use of a constant
-\textit{dominance} parameter--a weighted mean-- to regulate the
+Next, we briefly explain a linear model that makes use of a constant
+\textit{dominance} parameter -- a weighted mean -- to regulate the
 influence of male and female vital rates on intrinsic growth rates. In this
 model, both males and females produce offspring of both sexes, thereby
 removing any additional complications in sex ratios implied by the use of
-single-sex fertility rates. This model is later translated to the
+single-sex fertility rates. This model is translated to the
 remaining-years perspective later in this dissertation.
 
 Third, we present two more models, \citet{gupta1978alternative} and
 \citet{schoen1981harmonic} (and mention several others) that make use of
 fertility rates cross-classified by age of mother and age of father. Fourth, 
 we present an iterative model that also relies on age
-cross-classified fertility information, but that has some more desirable
+cross-classified fertility information, but which has some more-desirable
 properties, namely the iterative proportional fitting technique first
 introduced to the two-sex problem by \citet{mc1975models}. Some results are
  compared and assessed in light of the axioms presented previously. Finally, a
- brief survey of methods not covered at length will close the chapter.
+ brief survey of methods not covered at length closes the chapter.
  
 \FloatBarrier

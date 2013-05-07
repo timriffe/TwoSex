@@ -1,12 +1,12 @@
 \label{sec:pollardage}
-\paragraph{Componets to the model: }
+\paragraph{Components to the model: }
 Define two fertility functions, $F_{a'}^{F-M}$ and $F_a^{M-F}$, where the first
 superscript indicates the sex of progenitor, the second superscript indicates
 the sex of birth, $a$ indexes male age and $a'$ indexes female age. In
 other words, the female births are determined by male rates and vice versa.
 $p_a$ and $p_{a'}$ are the male and female probabilities of surviving to age 
 $a$, $a'$. It will be convenient to combine these two items into \textit{net}
-opposite-sex offspring functions
+opposite-sex offspring functions:
 \begin{align}
 m_a &= p_aF_a^{M-F}\\
 m_{a'} &= p_{a'}F_{a'}^{F-M}
@@ -18,14 +18,14 @@ Given $m_a$ and $m_{a'}$, the renewal function to determine births in yeat $t$
 is given by
 \begin{align}
 B^F &= \int_0^\infty m_a \dd a\\
-B^M &= \int_0^\infty m_{a'} \dd a'\\
+B^M &= \int_0^\infty m_{a'} \dd a'
 \end{align}
-Which can be converted such that sex of offspring and reference
+which can be converted such that sex of offspring and reference
 progenitor are the same by moving back one generation and combining net
 offspring functions:
 \begin{align}
 B^F &= \int_0^\infty \int_0^\infty B^F_{t-a-a'} m_am_{a'}\dd a \dd a'\\
-B^M &= \int_0^\infty \int_0^\infty B^M_{t-a-a'} m_am_{a'}\dd a \dd a'\\
+B^M &= \int_0^\infty \int_0^\infty B^M_{t-a-a'} m_am_{a'}\dd a \dd a'
 \end{align}
 These later two functions combine into a single convenient renewal function
 \begin{equation}
@@ -38,20 +38,20 @@ ultimate intrinsic growth rate, $r$, which is the real root of the following equ
 \end{equation}
 
 In Pollard's model the sex ratio at birth and overall sex ratio
-of the population are regulated by cris-crossed sex-specific fertility. Pollard proves that
-the resulting estimate of $r$ will be intermediate to the male and female
-single-sex intrinsic growth rates-- assuming a constant sex ratio at birth-- and
-the function remains linear. Further, the function has the advantage of being 
+of the population are regulated by criss-crossed sex-specific fertility. Pollard
+proves that the resulting estimate of $r$ will be intermediate to the male and female
+single-sex intrinsic growth rates -- assuming a constant sex ratio at birth --
+and the function remains linear. Further, the function has the advantage of being 
 relatively easy to understand.
 This author finds the method clever, but it has been rather ignored in the
-literature because authors typically find the assumption of cris-crossed
+literature because authors typically find the assumption of criss-crossed
 fertility unrealistic. This seems like a fair criticism if the goal is to
-faithfully reflect fertiltiy dynamics. It would seem that Pollard's goal 
+faithfully reflect fertility dynamics. It would seem that Pollard's goal 
 was to approximate the value of the two-sex growth rate while maintaining
 a small set of desirable model qualities (bracketing, linearity, homogeneity
-simplicity), but not to approximate true reproducive dynamics. Another drawback
-is that the sex ratio at birth, if not assumed constant, depends on the initial
-conditions. 
+simplicity), but not to approximate true reproductive dynamics. Another drawback
+is that the sex ratio at birth, if not assumed to be constant, depends on the
+initial conditions. 
 
 Given an optimized value of $r$, one can retrieve the stable age structure and
 sex ratio at birth\footnote{Some advice is given in
