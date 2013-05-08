@@ -1,30 +1,26 @@
  \FloatBarrier
  \label{sec:ex1sexother}
-A final calculation of $T^y$ is given by:
-
+A final calculation of $T^y$ is given by
 \begin{equation}
 \label{eq:Ty}
  T^y =  \frac{\int _{y=0}^\infty \int _{a=y}^\infty y e^{-ra} d_a f_y \dd a
 \dd y}{\int _{y=0}^\infty \int _{a=y}^\infty e^{-ra} d_a f_y \dd a \dd y}
 \end{equation}
 using $r$ from the iterative procedure. The net reproduction rate, $R_0$ is
-related by, e.g.:
+related by, e.g.,
 \begin{equation}
 \label{eq:R0fromTy}
 R_0 = e^{r T^y}
 \end{equation}
-
-The birth rate, $b$, is given by:
+The birth rate, $b$, is given by
 \begin{equation}
 \label{eq:eybrate}
 b = \frac{1}{\int _{y=0}^\infty \int _{a=y}^\infty e^{-ra} d_a \dd a
 \dd y}
 \end{equation}
-
 The stable age structure, $c$, where $c_y$ is the
 proportion of the stable population with remaining years to live $y$, is given
-by:
-
+by
 \begin{equation}
 \label{eq:cy}
 c_y = b \int _{a=y}^\infty e^{-ra} d_a \dd a
@@ -34,6 +30,6 @@ Other possibly interesting stable parameters may be estimated by
 similarly translating the various definitions in the glossary of
 \citet{coale1972growth} to the present perspective. Before presenting 
 results or extending the present one-sex renewal
-formula to two-sex linear and non-linear situations, the heart of this 
-thesis, we first describe the construction of the Leslie matrix that corresponds to the
-present model.
+formula to two-sex linear and non-linear situations -- the heart of this 
+thesis -- we first describe the construction of the projection matrix that
+corresponds to the present model.

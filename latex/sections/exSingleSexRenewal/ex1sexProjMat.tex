@@ -9,27 +9,27 @@ Matrix-based projections, while not ubiquitous in the practice of demography,
 are nonetheless widespread and of high analytic utility. While the species of
 matrix presented here is indeed used in data exercises elsewhere in this
 dissertation (notably Section~\ref{sex:doublingex}), its properties will not be
-explored beyond the construction advise given in this section. It is hoped that
-the present section will facilitate exploration of the present stable system for
+explored beyond the construction advice given in this section. It is hoped that
+this section will facilitate exploration of the present stable system for
 the interested reader. The only computational requisite is a statistical
 environment that supports matrix operations, such as
-\texttt{R}\citep{Rcitation}\footnote{\texttt{R} is the language used behind the
-scenes for all computations and Figure production in this dissertation} or
-\texttt{matlab}\citep{MATLAB:2010}.
+\texttt{R} \citep{Rcitation}\footnote{\texttt{R} is the language used behind the
+scenes for all computations and figure production in this dissertation} or
+\texttt{matlab} \citep{MATLAB:2010}.
 
-If the reader is not familar with the construction
-of age-structured Leslie matrices, a brief description may be found in
+If the reader is not familiar with the construction
+of age-structured Leslie matrices, a brief description can be found in
 Appendix~\ref{Appendix:Caswell}, which is essentially a paraphrase of the
 detailed description offered in \cite{caswell2001matrix}. As with
 age-structured Leslie matrices, $e_y$-structured projection matrices,
 $\textbf{Y}$, are square and of dimension $n \times n$, where $n$ is the number
-of remaining years classifications into which the population is divided. The matrix contains
+of remaining-years classifications into which the population is divided. The matrix contains
 elements for survival and elements for fertility. Unlike Leslie matrices,
-$\textbf{Y}$ is not sparse, but is primarily populated with non-zero entries.
+$\textbf{Y}$ is not sparse, but is populated primarily with non-zero entries.
 
 Recall the description of renewal in an $e_y$-structured population offered in
 Section~\ref{sec:exrenewal} and illustrated in Figure~\ref{fig:exrenewal}. Of
-interest is that mortality only occurs in the population class with zero
+interest is that mortality occurs in only the population class with zero
 remaining years of life. $e_y$-class 1 in year $t$ moves to 0 in year $t+1$.
 In this way, populations shift \textit{down} rather than up with each time iteration.
 Thus, instead of in the subdiagonal, we place survival in the superdiagonal, and
@@ -56,36 +56,36 @@ $\bordermatrix{{e_y } & 0_t & 1_t & 2_t & 3_t & 4_t & 5_t\cr
  Fertility inputs to the matrix are derived from $e$SFR and the lifetable $d_x$
  distribution, where $x$ indexes age, but is translated to $y$, remaining years
  of life. Recall that fertility in an $e_y$-structured population occurs in all
- but the highest remaining years classes. Say for our example, that fertility is
- observed in classes 0-4, whereas the final class has no fertility. Where $f_y$
+ but the highest remaining years classes. Say, for our example, that fertility
+ is observed in classes 0-4, whereas the final class has no fertility, where $f_y$
  indicates the fertility probability for class $y$ in the year $t$ entering
  population (in the matrix columns). Each $f_y$ is then distributed according to
  $d_x$, indeed with no further translation, since the $d_x$ column refers to age
  0, as such. Thus the fertility entry in row $m$ and column $n$ of $\textbf{Y}$
  will be $f_n \cdot d_m$. We assume that those dying over the course of year
- $t$ (the first column) are exposed to fertility for \textonehalf ~of the
- year\footnote{One might be tempted to not allow for fertility at all for
+ $t$ (the first column) are exposed to fertility for  half of the
+ year,\footnote{One might be tempted to not allow for fertility at all for
  females dying in year $t$, but recall that fertility is measured in the moment of
- birth, and not conception.},
+ birth, and not conception.}
  and so discount the fertility entry accordingly. Further, infant mortality, 
  $f_y \cdot d_0$, located in the first row, must also be discounted, since part
  of the mortality will occur in the same year $t$ and the rest in year $t+1$. 
- The first row of fertility must be further discounted by a factor, $\lambda$ in 
- order to account for the fact that infant mortality is higher in the lower Lexis 
- triangle than in the upper, i.e.
- of those infants that die in the first year of life, a proportion equal to
+ The first row of fertility must be further discounted by a factor, $\lambda$,
+ in order to account for the fact that infant mortality is higher in the lower Lexis 
+ triangle than in the upper -- i.e.,
+ of those infants who die in the first year of life, a proportion equal to
  $\lambda$ do not make it to December \nth{31} of the calendar year in which
- they were born\footnote{$\lambda$ can be derived directly from death counts
- data classified by Lexis triangles. In the US, lambda has behaved similarly
+ they were born.\footnote{$\lambda$ can be derived directly from death counts
+ data classified by Lexis triangles. In the US, $\lambda$ has behaved similarly
  for males and females, falling steadily from around $0.9$ in 1969 to $0.86$
  around 1990, since which time it has steadily risen to around $0.87$. That is
- to say, lambda has varied, but not drastically. Likewise for Spain, $\lambda$
+ to say, $\lambda$ has varied, but not drastically. Likewise for Spain, $\lambda$
  fell from around $0.885$ in 1975 to $0.86$ in the mid 1990s, since which time it
- has risen another \textonehalf~\%. In Spain  $\lambda$ has been around
- \textonehalf\% higher for males than females. These numbers are just meant to give a feel
- for the ranges that $\lambda$ can be expected to receive. If the demographer
+ has risen another $0.5$\%. In Spain  $\lambda$ has been around $0.5$\ higher 
+ for males than females. These numbers are just meant to give a
+feel for the ranges that $\lambda$ can be expected to receive. If the demographer
  does not have information to derive $\lambda$ directly, ad hoc semidirect
- methods may be used to assign a reasonable proportion. } . The
+ methods may be used to assign a reasonable proportion. } The
  fertility component of $\textbf{Y}$ is then composed as in Matrix~\ref{matrix:ex1sexfertility}.
 
 \begin{matrix}[h!]
@@ -124,22 +124,23 @@ $\textbf{Y} = \bordermatrix{
    5_{t+1} \vspace{.6em}& \tfrac{f_0d_5}{2} & f_1d_5 & f_2d_5 & f_3d_5 & f_4d_5 & 0 }$
 \end{matrix}
 
-Remaining years classes should ideally terminate at the highest value permitted
+Remaining-years classes should ideally terminate at the highest value permitted
 by data. For the data used in this dissertation, there are 111 total age
-classes, which translate to 111 total remaining years classes (0-110+). In practice 
+classes, which translate to 111 total remaining-years classes (0-110+). In practice 
 $\textbf{Y}$ becomes
-as 111$\times$111 matrix, with most entries non-zero. Construction may appear
-tedious for this reason . However, note that the bulk of fertility entries can
+a 111$\times$111 matrix, with most entries non-zero. Construction may appear
+tedious for this reason. However, note that the bulk of fertility entries can
 be derived as the outer (tensor) product $d_x \otimes f_y$, leaving only the 
-first row and first column discounting followed by the addition of the survival
-superdiagonal. In most statistical programming languages constructing $\textbf{Y}$ entails only
-a couple more lines of code than constructing a Leslie matrix.
+first row and first column mortality discounting followed by the addition of the
+survival superdiagonal. In most statistical programming languages 
+constructing $\textbf{Y}$ entails only
+a few more lines of code than constructing a Leslie matrix.
 
 As with Leslie matrices, the above projection matrix may be manipulated using
 generic matrix techniques in order to extract such information as the intrinsic
 growth rate, or the stable $e_y$ structure. The former is the natural log of the
-largest real eigenvalue, and the later is the real part of the eigenvector that
-corresponds to the largest real eigenvalue, rescaled to sum to 1\footnote{see
-\citet[pp 86-87]{caswell2001matrix}}.
+largest real eigenvalue, and the latter is the real part of the eigenvector that
+corresponds to the largest real eigenvalue, rescaled to sum to 1.\footnote{See
+\citet[p.86-87]{caswell2001matrix}.}
 
  \FloatBarrier

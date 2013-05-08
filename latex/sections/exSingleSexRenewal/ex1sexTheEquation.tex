@@ -1,6 +1,6 @@
  \FloatBarrier
  \label{sec:ex2sexequation}
-The present section will formalize the mathematical relations between vital
+The present section formalizes the mathematical relations between vital
 rates as they pertain to population growth in single-sex $e_y$-structured
 populations. The entire system to be presented here finds its analogue in the
 familiar stable population model, as typically applied to age-classified
@@ -9,71 +9,69 @@ intuitive to see that the stable structure of the $e_y$-structured population is
 primarily by the deaths distribution and the rate of growth of the
 population. Indeed, upon transforming fertility rates to the earlier-presented
 $e$SFR, one is just a few short steps away from a full Lotka-type renewal
-model, namely (for females), births in year $t$, $B_{t}$ are given by:
+model: births for females in year $t$, $B_{t}$ are given by
 \begin{equation}
 B_t = \int_{y=0}^\infty F_{y,t} P_{y,t} \dd y
 \end{equation}
-Where $F_y$ and $P_y$ are $e_y$-specific fertility probabilities and population
+$F_y$ and $P_y$ are $e_y$-specific fertility probabilities and population
 counts (rates and exposures when discrete). The population with
-exact remaining years $y$, $P_y$, is composed of multiple birth cohorts, thus:
+exact remaining years $y$, $P_y$, is composed of multiple birth cohorts, thus
 \begin{equation}
 B_t = \int_{y=0}^\infty \int_{n=0}^\infty F_{y,t}
 \frac{P_{y+n,t}d_{y+n,t}}{\int_{a=y+n}^\infty d_{a,t} \dd a} \dd y
 \end{equation}
 where $y+n$ can be thought of as age. Present population can be related to past
-births in the same way:
+births in the same way
 \begin{equation}
 B_t = \int_{y=0}^\infty \int_{n=0}^\infty F_y
 \frac{B_{t-n}d_{y+n}}{\int_{a=y+n}^\infty d_a \dd a} \dd n \dd y
 \end{equation}
 and when the population is subject to constant vital rates it will eventually
 enter into an invariant structure, where the births in each year are related to
-the births in the previous year by a constant proportion:
+the births in the previous year by a constant proportion
 \begin{equation}
 B_t = \lambda B_{t-1}
 \end{equation}
-and in continuous time:
+and in continuous time
 \begin{equation}
 B_t = e^{rn}B_{t-n}
 \end{equation}
 where $r$ is Lotka's intrinsic rate of growth. This identity means that $B_t$
-can, in the case of stability, also be written in terms of itself:
+can, in the case of stability, also be written in terms of itself,
 \begin{equation}
 \label{eq:exrenewal1sex}
 B_t = \int_{y=0}^\infty \int_{n=0}^\infty F_y
 \frac{B_{t}e^{-rn}d_{y+n}}{\int_{a=y+n}^\infty d_a \dd a} \dd n \dd y
 \end{equation}
 which give us the so-called renewal equation. THe fundamental equation to
-estimate the growth rate, $r$, is given by:
+estimate the growth rate, $r$, is given by
 \begin{align}
 \label{eq:exLotkafemales}
 1 &= \int _{y=0}^\infty \int _{a=y}^\infty e^{-ra} d_{a} F_{y} \dd a \dd y
 \end{align}
 where $a$ indexes age, $y$ indexes remaining years of life,
 $d_{a}$ is the age-distribution of female deaths from the radix-1 period
-lifetable, and $F_{y}$ are exact single sex fertility probabilities
-(mother-daughter or father-son) by remaining years of
-life ($e$SFR, see Equation~\eqref{eq:eSFR}). Equation~\ref{eq:exLotkafemales} is indeed similar to the
-original age-structured Lotka equation, introduced in
-Equation~\eqref{eq:lotkaeq}. First, note that the survival function $p_a$
-inside Equation~\ref{eq:lotkaeq} can also be expressed in terms of
+lifetable, and $F_{y}$ is the single sex fertility probability
+(mother-daughter or father-son) for exact remaining years of
+life, $y$ ($e$SFR, see Equation~\eqref{eq:eSFR}).
+Equation~\eqref{eq:exLotkafemales} is indeed similar to the original
+age-structured Lotka equation, introduced in Equation~\eqref{eq:lotkaeq}. First, note that the survival function $p_a$
+inside Equation~\eqref{eq:lotkaeq} can also be expressed in terms of
 $d_a$ (current livings are the sum of future deaths):
-
 \begin{equation}
 p_a = \int _{x = a} ^\infty d_x \dd x
 \end{equation}
-in which case Equation~\ref{eq:lotkaeq} can be rewritten as:
-
+in which case, Equation~\ref{eq:lotkaeq} can be rewritten as
 \begin{align}
 \label{eq:lotkadx}
 1 &= \int _{a=0}^\infty \int _{b = a}^\infty e^{-ra} d_b m_a \dd b \dd a
 \end{align}
 
-All we have changed in order to derive Equation~\ref{eq:exLotkafemales}
+All we have changed in order to derive Equation~\eqref{eq:exLotkafemales}
 is to turn $l_a$ and $m_a$ sideways, so to speak, multiplying the two vectors
 together where they coincide in terms of remaining years instead of in terms of age. This
 transformation is a simple change of perspective. $r$ still applies to
-successive time steps, but in terms of remaining years of life, it must be applied incrementally 
+successive time steps, but in terms of remaining years of life it must be applied incrementally 
 over the newcomers to
-each grouping of remaining years of life, i.e. over the time-layers of the
+each grouping of remaining years of life -- i.e., over the time-layers of the
 $e_y$-structured pyramid.
