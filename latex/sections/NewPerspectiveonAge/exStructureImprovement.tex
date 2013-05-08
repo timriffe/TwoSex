@@ -1,14 +1,14 @@
 \FloatBarrier
 \label{sec:eximprov}
-As we are dealing with a \textit{forward-looking}\citep{sanderson2007new}
+As we are dealing with a \textit{forward-looking} \citep{sanderson2007new}
 transformation of structure, the reader will likely intuit that our redistribution 
 method will err toward pessimism to the extent that
 future improvements in mortality are ignored. The desire to take account of
-future mortality improvements is already a projectio mindset, and we have made
-no claim that the this structure is a realistic projection- Rather it is a
-scenario-- a speedometer, to use the analogy of \citet{coale1972growth}. In any
+future mortality improvements is already a projection mindset, and we have made
+no claim that the this structure is a realistic projection -- Rather it is a
+scenario -- a speedometer, to use the analogy of \citet{coale1972growth}. In any
 case, one best accounts for future mortality improvements by applying assumptions about the rate of
-improvment in the age-specific motality \textit{hazard}, $\mu_a$, rather than
+improvement in the age-specific mortality \textit{hazard}, $\mu_a$, rather than
 directly manipulating $d_a$, which is our redistribution vector. To illustrate by
 example, take the population of infants and the full present vector of $\mu_a$. It seems fair that
 that $\mu_0$, or something close to it, will apply to these infants, yet by age
@@ -16,14 +16,12 @@ that $\mu_0$, or something close to it, will apply to these infants, yet by age
 this same static $\mu_50$ will be too high. For the sake of simplicity, let us assume that the
 rate of improvement, $\iota$, applies equally over all ages and future years,
 and is equal to about 0.5\% per year (conservative for some ages, liberal
-for others). To use this a muliplicative factor, we take $e^{\iota a}$, where
-$\iota = -0.005$. Then we modify $\mu_a$ for these 0-year-olds, in the
+for others). To use this as a multiplicative factor, we take $e^{\iota a}$,
+where $\iota = -0.005$. Then we modify $\mu_a$ for these 0-year-olds, in the
 following way
-
 \begin{equation}
 \mu_a^0 = \mu_a e^{\iota a} 
 \end{equation}
-
 where the superscript indicates that we have done this for persons of age 0, and
 $\omega$ is the highest age attainable. Now one converts the $\mu _a^0$ to the
 new $d_a^0$ and redistributes the infant population accordingly. The relation
@@ -31,53 +29,53 @@ between $\mu_a$ and $d_a$ in continuous terms is given by
 \begin{equation}
 d_a = \mu_a e^{-\int_0^\infty \mu_a \dd a}
 \end{equation}
-For the sake of completness, we can respecify the entire redistribution
+For the sake of completeness, we can respecify the entire redistribution
 equation~\eqref{eq:dxredist} in terms of $\mu_a$ as
 \begin{equation}
 P_y = \int _{a=0}^\infty P_a \frac{\mu_{a+y} e^{-\int_{b=0}^{a+y} \mu_b \dd
 b}}{e^{-\int_{b=0}^a \mu_b \dd b}} \dd a
 \end{equation}
-And allowing for a constant rate of reduction in $\mu_a$ for ages \textit{after}
-age $a$ in year $t$, $\iota$ (e.g., $-0.005$), we get
+Then allowing for a constant rate of reduction in $\mu_a$ for ages
+\textit{after} age $a$ in year $t$, $\iota$ (e.g., $-0.005$), we get
 \begin{equation}
 P_y = \int_{a=0}^\infty P_a \frac{\mu_{a+y}e^{\iota y} (e^{-\int_{b=0}^a\mu_b
 \dd b}+e^{-\int_{b=a}^{a+y} \mu_b e^{\iota b} \dd b})}{e^{-\int_{b=0}^a \mu_b
 \dd b}} \dd a
 \end{equation}
-which is likely in need of some explanation: The observed population of age $a$,
+which is likely in need of some explanation. The observed population of age $a$,
 $P_a$, has already survived to its age $a$, so improvements for this set of
 individuals must happen in later ages only (our assumption about the future).
 Thus, we do not alter $l_a$ (the denominator) or the left side of the sum in
 parentheses in the numerator (also equal to $l_a$). The part in the numerator in
-parenthesis is $l_{a+n}$ from Vaupel's Equation~\eqref{eq:vaupelredist}, but allowing
+parentheses is $l_{a+n}$ from Vaupel's Equation~\eqref{eq:vaupelredist}, but allowing
 for improvements in $\mu$ starting with age $a$ only (the right side). In this
 simple case, future $\mu_a$ are reduced by a factor of $e^{\iota n}$ where 
 $n$ counts up from the age-group being redistributed. To allow for more flexible
-improvments in $\mu_a$, we would need a separate vector of values for the
+improvements in $\mu_a$, we would need a separate vector of values for the
 proportional reduction in $\mu_{a+n}$, for each change in $a$, or else a full
 matrix of the future $\mu_a$ values that would apply to each age-group, taken
-e.g., from a projection.
+for example from a projection.
 
 For our discretized example, the above formulas are not convenient. We use the
 HMD methodology to derive to $d_a$ from $\mu_a$. This entails the following
-steps: 1) assume that the average proportion of the year completed at death in
+steps. 1) Assume that the average proportion of the year completed at death in
 each single-age interval is 0.5 (except for age 0, which uses the Coale-Demeny
-rule of thumb). 2) derive death probabilities, $q_a$, using $\mu_a$ and the
+rule of thumb). 2) Derive death probabilities, $q_a$, using $\mu_a$ and the
 latter. 3) Derive the survival function, $l_a$, as the cumulative product of
 the complement of $q_a$, with an initial value of 1 and a final value of 0. 4)
-Finally, the the element-wise product of $q_a$ and $l_a$ to arrive at our
-requisite $d_a$\footnote{This is the abbreviated version. See the HMD Methods
+Finally, take the element-wise product of $q_a$ and $l_a$ to arrive at our
+requisite $d_a$.\footnote{This is the abbreviated version. See the HMD Methods
 Protocol \citep{wilmoth2007methods} for the full version, which for this
-dissertation we have functionalized.}. This must be done for each age, to create as many modified $\mu _a^x $ vectors as there 
-are ages, and then one applies the same Equation~\ref{eq:dxredist}, swapping the 
-$\mu _a^x$ vector as one iterates over ages. Alternatively, as mentioned above,
+dissertation we have functionalized.} This must be done for each age, to create as many modified $\mu _a^x $ vectors as there 
+are ages, and then one applies the same Equation~\eqref{eq:dxredist}, swapping
+the $\mu _a^x$ vector as one iterates over ages. Alternatively, as mentioned above,
 one could just take some future evolution of $\mu_a$ from a standard projection method, such as the Lee-Carter method
 \citep{lee1992modeling}, finding the mortality trajectory expected for each individual, converting
 this to $d_a$, and then redistributing the population accordingly. 
 
 Here we execute the simplest assumption, though there is ample room for
-improvment in the method. The results of decreasing year 2009 mortality rates in each
-successive year (iteration) by a multiplicative factor of 0.995 (close to
+improvement in the method. The results of decreasing year 2009 mortality rates
+in each successive year (iteration) by a multiplicative factor of 0.995 (close to
 $e^{-0.005}$) are displayed in
 Figures~\ref{fig:exPyrUSimpr}~and~\ref{fig:exPyrESimpr}.
 
@@ -99,18 +97,18 @@ Figures~\ref{fig:exPyrUSimpr}~and~\ref{fig:exPyrESimpr}.
         \end{subfigure}
 \end{figure}
 
-Here, common practice would have been to start the rate of improvement stronger
+Common practice would have been to start the rate of improvement stronger
 and let is taper off with time, or to allow effects to work differently over
 age, but the present exercise is meant to be illustrative. Here one appreciates
-the slight maleability of population structure in light of potential future
+the slight malleability of population structure in light of potential future
 mortality improvements. The impending mode, composed largely but not entirely of
 baby-boomers, is absorbed to a certain extent, and the overall picture is even
 more optimistic than the original (as one would expect) for both countries.
 
 To incorporate uncertainty into this method, it is
-recommended to allow variaton in $\mu_x$ per the strategy outlined in the previous
-section~\ref{sec:structuncertainty}. At this time, we will depart from the
-present line of development. For the rest of this dissertation we will deal only with static
+recommended to allow variation in $\mu_x$ per the strategy outlined in the
+previous Section~\ref{sec:structuncertainty}. At this time, we depart from the
+present line of development. For the rest of this dissertation we deal only with static
 period deaths distributions, and we leave the thoughtful incorporation of mortality 
 improvements and additional uncertainty into the method for future work.
 
