@@ -52,7 +52,7 @@ ExBxy[ExBxy == 0]       <- NA
 expected[expected == 0] <- NA
 pdf("/home/triffe/git/DISS/latex/Figures/ObservedvsExpectedBexey.pdf", 
         height = 4, width = 6.5)
-
+# dev.new(height = 4, width = 6.5)
 par(mfrow=c(1,2), mar = c(3,1,2,3))
 image(x = ages + .5, y = ages + .5, ExBxy, 
         xlim = c(0, 101), ylim = c(0, 101), zlim = c(0,3100),
@@ -87,7 +87,7 @@ fath <- "Father"
 moth <- "Mother"
 text(50,-10, bquote(.(fath) ~ e[y]), xpd = TRUE, cex = .7, pos =1)
 text(-10,110,bquote(.(moth) ~ e[y]), xpd = TRUE, pos = 4, cex = .7)
-
+text(50,120,"Observed",cex = 1,xpd =TRUE)
 # expected bivariate distribution:
 
 par(mar=c(3,2,2,2))
@@ -112,6 +112,7 @@ contour(x = ages + .5, y = ages + .5, expected,
         levels = levs, labels = levs, add = TRUE)
 # line of homogamy:
 segments(0,0,101,101,col = "#50505050")
+text(50,120,"Expected",cex = 1,xpd =TRUE)
 dev.off()
 
 # observed vs expected:
