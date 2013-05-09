@@ -40,6 +40,16 @@ LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) / 1e5
 HM <- compiler::cmpfun(function(x,y){
             Mna0(Minf0((2 * x * y) / (x + y)))
         })
+# geometric mean of exposures:
+GM <- compiler::cmpfun(function(x,y){
+    Minf0(Mna0((x * y) ^ .5))
+})
+
+# logorithmic mean of exposures:
+LM <- compiler::cmpfun(function(x,y){
+            ifelse(x == y, x, {Minf0(Mna0((y - x) / (log(y) - log(x))))})
+        })
+
 
 # residual function
 #LotkaHminex <- compiler::cmpfun(function(r, dxm, dxf, FHf, FHm, SRB, M = HM, .a = .5:110.5){
@@ -169,6 +179,77 @@ rEShm <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .dxm, .d
                     c(r = LH[1], SRB = LH[2], its = LH[3])
                 }, .Bxy = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES, .M = HM))
 rownames(rEShm) <- yearsES
+#save(rUShm, file = "/home/triffe/git/DISS/Data/results/exMeanr/rUShm.Rdata")
+#save(rEShm, file = "/home/triffe/git/DISS/Data/results/exMeanr/rEShm.Rdata")
+
+# optionally do same for logarithmic and geometric means
+logoandgeo <- FALSE
+if (logoandgeo){
+    # geometric
+    rUSgm <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .dxf, .Ex, .M){
+                        
+                        Exm <- rowSums(ExpectedDx(with(.Ex, Male[Year == as.integer(yr)]), .dxm[,yr]))
+                        Exf <- rowSums(ExpectedDx(with(.Ex, Female[Year == as.integer(yr)]), .dxf[,yr]))
+                        # harmonic mean of exposures
+                        Hxy <- outer(Exm, Exf, .M)
+                        # harmonic rates (divide by two since working with both sexes)
+                        FxyHf <- Mna0(Minf0(ExpectedDxMxFmatrix(.Bxy[[yr]][["Bxyf"]], .dxm[, yr], .dxf[, yr]) / Hxy))
+                        FxyHm <- Mna0(Minf0(ExpectedDxMxFmatrix(.Bxy[[yr]][["Bxym"]], .dxm[, yr], .dxf[, yr]) / Hxy))
+                        
+                        LH <- exMeanIt(FHf = FxyHf, FHm = FxyHm, dxm =.dxm[,yr], dxf = .dxf[,yr], M = .M)
+                        c(r = LH[1], SRB = LH[2], its = LH[3])
+                    }, .Bxy = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS, .M = GM))
+    rownames(rUSgm) <- yearsUS
+    rESgm <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .dxm, .dxf, .Ex, .M){
+                        
+                        Exm <- rowSums(ExpectedDx(with(.Ex, Male[Year == as.integer(yr)]), .dxm[,yr]))
+                        Exf <- rowSums(ExpectedDx(with(.Ex, Female[Year == as.integer(yr)]), .dxf[,yr]))
+                        # harmonic mean of exposures
+                        Hxy <- outer(Exm, Exf, .M)
+                        # harmonic rates (divide by two since working with both sexes)
+                        FxyHf <- Mna0(Minf0(ExpectedDxMxFmatrix(.Bxy[[yr]][["Bxyf"]], .dxm[, yr], .dxf[, yr]) / Hxy))
+                        FxyHm <- Mna0(Minf0(ExpectedDxMxFmatrix(.Bxy[[yr]][["Bxym"]], .dxm[, yr], .dxf[, yr]) / Hxy))
+                        
+                        LH <- exMeanIt(FHf = FxyHf, FHm = FxyHm, dxm =.dxm[,yr], dxf = .dxf[,yr], M = .M)
+                        c(r = LH[1], SRB = LH[2], its = LH[3])
+                    }, .Bxy = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES, .M = GM))
+    rownames(rESgm) <- yearsES
+    # logarithmic mean
+    rUSlm <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .dxf, .Ex, .M){
+                        
+                        Exm <- rowSums(ExpectedDx(with(.Ex, Male[Year == as.integer(yr)]), .dxm[,yr]))
+                        Exf <- rowSums(ExpectedDx(with(.Ex, Female[Year == as.integer(yr)]), .dxf[,yr]))
+                        # harmonic mean of exposures
+                        Hxy <- outer(Exm, Exf, .M)
+                        # harmonic rates (divide by two since working with both sexes)
+                        FxyHf <- Mna0(Minf0(ExpectedDxMxFmatrix(.Bxy[[yr]][["Bxyf"]], .dxm[, yr], .dxf[, yr]) / Hxy))
+                        FxyHm <- Mna0(Minf0(ExpectedDxMxFmatrix(.Bxy[[yr]][["Bxym"]], .dxm[, yr], .dxf[, yr]) / Hxy))
+                        
+                        LH <- exMeanIt(FHf = FxyHf, FHm = FxyHm, dxm =.dxm[,yr], dxf = .dxf[,yr], M = .M)
+                        c(r = LH[1], SRB = LH[2], its = LH[3])
+                    }, .Bxy = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS, .M = LM))
+    rownames(rUSlm) <- yearsUS
+    rESlm <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .dxm, .dxf, .Ex, .M){
+                        
+                        Exm <- rowSums(ExpectedDx(with(.Ex, Male[Year == as.integer(yr)]), .dxm[,yr]))
+                        Exf <- rowSums(ExpectedDx(with(.Ex, Female[Year == as.integer(yr)]), .dxf[,yr]))
+                        # harmonic mean of exposures
+                        Hxy <- outer(Exm, Exf, .M)
+                        # harmonic rates (divide by two since working with both sexes)
+                        FxyHf <- Mna0(Minf0(ExpectedDxMxFmatrix(.Bxy[[yr]][["Bxyf"]], .dxm[, yr], .dxf[, yr]) / Hxy))
+                        FxyHm <- Mna0(Minf0(ExpectedDxMxFmatrix(.Bxy[[yr]][["Bxym"]], .dxm[, yr], .dxf[, yr]) / Hxy))
+                        
+                        LH <- exMeanIt(FHf = FxyHf, FHm = FxyHm, dxm =.dxm[,yr], dxf = .dxf[,yr], M = .M)
+                        c(r = LH[1], SRB = LH[2], its = LH[3])
+                    }, .Bxy = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES, .M = LM))
+    rownames(rESlm) <- yearsES
+    
+    save(rUSlm, file = "/home/triffe/git/DISS/Data/results/exMeanr/rUSlm.Rdata")
+    save(rESlm, file = "/home/triffe/git/DISS/Data/results/exMeanr/rESlm.Rdata")
+    save(rUSgm, file = "/home/triffe/git/DISS/Data/results/exMeanr/rUSgm.Rdata")
+    save(rESgm, file = "/home/triffe/git/DISS/Data/results/exMeanr/rESgm.Rdata")
+
+}
 
 
 

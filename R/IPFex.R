@@ -142,7 +142,7 @@ rexIPFit <- compiler::cmpfun(function(Bxym, Bxyf, Exm, Exf, dxm, dxf, M = mean,
             c(r = r.i, SRB = SRB.i, iter = i)
         })    
 
-rUS <- do.call(rbind, lapply(as.character(yearsUS), function(yr, .Bxymf, .Ex, .dxm, .dxf, .M){
+rUSipfam <- do.call(rbind, lapply(as.character(yearsUS), function(yr, .Bxymf, .Ex, .dxm, .dxf, .M){
                     
                     Bxym <- ExpectedDxMxFmatrix(.Bxymf[[yr]][["Bxym"]], .dxm[,yr], .dxf[,yr])
                     Bxyf <- ExpectedDxMxFmatrix(.Bxymf[[yr]][["Bxyf"]], .dxm[,yr], .dxf[,yr])
@@ -152,7 +152,7 @@ rUS <- do.call(rbind, lapply(as.character(yearsUS), function(yr, .Bxymf, .Ex, .d
                              Exm = Exm, Exf = Exf, 
                              dxm = .dxm[,yr], dxf =  .dxf[,yr], M = .M)
                 },.Bxymf = BxymfUS, .Ex = ExUS, .dxm = dxmUS, .dxf = dxfUS, .M = mean))
-rES <- do.call(rbind, lapply(as.character(yearsES), function(yr, .Bxymf, .Ex, .dxm, .dxf, .M){
+rESipfam <- do.call(rbind, lapply(as.character(yearsES), function(yr, .Bxymf, .Ex, .dxm, .dxf, .M){
                     
                     Bxym <- ExpectedDxMxFmatrix(.Bxymf[[yr]][["Bxym"]], .dxm[,yr], .dxf[,yr])
                     Bxyf <- ExpectedDxMxFmatrix(.Bxymf[[yr]][["Bxyf"]], .dxm[,yr], .dxf[,yr])
@@ -163,8 +163,8 @@ rES <- do.call(rbind, lapply(as.character(yearsES), function(yr, .Bxymf, .Ex, .d
                             dxm = .dxm[,yr], dxf =  .dxf[,yr], M = .M)
                 },.Bxymf = BxymfES, .Ex = ExES, .dxm = dxmES, .dxf = dxfES, .M = mean))
 
-rownames(rUS) <- yearsUS
-rownames(rES) <- yearsES
+rownames(rUSipfam) <- yearsUS
+rownames(rESipfam) <- yearsES
 
 rUSipfhm <- do.call(rbind, lapply(as.character(yearsUS), function(yr, .Bxymf, .Ex, .dxm, .dxf, .M){
                     
@@ -188,6 +188,9 @@ rESipfhm <- do.call(rbind, lapply(as.character(yearsES), function(yr, .Bxymf, .E
                 },.Bxymf = BxymfES, .Ex = ExES, .dxm = dxmES, .dxf = dxfES, .M = harmonic.mean))
 rownames(rUSipfhm) <- yearsUS
 rownames(rESipfhm) <- yearsES
+
+save(rUSipfhm, file = "/home/triffe/git/DISS/Data/results/exIPFr/rUSipfhm.Rdata")
+save(rESipfhm, file = "/home/triffe/git/DISS/Data/results/exIPFr/rESipfhm.Rdata")
 #plot((rUSipfhm[,1] - rUS[,1]) / ((rUSipfhm[,1] + rUS[,1])/2),type = 'l')
 #plot(rUSipfhm[,1])
 #lines(rUS[,1])

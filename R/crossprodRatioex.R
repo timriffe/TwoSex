@@ -27,8 +27,8 @@ dxfUS <- dxfUS %col% colSums(dxfUS)
 dxmES <- dxmES %col% colSums(dxmES)
 dxfES <- dxfES %col% colSums(dxfES)
 
-Expect <- compiler::cmpfun(function(m1,m2,p=-2){
-    Minf0(Mna0(outer(m1,m2, "*") / stolarsky.mean(sum(m1), sum(m2), p = p)))
+Expect <- compiler::cmpfun(function(m1,m2,meanFun, ...){
+    Minf0(Mna0(outer(m1,m2, "*") / meanFun(sum(m1), sum(m2), ...)))
 })
 RatioAdj <- compiler::cmpfun(function(Ratio, BxyExp){
     (Ratio * BxyExp) * Minf0(Mna0((sum(BxyExp) / sum(Ratio * BxyExp))))
@@ -37,7 +37,7 @@ RatioAdj <- compiler::cmpfun(function(Ratio, BxyExp){
 rCrossRatioIt <- compiler::cmpfun(function(BxyM, BxyF, 
                 Exm, Exf, 
                 dxm, dxf, 
-                RatioM, RatioF, p = -2,
+                RatioM, RatioF, meanFun = HM,
                 .a = .5:110.5, maxit = 2e2, tol = 1e-15){
             N               <- length(dxm)
             dxM    <- dxF   <- matrix(0, ncol = N, nrow = N)
@@ -61,26 +61,26 @@ rCrossRatioIt <- compiler::cmpfun(function(BxyM, BxyF,
             # a starting guess of the SRB, assuming r = 0 and equal weight to males and females
             SRBi  <- sum( RatioAdj(RatioM, 
                                    Expect(rowSums(FexMM) * rowSums(dxM),
-                                          colSums(FexFM) * rowSums(dxF), p))) / 
+                                          colSums(FexFM) * rowSums(dxF), meanFun))) / 
                        sum(RatioAdj(RatioF, 
                                    Expect(rowSums(FexMF) * rowSums(dxM),
-                                          colSums(FexFF) * rowSums(dxF), p)))
+                                          colSums(FexFF) * rowSums(dxF), meanFun)))
             # proportions male and female
             pmi   <- SRBi / (1 + SRBi)
             pfi   <- 1 / (1 + SRBi)
             # starting guess at NRR, assuming r = 0 and above guess at SRB
             R0    <-  sum( RatioAdj(RatioM, 
                                     Expect(rowSums(FexMM) * rowSums(dxM) * pmi,
-                                            colSums(FexFM) * rowSums(dxF) * pfi, p))) +
+                                            colSums(FexFM) * rowSums(dxF) * pfi, meanFun))) +
                     sum(RatioAdj(RatioF, 
                                     Expect(rowSums(FexMF) * rowSums(dxM) * pmi,
-                                            colSums(FexFF) * rowSums(dxF) * pfi, p)))
+                                            colSums(FexFF) * rowSums(dxF) * pfi, meanFun)))
            T.guess <-  (sum( RatioAdj(RatioM, 
                                    Expect(.a * rowSums(FexMM) * rowSums(dxM) * pmi,
-                                           .a * colSums(FexFM) * rowSums(dxF) * pfi, p))) +
+                                           .a * colSums(FexFM) * rowSums(dxF) * pfi, meanFun))) +
                    sum(RatioAdj(RatioF, 
                                    Expect(.a * rowSums(FexMF) * rowSums(dxM) * pmi,
-                                           .a * colSums(FexFF) * rowSums(dxF) * pfi, p))) ) / R0
+                                           .a * colSums(FexFF) * rowSums(dxF) * pfi, meanFun))) ) / R0
            # starting val for r, assuming above NRR and mean remaining life expectancy at reproduction of 60 years
            ri     <- log(R0) /  T.guess
            
@@ -88,19 +88,19 @@ rCrossRatioIt <- compiler::cmpfun(function(BxyM, BxyF,
                # produce residual 
                deltai <- 1 - (sum( RatioAdj(RatioM, 
                                        Expect(rowSums(FexMM) * rowSums(dxM * exp(-ri * .a)) * pmi,
-                                               colSums(FexFM) * rowSums(dxF * exp(-ri * .a)) * pfi, p))) +
+                                               colSums(FexFM) * rowSums(dxF * exp(-ri * .a)) * pfi, meanFun))) +
                              sum(RatioAdj(RatioF, 
                                        Expect(rowSums(FexMF) * rowSums(dxM * exp(-ri * .a)) * pmi,
-                                               colSums(FexFF) * rowSums(dxF * exp(-ri * .a)) * pfi, p))))
+                                               colSums(FexFF) * rowSums(dxF * exp(-ri * .a)) * pfi, meanFun))))
                # improve r
                ri    <- ri - (deltai / (T.guess - (deltai / ri)))
                # improve SRB using improved R
                SRBi  <- sum( RatioAdj(RatioM, 
                                            Expect(rowSums(FexMM) * rowSums(dxM * exp(-ri * .a)) * pmi,
-                                                   colSums(FexFM) * rowSums(dxF * exp(-ri * .a)) * pfi, p))) /
+                                                   colSums(FexFM) * rowSums(dxF * exp(-ri * .a)) * pfi, meanFun))) /
                         sum(RatioAdj(RatioF, 
                                            Expect(rowSums(FexMF) * rowSums(dxM * exp(-ri * .a)) * pmi,
-                                                   colSums(FexFF) * rowSums(dxF * exp(-ri * .a)) * pfi, p)))
+                                                   colSums(FexFF) * rowSums(dxF * exp(-ri * .a)) * pfi, meanFun)))
                # get back proportions to simplify above formulas
                pmi <- SRBi / (1 + SRBi)
                pfi <- 1 / (1 + SRBi)
@@ -154,8 +154,12 @@ rCrossRatiocyWide <- compiler::cmpfun(function(r, SRB, dxm, dxf, .a = .5:110.5){
             cyf <- b * pfi * dxF * exp(-r * .a)
             list(cym=cym, cyf=cyf)
         })
-
-
+HM <- compiler::cmpfun(function(x,y){
+            Mna0(Minf0((2 * x * y) / (x + y)))
+        })
+# ---------------------------------------------------------------------------
+# test sensitivity to 'p'
+# this was done with a different Expec() function that had stolarsky.mean() inside it, iterating over p
 # takes very long time
 #DifferentPvals <- lapply(seq(-5,5,by=.1), function(p){
 #         do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .dxf, .Ex, .p){
@@ -188,7 +192,9 @@ rCrossRatiocyWide <- compiler::cmpfun(function(r, SRB, dxm, dxf, .a = .5:110.5){
 # after mid 1980s there was virtually no difference between p=-5 and p=5 (this interval is wide)
 
 
-rUScp <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .dxf, .Ex, .p){
+# ----------------------------------------------------------------
+# get r and SRB for US and Spain
+rUScp <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .dxf, .Ex, .meanFun){
                     
                     dxm <- .dxm[,yr]
                     dxf <- .dxf[,yr]
@@ -199,11 +205,11 @@ rUScp <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .dxm, .d
                     BxyF    <- ExpectedDxMxFmatrix(.Bxy[[yr]][["Bxyf"]], dxm, dxf) 
                     RatioM  <- Minf0(Mna0(BxyM / (outer(rowSums(BxyM), colSums(BxyM),"*") / sum(BxyM))))
                     RatioF  <- Minf0(Mna0(BxyF / (outer(rowSums(BxyF), colSums(BxyF),"*") / sum(BxyF))))
-                    rCrossRatioIt(BxyM, BxyF, Exm, Exf, dxm, dxf, RatioM, RatioF, p = .p)
-                }, .Bxy = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS, .p = -2))
+                    rCrossRatioIt(BxyM, BxyF, Exm, Exf, dxm, dxf, RatioM, RatioF, meanFun = .meanFun)
+                }, .Bxy = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS, .meanFun = HM))
 rownames(rUScp) <- yearsUS
 
-rEScp <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .dxm, .dxf, .Ex, .p){
+rEScp <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .dxm, .dxf, .Ex, .meanFun){
                     
                     dxm <- .dxm[,yr]
                     dxf <- .dxf[,yr]
@@ -215,10 +221,15 @@ rEScp <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .dxm, .d
                     RatioM  <- Minf0(Mna0(BxyM / (outer(rowSums(BxyM), colSums(BxyM)) / sum(BxyM))))
                     RatioF  <- Minf0(Mna0(BxyF / (outer(rowSums(BxyF), colSums(BxyF)) / sum(BxyF))))
                     
-                    rCrossRatioIt(BxyM, BxyF, Exm, Exf, dxm, dxf, RatioM, RatioF, p = .p)
+                    rCrossRatioIt(BxyM, BxyF, Exm, Exf, dxm, dxf, RatioM, RatioF, meanFun = .meanFun)
                     
-                }, .Bxy = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES, .p = -2))
+                }, .Bxy = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES, .meanFun = HM))
 rownames(rEScp) <- yearsES
+
+#save(rUScp, file = "/home/triffe/git/DISS/Data/results/exCPr/rUScp.Rdata")
+#save(rEScp, file = "/home/triffe/git/DISS/Data/results/exCPr/rEScp.Rdata")
+
+# take a look:
 
 plot(yearsUS, rUScp[,1], type = 'l', ylim = c(-.015,.01))
 #lines(yearsUS, rUS[,1], lty = 2)
@@ -326,21 +337,26 @@ IPFpred2 <- compiler::cmpfun(function(Bxy, Exm1, Exm2, Exf1, Exf2, marM = mean, 
 
 
 CompUS <- do.call(rbind, lapply(yearsUS[-length(yearsUS)], function(yr, .Bxy, .Ex, .dxm, .dxf){
+                    # for indexing
                     yrc         <- as.character(yr)
                     yrcp1       <- as.character(yr+1)
+                    # present year birth mat
                     Bt          <- ExpectedDxMxFmatrix(.Bxy[[yrc]], .dxm[,yrc], .dxf[,yrc])
+                    # next year's birth mat
                     Btp1test    <- ExpectedDxMxFmatrix(.Bxy[[yrcp1]], .dxm[,yrcp1], .dxf[,yrcp1])
+                    # male and female exposures 1 and 2
                     Exm1        <- rowSums(ExpectedDx(with(.Ex,Male[Year == yr]), .dxm[,yrc]))
                     Exm2        <- rowSums(ExpectedDx(with(.Ex,Male[Year == (yr + 1)]), .dxm[,yrcp1]))
                     Exf1        <- rowSums(ExpectedDx(with(.Ex,Female[Year == yr]), .dxf[,yrc]))
                     Exf2        <- rowSums(ExpectedDx(with(.Ex,Female[Year == (yr + 1)]), .dxf[,yrcp1]))
-                    
+                    # prediction year t+1 from IPF
                     IPFpred     <- IPFpred2(Bt, Exm1 = Exm1, Exm2 = Exm2, Exf1 = Exf1, Exf2 = Exf2, marM = mean)
+                    
+                    # components for ratio adjustment method
                     Ratio       <- Minf0(Mna0(Bt / (outer(rowSums(Bt), colSums(Bt)) / sum(Bt))))
-                   
                     Bpm         <- Minf0(Mna0(rowSums(Bt) / Exm1)) * Exm2
                     Bpf         <- Minf0(Mna0(colSums(Bt) / Exf1)) * Exf2
-                    
+                    # association-free, mean
                     Expec       <- Minf0(Mna0(outer(Bpm,Bpf, "*") / mean(c(sum(Bpm), sum(Bpf)))))
                     Pred        <- RatioAdj(Ratio, Expec)
                     
