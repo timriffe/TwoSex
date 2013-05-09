@@ -1,0 +1,103 @@
+
+\chapter{Equation~\ref{eq:lineartwosexrenewal} applied to the US and Spanish
+data}
+\label{appendix:exallrestimates}
+
+This appendix provides numerical results from all remaining-years two-sex
+methods applied to the US and Spanish populations for the years 1969-2009 and
+1975-2009, respectively. The two resutls to be listed are the intrinsic growth
+rate, $r$, and the intrinsic sex ratio at birth, $S$, which strays slightly from
+the intitial value of the sex ratio at birth due to changes in population
+structure between the initial and stable states and our inclusion of an
+age-pattern to the sex ratio at birth for males and females via sex-of-birth
+specific fertility rates. These results are placed into four tables, first $r$
+for the US (Table~\ref{tab:USexALL}), followed by $S$
+(Table~\ref{tab:USexSRBALL}) for the US, then $r$ and $S$ for the Spanish
+population (Tables~\ref{tab:ESexALL} and~\ref{tab:ESexSRBALL}). Throughout, we
+use superscripts in the column headers to identify the model according to the following key:
+\begin{itemize}
+  \item $r^m$ Section~\ref{sec:ex2sexequation} single-sex male.
+  \item $r^f$ Section~\ref{sec:ex2sexequation} single-sex female.
+  \item $r^{\sigma=1}$ Chapter~\ref{sec:ex2sexdomweights} weighted-dominance
+  method with 100\% male information. This is identical to the single-sex male rate.
+  \item $r^{\sigma=0}$ Chapter~\ref{sec:ex2sexdomweights} weighted-dominance
+  method with 100\% female information. This is identical to the single-sex female rate.
+  \item $r^{\sigma=0.5}$ Chapter~\ref{sec:ex2sexdomweights} weighted-dominance
+  method with information split 50-50 between males and females.
+  \item $r^{HM}$ Chapter~\ref{sec:ex2sexschoen} mean method on the basis of the
+  harmonic mean.
+  \item $r^{GM}$ Chapter~\ref{sec:ex2sexschoen} mean method on the basis of
+  the geometric mean.
+  \item $r^{LM}$ Chapter~\ref{sec:ex2sexschoen} mean method on the basis of
+  the logarithmic mean.
+  \item $r^{RADJ-HM}$ Chapter~\ref{sec:CRchap} ratio-adjustment method with male
+  and female marginal birth predictions balanced by the harmonic mean prior to
+  calculating the expected distribution, followed by the ratio-adjustment.
+  \item $r^{IPF-HM}$ Chapter~\ref{sec:ipfex} with male and female marginal
+  birth predictions balanced by the harmonic mean prior to reestimating rates
+  using iterative proportional fitting.
+\end{itemize}
+The same superscripts are used for stable sex ratios as birth, where $S(t)$
+simply refers to the observed sex ratio at birth for the given year. Results
+with full digit precision are available by executing the accompanying \texttt{R}
+code. Such precision should not give a false sense of exactitude, however, but
+serves only for verification when reproducing results. These estimates were
+arrived at by following the step-by-step instructions outlined in the text.
+Notably, as mentioned in the text, the sex ratio at birth, $S$, does not vary
+greatly between the initial and stable states, typically varying between
+methods only in the \nth{5} digit. This should put the reader at ease if
+questioning the stability of optimizing two parameters simultaneously. The
+stable $S$ will only differ if there is both a pattern over remaining years
+and a difference in remaining-years population structure in stability.
+
+\begin{table}
+  \begin{adjustwidth}{-1in}{-.5in}
+  \centering
+    \caption{Intrinsic growth rates, $r$, from remaining-years renewal models.
+    US, 1969-2009.}
+    \label{tab:USexALL}
+        \small{\input{xtables/USexALL.tex}}
+  \end{adjustwidth}
+\end{table}
+
+\begin{table}
+  \begin{adjustwidth}{-1in}{-.5in}
+  \centering
+    \caption{Stable sex ratio at birth, $S$, from remaining-years renewal
+    models. US, 1969-2009.}
+    \label{tab:USexSRBALL}
+        \small{\input{xtables/USexSRBALL.tex}}
+  \end{adjustwidth}
+\end{table}
+
+\begin{table}
+  \begin{adjustwidth}{-1in}{-.5in}
+  \centering
+    \caption{Intrinsic growth rates, $r$, from remaining-years renewal models.
+    Spain, 1975-2009.}
+    \label{tab:ESexALL}
+        \small{\input{xtables/ESexALL.tex}}
+  \end{adjustwidth}
+\end{table}
+
+\begin{table}
+  \begin{adjustwidth}{-1in}{-.5in}
+  \centering
+    \caption{Stable sex ratio at birth, $S$, from remaining-years renewal
+    models. Spain, 1975-2009.}
+    \label{tab:ESexSRBALL}
+        \small{\input{xtables/ESexSRBALL.tex}}
+  \end{adjustwidth}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
