@@ -4,40 +4,40 @@ The formal relations presented in
 Sections~\ref{sec:2sexlinearmain}~and~\ref{sec:2sexlinearother} establish
 coherence, and some merits have been presented. This section offers tools
 more relevant to the discrete practice of applied demography. The model
-contained in Equation~\ref{eq:lineartwosexrenewal} is conformable to replication 
-with a projection matrix, similar in concept to that offered for the 
+contained in Equation~\eqref{eq:lineartwosexrenewal} is conformable to
+replication with a projection matrix, similar in concept to that offered for the 
 single-sex $e_y$-structured
 case in Section~\ref{sec:ex1sexleslie}. The two-sex linear projection matrix combines
 the projection of each sex jointly in a single instrument, the construction of 
-which is more involved than the single-sex case: Four times more involved to be precise. 
+which is more involved than the single-sex case: four times more involved to be precise. 
 
 Assuming $n$ $e_y$-classes each for males and females, the dimensions of the
 present matrix will be $2n \times 2n$, where male and female
-$e_x$-classified population vectors by be joined, for instance end-to-end in a
-single population vector. The convention used in this description will place
-males, ordered by remaining years of life in positions $1:n$ of the vector
+$e_x$-classified population vectors are joined, for instance end-to-end in a
+single population vector. The convention used in this description places
+males (ordered by remaining years of life) in positions $1:n$ of the vector
 $\textbf{p}$ and females ordered by remaining years in positions $(n+1):(2n)$ of
-$\textbf{p}$, i.e. end-to-end. This being so, the projection matrix $\textbf{Y}$
-must conform with these locations of males and females, locating survival and 
+$\textbf{p}$ -- i.e., end-to-end. This being so, the projection matrix
+$\textbf{Y}$ must conform with these locations of males and females, locating survival and 
 fertility appropriately.
 
 $\textbf{Y}$ is divided into four main blocks. The top left block is
 nearly identical to the male single-sex case, and the bottom left block is
 nearly identical to the female single-sex case. Both of these two submatrices
-contain survival (all 1s) in the superdiagonal. Fertility is analogous, but must
-be weighted according to $\sigma$ ($1-\sigma$). The lower left submatrix
+contain survival (all 1's) in the superdiagonal. Fertility is analogous, but
+must be weighted according to $\sigma$ ($1-\sigma$). The lower left submatrix
 contains $M-F$ fertility weighted by $\sigma$ and distributed over female death probabilities,
 $d_a^f$, and the upper right matrix contains $F-M$ fertility, weighted by
 $1-\sigma$ and distributed according to male death probabilities. As with the
-single-sex projection matrix, fertility destined to die in the first year of
+single-sex projection matrix, fertility in the first year of
 life must be further discounted by $\lambda$ to account for the part of infant
-mortality that occurs before Dec. \nth{31} of the calendar birth year. In this
-case $\lambda$ may optionally be entered separately for males and females.
+mortality that occurs before December \nth{31} of the calendar birth year. In
+this case $\lambda$ may optionally be entered separately for males and females.
 
 % need to adjust spacing big-time!
 \begin{landscape}
 \begin{matrix}[h!]
-\caption{A full two-sex remaining years ($e_y$)-structured
+\caption{A full dominance-weighted two-sex remaining-years ($e_y$)-structured
 projection matrix, $\textbf{Y}$} 
 \label{matrix:ex2sex}
  \begin{adjustwidth}{-.2in}{-.5in}
@@ -64,6 +64,6 @@ expectancy in order to economize space (as opposed to the six shown in
 Matrix~\ref{matrix:ex1sex}). Such a matrix amenable to the data used in
 this thesis would have final dimensions $222 \times 222$, since we work here
 with 111 remaining life expectancy classes\footnote{The 111 $e_y$ classes
-are namely derived from the 111 ages of $d_x$ provided by the HMD, ages
+are derived from the 111 ages of $d_x$ provided by the HMD, ages
 $0-110+$.}.
 

@@ -7,14 +7,14 @@ calibrate the sex ratio at birth, $S$.
 \begin{enumerate}
  \item Determine a starting value for $\hat{S}^0$. 1.05 is a good enough guess,
  although for Spain 1.07 might be more reasonable. Use $\hat{S}^0$ to 
- calculate $\varsigma^0$ using:
+ calculate $\varsigma^0$ using
 \begin{equation}
 \label{eq:getvarsigmal}
 \varsigma^0 = \frac{\hat{S}^0}{1+\hat{S}^0}
 \end{equation}
 $\varsigma$ is updated in subsequent iterations.
    \item A first rough estimate of the net reproduction rate, $\widehat{R_0}$ (assuming
-  $r=0$) is given by: 
+  $r=0$) is given by 
  \begin{equation}
  \label{eq:ex2sexlinR0hat}
  \begin{split}
@@ -25,18 +25,18 @@ $\varsigma$ is updated in subsequent iterations.
                \dd y
  \end{split}
  \end{equation}
- \item Again, calculate the sum of Equation~\eqref{eq:ex2sexlinR0hat} again
+ \item Calculate the sum of Equation~\eqref{eq:ex2sexlinR0hat} again
  after weighting in $y$ and $y'$, respectively, and divide this sum by
  $\widehat{R_0}$ to arrive at an estimate of the mean length of generation (in
  terms of remaining years), $\widehat{T}$.
-  \item A first rough estimate of $r$, $r^0$, is given by:
+  \item A first rough estimate of $r$, $r^0$, is given by
    \begin{equation}
    r^0 = \frac{ln(\widehat{R_0})}{\widehat{T}}
    \end{equation}
   \item Plug $r^0$ into Equation~\eqref{eq:lineartwosexrenewal} to calculate a
-  residual, $\delta^0$
+  residual, $\delta^0$.
   \item Use $\delta^0$ and $\widehat{T}$ to calibrate the estimate of $r$
-  using:
+  using
   \begin{equation}
   r^{1} = r^0 + \frac{\delta^0}{\widehat{T} - \frac{\delta^0}{r^0}}
   \end{equation}
@@ -54,24 +54,24 @@ $\varsigma$ is updated in subsequent iterations.
                       _{y=0}^\infty \int _{a=y}^\infty e^{-r^1a} \varsigma^0
                       d_{a}^F f_{y}^{M-F} \dd a \dd y}
   \end{equation}
-  and then update to $\varsigma^1$ using Equation~\eqref{eq:getvarsigmal}.
+  Then update to $\varsigma^1$ using Equation~\eqref{eq:getvarsigmal}.
   \item Repeat step (5) to to derive a new $\delta^i$, then step (6) to refine
   $r^i$, adjusting $S^i$ with (7), and again steps 5-7 until converging on a
   stable $r$ (and $S$) after some 30 iterations, depending on the degree of
   precision desired ($\widehat{T}$ is not updated in this process).
 \end{enumerate}
   One may rightly object that given only
-  Equation~~\eqref{eq:lineartwosexrenewal} we should only be able to
-  solve for one variable, $r$ or $S$, and not both. In practice, results are
-  not sensitive to the choice of starting $S^0$, and the
+  Equation~~\eqref{eq:lineartwosexrenewal} we should be able to
+  solve for only one variable, $r$ or $S$, and not both. In practice, results
+  are not sensitive to the choice of starting $S^0$, and the
   calibration method leads in any (reasonable) case to the same stable $r$.
-  There is simply little room for $S$ to deviate from its stable value given 
-  1) the starting and stable structures are typically in this
+  There is simply little room for $S$ to deviate from its stable value given
+  that 1) the starting and stable structures are typically in this
   case not far from one another, and 2) males and females produce each sex of
   offspring, thus narrowly constraining $S$ even in the case of
   perfect dominance. No doubt unrealistic scenarios could be concocted wherein
   the present model would be unstable in the sense of not having a unique 
-  solution, the author doubts that
+  solution, but the author doubts that
   such scenarios would pertain in observed contemporary populations. As a
   sensitivity test, some extreme starting values for $S^0$ were chosen for
   select years from the data used in this dissertation (ranging between .8 and

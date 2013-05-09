@@ -1,6 +1,6 @@
  \FloatBarrier
 \label{sec:ex2sexdomweightsstabstruct}
-Using Equation~\eqref{eq:stablecy} we may calculate the
+Using Equation~\eqref{eq:stablecy} we can calculate the
 stable structure for any year from our test populations.
 Figures~\ref{fig:stablevsinitUS}~and~\ref{fig:stablevsinitES} provide a glimpse
 of how the 1975 and 2009 US and Spanish populations structured by remaining
@@ -13,9 +13,9 @@ stable populations. Slight improvements in male and female mortality, however,
 pushed the deaths distribution to higher ages, which caused the 2009 stable
 population to \textit{elongate} relative to 1975. In comparing the stable with the initial
 population structure, one may ask how it came to be that the initial pyramid
-acquired such a high modal age-- this will be due primarily to 1) changes in
-cohort sizes over time, the baby boomers having still be rather young in 1975,
-but also due to slight shifting of the deaths distribution to higher ages over
+acquired such a high modal age -- this will be due primarily to changes in
+cohort sizes over time (the baby boomers having still be rather young in 1975),
+but also to slight shifting of the deaths distribution to higher ages over
 time.
  
  % Figs made in exLotka2SexLinear.R 
@@ -42,8 +42,8 @@ here, dropping from $0.00870$ in 1975 to $-0.00714$ in 2009. The departure from
 zero was in both years higher than that in the US, causing sharp tapering at the
 base of the stable structure in 1975 and a rather \textit{pyramidal} shape in
 2009, due to an endogenously shrinking population. One notes that in 1975 the
-initial $e_y$ structure was very similar to the final stable form, but by 2009
-these two structures were quite different. Initial (\textit{observed})
+initial $e_y$-structure was very similar to the final stable form, but by 2009
+these two structures were quite different. Initial (observed)
 conditions were much more concentrated around the mode, due also to underlying
 cohort sizes and continual and fast improvements in mortality.
  
@@ -68,16 +68,16 @@ cohort sizes and continual and fast improvements in mortality.
 \FloatBarrier
 It has been mentioned before that the time series of observed $e_y$-structures
 has held rather steady in last several decades (major wars and epidemics excluded),
-due to the forces of mortality, fertility and (in)migration change having
+due to the forces of mortality, fertility, and (in)migration change having
 compensated each other somewhat. Namely, for the Spanish population, decreases
 in $r$ have been compensated somewhat by decreases in mortality that pushed the modal age at
-death (modal remaining years at birth) to higher ages (remaining years) as well
-as a large influx of relatively young migrants starting in the 1990s. The stable
-model of course assumes constant mortality and fertility, as well as zero
+death (modal remaining years at birth) to higher ages (remaining years), as well
+as by a large influx of relatively young migrants starting in the 1990s. The
+stable model of course assumes constant mortality and fertility, as well as zero
 migration, and so will not produce the same rather consistently observed tapered
-base to the population structure year after year-- in the stable model the
+base to the population structure year after year -- in the stable model the
 (optimistic) tapered base will come about when low infant mortality is coupled
-with high (roughly $>0$) intrinsic growth rates. Indeed, the drop in $r$ (i.e.
+with high (roughly $>0$) intrinsic growth rates. Indeed, the drop in $r$ (i.e.,
 fertility) is the primary culprit for the wide base in the stable
 $e_y$-structure for the Spanish population in 2009, which actually started some
 two decades earlier. 
@@ -91,10 +91,10 @@ of data for both populations dealt with in this dissertation.
 
 Figure~\ref{fig:cystabledx} displays the 1975 US population assuming $r=0$ but
 with different levels of mortality. The deaths distribution, $d_x$ was
-regenerated according to 2 scalings of the underlying mortality rates, $\mu_x$.
-All ages of $\mu_x$ were either scaled to 1.2 and 0.8 times lower mortality
-levels-- equivalent to a bit more than 2 years lower and higher life expectancy 
-at birth, respectively. $d_x$ was then rederived from the
+regenerated according to two scalings of the underlying mortality rates,
+$\mu_x$. All ages of $\mu_x$ were scaled to 1.2 and 0.8 times lower mortality
+levels -- equivalent to a bit more than two years lower and higher life
+expectancy at birth, respectively. $d_x$ was then rederived from the
 newly scaled $\mu_x$. Notice that higher levels of mortality are on balance
 lower structures with slightly wider bases, and vice versa for lower mortality
 levels. 
@@ -103,16 +103,16 @@ levels.
         \centering
         \begin{subfigure}
             \centering
-            \caption{US 1975 stable population structure under
-          different values of $r$.}
+            \caption{Stable population structure under
+          different values of $r$. US, 1975 }
         	\label{fig:cystabler}
                 \includegraphics[scale = .8]{Figures/exLotka2sexlinearPyrDiffr}
         \end{subfigure}
         \begin{subfigure}
             \centering
-            \caption{US 1975 stable population structure under
+            \caption{Stable population structure under
           different levels of mortality, observed (center line), $\mu_x \times
-          1.2$ and $\mu_x \times 0.8$; $r=0$.}
+          1.2$ and $\mu_x \times 0.8$; $r=0$. US, 1975}
             \label{fig:cystabledx}
                 \includegraphics[scale = .8]{Figures/exLotka2sexlinearPyrDiffdx}
         \end{subfigure}
@@ -127,7 +127,7 @@ by fertility. $e_y$-structured human populations obtain their
 births are \textit{layered} (see Figure~\ref{fig:exrenewal}) according to the
 deaths distribution, which itself has a characteristic shape. This could be seen
 by comparing the present figures with those from populations in mortality crisis
-years, and/or high infant mortality-- such years do no enter into study in this
+years, and/or high infant mortality -- such years do no enter into study in this
 thesis.
 
 As with the single-sex case, one may measure the distributional distance between
@@ -139,7 +139,7 @@ stable population. Also as with the single-sex case, the damping
 ratio may be calculated from the two-sex $e_y$-structured projection matrix 
 presented in Section~\ref{sec:ex2sxprojmat}. Here the value is not
 necessarily intermediate to the male and female single-sex cases, as seen in
-Figure~\ref{fig:damping2}:
+Figure~\ref{fig:damping2}.
 
 \begin{figure}[ht!]
         \centering  
@@ -151,8 +151,7 @@ Figure~\ref{fig:damping2}:
           \label{fig:damping2}
 \end{figure}
 Note that in both cases the $\sigma$ used to calculate the two-sex matrices was
-.5, in principle \textonehalf~informed by male vital rates and \textonehalf~
-informed by female vital rates. For the US, as one might expect, the damping
+.5, in principle half-informed by male vital rates and half-informed by female vital rates. For the US, as one might expect, the damping
 ratio was intermediate to the single-sex male and female ratios. For
 the Spanish population, however, the two-sex model is expected to stabilize
 faster than either of the corresponding one-sex models. We speculate that this
@@ -166,11 +165,11 @@ Our other summary measure of transient dynamics, the total absolute
 oscillation of population structure from the initial to stable states
 \citep{cohen1979cumulative}, in this case tends to be intermediate to the male
 and female values (see Figure~\ref{fig:cohend22sex}). One exception are the
-years 1975-6 for the Spanish population, where total oscillation in his model
+years 1975-6 for the Spanish population, where total oscillation in this model
 would have been higher than for either single-sex model. Recall that the damping
 ratio for each year of data was higher (faster stability) for the two-sex case 
-than either single-sex case. Only the $\sigma$ value of 0.5 was tested, but here
-we see that other values of $\sigma$ also would not guarantee damping ratios or
+than for either single-sex case. Only the $\sigma$ value of 0.5 was tested, but
+here we see that other values of $\sigma$ also would not guarantee damping ratios or
 total oscillations bracketed by the single-sex cases. That we see this in the
 simple linear combination of male and female models might be a precursor to
 observing that such measures for non-linear models will also not necessarily be
@@ -180,7 +179,7 @@ bracketed by the male and female single-sex cases.
         \centering  
           \caption{Total oscillation along the path to
        stability. Two-sex ($\sigma = 0.5$) versus single-sex $e_y$-structured
-       projection trajectories; US 1969-2009 and Spain 1975-2009}
+       projection trajectories. US, 1969-2009 and Spain, 1975-2009}
            % figure produced in /R/exLeslie.R
            \includegraphics{Figures/CohenD22sex}
           \label{fig:cohend22sex}

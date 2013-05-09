@@ -9,13 +9,12 @@ Equation~\eqref{eq:exLotkafemales}, this mortality enters in the equation by way
 of the $d_x$ distribution used to distribute births over life expectancies. If
 one knows the sex ratio at birth, expressed as the proportion male of births,
 $\varsigma$, then year $t$ births $B(t)$ can be expressed as follows:
-
 \begin{equation}
 \label{eq:lin2sexBt}
 B(t) = \int_{y=0}^\infty \sigma \varsigma P_y(t) F_y \dd y + \int_{y'=0}^\infty
 (1-\sigma) (1-\varsigma) P_{y'}(t) F_{y'} \dd y'
 \end{equation}
-where $P_y(t)$ and $P_{y'}(t)$ are the male and female year $t$ population
+$P_y(t)$ and $P_{y'}(t)$ are the male and female year $t$ population
 counts classified by exact remaining years $y$ (exposures when discrete), and
 $F_y$ and $F_{y'}$ are remaining-years classified fertility rates, $e$SFR
 (including both sexes of birth). Of course, $P_y$ can be expressed in terms
@@ -26,7 +25,6 @@ P_y &= \int_{a=0}^\infty P_a \frac{d_{a+y}}{p_a} \dd a \notag \\
     &= \int_{a=0}^\infty \varsigma B(t-a)p_a \frac{d_{a+y}}{p_a} \dd a \notag \\
     &= \int_{a=0}^\infty \varsigma B(t-a)d_{a+y} \dd a
 \end{align}
-
 where $p_a$ is the probability of surviving to age $a$, which is just the same
 as $\int_{x=a}^\infty d_x \dd x$. Plugging the last line into
 Equation~\eqref{eq:lin2sexBt}, we have:
@@ -38,7 +36,7 @@ F_y \dd a \dd y \\+ \int_{y'=0}^\infty \int_{a=0}^\infty (1-\sigma)
 (1-\varsigma) B(t-a')d_{a'+y'} F_{y'} \dd y' \dd a'
 \end{split}
 \end{equation}
-if left to evolve for long enough the size of consecutive birth cohorts will be
+If left to evolve for long enough the size of consecutive birth cohorts will be
 related by a constant factor, $e^r$, and this property allows us to rewrite
 Equation~\eqref{eq:lin2sexBt2} in terms of years $t$ births:
 \begin{equation}
@@ -51,7 +49,7 @@ F_y \dd a \dd y \\+ \int_{y'=0}^\infty \int_{a=0}^\infty (1-\sigma)
 \end{equation} 
 Dividing both sides by $B(t)$ brings us to the familiar-looking
 Lotka-type unity equation, which can be used to estimate the two-sex intrinsic
-growth rate, $r$:
+growth rate, $r$,
 \begin{equation}
 \begin{split}
 \label{eq:lineartwosexrenewal}
@@ -64,13 +62,12 @@ where $\varsigma$ is the proportion male at birth for the \textit{stable}
 population, which may either be assumed or estimated simultaneously with $r$-- the 
 iterative estimation strategy outlined below describes how to estimate these two
 parameters simultaneously. Equation~\eqref{eq:lineartwosexrenewal} does 
-not assume that fertility rates are
-available by sex of birth (4 combinations), but these will be needed in
-following in order to simultaneously calibrate the sex ratio at birth.
+not assume that fertility rates are available by sex of birth, but these will be needed in following in order to simultaneously
+calibrate the sex ratio at birth.
 
-The dominance-weighted two-sex $r$ extracted from~\eqref{eq:lineartwosexrenewal} 
-is bounded by the $e_y$-structured $r^f$ and $r^m$,
-and indeed $r^f$ and $r^m$ are recovered by setting $\sigma$ to 0 and 1,
+The dominance-weighted two-sex $r$ extracted from
+Equation~\eqref{eq:lineartwosexrenewal} is bounded by the $e_y$-structured $r^f$
+and $r^m$, and indeed $r^f$ and $r^m$ are recovered by setting $\sigma$ to 0 and 1,
 respectively. That is to say, setting $\sigma$ to 1 or 0 makes the single-sex
 model a degenerate case of the present model. This works because the
 dominance-weighted model uses both sexes of birth for each sex of progenitor,
@@ -82,13 +79,13 @@ would not have this property if only a single sex of offspring were included in
  fertility. This author does not recognize any theoretical or practical merits
  of the single-sex modeling choice, as it is not the case that males are 
  responsible for the birth of boys and females for the birth of 
- girls\footnote{Or vice versa, as we saw in
+ girls.\footnote{Or vice versa, as we saw in
  Section~\ref{sec:pollardage}. \citet{pollard1948measurement} took this idea
- even further by swapping sexes: The fertility functions in this paper 
+ even further by swapping sexes: the fertility functions in this paper 
  are based on the births of boys to mothers and girls to 
-fathers, i.e. $M-F$ and $F-M$ fertility. This we saw was parsimonious in terms 
+fathers, i.e., $M-F$ and $F-M$ fertility. This we saw was parsimonious in terms 
 of getting quick results that are guaranteed to fall within reasonable 
-bounds, but is even less intuitively appealing.}.
+bounds, but is even less intuitively appealing.}
 
 It must be
 noted that the two-sex value of $r$ is dependant upon the choice of $\sigma$, 
