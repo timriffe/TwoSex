@@ -171,7 +171,7 @@ US <-do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxymf, .dxm, .dxf
                             R0.1 <- exp(r.1[1] * Ty.1)
                             c(r.0 = r.0[1], r.5 = r.5[1], r.1 = r.1[1], 
                               Ty.0 = Ty.0, Ty.5 = Ty.5, Ty.1 = Ty.1, 
-                              R0.0 = R0.0, R0.5 = R0.5, R0.1 = R0.1)
+                              R0.0 = R0.0, R0.5 = R0.5, R0.1 = R0.1,S.0 = r.0[2],S.5 = r.5[2],S.1 = r.1[2])
                         }, .Bxymf = BxymfUS, .dxm = dxmUS, .dxf = dxfUS, .Ex = ExUS))
 rownames(US) <- yearsUS
         
@@ -215,29 +215,34 @@ ES <-do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxymf, .dxm, .dxf
                             R0.1 <- exp(r.1[1] * Ty.1)
                             c(r.0 = r.0[1], r.5 = r.5[1], r.1 = r.1[1], 
                               Ty.0 = Ty.0, Ty.5 = Ty.5, Ty.1 = Ty.1, 
-                              R0.0 = R0.0, R0.5 = R0.5, R0.1 = R0.1)
+                              R0.0 = R0.0, R0.5 = R0.5, R0.1 = R0.1,S.0 = r.0[2],S.5 = r.5[2],S.1 = r.1[2])
                         }, .Bxymf = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES))
 rownames(ES) <- yearsES
 
+#rSigmaUS <- US
+#rSigmaES <- ES
+#save(rSigmaUS, file = "/home/triffe/git/DISS/Data/results/exGoodmanr/rSigmaUS.Rdata")
+#save(rSigmaES, file = "/home/triffe/git/DISS/Data/results/exGoodmanr/rSigmaES.Rdata")
+
 # manual block on table creation
-save.tables <- FALSE
-if (save.tables){                    
-dimnames(ES) <- list(yearsES, c("$r^{\\upsilon (\\sigma = 0)}$"  , "$r^{\\upsilon (\\sigma = .5)}$"  , "$r^{\\upsilon (\\sigma = 1)}$",
-                "$T^{\\upsilon (\\sigma = 0)}$"  , "$T^{\\upsilon (\\sigma = .5)}$"  , "$T^{\\upsilon (\\sigma = 1)}$",
-                "$R_0^{\\upsilon (\\sigma = 0)}$", "$R_0^{\\upsilon (\\sigma = .5)}$", "$R_0^{\\upsilon (\\sigma = 1)}$"))
-dimnames(US) <- list(yearsUS, c("$r^{\\upsilon (\\sigma = 0)}$"  , "$r^{\\upsilon (\\sigma = .5)}$"  , "$r^{\\upsilon (\\sigma = 1)}$",
-                "$T^{\\upsilon (\\sigma = 0)}$"  , "$T^{\\upsilon (\\sigma = .5)}$"  , "$T^{\\upsilon (\\sigma = 1)}$",
-                "$R_0^{\\upsilon (\\sigma = 0)}$", "$R_0^{\\upsilon (\\sigma = .5)}$", "$R_0^{\\upsilon (\\sigma = 1)}$"))
-
-library(xtable)
-print(xtable(ES, digits = c(0,4,4,4,2,2,2,3,3,3), align = c("c","c","c","c","c","c","c","c","c","c")),
-        sanitize.colnames.function = identity, 
-        file = "/home/triffe/git/DISS/latex/xtables/ex2sexlinearES.tex",floating=FALSE)
-
-print(xtable(US, digits = c(0,4,4,4,2,2,2,3,3,3), align = c("c","c","c","c","c","c","c","c","c","c")),
-        sanitize.colnames.function = identity, 
-        file = "/home/triffe/git/DISS/latex/xtables/ex2sexlinearUS.tex",floating=FALSE)
-}
+#save.tables <- FALSE
+#if (save.tables){                    
+#dimnames(ES) <- list(yearsES, c("$r^{\\upsilon (\\sigma = 0)}$"  , "$r^{\\upsilon (\\sigma = .5)}$"  , "$r^{\\upsilon (\\sigma = 1)}$",
+#                "$T^{\\upsilon (\\sigma = 0)}$"  , "$T^{\\upsilon (\\sigma = .5)}$"  , "$T^{\\upsilon (\\sigma = 1)}$",
+#                "$R_0^{\\upsilon (\\sigma = 0)}$", "$R_0^{\\upsilon (\\sigma = .5)}$", "$R_0^{\\upsilon (\\sigma = 1)}$"))
+#dimnames(US) <- list(yearsUS, c("$r^{\\upsilon (\\sigma = 0)}$"  , "$r^{\\upsilon (\\sigma = .5)}$"  , "$r^{\\upsilon (\\sigma = 1)}$",
+#                "$T^{\\upsilon (\\sigma = 0)}$"  , "$T^{\\upsilon (\\sigma = .5)}$"  , "$T^{\\upsilon (\\sigma = 1)}$",
+#                "$R_0^{\\upsilon (\\sigma = 0)}$", "$R_0^{\\upsilon (\\sigma = .5)}$", "$R_0^{\\upsilon (\\sigma = 1)}$"))
+#
+#library(xtable)
+#print(xtable(ES, digits = c(0,4,4,4,2,2,2,3,3,3), align = c("c","c","c","c","c","c","c","c","c","c")),
+#        sanitize.colnames.function = identity, 
+#        file = "/home/triffe/git/DISS/latex/xtables/ex2sexlinearES.tex",floating=FALSE)
+#
+#print(xtable(US, digits = c(0,4,4,4,2,2,2,3,3,3), align = c("c","c","c","c","c","c","c","c","c","c")),
+#        sanitize.colnames.function = identity, 
+#        file = "/home/triffe/git/DISS/latex/xtables/ex2sexlinearUS.tex",floating=FALSE)
+#}
 #
 
 # manual block on figure creation

@@ -142,6 +142,12 @@ rfES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bx, .Ex, .dx, 
                     c(r = r, Ty = exOneSexTy(r, Fex = .fy, dx = Mna0(.dx[, yr])))
                 }, .Bx = BxymfES, .Ex = ExES, .dx = dxfES,Bxymf = "Bxyf", MF = "Female", rc = colSums))
 
+#save(rmUS, file = "/home/triffe/git/DISS/Data/results/exSingleSex/rmUS.Rdata")
+#save(rfUS, file = "/home/triffe/git/DISS/Data/results/exSingleSex/rfUS.Rdata")
+#save(rmES, file = "/home/triffe/git/DISS/Data/results/exSingleSex/rmES.Rdata")
+#save(rfES, file = "/home/triffe/git/DISS/Data/results/exSingleSex/rfES.Rdata")
+
+
 #--------------------------------------------------------------
 # Tables for appendix 'zAppendix.exSingleSexLotka.tex'
 exRepUSm <- cbind(rmUS, R0 = exp(rmUS[,1]*rmUS[,2]) )

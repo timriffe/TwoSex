@@ -156,15 +156,15 @@ rIPFit <- compiler::cmpfun(function(Bxym, Bxyf, Exm, Exf, Lxm, Lxf, M = mean,
             for (i in 1:maxit){
                 Fxpredm <- IPFpred(Bxym, 
                         Exm1 = Exm, 
-                        Exm2 = exp(-r.i * .a) * Lxm, 
+                        Exm2 = p.m * exp(-r.i * .a) * Lxm, 
                         Exf1 = Exf, 
-                        Exf2 = exp(-r.i * .a) * Lxf,
+                        Exf2 = p.f * exp(-r.i * .a) * Lxf,
                         marM = M)
                 Fxpredf <- IPFpred(Bxyf, 
                         Exm1 = Exm, 
-                        Exm2 = exp(-r.i * .a) * Lxm, 
+                        Exm2 = p.m * exp(-r.i * .a) * Lxm, 
                         Exf1 = Exf, 
-                        Exf2 = exp(-r.i * .a) * Lxf,
+                        Exf2 = p.f * exp(-r.i * .a) * Lxf,
                         marM = M)
                 
                 delta.i <- (2 - sum(p.m * exp(-r.i * .a) * Lxm * (Fxpredm[[1]]+Fxpredf[[1]]) + 
