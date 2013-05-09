@@ -1,12 +1,12 @@
 
-Having estimates the two-sex $r$ and $\varsigma$, one may proceed to estimate
-other quantities of interest in the stable population. $T$ and $R_0$ may be
+Having estimates the two-sex $r$ and $\varsigma$, one can proceed to estimate
+other quantities of interest in the stable population. $T$ and $R_0$ can be
 calculated directly, replacing the estimates $\widehat{T}$ and $\widehat{R_0}$
-used in the previous iterative procedure. The only difference in these formulas 
+used in the previous iterative procedure. The only difference in these equations 
 will be that the variable $\varsigma$ is in its stable state, as $r$ is not
 used, and so these values will not change by much. Perhaps more interesting will
 be the stable population structure, which we briefly describe in following.
-First calculate the stable 2-sex birth rate, $b$:
+First calculate the stable two-sex birth rate, $b$:
 \begin{equation}
 b = \Bigg[ \frac{1}{2}\Bigg( \int _{y=0}^\infty 
   \int_{a=0}^\infty \varsigma e^{-ra}d_{a+y} \dd a \dd y \;+\;
@@ -14,7 +14,7 @@ b = \Bigg[ \frac{1}{2}\Bigg( \int _{y=0}^\infty
 (1-\varsigma) e^{-ra'}d_{a'+y'} \dd a' \dd y'\Bigg)
 \Bigg]^{-1}
 \end{equation}
-and with this calculate the male and female stable $e_y$-structures, $c_y$ and
+With this calculate the male and female stable $e_y$-structures, $c_y$ and
 $c_{y'}$:
 \begin{align}
 c_y &= b\varsigma \int _{y=0}^\infty 
@@ -22,26 +22,28 @@ c_y &= b\varsigma \int _{y=0}^\infty
 c_{y'} &= b(1-\varsigma) \int _{y'=0}^\infty 
   \int_{a'=0}^\infty \varsigma^i e^{-ra'}d_{a'+y'} \dd a' \dd y'
 \end{align}
-Of course $1 = \int c_y + \int c_{y'}$. With the stable structures, we may
-calculate the stable population sex ratio, $\bar{S}$:
+Of course $1 = \int c_y + \int c_{y'}$. With the stable structures, we can
+calculate the stable population sex ratio, $\bar{S}$,
 \begin{equation}
 \bar{S} = \frac{\int_{y=0}^\infty c_y \dd y}{\int_{y'=0}^\infty c_{y'} \dd y'}
 \end{equation}
-or the stable proportions above, below or between some given age threshold(s).
+or the stable proportions above, below, or between some given age threshold(s).
 
 Also of interest are the stable male and female marginal fertility rates, which
 differ from but depend on the original marginal fertility rates, $f_y$
 and $f_{y'}$, which are also present in the last iteration of the $r$
-estimation procedure described previously, but may also be regenerated using
+estimation procedure described previously but can also be regenerated using
 $c_y$ and $c_{y'}$:
 \begin{align}
 b_{y,y'} = IPF(\tau, c^m, c^f)
-\intertext{where $c^m$ and $c^f$ are the entire vectors of $e_y$ stable
+\intertext{Here, $c^m$ and $c^f$ are the entire vectors of $e_y$ stable
 population structure, $\tau$ stands for the three \textit{standards} used (the
-observed birth matrix and male and female marginal rates), and $b_{y,y'}$ stands
-for all $y,y'$ combinations of predicted births and is not to be confused with the stable two-sex birth rate, $b$.} f_y = \frac{\int _{y'=0}^\infty b_{y,y'} \dd y'}{c_y}\\ f_{y'} = \frac{\int _{y=0}^\infty b_{y,y'} \dd y}{c_{y'}}
+observed birth matrix, and male and female marginal rates), and $b_{y,y'}$
+stands for all $y,y'$ combinations of predicted births (and is not to be
+confused with the stable two-sex birth rate, $b$).} f_y = \frac{\int
+_{y'=0}^\infty b_{y,y'} \dd y'}{c_y}\\ f_{y'} = \frac{\int _{y=0}^\infty b_{y,y'} \dd y}{c_{y'}}
 \end{align}
 $f_y$ and $f_{y'}$ are potentially of interest in their own right, as a
-consequence of the present model, and will also be explored somewhat when we
-apply this method to the US and Spanish data in following.
+consequence of the present model, and we also be explore these somewhat in
+applying this method to the US and Spanish data.
 

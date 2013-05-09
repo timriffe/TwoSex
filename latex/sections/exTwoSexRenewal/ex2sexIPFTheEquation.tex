@@ -1,6 +1,6 @@
 
 Much of the present implementation will follow directly from the age-oriented
-implementation from Section~\ref{sec:IPF}. The primary different will be our
+implementation from Section~\ref{sec:IPF}. The primary difference is our
 convention of swapping out the survival function for $e_y$-specific fertility
 rates applied step-wise to elements of the death distribution, as seen elsewhere
 in renewal formulas for the $e_y$-perspective. IPF itself is carried out in like
@@ -11,16 +11,16 @@ To rehash, define the IPF function,
 $IPF(B_{y,y'}(t), F_y^M(t), F_{y'}^F(t),P_y(t+n),P_{y'}(t+n))$, where the first
 three parameters are the joint distribution of births, and male and female
 $e_y$-classified fertility rates. $P_y$ and $P_{y'}$ are the population
-structures that rates iteratively adjust to until birth count predictions are
-equal for males and females in each $(y,y')$ pair. The marginal distributions of
+structures to which rates iteratively adjust until birth count predictions
+are equal for males and females in each $(y,y')$ pair. The marginal distributions of
 the adjusted birth counts are used to calculate the adjusted fertility rates,
-$F_y^{M\ast}$ and $F_{y'}^{F\ast}$\footnote{The $M$ and $F$ superscripts are
+$F_y^{M\ast}$ and $F_{y'}^{F\ast}$.\footnote{The $M$ and $F$ superscripts are
 redundant with $a$ and $a'$ in identifying sex of progenitor, but will be handy
-later when doubled with a second superscript to indicate sex of offspring.}. As
+later when doubled with a second superscript to indicate sex of offspring.} As
 before, for the first three $(t)$ arguments, those that define the initial
 state, we can summarize with the single parameter $\tau$, indicative of initial
 conditions: $IPF(\tau,P_y, P_{y'})$, where $P_y$, $P_{y'}$ could come from any
-year or population. In short, year $t$ births are simply:
+year or population. In short, year $t$ births are simply the following:
 \begin{equation}
 B(t) = \int _{y=0}^\infty \int _{y'=0}^\infty IPF\Big(\tau,P_y(t),
 P_{y'}(t)\Big) \dd y \dd y'
@@ -29,7 +29,7 @@ Assuming constant mortality and sex ratio at birth, year $t$ population counts
 can be expressed as a product of past births, $P_y(t) =
 \varsigma \int_{a=0}^\infty B(t-a)d_{a+y} \dd a$, which after many years of
 constant conditions can be rewritten in terms of $B(t)$, $P_y(t) =
-\varsigma \int_{a=0}^\infty B(t)e^{-ra}d_{a+y} \dd a$
+\varsigma \int_{a=0}^\infty B(t)e^{-ra}d_{a+y} \dd a$,
 
 \begin{equation}
 \label{eq:ex2sexIPFunity3}
@@ -40,7 +40,7 @@ B(t) = \int _{y=0}^\infty \int _{y'=0}^\infty IPF\Bigg(\tau\;,\;
  y'
 \end{split}
 \end{equation}
-which reduces to our Lotka-type unity equation:
+which reduces to our Lotka-type unity equation,
 \begin{align}
 \label{eq:ex2sexIPFunity3}
 1 &= \int _{y=0}^\infty F_{y}^{M\ast} \int_{a=0}^\infty \varsigma e^{-ra}d_{a+y}

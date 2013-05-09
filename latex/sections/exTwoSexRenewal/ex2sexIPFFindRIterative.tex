@@ -5,10 +5,10 @@ Equation~\eqref{eq:ex2sexIPFunity3}, with the fertility component properly
 expressed in place by Equations~\eqref{eq:exipfbyyp} and \eqref{eq:exipffy} (or
 vice versa for females). As described elsewhere, however, the stable $\varsigma$
 is not known in advance unless one does away entirely with the remaining-years
-pattern to the sex ratio at birth, and the reason for this is because the stable
+pattern to the sex ratio at birth, and the reason for this is that the stable
 age-structure itself is not known until the equations are solved for $r$.
-Since there is indeed a remaining years pattern to the sex ratio at birth and
-one does not know the ultimte structure in advance, one best procedes by
+Since there is indeed a remaining-years pattern to the sex ratio at birth and
+one does not know the ultimte structure in advance, one best proceedes by
 estimating $r$ and $\varsigma$ together in an iterative process based on some 
 good-enough guesses of starting values. The process unfolds in like manner to 
 those outlined elsewhere in this dissertation, and is based on a modified version 
@@ -23,7 +23,7 @@ offspring.
   may take the year $t$ observed sex ratio at birth. From this, derive
   $\varsigma^0$ as $\varsigma^0 = \frac{SRB}{1+SRB}$
   \item Establish a guess at the net reproductive rate, $\widehat{R_0}$,
-  assuming $r = 0$:
+  assuming $r = 0$,
   \begin{equation}
   \label{eq:R0exipf0}
   \widehat{R_0} = \int _{y=0}^\infty F_{y}^{M^0} \int_{a=0}^\infty \varsigma^0
@@ -31,22 +31,22 @@ offspring.
   \end{equation}
   where $F_{y}^{M^0}$ is the male remaining-years specific fertility rate after
   having converged on a solution to Equation~\eqref{eq:exipfbyyp} with $r=0$ and
-  then using this in Equation~\ref{eq:exipffy} where $r=0$ in the denominator
+  then using this in Equation~\eqref{eq:exipffy} where $r=0$ in the denominator
   equation.
   \item Repeat the prior step, weighting $y$ into
   Equation~\eqref{eq:R0exmean} and divide this sum by $\widehat{R_0}$ to arrive at 
-  an estimate of the mean generation length, $\widehat{T}$ in terms of remaining
-  years. This is just an approximation, of course.
+  an estimate of the mean generation length, $\widehat{T}$, in terms of
+  remaining years. This is just an approximation, of course.
   \item Calculate an initial value of $r$, $r^0$ as:
   \begin{equation}
   r^0 = \frac{log(\widehat{R_0})}{\widehat{T}}
   \end{equation}
   \item Now begins the iterative part. For the given $r$, $r^0$ in the first
   instance, calculate the male and female sex-specific IPF-adjusted rates,
-  $F_{y}^{M\ast}$ and $F_{y'}^{F\ast}$ that belong to this $r$ using
-  Equations~\eqref{eq:exipfbyyp}, \eqref{eq:exipffy} and
+  $F_{y}^{M\ast}$ and $F_{y'}^{F\ast}$, that belong to this $r$ using
+  Equations~\eqref{eq:exipfbyyp}, \eqref{eq:exipffy}, and
   \eqref{eq:exipffyp}. This will produce
-  $F_{y'}^{F-F\ast}$, $F_{y'}^{F-M\ast}$, $F_{y}^{M-M\ast}$ and
+  $F_{y'}^{F-F\ast}$, $F_{y'}^{F-M\ast}$, $F_{y}^{M-M\ast}$, and
   $F_{y}^{M-F\ast}$.
   \item Use the rates from the prior step in the following equation to produce a
   residual, $\delta^i$, where $i$ indicates the present iteration:
@@ -59,7 +59,7 @@ offspring.
 (1-\varsigma^i) e^{-r^ia'}d_{a'+y'} \dd a' \dd y'\Bigg)
 \end{split}
   \end{align}
-  which may be replaced with Equation~\eqref{eq:ex2sexIPFunity3} if one
+  This can be replaced with Equation~\eqref{eq:ex2sexIPFunity3} if one
   prefers. The fertility rates here are simply summed by sex of progenitor, e.g.
   $F_{y}^{M\ast} = F_{y}^{M-M\ast}+F_{y}^{M-F\ast}$ from the prior step.
   \item Use $\delta^i$ to improve the estimate of $r$, $r^{i+1}$:
@@ -67,13 +67,13 @@ offspring.
   r^{i+1} = r^i - \frac{\delta^i}{\widehat{T} - \frac{\delta^i}{r^i}}
   \end{equation}
   \item Use the improved $r^{i+1}$ to update the proportion male of
-  births, $\varsigma^{i+1}$. One could re-optimize the IPF adjusted births at
+  births, $\varsigma^{i+1}$. One could re-optimize the IPF-adjusted births at
   this point using the new $r$ as well. This could reduce iterations, but will
   not speed computation on the whole. Instead, take the right-hand side of
-  Equation~\eqref{eq:exipfroptimugly} twice, once for boy-birth fertlity and
+  Equation~\eqref{eq:exipfroptimugly} twice, once for boy-birth fertility and
   once for girl birth fertility. The ratio of these two sums is the iteration's
   sex ratio at birth, $S^{i+1}$, and this is converted to $\varsigma^{i+1}$
-  using:
+  using
   \begin{equation}
   \varsigma^{i+1} = \frac{S^{i+1}}{1 + S^{i+1}}
   \end{equation}
