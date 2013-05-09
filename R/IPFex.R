@@ -69,7 +69,7 @@ IPFpred <- compiler::cmpfun(function(Bxy, Exm1, Exm2, Exf1, Exf2, marM = mean, t
             FxfPred <- Minf0(Mna0(colSums(BxyA) / Exf2))
             list(FxmPred = FxmPred, FxfPred = FxfPred, i=i)
         })
-        
+       
 rexIPFit <- compiler::cmpfun(function(Bxym, Bxyf, Exm, Exf, dxm, dxf, M = mean,
                 .a = .5:110.5, maxit = 2e2, tol = 1e-15){
             
@@ -94,12 +94,12 @@ rexIPFit <- compiler::cmpfun(function(Bxym, Bxyf, Exm, Exf, dxm, dxf, M = mean,
             Bxy    <- Bxym + Bxyf
             Fxpred.hat <- IPFpred(Bxy, 
                     Exm1 = Exm, 
-                    Exm2 = rowSums(dxM), # i.e. assuming r = 0
+                    Exm2 = p.m * rowSums(dxM), # i.e. assuming r = 0
                     Exf1 = Exf, 
-                    Exf2 = rowSums(dxF),
+                    Exf2 = p.f * rowSums(dxF),
                     marM = M)
-            R0.hat <- sum(p.m * rowSums(dxM) * Fxpred.hat[[1]] + p.f * rowSums(dxF) * Fxpred.hat[[2]]) / 2
-            T.hat <- (sum(.a * p.m * rowSums(dxM) * Fxpred.hat[[1]] + .a * p.f * rowSums(dxF) * Fxpred.hat[[2]]) / 2) / R0.hat
+            R0.hat <- sum(p.m * rowSums(dxM) * Fxpred.hat[["FxmPred"]] + p.f * rowSums(dxF) * Fxpred.hat[["FxfPred"]]) / 2
+            T.hat <- (sum(.a * p.m * rowSums(dxM) * Fxpred.hat[["FxmPred"]] + .a * p.f * rowSums(dxF) * Fxpred.hat[["FxfPred"]]) / 2) / R0.hat
             
             r.i <- log(R0.hat) / T.hat
             
@@ -119,16 +119,16 @@ rexIPFit <- compiler::cmpfun(function(Bxym, Bxyf, Exm, Exf, dxm, dxf, M = mean,
                         marM = M)
                 # get residual
                 # need to divide by two
-                delta.i <- (2 - sum(p.m * colSums(exp(-r.i * .a) * t(dxM)) * (Fxpredm[[1]]+Fxpredf[[1]]) + 
-                              p.f * colSums(exp(-r.i * .a) * t(dxF)) * (Fxpredm[[2]]+Fxpredf[[2]]))) / 2
+                delta.i <- (2 - sum(p.m * rowSums(t(exp(-r.i * .a) * t(dxM))) * (Fxpredm[["FxmPred"]]+Fxpredf[["FxmPred"]]) + 
+                              p.f * rowSums(t(exp(-r.i * .a) * t(dxF))) * (Fxpredm[["FxfPred"]]+Fxpredf[["FxfPred"]]))) / 2
                 # update r
                 r.i <- r.i - (delta.i / ( T.hat  - (delta.i / r.i)))
                 # update SRB estimate. Same as above but for boy and girl births separately. take ratio as such
                 # no need to re-update fertility prior to this. wont' speed things any
-                SRB.i <- sum(p.m * colSums(exp(-r.i * .a) * t(dxM)) * Fxpredm[[1]] + 
-                                        p.f * exp(-r.i * .a) * colSums(exp(-r.i * .a) * t(dxF)) * Fxpredm[[2]]) / 
-                        sum(p.m * colSums(exp(-r.i * .a) * t(dxM)) * Fxpredf[[1]] + 
-                                        p.f * colSums(exp(-r.i * .a) * t(dxF)) * Fxpredf[[2]])
+                SRB.i <- sum(p.m * rowSums(t(exp(-r.i * .a) * t(dxM))) * Fxpredm[["FxmPred"]] + 
+                                        p.f * rowSums(t(exp(-r.i * .a) * t(dxF))) * Fxpredm[["FxfPred"]]) / 
+                        sum(p.m * rowSums(t(exp(-r.i * .a) * t(dxM))) * Fxpredf[["FxmPred"]] + 
+                                        p.f * rowSums(t(exp(-r.i * .a) * t(dxF))) * Fxpredf[["FxfPred"]])
                 # convertto proportions male and female
                 p.m <- (SRB.i / (1 + SRB.i))
                 p.f <- (1 / (1 + SRB.i))
@@ -165,6 +165,7 @@ rESipfam <- do.call(rbind, lapply(as.character(yearsES), function(yr, .Bxymf, .E
 
 rownames(rUSipfam) <- yearsUS
 rownames(rESipfam) <- yearsES
+#yr <- "2005"
 
 rUSipfhm <- do.call(rbind, lapply(as.character(yearsUS), function(yr, .Bxymf, .Ex, .dxm, .dxf, .M){
                     
@@ -189,8 +190,9 @@ rESipfhm <- do.call(rbind, lapply(as.character(yearsES), function(yr, .Bxymf, .E
 rownames(rUSipfhm) <- yearsUS
 rownames(rESipfhm) <- yearsES
 
-save(rUSipfhm, file = "/home/triffe/git/DISS/Data/results/exIPFr/rUSipfhm.Rdata")
-save(rESipfhm, file = "/home/triffe/git/DISS/Data/results/exIPFr/rESipfhm.Rdata")
+#save(rUSipfhm, file = "/home/triffe/git/DISS/Data/results/exIPFr/rUSipfhm.Rdata")
+#save(rESipfhm, file = "/home/triffe/git/DISS/Data/results/exIPFr/rESipfhm.Rdata")
+
 #plot((rUSipfhm[,1] - rUS[,1]) / ((rUSipfhm[,1] + rUS[,1])/2),type = 'l')
 #plot(rUSipfhm[,1])
 #lines(rUS[,1])
