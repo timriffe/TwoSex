@@ -2,14 +2,14 @@
 Once $r$ and $\varsigma$ have been located, one may derive other stable
 quantities, as described elsewhere in this dissertation. $R_0$ and $T$ are
 calculated as described in the iterative procedure, except that now they use
-the stable $\varsigma$. The stable both-sex birth rate, $b$ becomes:
+the stable $\varsigma$. The stable both-sex birth rate, $b$, becomes
 \begin{equation}
 b = \Bigg[\int_0^\infty  \int _0^\infty \varsigma
  e^{-ra}d_{a+y}\dd a \dd y + \int_0^\infty \int _0^\infty (1-\varsigma)
  e^{-ra'}d_{a'+y'} \dd a' \dd y' \Bigg] ^{-1}
 \end{equation}
-and with this we may derive the stable male and female structures, $c_y$ and
-$c_{y'}$ by remaining years:
+With $b$ we may derive the stable male and female structures, $c_y$ and
+$c_{y'}$, by remaining years:
 \begin{align}
 \label{eq:schoenexcy}
 c_y &= b\varsigma \int _0^\infty e^{-ra}d_{a+y}\dd a \\
@@ -21,18 +21,20 @@ and naturally:
 \end{equation}
 
 Using the stable structure, stable male and female marginal fertility rates,
-$f_y$ and $f_{y'}$, may be retrieved:
+$f_y$ and $f_{y'}$, can also be retrieved:
 \begin{align}
   f_y &=  \frac{\int_{y'=0}^\infty F_{y,y'}^M H\Big(c_y\;,\; c_{y'}\Big)
   \dd y'}{c_y} \\
   f_{y'} &=  \frac{\int_{y=0}^\infty F_{y,y'}^M H\Big(c_y\;,\; c_{y'}\Big)
   \dd y}{c_{y'}} 
 \end{align}
-In following we will compare these stable marginal fertility rates with initial
-rates. The stable structures, $c_y$ and $c_{y'}$, may also be used to then
-calculate the stable proportions of the populations above or below some $y$ threshold, to calculate the stable
+In the following, we compare these stable marginal fertility rates with
+initial rates. The stable structures, $c_y$ and $c_{y'}$, can also be used to
+then calculate the stable proportions of the populations above or below 
+some $y$ threshold, to calculate the stable
 whole-population sex ratio, or any of the other typical measures. The stable
-\textit{age} structure that belongs to this stable population, underlies it, may
-be retrieved using $r$ in the standard way.
+\textit{age} structure that belongs to this stable population, which underlies
+it, may be retrieved using $r$ in the standard way with the survival
+function, $p_a$.
 
 \FloatBarrier

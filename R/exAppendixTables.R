@@ -85,10 +85,10 @@ dimnames(ESS) <- list(yearsES, c("$S(t)$",
 dimnames(USS) <- list(yearsUS, c("$S(t)$", 
                 "$S^{(\\sigma = 1)}$", "$S^{(\\sigma = 0)}$", "$S^{(\\sigma = 0.5)}$",
                 "$S^{HM}$", "$S^{GM}$", "$S^{LM}$", "$S^{RAdj-HM}$", "$S^{IPF-HM}$"))
-print(xtable(ESS, digits = c(0,rep(4,9)), align = rep("c",10)),
+print(xtable(ESS, digits = c(0,rep(5,9)), align = rep("c",10)),
         sanitize.colnames.function = identity, 
         file = "/home/triffe/git/DISS/latex/xtables/ESexSRBALL.tex",floating=FALSE)
-print(xtable(USS, digits = c(0,rep(4,9)), align = rep("c",10)),
+print(xtable(USS, digits = c(0,rep(5,9)), align = rep("c",10)),
         sanitize.colnames.function = identity, 
         file = "/home/triffe/git/DISS/latex/xtables/USexSRBALL.tex",floating=FALSE)
 

@@ -6,14 +6,14 @@ Equation~\eqref{eq:harmonic} only in its subscripts:
 \begin{equation}
 H(P_y^m, P_{y'}^f) = \frac{2 P_y^m P_{y'}^f}{P_y^m + P_{y'}^f}
 \end{equation}
-where, as elsewhere in this dissertation, $y$ and $y'$ index remaining years of
-males and females. We begin the process by calculating a single joint fertility rate distribution,
-later assumed constant:
+As elsewhere in this dissertation, $y$ and $y'$ index remaining years of
+males and females, respectively. We begin the process by calculating a single
+joint fertility rate distribution, later assumed constant
  \begin{equation}
  F_{y,y'}^H = \frac{B_{y,y'}}{H(P_y^m, P_{y'}^f)}
  \end{equation}
-again, only differing from Equation~\eqref{eq:harmonicrate} in the remaining
-years subscripts. $F_{y,y'}^H$ is the primary model component. With this, we may
+again, only differing from Equation~\eqref{eq:harmonicrate} in the 
+remaining-years subscripts. $F_{y,y'}^H$ is the primary model component. With this, we may
 calculate the births for a given year:
  \begin{equation}
  \label{eq:Bharmonicex1}
@@ -21,14 +21,14 @@ calculate the births for a given year:
  y'
  \end{equation}
 The population count $P_y$ is, however, easily related to past births via the
-previous Equation~\eqref{eq:rexpressPy}, the result of which was:
+previous Equation~\eqref{eq:rexpressPy}, the result of which was
 \begin{equation}
 P_y = \int_{a=0}^\infty \varsigma B(t-a)d_{a+y} \dd a
 \end{equation}
  where $\varsigma$ is of course the proportion
 male of births and the survival function is just the sum of future deaths: $p_a
 = \int _{x=a}^\infty d_x \dd x$. This identity allows us to rewrite
-Equation~\eqref{eq:Bharmonicex1} in terms of past births:
+Equation~\eqref{eq:Bharmonicex1} in terms of past births
  \begin{equation}
  \label{eq:Bharmonicex1}
  B(t) = \int \int F_{y,y'}^H H\Bigg(\varsigma \int _0^\infty B(t-a)d_{a+y}\dd
@@ -37,15 +37,15 @@ Equation~\eqref{eq:Bharmonicex1} in terms of past births:
  \end{equation}
 which when left to renew itself for many years on-end, will eventually attain a
 constant rate of growth, $r$, in which case we may rewrite
-Equation~\eqref{eq:Bharmonicex1} in entirely in terms of year $t$ births:
+Equation~\eqref{eq:Bharmonicex1} entirely in terms of year $t$ births:
  \begin{equation}
  \label{eq:Bharmonicex2}
  B(t) = \int \int F_{y,y'}^H H\Bigg(\varsigma \int _0^\infty
  B(t)e^{-ra}d_{a+y}\dd a\;\;,\;\; (1-\varsigma) \int _0^\infty
  B(t)e^{-ra'}d_{a'+y'} \dd a'\Bigg) \dd y \dd y'
  \end{equation}
-which lets us divide by $B(t)$ to arrive at our standard approachable unity
-equation, which permits us to estimate the stable growth parameter, $r$:
+This lets us divide by $B(t)$ to arrive at our standard approachable unity
+equation, which permits the estimation of the stable growth parameter, $r$:
  \begin{equation}
  \label{eq:exMeanUnity}
  1 = \int_0^\infty \int_0^\infty F_{y,y'}^H H\Bigg(\varsigma \int _0^\infty
@@ -53,5 +53,5 @@ equation, which permits us to estimate the stable growth parameter, $r$:
  e^{-ra'}d_{a'+y'} \dd a'\Bigg) \dd y \dd y'
  \end{equation}
 As in other two-sex models, $\varsigma$ is also best estimated along with $r$
-rather than assumed from the outset.
+rather than assumed constant from the outset.
  \FloatBarrier

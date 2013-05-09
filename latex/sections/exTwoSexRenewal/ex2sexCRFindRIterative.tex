@@ -5,13 +5,13 @@ Steps to practically solve Equation~\eqref{eq:ex2sexCRunity} for $r$ are
 similar to those presented for the two-sex linear case in
 Section~\ref{sec:exrenewalit2}. Namely, $r$ and the sex ratio at birth, $S$, are
 estimated together in an iterative process, using parameter guesses as starting
-values and then updating in each iteration. First derive as inputs the matrix
-$R_{y,y'}$ using \eqref{eq:getR}, $e_y$-specific fertility vectors by
+values and then updating in each iteration. First, derive as inputs the matrix
+$R_{y,y'}$ using Equation~\eqref{eq:getR}, $e_y$-specific fertility vectors by
 sex of progenitor and offspring, and the relevant $d_a$ vectors:
 \begin{enumerate}
   \item Decide a starting value for $\hat{S}^0$, such as the initial observed SRB,
 although 1.05 is a good enough guess. For Spain 1.07 might be more
-reasonable. Use $\hat{S}^0$ to calculate $\varsigma^0$ using:
+reasonable. Use $\hat{S}^0$ to calculate $\varsigma^0$:
 \begin{equation}
 \label{eq:getvarsigma}
 \varsigma^0 = \frac{\hat{S}^0}{1+\hat{S}^0}
@@ -26,16 +26,15 @@ A\left(R_{y,y'},\mathbb{M}\left(\;\int_{a=y}^\infty F_y \varsigma^0 d_a \dd a,
  \end{equation}
   \item Weight $y$ and $y'$ into Equation~\eqref{eq:R0roughCR} and divide the
   new sum by $\widehat{R_0}$ to arrive at a first estimate of the mean
-  generation time (in remaining years of life), $\widehat{T}$
+  generation time (in remaining years of life), $\widehat{T}$.
 
-  \item A good starting value $r$, $r^0$, is given by:
+  \item A good starting value $r$, $r^0$, is given by
    \begin{equation}
    r^0 = \frac{ln(\widehat{R_0})}{\widehat{T}}
    \end{equation}
   \item Plug $r^i$ into Equation~\ref{eq:ex2sexCRunity} to calculate a
-  residual, $\delta^i$
-  \item Use $\delta^i$ and $\widehat{T}$ to calibrate the estimate of $r$
-  using:
+  residual, $\delta^i$.
+  \item Use $\delta^i$ and $\widehat{T}$ to calibrate the estimate of $r$:
   \begin{equation}
   r^{i+1} = r^i + \frac{\delta^i}{\widehat{T} - \frac{\delta^i}{r^i}}
   \end{equation}
@@ -43,7 +42,7 @@ A\left(R_{y,y'},\mathbb{M}\left(\;\int_{a=y}^\infty F_y \varsigma^0 d_a \dd a,
   sex-specific fertility rates, $F_y^{M-M}$ (father-son), $F_y^{M-F}$
   (father-daughter), $F_{y'}^{F-F}$ (mother-daughter) and $F_{y'}^{F-M}$
   (mother-son) fertility rates\footnote{This formula is ugly, but it is just
-  Equation~\eqref{eq:ex2sexCRunity} twice; once with fertility rates for male
+  Equation~\eqref{eq:ex2sexCRunity} twice: once with fertility rates for male
   births and again with fertility rates for female births.}:
   \begin{adjustwidth}{-1in}{0in}
   \begin{equation}
@@ -56,7 +55,7 @@ e^{-r^{i+1}a} \dd a, \int _{a'=y'}^\infty F_{y'}^{F-F} (1-\varsigma^i)
 d_{a'}e^{-r^{i+1}a'} \dd a'\right)\right)}
   \end{equation}
   \end{adjustwidth}
-  and then update $\varsigma$ using: $\varsigma^{i+1} =
+  Then update $\varsigma$ using: $\varsigma^{i+1} =
   \frac{S^{i+1}}{1+S^{i+1}}$ .
   \item With the updated $r$ and $\varsigma$, repeat steps 5-7 until $\delta$
   reduces to 0. Typically one achieves maximum double floating point precision
