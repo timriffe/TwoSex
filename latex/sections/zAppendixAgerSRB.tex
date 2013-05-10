@@ -1,0 +1,108 @@
+
+\FloatBarrier
+\chapter{Results from age-structured renewal models: $r$ and SRB.}
+\label{appendix:ageallrestimates}
+
+This appendix provides numerical results from all age-structured two-sex
+methods treated in this dissertation applied to the US and Spanish populations
+for the years 1969-2009 and 1975-2009, respectively. The two results to be listed are the intrinsic growth
+rate, $r$, and the intrinsic sex ratio at birth, $S$, which for some
+methods strays slightly from the initial value of the sex ratio at birth due to
+changes in population structure between the initial and stable states and our inclusion of an
+age-pattern to the sex ratio at birth for males and females via sex-of-birth
+specific fertility rates. These results are placed into four tables, first $r$
+for the US (Table~\ref{tab:USageALL}), followed by $S$
+(Table~\ref{tab:USageSRBALL}) for the US, then $r$ and $S$ for the Spanish
+population (Tables~\ref{tab:ESageALL} and~\ref{tab:ESageSRBALL}). Throughout, we
+use superscripts in the column headers to identify the model according to the following key.
+
+\begin{description}
+  \item[$r^m$] Equation~\eqref{eq:lotkaeq} using single-sex male fertility and
+  survival.
+  \item[$r^f$] Equation~\eqref{eq:lotkaeq} using single-sex female fertility and
+  survival. This is the standard Lotka result.
+  \item[$r^{Pollard}$] Section~\ref{sec:pollardage} two-sex (mixed single-sex
+  fertility) $r$. This method does not optimize the sex ratio at birth alongside $r$.
+  \item[$r^{Mitra}$] Section~\ref{sec:mitraage}. two-sex $r$. This method
+  assumes a constant sex ratio at birth.
+  \item[$r^{\sigma=1}$] Section~\ref{sec:googmanage} weighted-dominance
+  method with 100\% male information. This is identical to the single-sex male rate.
+  \item[$r^{\sigma=0}$] Section~\ref{sec:googmanage} weighted-dominance
+  method with 100\% female information. This is identical to the single-sex female rate.
+  \item[$r^{\sigma=0.5}$] Section~\ref{sec:googmanage} weighted-dominance
+  method with information split 50-50 between males and females.
+  \item[$r^{Gupta}$] Section~\ref{sec:dasgupta} two-sex $r$, based on
+  \citet{gupta1978alternative}.
+  \item[$r^{HM}$] Section~\ref{sec:ageharmonic} mean method on the basis of
+  the harmonic mean.
+  \item[$r^{GM}$] Section~\ref{sec:ageharmonic} mean method on the basis of
+  the geometric mean.
+  \item[$r^{LM}$] Section~\ref{sec:ageharmonic} mean method on the basis of
+  the logarithmic mean.
+  \item[$r^{min}$] Section~\ref{sec:ageharmonic} mean method on the basis
+  of the minimum function.]
+  \item[$r^{IPF-HM}$] Section~\ref{sec:IPF} with male and female marginal
+  birth predictions balanced by the harmonic mean prior to re-estimating rates
+  using iterative proportional fitting.
+\end{description}
+
+The same superscripts are used for stable sex ratios as birth, where $S(t)$
+simply refers to the observed sex ratio at birth for the given year. Not
+all methods optimize $S$ aloside $r$. Results with full digit precision are
+available by executing the accompanying \texttt{R} code. Such precision 
+should not give a false sense of exactitude, however, but
+serves only for verification when reproducing results. These estimates were
+arrived at by following the step-by-step instructions outlined in the text.
+Notably, as mentioned in the text, the sex ratio at birth, $S$, does not vary
+greatly between the initial and stable states, typically varying between
+methods only in the \nth{5} digit. This should put the reader at ease if
+questioning the stability of optimizing two parameters simultaneously. One can
+verify that the single-sex models are degenerate cases of the Goodman model when
+$\sigma$ is set to 0 or 1. Mean-based models produce very similar results
+(except for the minimum function). We suggest executing the \texttt{R} code for
+more detailed comparisons of these.
+
+
+\begin{table}
+  \begin{adjustwidth}{-1in}{-.5in}
+  \centering
+    \caption{Intrinsic growth rates, $r$, from age-structured renewal models.
+    US, 1969-2009.}
+    \label{tab:USageALL}
+        \scriptsize{\input{xtables/USageALL.tex}}
+  \end{adjustwidth}
+\end{table}
+
+
+\begin{table}
+  \begin{adjustwidth}{-1in}{-.5in}
+  \centering
+    \caption{Stable sex ratio at birth, $S$, from age-structured renewal
+    models. US, 1969-2009.}
+    \label{tab:USageSRBALL}
+        \footnotesize{\input{xtables/USageSRBALL.tex}}
+  \end{adjustwidth}
+\end{table}
+
+\begin{table}
+  \begin{adjustwidth}{-1in}{-.5in}
+  \centering
+    \caption{Intrinsic growth rates, $r$, from age-structured renewal models.
+    Spain, 1975-2009.}
+    \label{tab:ESageALL}
+        \scriptsize{\input{xtables/ESageALL.tex}}
+  \end{adjustwidth}
+\end{table}
+
+\begin{table}
+  \begin{adjustwidth}{-1in}{-.5in}
+  \centering
+    \caption{Stable sex ratio at birth, $S$, from age-structured renewal
+    models. Spain, 1975-2009.}
+    \label{tab:ESageSRBALL}
+        \footnotesize{\input{xtables/ESageSRBALL.tex}}
+  \end{adjustwidth}
+\end{table}
+
+
+\FloatBarrier
