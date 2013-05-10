@@ -57,7 +57,7 @@
 \def\ttlpg{\@restonecolfalse \if@twocolumn \@restonecoltrue \onecolumn
  \else \newpage \fi \thispagestyle{empty} \c@page \z@}
 
-\def\titlepage#1#2#3#4#5#6{
+\def\titlepage#1#2#3#4#5{
  \ttlpg
  \begin{singlespace}
  \hbox{ }
@@ -78,10 +78,7 @@
    la Universitat Aut\`{o}noma de Barcelona \\
    #5 \\
  \end{center}
- \vfill
-  Tribunal: \\[2ex]
-  \mbox{ }\hspace{0.6in}
-  \parbox{5.3in}{#6}
+ 
  \end{singlespace}
 }
 
