@@ -87,10 +87,10 @@ rLotkaES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Lxm, .Lxf,
                     c(r.m = r.m, r.f = r.f)
                 },.Lxm = LxmES, .Lxf = LxfES, .Bxy = BxymfES, .Ex = ExES))
 
-#save(rGuptaUS, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGuptaUS")
-#save(rGuptaES, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGuptaES")
-#save(rLotkaUS, file = "/home/triffe/git/DISS/Data/results/agerSRB/rLotkaUS")
-#save(rLotkaES, file = "/home/triffe/git/DISS/Data/results/agerSRB/rLotkaES")
+#save(rGuptaUS, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGuptaUS.Rdata")
+#save(rGuptaES, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGuptaES.Rdata")
+#save(rLotkaUS, file = "/home/triffe/git/DISS/Data/results/agerSRB/rLotkaUS.Rdata")
+#save(rLotkaES, file = "/home/triffe/git/DISS/Data/results/agerSRB/rLotkaES.Rdata")
 
 sign(diff(rLotkaUS[,1]))==sign(diff(rLotkaUS[,2]))
 sign(diff(rLotkaUS[,1]))==sign(diff(rGuptaUS))

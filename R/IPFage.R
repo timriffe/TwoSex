@@ -229,8 +229,8 @@ rIPFEShm <- do.call(rbind, lapply(as.character(yearsES), function(yr, .Bxymf, .E
                             Lxm = .Lxm[,yr],
                             Lxf = .Lxf[,yr], , M = .M, tol = 1e-15)
                 },.Bxymf = BxymfES, .Ex = ExES, .Lxm = LxmES, .Lxf = LxfES, .M = harmonic.mean))
-#save(rIPFUShm, file = "/home/triffe/git/DISS/Data/results/agerSRB/rIPFhmUS")
-#save(rIPFEShm, file = "/home/triffe/git/DISS/Data/results/agerSRB/rIPFhmES")
+#save(rIPFUShm, file = "/home/triffe/git/DISS/Data/results/agerSRB/rIPFhmUS.Rdata")
+#save(rIPFEShm, file = "/home/triffe/git/DISS/Data/results/agerSRB/rIPFhmES.Rdata")
 
 #plot(yearsUS,rIPFUSavg[,1],type = 'l')
 #lines(yearsUS,rIPFUShm[,1])

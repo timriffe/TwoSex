@@ -1,14 +1,15 @@
 
 # need:
-# single-sex      X
+# Lotka           X
 # Pollard         X
 # Mitra           X 
 # Goodman         X (1,.5,0), with SRB
 # Das Gupta       X
 # HM, GM, LM, Min X with SRB
-# IPF
+# IPF             X with SRB
 
-#save(MitraOLSESresults, file = "/home/triffe/git/DISS/Data/results/agerSRB/rMitraOLSES")
+# get observed SRB
+m <- local(get(load("/home/triffe/git/DISS/Data/results/agerSRB/rMitraOLSES")))
 
 
 

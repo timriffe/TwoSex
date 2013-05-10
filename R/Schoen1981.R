@@ -328,15 +328,15 @@ rUSMin <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .Lxm, .
                             r.H = LH[1], SRBH = LH[2])
                 }, .Bxy = BxymfUS, .Lxm = LxmUS, .Lxf = LxfUS, .Ex = ExUS, .M = pmin))
 rownames(rUSMin) <- yearsUS
-
-#save(rUSHM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rHMUS")
-#save(rESHM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rHMES")
-#save(rUSGM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGMUS")
-#save(rESGM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGMES")
-#save(rUSLM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rLMUS")
-#save(rESLM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rLMES")
-#save(rUSMin, file = "/home/triffe/git/DISS/Data/results/agerSRB/rMinUS")
-#save(rESMin, file = "/home/triffe/git/DISS/Data/results/agerSRB/rMinES")
+#
+#save(rUSHM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rHMUS.Rdata")
+#save(rESHM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rHMES.Rdata")
+#save(rUSGM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGMUS.Rdata")
+#save(rESGM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGMES.Rdata")
+#save(rUSLM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rLMUS.Rdata")
+#save(rESLM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rLMES.Rdata")
+#save(rUSMin, file = "/home/triffe/git/DISS/Data/results/agerSRB/rMinUS.Rdata")
+#save(rESMin, file = "/home/triffe/git/DISS/Data/results/agerSRB/rMinES.Rdata")
 
 
 

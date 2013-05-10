@@ -165,8 +165,8 @@ for (i in 1:length(yearsES)){
 }
 
 rMitraOLSUS <- 
-#save(MitraOLSUSresults, file = "/home/triffe/git/DISS/Data/results/agerSRB/rMitraOLSUS")
-#save(MitraOLSESresults, file = "/home/triffe/git/DISS/Data/results/agerSRB/rMitraOLSES")
+#save(MitraOLSUSresults, file = "/home/triffe/git/DISS/Data/results/agerSRB/rMitraOLSUS.Rdata")
+#save(MitraOLSESresults, file = "/home/triffe/git/DISS/Data/results/agerSRB/rMitraOLSES.Rdata")
 ## get Pollard results:
 source("/home/triffe/git/DISS/R/Pollard1948.R")
 

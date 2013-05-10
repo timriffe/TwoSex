@@ -145,8 +145,8 @@ rES <- do.call(rbind, lapply(as.character(1975:2009), function(yr, .Bxymf, .Ex, 
 
 rownames(rUS) <- yearsUS
 rownames(rES) <- yearsES
-#save(rUS, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGoodmanUS")
-#save(rES, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGoodmanES")
+#save(rUS, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGoodmanUS.Rdata")
+#save(rES, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGoodmanES.Rdata")
 
 # plot it
 pdf("/home/triffe/git/DISS/latex/Figures/Goodmanager.pdf", height = 5, width = 5)

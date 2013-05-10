@@ -62,8 +62,8 @@ ESrPollard <- unlist(lapply(as.character(yearsES), function(yr, .FxMF, .FxFM, .L
                     thetaf <- .FxFM[, yr] * .Lxf[,yr]
                     optimize(PollardMin, interval = c(-.03,.03), tol = 1e-15, thetam = thetam, thetaf=thetaf)$minimum
                 }, .FxMF = FxMFES, .FxFM = FxFMES, .Lxm = LxmES, .Lxf = LxfES))
-#save(USrPollard, file = "/home/triffe/git/DISS/Data/results/agerSRB/rPollardUS")
-#save(ESrPollard, file = "/home/triffe/git/DISS/Data/results/agerSRB/rPollardES")
+#save(USrPollard, file = "/home/triffe/git/DISS/Data/results/agerSRB/rPollardUS.Rdata")
+#save(ESrPollard, file = "/home/triffe/git/DISS/Data/results/agerSRB/rPollardES.Rdata")
 
 #plot(yearsUS, USr,type = 'l', ylim = c(-.02,.015))
 #lines(yearsES, ESr, col = "red")
