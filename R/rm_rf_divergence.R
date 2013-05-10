@@ -8,7 +8,7 @@ source("/home/triffe/git/DISS/R/UtilityFunctions.R")
 source("/home/triffe/git/DISS/R/MeanFunctions.R")
 yearsES <- 1975:2009
 yearsUS <- 1969:2009
-
+save(BxymfES,file="/home/Desktop/BxymfES.Rdata",compress = TRUE)
 BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
 names(BxymfES) <- yearsES
 BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
