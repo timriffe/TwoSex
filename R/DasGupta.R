@@ -44,6 +44,8 @@ Gupta1978It <- function(Uxy, Vxy, Lxm, Lxf, SRB, mxy,.a = .5:110.5, maxit = 200,
     r.i
 }
 
+
+
 rGuptaUS <- unlist(lapply(as.character(yearsUS),function(yr, .Bxy, .Ex, .Lxm, .Lxf){
             Bm <- .Bxy[[yr]][["Bxym"]]
             Bf <- .Bxy[[yr]][["Bxyf"]]
@@ -84,6 +86,11 @@ rLotkaES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Lxm, .Lxf,
                     r.f <- LotkaRCoale(fx = Fxf, Lx = .Lxf[,yr], x = .5:110.5)
                     c(r.m = r.m, r.f = r.f)
                 },.Lxm = LxmES, .Lxf = LxfES, .Bxy = BxymfES, .Ex = ExES))
+
+#save(rGuptaUS, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGuptaUS")
+#save(rGuptaES, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGuptaES")
+#save(rLotkaUS, file = "/home/triffe/git/DISS/Data/results/agerSRB/rLotkaUS")
+#save(rLotkaES, file = "/home/triffe/git/DISS/Data/results/agerSRB/rLotkaES")
 
 sign(diff(rLotkaUS[,1]))==sign(diff(rLotkaUS[,2]))
 sign(diff(rLotkaUS[,1]))==sign(diff(rGuptaUS))

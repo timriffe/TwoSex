@@ -151,15 +151,7 @@ for (i in 1:length(yearsUS)){
                     Fat = with(ExUS, Female[Year == as.integer(yr)]))
 }
 
-# verify that it works:
-#Hma <- ((Bma * exper["v0"]) / Mat)
-#Hfa <- ((Bfa * (1 - exper["v0"])) / Fat)
-#1 - sum(exp(-exper["r"] * (0:110 + .5)) * (Hma * Pma + Hfa * Pfa))
-#
-#(Bmlim <- sum(exp( -exper["r"] *(0:110 + .5)) * (SRB / (SRB + 1)) * Hma * Pma ) / exper["v"])
-#(Bflim <- sum(exp( -exper["r"] *(0:110 + .5)) * (1 / (SRB + 1)) * Hfa * Pfa ) / (1 - exper["v"]))
-#Bmlim / Bflim
-#SRB <- sum(Bma) / sum(Bfa)
+
 MitraOLSESresults <- matrix(ncol = 5, nrow = length(yearsES), dimnames = list(yearsES,c("v","v0","r","r.m","r.f")))
 for (i in 1:length(yearsES)){
     yr <- as.character(yearsES[i])
@@ -172,7 +164,10 @@ for (i in 1:length(yearsES)){
                     Fat = with(ExES, Female[Year == as.integer(yr)]))
 }
 
-# get Pollard results:
+rMitraOLSUS <- 
+#save(MitraOLSUSresults, file = "/home/triffe/git/DISS/Data/results/agerSRB/rMitraOLSUS")
+#save(MitraOLSESresults, file = "/home/triffe/git/DISS/Data/results/agerSRB/rMitraOLSES")
+## get Pollard results:
 source("/home/triffe/git/DISS/R/Pollard1948.R")
 
 plot(USrPollard)

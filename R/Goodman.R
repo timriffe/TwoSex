@@ -113,7 +113,7 @@ rUS <- do.call(rbind, lapply(as.character(yearsUS), function(yr, .Bxymf, .Ex, .L
                             SRB0.5 = g0.5["SRB"])
                 }, .Bxymf = BxymfUS, .Ex = ExUS, .Lxm = LxmUS, .Lxf = LxfUS))
 
-yr <- "1988"
+
 rES <- do.call(rbind, lapply(as.character(1975:2009), function(yr, .Bxymf, .Ex, .Lxm, .Lxf){
                    
                     FxMM <- Minf0(Mna0(rowSums(.Bxymf[[yr]][["Bxym"]]) / with(.Ex,Male[Year == as.integer(yr)])))
@@ -145,6 +145,8 @@ rES <- do.call(rbind, lapply(as.character(1975:2009), function(yr, .Bxymf, .Ex, 
 
 rownames(rUS) <- yearsUS
 rownames(rES) <- yearsES
+#save(rUS, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGoodmanUS")
+#save(rES, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGoodmanES")
 
 # plot it
 pdf("/home/triffe/git/DISS/latex/Figures/Goodmanager.pdf", height = 5, width = 5)
