@@ -228,17 +228,35 @@ rownames(rEScp) <- yearsES
 
 #save(rUScp, file = "/home/triffe/git/DISS/Data/results/exCPr/rUScp.Rdata")
 #save(rEScp, file = "/home/triffe/git/DISS/Data/results/exCPr/rEScp.Rdata")
+rmUS <- local(get(load("/home/triffe/git/DISS/Data/results/exSingleSex/rmUS.Rdata")))[,1]
+rfUS <- local(get(load("/home/triffe/git/DISS/Data/results/exSingleSex/rfUS.Rdata")))[,1]
+rmES <- local(get(load("/home/triffe/git/DISS/Data/results/exSingleSex/rmES.Rdata")))[,1]
+rfES <- local(get(load("/home/triffe/git/DISS/Data/results/exSingleSex/rfES.Rdata")))[,1]
 
 # take a look:
 
-plot(yearsUS, rUScp[,1], type = 'l', ylim = c(-.015,.01))
-#lines(yearsUS, rUS[,1], lty = 2)
-#polygon(c(yearsES,rev(yearsES)), c(rEScpp5[,1],rev(rEScpm5[,1])), border = NA, col = "#55555550")
-lines(yearsES, rEScp[,1], col = "red")
-#lines(yearsES, rES[,1], lty = 2, col = "red")
-abline(h=0)
-plot(yearsES,abs(rEScp[,1] / rES[,1]), type = 'l')
-plot(yearsUS,abs(rUScp[,1] / rUS[,1]), type = 'l', ylim = c(0,1))
+pdf("/home/triffe/git/DISS/latex/Figures/exCRr.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+plot(yearsUS, rUScp[,1], type = 'n', ylim = c(-.016,.01),xlim = c(1968,2010), axes = FALSE,
+        xlab = "", ylab = "",
+        panel.first = list(rect(1968,-.016,2010,.01,col = gray(.95), border=NA),
+                abline(h = seq(-.016,.01,by = .002), col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(-.016,.01,by = .002),seq(-.016,.01,by = .002), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10),-.016, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, -.0175, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1966,.0115, "r", cex = 1, xpd = TRUE)))
+polygon(c(yearsUS, rev(yearsUS)), c(rmUS, rev(rfUS)), col = "#99999950")
+polygon(c(yearsES, rev(yearsES)), c(rmES, rev(rfES)), col = "#99999950", lty = 5)
+lines(yearsUS, rUScp[,1],col = gray(.2), lwd = 2)
+lines(yearsES, rEScp[,1],col = gray(.2), lwd = 2, lty = 5)
+text(c(1992.5, 1995.626, 1995.8, 1977.5, 1972, 1974.3), 
+        c(-0.013596517, -0.0098, -0.0065, -0.0025, -0.004, 0.001981268),
+        c(expression(r^f~ES),expression(r^m~ES),expression(r^{RAdj-HM}~ES),
+          expression(r^f~US),expression(r^{RAdj-HM}~US), expression(r^m~US)),  cex = .8, xpd = TRUE)
+segments(1971.187, -0.0030000000,1974.026,-0.0002376602, col = gray(.4),lwd=.7)
+dev.off()
+
 
 #------------------------------------------------------------------
 # 1) show example of Ratio object
@@ -394,7 +412,11 @@ CompES <- do.call(rbind, lapply(yearsES[-length(yearsES)], function(yr, .Bxy, .E
                     CRpdf       <- Pred / sum(Pred)         # CR predicted pdf
                     Test        <- Btp1test / sum(Btp1test) # pdf observed from t plus 1
                     
-                    c(IPF = 1 - sum(pmin(IPFpdf, Test)), CR = 1 - sum(pmin(CRpdf, Test)))
+                    c(IPF = 1 - sum(pmin(IPFpdf, Test)), CR = 1 - sum(pmin(CRpdf, Test)), 
+                            IPFmales = 1 - sum(pmin(rowSums(IPFpdf), rowSums(Test))),
+                            IPFfem = 1 - sum(pmin(colSums(IPFpdf), colSums(Test))),
+                            CRmales = 1 - sum(pmin(rowSums(CRpdf), rowSums(Test))),
+                            CRfem = 1 - sum(pmin(colSums(CRpdf), colSums(Test))))
                 }, .Bxy = BxES, .Ex = ExES, .dxm = dxmES, .dxf = dxfES))
 
 head(CompUS)
@@ -404,7 +426,10 @@ lines(1969:2008, CompUS[,6] / CompUS[,4], col = 'red')
 abline(h=1)
 sum(CompUS[,5] < CompUS[,3])
 sum(CompUS[,6] < CompUS[,4])
+sum((CompUS[,2] / CompUS[,1]) < 1)
 
+1-colMeans(CompUS)
+1-colMeans(CompES)
 plot(1975:2008, CompES[,2] / CompES[,1], type = 'l')
 
 sum(CompES[,2] < CompES[,1])
