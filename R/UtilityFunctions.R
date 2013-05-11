@@ -115,41 +115,6 @@ Leslie <- function(fx, px){
     cbind(rbind(fx[1:length(px)],diag(px)),0)
 }
 
-
-# this function rounds N-dimensional arrays, while maintaining margin totals
-contround2 <- function(origvalue){
-    contround <-function(origvalue){
-        value   <- origvalue
-        newval  <- value
-        for(i in 2:length(newval)){
-            newval[i]<  -value[i] + (newval[i - 1] - round(newval[i - 1]))
-        }
-        round(newval)
-    }
-    # aperm() is used to transpose- it generalizes to arrays.
-    # it is however nasty business to transpose back to the 
-    # original config, hence this helper function.
-    revaperm <- function(.array, perm){
-        N <- sum(perm != seq_along(dim(.array))) - 1
-        for (i in 1:N){
-            .array <- aperm(.array, perm)
-        }
-        .array
-    }
-    
-    # what are all the unique roundings that countround would give us?
-    all.roundings <- lapply(combinat::permn(seq_along(dim(origvalue))), function(dims, .origvalue){
-                revaperm(contround(aperm(.origvalue, dims)), dims)
-            }, .origvalue = origvalue)
-    
-    # which is closest to the original cell values?
-    Best <- which.min(unlist(lapply(all.roundings, function(x, .origvalue){
-                                sum((c(x) - c(.origvalue)) ^ 2)
-                            }, .origvalue = origvalue)))
-    
-    return(all.roundings[[Best]])
-}
-
 # used so far in Mitra.R
 Rmomentn <- compiler::cmpfun(function(fx,Lx,x,n=0){
             sum((x^n)*fx*Lx)
