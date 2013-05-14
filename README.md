@@ -26,8 +26,8 @@ at the same level as /R/  (and friends)
 Once you have the data, R scripts will (hopefully) be able to grab it and use it to make
 Figures, or to help you test functions.
 All R functions are undocumented, though some are lightly annotated (but not thoroughly at this time). 
-I'll be trickle-grooming this code, so either make a request. 
-In general, you'll need to tinker to make sense of things, sorry
+I'll be trickle-grooming this code, so either make a request or be patient. 
+In general, you'll need to tinker to make sense of things, sorry.
 
 Each R script begins by setting the working directory with, with setwd(), 
 so you need to change that appropriately
@@ -42,5 +42,7 @@ script names, or 2) to find a figure in the dissertation that used this code, th
 makes that section. In the latex chunk where the figure is included you'll (usually) see the name of the script
 that produced it.
 
-
+Defense to be held June 26th UAB, Barcelona. 
+---------------------------------------------
+wish me luck
 
