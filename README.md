@@ -31,7 +31,7 @@ DO NOT mindlessly run an entire script without looking at it first, as it may co
 that will dominate your computer resources.
 
 thesisMain.tex is the mother tex document, pulling in chunks from /latex/ 
-The structure of \thesisMain.tex is what gives the dissertion its part/chapter/section structure
+The structure of \thesisMain.tex is what gives the dissertation its part/chapter/section structure
 If you want to find how functions were implemented, the best way (for now) is to either 1) intuit via
 script names, or 2) to find a figure in the dissertation that used this code, then find the .tex file that
 makes that section. In the latex chunk where the figure is included you'll (usually) see the name of the script
