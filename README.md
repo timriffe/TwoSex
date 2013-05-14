@@ -1,5 +1,4 @@
-This is my dissertation code dump. For the time being, this is the only route to reproducing my results
-and I apologize if it's a labyrinth!
+This is my dissertation code dump. For the time being, this is the only route to reproducing my results and I apologize if it's a labyrinth!
 ----------------------------------------------------------------
 This includes ALL R scripts and tex files
 It does NOT include three folders, which are not tracked, and which therefore do not appear here, but that 
