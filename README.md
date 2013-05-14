@@ -1,6 +1,10 @@
-This is my dissertation code dump. For the time being, this is the only route to reproducing my results and I apologize if it's a labyrinth!
+"The two-sex problem in populations structured by remaining years of life" 
 ----------------------------------------------------------------
+Welcome to my dissertation code dump
+For the time being, this is the only route to reproducing my results and I apologize if it's a labyrinth!
+
 This includes ALL R scripts and tex files
+----------------------------------------------------------------
 It does NOT include three folders, which are not tracked, and which therefore do not appear here, but that 
 are also integral parts of the workflow:
 
@@ -8,7 +12,7 @@ are also integral parts of the workflow:
 /DiagnosticPlots/  (these are not in the dissertation. These figures were early looks at the data)
 /latex/Figures/    (folder to hold pdfs for inclusion in the main latex document. You can reproduce 
                     its contents with the R scripts and data)
------------------------------------------------------------------
+                    
 All figures can be reproduced by using the R script files if you have the data, 
 which you need to download separately from Google Drive under the following link:
 
