@@ -1,20 +1,21 @@
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
 # make sum to 1
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
 dxmES <- dxmES %col% colSums(dxmES)
 dxfES <- dxfES %col% colSums(dxfES)
 
-PxUS  <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")))
-PxES  <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
+PxUS  <- local(get(load("Data/HMD_Px/PxUS.Rdata")))
+PxES  <- local(get(load("Data/HMD_Px/PxES.Rdata")))
 
 
 
@@ -45,7 +46,7 @@ lines(yearsUS, pUS[,2], col ="red")
 lines(yearsES, pES[,1], col = "blue", lty = 2)
 lines(yearsES, pES[,2], col ="red", lty = 2)
 
-pdf("/home/triffe/git/DISS/latex/Figures/PLL.pdf", height = 5, width = 5)
+pdf("latex/Figures/PLL.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, pUS[,1], type = 'l', ylim = c(.5, .58), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",

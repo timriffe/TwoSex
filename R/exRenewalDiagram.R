@@ -1,16 +1,16 @@
 # well-drawn diagram required for exPopulation Pyramid.
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
 
-
-BxUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
+BxUS  <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
 
 # exposures, as such, straight from HMD, all ages 0-110, long form
-ExUS  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
+ExUS  <- local(get(load("Data/Exposures/USexp.Rdata")))
 # get Lx estimates for R0, r
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
 
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
@@ -37,7 +37,7 @@ EF      <- Scale * EF / Total
 
 
 
-pdf("/home/triffe/git/DISS/latex/Figures/exRenovationDiagram.pdf",height = 6.5, width = 8.5)
+pdf("latex/Figures/exRenovationDiagram.pdf",height = 6.5, width = 8.5)
 par(mai = c(.5,.4,.5,.2))
 plot(NULL, type = "n", xlim = c(-10, 50), ylim = c(-50,120), axes = FALSE, xlab = "", ylab = "")
 

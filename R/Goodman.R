@@ -1,29 +1,29 @@
-
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
 # Bxy totals  (not used()
-#BxUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-#BxES  <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+#BxUS  <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+#BxES  <- local(get(load("Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
 # repeated below for better SRB assumptions
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfES) <- yearsES
 names(BxymfUS) <- yearsUS
 # exposures, as such, straight from HMD, all ages 0-110, long form
-ExUS  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS  <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES  <- local(get(load("Data/Exposures/ESexp.Rdata")))
 # get Lx estimates for R0, r
 #------------------------------------------------------------
 # compare with Lotka:
-LxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
-LxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
-LxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata"))) / 1e5
-LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) / 1e5
+LxmUS <- local(get(load("Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
+LxfUS <- local(get(load("Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
+LxmES <- local(get(load("Data/HMD_Lx/LxmES.Rdata"))) / 1e5
+LxfES <- local(get(load("Data/HMD_Lx/LxfES.Rdata"))) / 1e5
 
 #------------------------------------
 yr <- "1969"
@@ -145,11 +145,11 @@ rES <- do.call(rbind, lapply(as.character(1975:2009), function(yr, .Bxymf, .Ex, 
 
 rownames(rUS) <- yearsUS
 rownames(rES) <- yearsES
-#save(rUS, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGoodmanUS.Rdata")
-#save(rES, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGoodmanES.Rdata")
+#save(rUS, file = "Data/results/agerSRB/rGoodmanUS.Rdata")
+#save(rES, file = "Data/results/agerSRB/rGoodmanES.Rdata")
 
 # plot it
-pdf("/home/triffe/git/DISS/latex/Figures/Goodmanager.pdf", height = 5, width = 5)
+pdf("latex/Figures/Goodmanager.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, rUS[,"r.f"], type = 'n', ylim = c(-.02, .015), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",

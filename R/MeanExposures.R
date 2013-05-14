@@ -1,4 +1,5 @@
-
+setwd("/home/triffe/git/DISS/")
+# Code from early diagnostics, not used
 # Author: triffe
 ###############################################################################
 
@@ -11,12 +12,12 @@ run.this.script <- FALSE
 if (run.this.script){
 
 
-source("/home/triffe/git/Dissertation/DISSERTATION/R/MeanFunctions.R")
-source("/home/triffe/git/Dissertation/DISSERTATION/R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
+source("R/UtilityFunctions.R")
 # SolarskyM() the function of interest
 N       <- 3 # change this as necessary
 
-E       <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/ESexp.Rdata")))
+E       <- local(get(load("DATA/Exposures/ESexp.Rdata")))
 years   <- sort(as.integer(unique(E$Year)))
 
 # these are the different 'p' parameters to iterate over!
@@ -52,9 +53,9 @@ for (i in 1:length(years)){
 print(object.size(MeanCubeList), units = "Mb")
 
 # just recall to logit the value x that labels the z levels of the cubes!
-#save(MeanCubeList, file = "/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/ESexpMeans1x1.Rdata")
-#save(MeanCubeList, file = "/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/ESexpMeans2x2.Rdata")
-save(MeanCubeList, file = "/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/ESexpMeans3x3.Rdata")
+#save(MeanCubeList, file = "DATA/Exposures/ESexpMeans1x1.Rdata")
+#save(MeanCubeList, file = "DATA/Exposures/ESexpMeans2x2.Rdata")
+save(MeanCubeList, file = "DATA/Exposures/ESexpMeans3x3.Rdata")
 
 rm(MeanCubeList); gc()
 

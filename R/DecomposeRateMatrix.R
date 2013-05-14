@@ -1,6 +1,6 @@
 # Author: triffe
 ###############################################################################
-
+setwd("/home/triffe/git/DISS/")
 # this function is pretty darn simple. Given: 
 # rate matrices 1 and 2
 # exposure matrices 1 and 2
@@ -29,8 +29,8 @@ DecomposeBirthsChange <- compiler:::cmpfun(function(Fx1, Fx2, Ex1, Ex2, return.a
 })
 
 # try out on a given 'p', two consecutive years:
-Exyp    <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/ESexpMeans1x1.Rdata")))
-Fxyp    <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/Rates.p/ES_Fxyp.Rdata")))
+Exyp    <- local(get(load("DATA/Exposures/ESexpMeans1x1.Rdata")))
+Fxyp    <- local(get(load("DATA/Rates.p/ES_Fxyp.Rdata")))
 # just loaded in like 1.5 Gb of stuff!
 print(object.size(Fxyp),units="Mb");print(object.size(Exyp),units="Mb") # ouch
 
@@ -65,8 +65,8 @@ rm(Exyp);rm(Fxyp);gc()
 #which.min(rowSums(ExCmat))
 #which.max(rowSums(ExCmat))
 
-save(FxCmat, file = "/home/triffe/git/Dissertation/DISSERTATION/DATA/results/decomposition1/FxCmat.Rdata")
-save(ExCmat, file = "/home/triffe/git/Dissertation/DISSERTATION/DATA/results/decomposition1/ExCmat.Rdata")
+save(FxCmat, file = "DATA/results/decomposition1/FxCmat.Rdata")
+save(ExCmat, file = "DATA/results/decomposition1/ExCmat.Rdata")
 
 # ----------------------------------------------------------------------------
 # the above doesn't work so well. ummm. how about rescaling Births to total properly

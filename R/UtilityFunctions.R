@@ -1,4 +1,6 @@
-
+# frequently used functions.
+# this script is sourced by virtually all other scripts.
+# most functions are undocumented at present!
 # Author: triffe
 ###############################################################################
 

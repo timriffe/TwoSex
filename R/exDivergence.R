@@ -1,23 +1,24 @@
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 # BxUS is a list of 56x56 matrices, ages 10-65, males in rows, females in columns
 # (1969 - 2010)
 # BxES is 0:110, years 1975:2009
-BxUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-BxES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+BxUS <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+BxES <- local(get(load("Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
-#BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf10_65.Rdata")))
-#BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf10_65.Rdata")))
+#BxymfES <- local(get(load("Data/ESbirths/ESBxymf10_65.Rdata")))
+#BxymfUS <- local(get(load("Data/USbirths/USBxymf10_65.Rdata")))
 
 # exposures, as such, straiht from HMD, all ages 0-110, long form
-ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("Data/Exposures/ESexp.Rdata")))
 # get Lx estimates for R0, r
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
 
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
@@ -459,16 +460,16 @@ MeanAbsTableES[,"Age"] <- c(mean(abs(diffsESaPred[,"RDiff"])),
 library(xtable)
 print(xtable(MeanTableES, digits = c(0,4,4), align = c("l","|","c","c")),
         sanitize.colnames.function = identity, 
-        file = "/home/triffe/git/DISS/latex/xtables/exDivergenceMeanTableES.tex",floating=FALSE)
+        file = "latex/xtables/exDivergenceMeanTableES.tex",floating=FALSE)
 print(xtable(MeanTableUS, digits = c(0,4,4), align = c("l","|","c","c")),
         sanitize.colnames.function = identity, 
-        file = "/home/triffe/git/DISS/latex/xtables/exDivergenceMeanTableUS.tex",floating=FALSE)
+        file = "latex/xtables/exDivergenceMeanTableUS.tex",floating=FALSE)
 print(xtable(MeanAbsTableES, digits = c(0,4,4)),
         sanitize.colnames.function = identity, 
-        file = "/home/triffe/git/DISS/latex/xtables/exDivergenceMeanAbsTableES.tex",floating=FALSE,
+        file = "latex/xtables/exDivergenceMeanAbsTableES.tex",floating=FALSE,
         include.rownames = FALSE)
 print(xtable(MeanAbsTableUS, digits = c(0,4,4)),
         sanitize.colnames.function = identity, 
-        file = "/home/triffe/git/DISS/latex/xtables/exDivergenceMeanAbsTableUS.tex",floating=FALSE,
+        file = "latex/xtables/exDivergenceMeanAbsTableUS.tex",floating=FALSE,
         include.rownames = FALSE)
 

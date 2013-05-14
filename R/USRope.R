@@ -1,23 +1,25 @@
-
+setwd("/home/triffe/git/DISS/")
+# cover art for dissertation. fancy plots for the sake of it.
+# these blend history and projections in the ey-perspective.
 # Author: triffe
 ###############################################################################
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
+source("R/UtilityFunctions.R")
 yearsUS <- 1969:2009
 
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfUS)      <- yearsUS
-DT                  <- local(get(load("/home/triffe/git/DISS/Data/RopeData/DTLTUUS.Rdata")))
-Px                  <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")))
-Ex                  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
+DT                  <- local(get(load("Data/RopeData/DTLTUUS.Rdata")))
+Px                  <- local(get(load("Data/HMD_Px/PxUS.Rdata")))
+Ex                  <- local(get(load("Data/Exposures/USexp.Rdata")))
 
-dxm                 <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata")))
-dxf                 <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata")))
+dxm                 <- local(get(load("Data/HMD_dx/dxmUS.Rdata")))
+dxf                 <- local(get(load("Data/HMD_dx/dxfUS.Rdata")))
 dxm <- dxm %col% colSums(dxm)
 dxf <- dxf %col% colSums(dxf)
 
 # mx to acct for mort improvement:
-mxm                 <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata")))[,"2009"]
-mxf                 <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata")))[,"2009"]
+mxm                 <- local(get(load("Data/HMD_mux/muxmUS.Rdata")))[,"2009"]
+mxf                 <- local(get(load("Data/HMD_mux/muxfUS.Rdata")))[,"2009"]
 
 # 2009 US
 .dxm <- dxm; .dxf <- dxf; .Bxymf <- BxymfUS; .Ex <- Ex
@@ -142,7 +144,7 @@ topsH           <- bottomsH + 1
 # Years in rows
 
 #dev.new(height = 8, width = 3)
-pdf("/home/triffe/git/DISS/latex/Figures/US_DxHist.pdf",height = 8, width = 3)
+pdf("latex/Figures/US_DxHist.pdf",height = 8, width = 3)
 par(mai = c(.3,.3,.3,.3), xaxs = "i", yaxs = "i", xpd = TRUE)
 plot(NULL, type = "n", xlim = c(-3000000, 3000000), ylim = c(1900, 2300), axes = FALSE)
 # a year slice:

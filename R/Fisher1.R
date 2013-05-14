@@ -1,27 +1,28 @@
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
 # Bxy totals  (not used()
-BxUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-BxES  <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+BxUS  <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+BxES  <- local(get(load("Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
 # repeated below for better SRB assumptions
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfES) <- yearsES
 names(BxymfUS) <- yearsUS
 # exposures, as such, straight from HMD, all ages 0-110, long form
-ExUS  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS  <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES  <- local(get(load("Data/Exposures/ESexp.Rdata")))
 # get Lx estimates for R0, r
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
 # make sum to 1
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
@@ -29,10 +30,10 @@ dxmES <- dxmES %col% colSums(dxmES)
 dxfES <- dxfES %col% colSums(dxfES)
 
 
-LxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmUS.Rdata"))) 
-LxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfUS.Rdata"))) 
-LxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata"))) 
-LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) 
+LxmUS <- local(get(load("Data/HMD_Lx/LxmUS.Rdata"))) 
+LxfUS <- local(get(load("Data/HMD_Lx/LxfUS.Rdata"))) 
+LxmES <- local(get(load("Data/HMD_Lx/LxmES.Rdata"))) 
+LxfES <- local(get(load("Data/HMD_Lx/LxfES.Rdata"))) 
 
 
 #################################################
@@ -100,7 +101,7 @@ image(FvxUS[,1:40] - FvxUS[,2:41])
 image(FvxUS[1:110,1:40] - FvxUS[2:111,2:41])
 
 .a <- 0:110
-pdf("/home/triffe/git/DISS/latex/Figures/vyUS1990.pdf", height = 5, width = 5)
+pdf("latex/Figures/vyUS1990.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(.a, MvxexUS[,"1990"], type = 'l', ylim = c(-.03, 1.03), xlim = c(-1,111), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",

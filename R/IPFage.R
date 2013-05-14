@@ -1,21 +1,22 @@
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 # BxUS is a list of 56x56 matrices, ages 10-65, males in rows, females in columns
 # (1969 - 2010)
 # BxES is 0:110, years 1975:2009
-BxUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-BxES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata")))
+BxUS <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+BxES <- local(get(load("Data/ESbirths/ESBxy.Rdata")))
 
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
 # exposures, as such, straiht from HMD, all ages 0-110, long form
-ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
-LxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
-LxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
-LxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata"))) / 1e5
-LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) / 1e5
+ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("Data/Exposures/ESexp.Rdata")))
+LxmUS <- local(get(load("Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
+LxfUS <- local(get(load("Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
+LxmES <- local(get(load("Data/HMD_Lx/LxmES.Rdata"))) / 1e5
+LxfES <- local(get(load("Data/HMD_Lx/LxfES.Rdata"))) / 1e5
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 # -------------------------------------------------------------
@@ -90,7 +91,7 @@ FxPred2 <- IPFpred(Bxy,
 MaleRatio   <- FxPred2[[1]] / FxPred[[1]]
 FemaleRatio <- FxPred2[[2]] / FxPred[[2]]
 
-pdf("/home/triffe/git/DISS/latex/Figures/IPFagecompetitiontest.pdf", height = 5, width = 5)
+pdf("latex/Figures/IPFagecompetitiontest.pdf", height = 5, width = 5)
 par(mai = c(.5,.5,.5,.3),xaxs = "i", yaxs = "i")
 plot(0:110, MaleRatio, type = 'l', ylim = c(.95, 1.05), xlim = c(15,40), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
@@ -229,8 +230,8 @@ rIPFEShm <- do.call(rbind, lapply(as.character(yearsES), function(yr, .Bxymf, .E
                             Lxm = .Lxm[,yr],
                             Lxf = .Lxf[,yr], , M = .M, tol = 1e-15)
                 },.Bxymf = BxymfES, .Ex = ExES, .Lxm = LxmES, .Lxf = LxfES, .M = harmonic.mean))
-#save(rIPFUShm, file = "/home/triffe/git/DISS/Data/results/agerSRB/rIPFhmUS.Rdata")
-#save(rIPFEShm, file = "/home/triffe/git/DISS/Data/results/agerSRB/rIPFhmES.Rdata")
+#save(rIPFUShm, file = "Data/results/agerSRB/rIPFhmUS.Rdata")
+#save(rIPFEShm, file = "Data/results/agerSRB/rIPFhmES.Rdata")
 
 #plot(yearsUS,rIPFUSavg[,1],type = 'l')
 #lines(yearsUS,rIPFUShm[,1])
@@ -258,7 +259,7 @@ rLotkaES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Lxm, .Lxf,
 
 # ----------------------------------------------------------
 # plot results. note that gupta not bracketted:
-pdf("/home/triffe/git/DISS/latex/Figures/IPFager.pdf", height = 5, width = 5)
+pdf("latex/Figures/IPFager.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, rIPFUShm[,1], type = 'n', ylim = c(-.02, .015), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",

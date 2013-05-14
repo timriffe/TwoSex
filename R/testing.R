@@ -1,14 +1,15 @@
-
+setwd("/home/triffe/git/DISS/")
+# scratch code, unused officially
 # Author: triffe
 ###############################################################################
 
-source("/home/triffe/git/Dissertation/DISSERTATION/R/MeanFunctions.R")
+source("R/MeanFunctions.R")
 #stolarsky.mean(x=c(50,100),r=.5,s=.5)
 #stolarsky.mean(x=c(50,100),r=.01,s=5)
 
 
-B <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/ESbirths/ESbirths.Rdata")))
-E <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/ESexp.Rdata")))
+B <- local(get(load("DATA/ESbirths/ESbirths.Rdata")))
+E <- local(get(load("DATA/Exposures/ESexp.Rdata")))
 
 years <- 1975:2009
 years.char <- as.character(years)
@@ -106,8 +107,8 @@ lines(1975:2009, cumsum(c(Bobs[1],  diff(Bobs))), col = "green")
 # -----------------------------------------------------------------------------------
 # take a look for USA. problem with ES- overall trend drowns out sex differences...
 
-B <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/USbirths/USbirths.Rdata")))
-E <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/USexp.Rdata")))
+B <- local(get(load("DATA/USbirths/USbirths.Rdata")))
+E <- local(get(load("DATA/Exposures/USexp.Rdata")))
 years <- 1969:2009
 
 years.char <- as.character(years)
@@ -181,9 +182,9 @@ lines(1975:2008, colSums(Bf.pred, na.rm = TRUE), col = "red")
 
 # ------------------------------------------------------------------------------------
 
-source("/home/triffe/git/Dissertation/DISSERTATION/R/MeanFunctions.R")
-Bxy <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/ESbirths/ESBxy.Rdata")))
-E <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/ESexp.Rdata")))
+source("R/MeanFunctions.R")
+Bxy <- local(get(load("DATA/ESbirths/ESBxy.Rdata")))
+E <- local(get(load("DATA/Exposures/ESexp.Rdata")))
 
 years <- 1975:2009
 yr <- 1
@@ -242,8 +243,8 @@ DecomposeBirthsChange <- function(Fx1, Fx2, Ex1, Ex2, return.all = FALSE){
 #        total births in year t. 
 #        2) rescale male F(t - 1) so that when applied to E(t), you get B(t), for males and females
 #        separately. What do we see?
-Bxy <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/ESbirths/ESBxy.Rdata")))
-E   <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/ESexp.Rdata")))
+Bxy <- local(get(load("DATA/ESbirths/ESBxy.Rdata")))
+E   <- local(get(load("DATA/Exposures/ESexp.Rdata")))
         
 is.list(E) 
 image(t(Bxy[[1]])[12:65,12:65])

@@ -1,6 +1,12 @@
 
 # Author: triffe
 ###############################################################################
+# Also this script was run only once.
+# this is not fully reproducible unless you have the huge text files from the CDC and INE
+# on disk. This is legacy one-time code. Instead of reproducing the tabulations
+# use the data outputs in /DATA/
+
+
 
 # those pesky US natality files deserve their own massive script...
 # Might have to be creative here...
@@ -250,7 +256,7 @@ All.paths <- file.path("/home/triffe/DATA/CDC/BIRTHS/Bxy", paste0("Bxy",1969:201
 All.Bxy <- lapply(All.paths, function(x){
             local(get(load(x)))
         })
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
+source("R/UtilityFunctions.R")
 names(All.Bxy) <- 1969:2010
 
 x <- All.Bxy[["1989"]]
@@ -305,7 +311,7 @@ Bxymf <- lapply(All.Bxy, function(x){
 #                }, .Bxy = Bxymf, .NA = BxymfMISSING)
 #USNAt <- unlist(lapply(USNA,"[[",1))
 #plot(yearsUS, USNAt, type = 'l')
-#save(USNA, file = "/home/triffe/git/DISS/Data/results/USmissings/USNAt.Rdata")
+#save(USNA, file = "Data/results/USmissings/USNAt.Rdata")
 #for (i in 1:length(yearsUS)){
 #    plot(USNA[[i]][[2]], type = 'l', main = yearsUS[i])
 #    Sys.sleep(1)
@@ -337,8 +343,8 @@ Bxymf10_65 <- lapply(Bxymf0_110, function(x){
 
 names(Bxymf0_110) <- 1969:2009
 names(Bxymf10_65) <- 1969:2009
-save(Bxymf0_110 , file="/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")
-save(Bxymf10_65 , file="/home/triffe/git/DISS/Data/USbirths/USBxymf10_65.Rdata")
+save(Bxymf0_110 , file="Data/USbirths/USBxymf0_110.Rdata")
+save(Bxymf10_65 , file="Data/USbirths/USBxymf10_65.Rdata")
 
 
 # stick in 0_100 tables and in 10-65 tables (always same dims, named dims)
@@ -376,7 +382,7 @@ names(Bxy10_65) <-names(Bxy0_110) <- 1969:2010
 #names(Bxy) <- 1975:2009
 #save(Bxy, file = "/home/triffe/git/Dissertation/DISSERTATION/DATA/ESbirths/ESBxy.Rdata")
 
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
 BxymfES10_65 <- lapply(BxymfES, function(x){   
             xm <- x[["Bxym"]]
             xm[, 11] <- rowSums(xm[, 1:11])
@@ -392,9 +398,9 @@ BxymfES10_65 <- lapply(BxymfES, function(x){
             
             list(Bxym = xm[11:66, 11:66], Bxyf = xf[11:66, 11:66])
         })
-save(BxymfES10_65, file = "/home/triffe/git/DISS/Data/ESbirths/ESBxymf10_65.Rdata")
+save(BxymfES10_65, file = "Data/ESbirths/ESBxymf10_65.Rdata")
 
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
 
 library(HMDget)
 username <- "XXX"
@@ -420,10 +426,10 @@ years$fltper_1x1 <- c(1975:2009)
 LxfES <- HMDget(countries = c("ESP"), wanteditems = c("fltper_1x1"), 
         years = years, column ="Lx", drop.tadj = TRUE, format = 4, 
         username = username, password = password)
-save(LxmUS, file = "/home/triffe/git/DISS/Data/HMD_Lx/LxmUS.Rdata")
-save(LxfUS, file = "/home/triffe/git/DISS/Data/HMD_Lx/LxfUS.Rdata")
-save(LxmES, file = "/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata")
-save(LxfES, file = "/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata")
+save(LxmUS, file = "Data/HMD_Lx/LxmUS.Rdata")
+save(LxfUS, file = "Data/HMD_Lx/LxfUS.Rdata")
+save(LxmES, file = "Data/HMD_Lx/LxmES.Rdata")
+save(LxfES, file = "Data/HMD_Lx/LxfES.Rdata")
 
 years <- list()
 years$mltper_1x1 <- c(1969:2009)
@@ -446,10 +452,10 @@ years$fltper_1x1 <- c(1975:2009)
 dxfES <- HMDget(countries = c("ESP"), wanteditems = c("fltper_1x1"), 
         years = years, column = "dx", drop.tadj = TRUE, format = 4, 
         username = username, password = password)
-save(dxmUS, file = "/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata")
-save(dxfUS, file = "/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata")
-save(dxmES, file = "/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata")
-save(dxfES, file = "/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata")
+save(dxmUS, file = "Data/HMD_dx/dxmUS.Rdata")
+save(dxfUS, file = "Data/HMD_dx/dxfUS.Rdata")
+save(dxmES, file = "Data/HMD_dx/dxmES.Rdata")
+save(dxfES, file = "Data/HMD_dx/dxfES.Rdata")
 
 # get period e0 estimates, all years:
 library(HMDget)
@@ -463,8 +469,8 @@ e0perES <- HMDget(countries = c("ESP"), wanteditems = c("E0per"), years = years,
 
 colnames(e0perUS) <- colnames(e0perES) <- c("Year","Female","Male","Total")
 
-save(e0perUS, file = "/home/triffe/git/DISS/Data/HMD_e0period/e0perUS.Rdata")
-save(e0perES, file = "/home/triffe/git/DISS/Data/HMD_e0period/e0perES.Rdata")
+save(e0perUS, file = "Data/HMD_e0period/e0perUS.Rdata")
+save(e0perES, file = "Data/HMD_e0period/e0perES.Rdata")
 
 
 years <- list()
@@ -488,10 +494,10 @@ years$fltper_1x1 <- c(1975:2009)
 lxfES <- HMDget(countries = c("ESP"), wanteditems = c("fltper_1x1"), 
         years = years, column = "lx", drop.tadj = TRUE, format = 4, 
         username = username, password = password)
-save(lxmUS, file = "/home/triffe/git/DISS/Data/HMD_lx/lxmUS.Rdata")
-save(lxfUS, file = "/home/triffe/git/DISS/Data/HMD_lx/lxfUS.Rdata")
-save(lxmES, file = "/home/triffe/git/DISS/Data/HMD_lx/lxmES.Rdata")
-save(lxfES, file = "/home/triffe/git/DISS/Data/HMD_lx/lxfES.Rdata")
+save(lxmUS, file = "Data/HMD_lx/lxmUS.Rdata")
+save(lxfUS, file = "Data/HMD_lx/lxfUS.Rdata")
+save(lxmES, file = "Data/HMD_lx/lxmES.Rdata")
+save(lxfES, file = "Data/HMD_lx/lxfES.Rdata")
 
 years <- list()
 years$mltper_1x1 <- c(1969:2009)
@@ -513,10 +519,10 @@ years$fltper_1x1 <- c(1969:2009)
 muxfES <- HMDget(countries = c("ESP"), wanteditems = c("fltper_1x1"), 
         years = years, column = "mx", drop.tadj = TRUE, format = 4, 
         username = username, password = password)
-save(muxmUS, file = "/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata")
-save(muxfUS, file = "/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata")
-save(muxmES, file = "/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata")
-save(muxfES, file = "/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata")
+save(muxmUS, file = "Data/HMD_mux/muxmUS.Rdata")
+save(muxfUS, file = "Data/HMD_mux/muxfUS.Rdata")
+save(muxmES, file = "Data/HMD_mux/muxmES.Rdata")
+save(muxfES, file = "Data/HMD_mux/muxfES.Rdata")
 
 library(HMDget)
 
@@ -530,8 +536,8 @@ PxUS <- HMDget(countries = c("USA"), wanteditems = c("Population"),
         years =  list(Population = c(1969:2009)), drop.tadj = TRUE, format = 1, 
         username = username, password = password)
 colnames(PxUS) <- c("Year","Age","Female","Male","Total")
-save(PxES, file = "/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")
-save(PxUS, file = "/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")
+save(PxES, file = "Data/HMD_Px/PxES.Rdata")
+save(PxUS, file = "Data/HMD_Px/PxUS.Rdata")
 
 
 DTLTUES <- HMDget(countries = c("ESP"), wanteditems = c("Deaths_lexis"), 
@@ -546,8 +552,8 @@ DTLTUUS <- HMDget(countries = c("USA"), wanteditems = c("Deaths_lexis"),
 colnames(DTLTUUS) <- c("Year","Age","Cohort","Female","Male","Total")
 
 
-save(DTLTUES, file = "/home/triffe/git/DISS/Data/HMD_TLTU/DTLTUES.Rdata")
-save(DTLTUUS, file = "/home/triffe/git/DISS/Data/HMD_TLTU/DTLTUUS.Rdata")
+save(DTLTUES, file = "Data/HMD_TLTU/DTLTUES.Rdata")
+save(DTLTUUS, file = "Data/HMD_TLTU/DTLTUUS.Rdata")
 
 # --------------------------------------
 # add to Ropes folder with full years...
@@ -564,5 +570,5 @@ DTLTUUS <- HMDget(countries = c("USA"), wanteditems = c("Deaths_lexis"),
 colnames(DTLTUUS) <- c("Year","Age","Cohort","Female","Male","Total")
 
 
-save(DTLTUES, file = "/home/triffe/git/DISS/Data/RopeData/DTLTUES.Rdata")
-save(DTLTUUS, file = "/home/triffe/git/DISS/Data/RopeData/DTLTUUS.Rdata")
+save(DTLTUES, file = "Data/RopeData/DTLTUES.Rdata")
+save(DTLTUUS, file = "Data/RopeData/DTLTUUS.Rdata")

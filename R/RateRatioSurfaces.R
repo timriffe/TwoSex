@@ -1,3 +1,5 @@
+setwd("/home/triffe/git/DISS/")
+# early diagnostic. not used officially. may contain legacy bug due to posterior code changes
 # Author: triffe
 ###############################################################################
 
@@ -5,7 +7,7 @@ RateRatioSurface <- function(B, E, N = 1, min.events = 40, filename, age.range =
     if (missing(filename)){
         stop("\nfirst give the output a name, including the suffix '.pdf'\n")
     }
-    source("/home/triffe/git/Dissertation/DISSERTATION/R/UtilityFunctions.R")
+    source("R/UtilityFunctions.R")
     # color ramp function
     colfun          <- grDevices:::colorRampPalette(RColorBrewer:::brewer.pal(9, "RdBu"), space = "Lab")
     # years vectors
@@ -65,21 +67,21 @@ RateRatioSurface <- function(B, E, N = 1, min.events = 40, filename, age.range =
 }
 
 # where E is a long df and B is in a list...
-B <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/ESbirths/ESbirths.Rdata")))
-E <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/ESexp.Rdata")))
+B <- local(get(load("DATA/ESbirths/ESbirths.Rdata")))
+E <- local(get(load("DATA/Exposures/ESexp.Rdata")))
 B <- B[-length(B)] # remove 2010 births for now
 
 RateRatioSurface(B, E, N = 1, 
         min.events = 40, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateRatioSurfaces/ES_R_1x1.pdf", 
+        filename = "DiagnosticPlots/RateRatioSurfaces/ES_R_1x1.pdf", 
         age.range = c(10,65), zlim = c(-.6, .6))
 RateRatioSurface(B, E, N = 2, 
         min.events = 40, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateRatioSurfaces/ES_R_2x2.pdf", 
+        filename = "DiagnosticPlots/RateRatioSurfaces/ES_R_2x2.pdf", 
         age.range = c(10,65), zlim = c(-.6, .6))
 RateRatioSurface(B, E, N = 3, 
         min.events = 40, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateRatioSurfaces/ES_R_3x3.pdf", 
+        filename = "DiagnosticPlots/RateRatioSurfaces/ES_R_3x3.pdf", 
         age.range = c(10,65), zlim = c(-.6, .6))
 
 # For US, slight change in data..
@@ -89,7 +91,7 @@ RateRatioSurface <- function(B, E, N = 1, min.events = 40, filename, age.range =
     if (missing(filename)){
         stop("\nfirst give the output a name, including the suffix '.pdf'\n")
     }
-    source("/home/triffe/git/Dissertation/DISSERTATION/R/UtilityFunctions.R")
+    source("R/UtilityFunctions.R")
     # color ramp function
     colfun          <- grDevices:::colorRampPalette(RColorBrewer:::brewer.pal(9, "RdBu"), space = "Lab")
     # years vectors
@@ -152,20 +154,20 @@ plot(20:40, with(E, Male[Year == 1980])[21:41], type = 'l')
 lines(20:40, with(E, Male[Year == 1981])[21:41], col = "red", lty = 2)
 lines(20:40, with(E, Male[Year == 1982])[21:41], col = "blue", lty = 2)
 abline(v=30)
-B <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/USbirths/USBxy0_110.Rdata")))
-E <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/USexp.Rdata")))
+B <- local(get(load("DATA/USbirths/USBxy0_110.Rdata")))
+E <- local(get(load("DATA/Exposures/USexp.Rdata")))
 names(B) <- 1969:2010
 B <- B[-length(B)]
 
 RateRatioSurface(B, E, N = 1, 
         min.events = 40, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateRatioSurfaces/US_R_1x1.pdf", 
+        filename = "DiagnosticPlots/RateRatioSurfaces/US_R_1x1.pdf", 
         age.range = c(10,65), zlim = c(-.6, .6))
 RateRatioSurface(B, E, N = 2, 
         min.events = 40, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateRatioSurfaces/US_R_2x2.pdf", 
+        filename = "DiagnosticPlots/RateRatioSurfaces/US_R_2x2.pdf", 
         age.range = c(10,65), zlim = c(-.6, .6))
 RateRatioSurface(B, E, N = 3, 
         min.events = 40, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateRatioSurfaces/US_R_3x3.pdf", 
+        filename = "DiagnosticPlots/RateRatioSurfaces/US_R_3x3.pdf", 
         age.range = c(10,65), zlim = c(-.6, .6))

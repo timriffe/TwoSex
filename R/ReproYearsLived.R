@@ -1,29 +1,29 @@
-
+setwd("/home/triffe/git/DISS/")
 # periodizing Henry 1965:
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 yearsES <- 1975:2009
 yearsUS <- 1969:2009
 # BxUS is a list of 56x56 matrices, ages 10-65, males in rows, females in columns
 # (1969 - 2010)
 # BxES is 0:110, years 1975:2009
-BxymfES <-  local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <-  local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <-  local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <-  local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfES) <- yearsES
-#BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf10_65.Rdata")))
-#BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf10_65.Rdata")))
+#BxymfES <- local(get(load("Data/ESbirths/ESBxymf10_65.Rdata")))
+#BxymfUS <- local(get(load("Data/USbirths/USBxymf10_65.Rdata")))
 
 # exposures, as such, straiht from HMD, all ages 0-110, long form
-ExUS    <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES    <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS    <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES    <- local(get(load("Data/Exposures/ESexp.Rdata")))
 # life expectancies
-E0US    <- local(get(load("/home/triffe/git/DISS/Data/HMD_e0period/e0perUS.Rdata")))
-E0ES    <- local(get(load("/home/triffe/git/DISS/Data/HMD_e0period/e0perES.Rdata")))
+E0US    <- local(get(load("Data/HMD_e0period/e0perUS.Rdata")))
+E0ES    <- local(get(load("Data/HMD_e0period/e0perES.Rdata")))
 # lifetable Lx:
-LxmUS   <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
-LxfUS   <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
-LxmES   <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata"))) / 1e5
-LxfES   <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) / 1e5
+LxmUS   <- local(get(load("Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
+LxfUS   <- local(get(load("Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
+LxmES   <- local(get(load("Data/HMD_Lx/LxmES.Rdata"))) / 1e5
+LxfES   <- local(get(load("Data/HMD_Lx/LxfES.Rdata"))) / 1e5
 
 
 
@@ -61,7 +61,7 @@ R0starUS <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .BxymfUS, .
 #lines(yearsUS, R0starUS[,"R0starf"], col = "red")
 
 
-pdf("/home/triffe/git/DISS/latex/Figures/R0perHenry.pdf", height = 5, width = 5)
+pdf("latex/Figures/R0perHenry.pdf", height = 5, width = 5)
 
 par(mar = c(3, 3, 2, 2),xaxp = "i", yaxp = "i")
 plot(yearsUS, R0starUS[, "R0starm"], type = 'l', ylim = c(.5, 2), xlim = c(1968,2010), axes = FALSE,

@@ -1,26 +1,26 @@
-
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
 # make sum to 1
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
 dxmES <- dxmES %col% colSums(dxmES)
 dxfES <- dxfES %col% colSums(dxfES)
 
-mxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata"))) 
-mxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata"))) 
-mxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata"))) 
-mxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata"))) 
+mxmUS <- local(get(load("Data/HMD_mux/muxmUS.Rdata"))) 
+mxfUS <- local(get(load("Data/HMD_mux/muxfUS.Rdata"))) 
+mxmES <- local(get(load("Data/HMD_mux/muxmES.Rdata"))) 
+mxfES <- local(get(load("Data/HMD_mux/muxfES.Rdata"))) 
 
-PxUS  <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")))
-PxES  <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
+PxUS  <- local(get(load("Data/HMD_Px/PxUS.Rdata")))
+PxES  <- local(get(load("Data/HMD_Px/PxES.Rdata")))
 
 iota <- .997
 iota ^ c(1:110)
@@ -52,7 +52,7 @@ xlabs   <- c("1.0%","0.8%","0.6%","0.4%","0.2%","0.0%","0.2%","0.4%","0.6%","0.8
 
 Males2009 <- rowSums(ExpectedDx2(Pxm, mxmUS[,"2009"]))
 Females2009 <- rowSums(ExpectedDx2(Pxf, mxfUS[,"2009"]))
-pdf("/home/triffe/git/DISS/latex/Figures/exPyramidUSimpr.pdf", height = 5, width = 5)
+pdf("latex/Figures/exPyramidUSimpr.pdf", height = 5, width = 5)
 par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
         panel.first = list(
@@ -80,7 +80,7 @@ Pxm <- with(PxES, Male[Year == 2009])
 Pxf <- with(PxES, Female[Year == 2009])
 Males2009 <- rowSums(ExpectedDx2(Pxm, mxmES[,"2009"]))
 Females2009 <- rowSums(ExpectedDx2(Pxf, mxfES[,"2009"]))
-pdf("/home/triffe/git/DISS/latex/Figures/exPyramidESimpr.pdf", height = 5, width = 5)
+pdf("latex/Figures/exPyramidESimpr.pdf", height = 5, width = 5)
 par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
         panel.first = list(

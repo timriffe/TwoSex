@@ -1,14 +1,16 @@
-
+setwd("/home/triffe/git/DISS/")
+# this script is what eventually verified for me that there is no hope in empirically finding the 
+# best mean function.
 # idea: don't compare absolute birth counts but pdfs instead, should remove problem with
 # declining tendency, but I'll need to think of whether shape optimization is justifiable
 
-BxUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy10_65.Rdata")))
+BxUS <- local(get(load("Data/USbirths/USBxy10_65.Rdata")))
 # BxUS is a list of 56x56 matrices, ages 10-65, males in rows, females in columns
 # (1969 - 2010)
-ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
+ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
 
 
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+source("R/MeanFunctions.R")
 
 # more helper functions
 logit <- function(x){
@@ -131,7 +133,7 @@ plot(p.l.vec)
 
 
 # single p, but over 3x3
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
+source("R/UtilityFunctions.R")
 
 years <- as.integer(names(BxUS))
 p.hat.vec <- vector(length = length(years) - 2)

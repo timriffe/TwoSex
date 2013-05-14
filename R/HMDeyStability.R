@@ -1,27 +1,27 @@
-
-# let's compare the stability of age and ey pyramids over the whole HMD?
+setwd("/home/triffe/git/DISS/")
+# let's compare the stability of age and ey pyramids over the whole HMD!
 # based on the whole-HMD zipfiles of mtltper_1x1, fltper_1x1 and Population,
 # these folders are unzipped and together in a folder called /HMD1x1/
 
-#list.files("/home/triffe/git/DISS/Data/HMD1x1/fltper_1x1")
-#list.files("/home/triffe/git/DISS/Data/HMD1x1/mltper_1x1")
-#list.files("/home/triffe/git/DISS/Data/HMD1x1/Population")
+#list.files("Data/HMD1x1/fltper_1x1")
+#list.files("Data/HMD1x1/mltper_1x1")
+#list.files("Data/HMD1x1/Population")
 
 # split off names of each population
-ctries <- unlist(lapply(strsplit(list.files("/home/triffe/git/DISS/Data/HMD1x1/fltper_1x1"),split = "\\."),"[[",1))
+ctries <- unlist(lapply(strsplit(list.files("Data/HMD1x1/fltper_1x1"),split = "\\."),"[[",1))
 
 Fdx <- do.call(rbind,lapply(ctries, function(ctry){
-                    path <- paste0("/home/triffe/git/DISS/Data/HMD1x1/fltper_1x1/",ctry,".fltper_1x1.txt")
+                    path <- paste0("Data/HMD1x1/fltper_1x1/",ctry,".fltper_1x1.txt")
                     m <- read.table(path, header = TRUE, skip = 2, as.is = TRUE, na.strings = ".")
                     cbind(CTRY = ctry, m[,c("Year","Age","dx")])
                 }))
 Mdx <- do.call(rbind,lapply(ctries, function(ctry){
-                    path <- paste0("/home/triffe/git/DISS/Data/HMD1x1/mltper_1x1/",ctry,".mltper_1x1.txt")
+                    path <- paste0("Data/HMD1x1/mltper_1x1/",ctry,".mltper_1x1.txt")
                     m <- read.table(path, header = TRUE, skip = 2, as.is = TRUE, na.strings = ".")
                     cbind(CTRY = ctry, m[,c("Year","Age","dx")])
                 }))
 Px <- do.call(rbind,lapply(ctries, function(ctry){
-                    path <- paste0("/home/triffe/git/DISS/Data/HMD1x1/Population/",ctry,".Population.txt")
+                    path <- paste0("Data/HMD1x1/Population/",ctry,".Population.txt")
                     m <- read.table(path, header = TRUE, skip = 2, as.is = TRUE, na.strings = ".")
                     cbind(CTRY = ctry, m[,c("Year","Age","Female","Male")])
                 }))
@@ -47,7 +47,7 @@ Dat$Pxf <- Px[rownames(Dat),"Female"]
 rm(Mdx,Fdx,Px); gc()
 
 # get remaining years counts as well.
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
+source("R/UtilityFunctions.R")
 #Datl <- do.call(rbind,lapply(split(Dat, with(Dat,paste(CTRY,Year,sep="-"))),function(X){
 #            X$Pym <- rowSums(ExpectedDx(X$Pxm, X$mdx))
 #            X$Pyf <- rowSums(ExpectedDx(X$Pxf, X$fdx))
@@ -83,7 +83,7 @@ source("/home/triffe/git/DISS/R/UtilityFunctions.R")
 #        }, .hm = hm))
 #
 ## results for full HMD
-#save(ResultsAll, file = "/home/triffe/git/DISS/Data/HMD_Lx/Results/ResultsAll.Rdata")
+#save(ResultsAll, file = "Data/HMD_Lx/Results/ResultsAll.Rdata")
 
 
 # now take only years since 1950 and repeat:
@@ -92,12 +92,12 @@ source("/home/triffe/git/DISS/R/UtilityFunctions.R")
 #Results1950p <- t(sapply(1:50, function(n, .hm2){
 #            colMeans(do.call(rbind,parallel::mclapply(.hm2, InnerFun, Njump = n,mc.cores=2)), na.rm=TRUE)
 #        }, .hm2 = hm2))
-#save(Results1950p, file = "/home/triffe/git/DISS/Data/HMD_Lx/Results/Results1950p.Rdata")
+#save(Results1950p, file = "Data/HMD_Lx/Results/Results1950p.Rdata")
 
-ResultsAll   <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/Results/ResultsAll.Rdata")))
-Results1950p <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/Results/Results1950p.Rdata")))
+ResultsAll   <- local(get(load("Data/HMD_Lx/Results/ResultsAll.Rdata")))
+Results1950p <- local(get(load("Data/HMD_Lx/Results/Results1950p.Rdata")))
 
-pdf("/home/triffe/git/DISS/latex/Figures/PyramidStabilityThetaRatioAll.pdf", height = 5, width = 5)
+pdf("latex/Figures/PyramidStabilityThetaRatioAll.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .6, .2),xaxs = "i", yaxs = "i")
 plot(1:50, ResultsAll[,2]/Results1950p[,1], type = 'l', ylim = c(0,.8), xlim = c(0,51), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",

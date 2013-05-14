@@ -1,23 +1,23 @@
-
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
-#PxUS  <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")))
-#PxES  <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
+#PxUS  <- local(get(load("Data/HMD_Px/PxUS.Rdata")))
+#PxES  <- local(get(load("Data/HMD_Px/PxES.Rdata")))
 
-ExUS  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS  <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES  <- local(get(load("Data/Exposures/ESexp.Rdata")))
 
-LxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
-LxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
-LxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata"))) / 1e5
-LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) / 1e5
+LxmUS <- local(get(load("Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
+LxfUS <- local(get(load("Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
+LxmES <- local(get(load("Data/HMD_Lx/LxmES.Rdata"))) / 1e5
+LxfES <- local(get(load("Data/HMD_Lx/LxfES.Rdata"))) / 1e5
 
 
-BxymfUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
-BxymfES  <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata"))) 
+BxymfUS  <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES  <- local(get(load("Data/ESbirths/ESBxymf.Rdata"))) 
 
 FxFMUS <- do.call(cbind, lapply(as.character(yearsUS), function(yr, .Bxymf, .Ex){
                     Exf <- with(.Ex, Female[Year == as.integer(yr)])
@@ -62,8 +62,8 @@ ESrPollard <- unlist(lapply(as.character(yearsES), function(yr, .FxMF, .FxFM, .L
                     thetaf <- .FxFM[, yr] * .Lxf[,yr]
                     optimize(PollardMin, interval = c(-.03,.03), tol = 1e-15, thetam = thetam, thetaf=thetaf)$minimum
                 }, .FxMF = FxMFES, .FxFM = FxFMES, .Lxm = LxmES, .Lxf = LxfES))
-#save(USrPollard, file = "/home/triffe/git/DISS/Data/results/agerSRB/rPollardUS.Rdata")
-#save(ESrPollard, file = "/home/triffe/git/DISS/Data/results/agerSRB/rPollardES.Rdata")
+#save(USrPollard, file = "Data/results/agerSRB/rPollardUS.Rdata")
+#save(ESrPollard, file = "Data/results/agerSRB/rPollardES.Rdata")
 
 #plot(yearsUS, USr,type = 'l', ylim = c(-.02,.015))
 #lines(yearsES, ESr, col = "red")

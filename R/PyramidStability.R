@@ -1,15 +1,16 @@
+setwd("/home/triffe/git/DISS/")
 # Figures here found in PopulationStructure.tex
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 
 # exposures, as such, straight from HMD, all ages 0-110, long form
-PxUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")))
-PxES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+PxUS <- local(get(load("Data/HMD_Px/PxUS.Rdata")))
+PxES <- local(get(load("Data/HMD_Px/PxES.Rdata")))
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
 # make sum to 1
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
@@ -70,7 +71,7 @@ StabES <- do.call(rbind,lapply(1975:2008, function(yr, .PxES, .dxmES, .dxfES){
 #lines(1975:2008, StabES[,1], col = "red", lty = 2)
 #lines(1975:2008, StabES[,2], col = "blue", lty = 2)
 
-pdf("/home/triffe/git/DISS/latex/Figures/PyramidStabilityThetaRatio.pdf", height = 5, width = 5)
+pdf("latex/Figures/PyramidStabilityThetaRatio.pdf", height = 5, width = 5)
 par(mai = c(.5, .3, .6, .2),xaxs = "i", yaxs = "i")
 plot(1969:2008, StabUS[,2]/StabUS[,1], type = 'l', ylim = c(0,.8), xlim = c(1968,2009), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
@@ -92,14 +93,14 @@ dev.off()
 # ---------------------------------------------------------
 # uncertainty in pyramid. self-sufficient code
 
-PxUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")))
-PxES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
-ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
-mxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata"))) 
-mxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata"))) 
-mxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata"))) 
-mxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata"))) 
+PxUS <- local(get(load("Data/HMD_Px/PxUS.Rdata")))
+PxES <- local(get(load("Data/HMD_Px/PxES.Rdata")))
+ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("Data/Exposures/ESexp.Rdata")))
+mxmUS <- local(get(load("Data/HMD_mux/muxmUS.Rdata"))) 
+mxfUS <- local(get(load("Data/HMD_mux/muxfUS.Rdata"))) 
+mxmES <- local(get(load("Data/HMD_mux/muxmES.Rdata"))) 
+mxfES <- local(get(load("Data/HMD_mux/muxfES.Rdata"))) 
 
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
@@ -178,7 +179,7 @@ PyramidProbES <- lapply(as.character(yearsES), function(yr, .Px, .Ex, .mxm, .mxf
         
 TestYr <- PyramidProbES[[1]]
 
-#pdf("/home/triffe/git/DISS/latex/Figures/exPyramidUS.pdf", height = 5, width = 5)
+#pdf("latex/Figures/exPyramidUS.pdf", height = 5, width = 5)
 par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
      panel.first = list(
@@ -216,7 +217,7 @@ FESu <- (PyramidProbES[["1975"]][,"Fu"]-PyramidProbES[["1975"]][,"Of"]) / Pyrami
 FESl <- (PyramidProbES[["1975"]][,"Fl"] - PyramidProbES[["1975"]][,"Of"]) / PyramidProbES[["1975"]][,"Of"]
 
 
-pdf("/home/triffe/git/DISS/latex/Figures/exPyramiduncertainty1975.pdf", height = 5, width = 5)
+pdf("latex/Figures/exPyramiduncertainty1975.pdf", height = 5, width = 5)
 par(mai = c(.5,.5,.5,.3), xaxs = "i", yaxs = "i")
 ylim <- c(-.1,.1)
 plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(0, 100), ylim = ylim,

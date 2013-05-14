@@ -1,26 +1,27 @@
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
 # Bxy totals  (not used()
-BxUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-BxES  <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+BxUS  <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+BxES  <- local(get(load("Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
 # repeated below for better SRB assumptions
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfES) <- yearsES
 names(BxymfUS) <- yearsUS
 # exposures, as such, straight from HMD, all ages 0-110, long form
-ExUS  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS  <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES  <- local(get(load("Data/Exposures/ESexp.Rdata")))
 # get Lx estimates for R0, r
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
 # make sum to 1
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
@@ -226,16 +227,16 @@ rEScp <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .dxm, .d
                 }, .Bxy = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES, .meanFun = HM))
 rownames(rEScp) <- yearsES
 
-#save(rUScp, file = "/home/triffe/git/DISS/Data/results/exCPr/rUScp.Rdata")
-#save(rEScp, file = "/home/triffe/git/DISS/Data/results/exCPr/rEScp.Rdata")
-rmUS <- local(get(load("/home/triffe/git/DISS/Data/results/exSingleSex/rmUS.Rdata")))[,1]
-rfUS <- local(get(load("/home/triffe/git/DISS/Data/results/exSingleSex/rfUS.Rdata")))[,1]
-rmES <- local(get(load("/home/triffe/git/DISS/Data/results/exSingleSex/rmES.Rdata")))[,1]
-rfES <- local(get(load("/home/triffe/git/DISS/Data/results/exSingleSex/rfES.Rdata")))[,1]
+#save(rUScp, file = "Data/results/exCPr/rUScp.Rdata")
+#save(rEScp, file = "Data/results/exCPr/rEScp.Rdata")
+rmUS <- local(get(load("Data/results/exSingleSex/rmUS.Rdata")))[,1]
+rfUS <- local(get(load("Data/results/exSingleSex/rfUS.Rdata")))[,1]
+rmES <- local(get(load("Data/results/exSingleSex/rmES.Rdata")))[,1]
+rfES <- local(get(load("Data/results/exSingleSex/rfES.Rdata")))[,1]
 
 # take a look:
 
-pdf("/home/triffe/git/DISS/latex/Figures/exCRr.pdf", height = 5, width = 5)
+pdf("latex/Figures/exCRr.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, rUScp[,1], type = 'n', ylim = c(-.016,.01),xlim = c(1968,2010), axes = FALSE,
         xlab = "", ylab = "",
@@ -284,7 +285,7 @@ levs        <- c(-6, 6, seq(500, 3000, by = 500))     # for contour plot
 levs <- c(.01,.1,.5,.75,1.25,2,10,100,1000)
 ExBxy[ExBxy == 0]       <- NA
 expected[expected == 0] <- NA
-pdf("/home/triffe/git/DISS/latex/Figures/exCPRatioExample.pdf", height = 5, width = 5)
+pdf("latex/Figures/exCPRatioExample.pdf", height = 5, width = 5)
 par(mai = c(.4,.3,.3,.2), xaxs = "i", yaxs = "i")
 image(x = ages + .5, y = ages + .5, MinfNA(log(Ratio)), 
         xlim = c(0, 101), ylim = c(0, 101), zlim = c(.5,7),

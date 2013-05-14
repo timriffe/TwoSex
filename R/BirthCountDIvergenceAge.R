@@ -1,18 +1,19 @@
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 # BxUS is a list of 56x56 matrices, ages 10-65, males in rows, females in columns
 # (1969 - 2010)
 # BxES is 0:110, years 1975:2009
-BxUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-BxES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+BxUS <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+BxES <- local(get(load("Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
-#BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf10_65.Rdata")))
-#BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf10_65.Rdata")))
+#BxymfES <- local(get(load("Data/ESbirths/ESBxymf10_65.Rdata")))
+#BxymfUS <- local(get(load("Data/USbirths/USBxymf10_65.Rdata")))
 
 # exposures, as such, straiht from HMD, all ages 0-110, long form
-ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("Data/Exposures/ESexp.Rdata")))
 
 
 yearsUS <- 1969:2009
@@ -133,7 +134,7 @@ diffsESaPred15 <- do.call(rbind,lapply(1:(length(yearsES)-15), function(i, .BxES
 
 # -----------------------------------------------------------------------------
 
-pdf("/home/triffe/git/DISS/latex/Figures/BirthCountDivergenceAge.pdf", height = 5, width = 5)par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+pdf("latex/Figures/BirthCountDivergenceAge.pdf", height = 5, width = 5)par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(1969:2008, diffsUSaPred[, "RDiff"], type = 'n', ylim = c(-.03,.13), xlim = c(1968, 2009),
         axes = FALSE, xlab = "", ylab = "",
         panel.first = list(rect(1968, -.03, 2010, .13, col = gray(.95), border=NA),
@@ -162,7 +163,7 @@ dev.off()
 
 
 
-pdf("/home/triffe/git/DISS/latex/Figures/BirthCountDivergenceAge.pdf", height = 5, width = 5)
+pdf("latex/Figures/BirthCountDivergenceAge.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(1969:2008, diffsUSaPred[, "RDiff"], type = 'n', ylim = c(-.03,.13), xlim = c(1968, 2009),
         axes = FALSE, xlab = "", ylab = "",

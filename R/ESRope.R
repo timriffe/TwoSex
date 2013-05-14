@@ -1,26 +1,26 @@
-
+setwd("/home/triffe/git/DISS/")
 # Author: triffe
 ###############################################################################
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
+source("R/UtilityFunctions.R")
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfES) <- yearsES
 names(BxymfUS) <- yearsUS
-DT                  <- local(get(load("/home/triffe/git/DISS/Data/RopeData/DTLTUES.Rdata")))
-Px                  <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
-Ex                  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+DT                  <- local(get(load("Data/RopeData/DTLTUES.Rdata")))
+Px                  <- local(get(load("Data/HMD_Px/PxES.Rdata")))
+Ex                  <- local(get(load("Data/Exposures/ESexp.Rdata")))
 
-dxm                 <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata")))
-dxf                 <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata")))
+dxm                 <- local(get(load("Data/HMD_dx/dxmES.Rdata")))
+dxf                 <- local(get(load("Data/HMD_dx/dxfES.Rdata")))
 dxm <- dxm %col% colSums(dxm)
 dxf <- dxf %col% colSums(dxf)
 
 # mx to acct for mort improvement:
-mxm                 <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata")))[,"2009"]
-mxf                 <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata")))[,"2009"]
+mxm                 <- local(get(load("Data/HMD_mux/muxmES.Rdata")))[,"2009"]
+mxf                 <- local(get(load("Data/HMD_mux/muxfES.Rdata")))[,"2009"]
 
 # 2009 ES
 .dxm <- dxm; .dxf <- dxf; .Bxymf <- BxymfES; .Ex <- Ex
@@ -143,7 +143,7 @@ topsH           <- bottomsH + 1
 # Years in rows
 
 #dev.new(height = 8, width = 3)
-pdf("/home/triffe/git/DISS/latex/Figures/ES_DxHist.pdf",height = 8, width = 3)
+pdf("latex/Figures/ES_DxHist.pdf",height = 8, width = 3)
 par(mai = c(.3,.3,.3,.3), xaxs = "i", yaxs = "i", xpd = TRUE)
 plot(NULL, type = "n", xlim = c(-400000, 400000), ylim = c(1900, 2300), axes = FALSE)
 # a year slice:

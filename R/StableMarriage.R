@@ -1,4 +1,4 @@
-
+# script just for personal curiosity. not used officially
 
 # Author: triffe
 ###############################################################################

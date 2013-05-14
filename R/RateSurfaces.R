@@ -1,4 +1,5 @@
-
+setwd("/home/triffe/git/DISS/")
+# unused early diagnostic code. may contain bugs due to posterior code changes
 # Author: triffe
 ###############################################################################
 
@@ -7,7 +8,7 @@ RateSurface <- function(B, E, N = 1, min.events = 40, filename, age.range = c(10
     if (missing(filename)){
         stop("\nfirst give the output a name, including the suffix '.pdf'\n")
     }
-    source("/home/triffe/git/Dissertation/DISSERTATION/R/UtilityFunctions.R")
+    source("R/UtilityFunctions.R")
     # color ramp function
     colfun          <- grDevices:::colorRampPalette(RColorBrewer:::brewer.pal(9, "YlOrRd"), space = "Lab")
     # years vectors
@@ -92,58 +93,58 @@ RateSurface <- function(B, E, N = 1, min.events = 40, filename, age.range = c(10
 }
 
 # where E is a long df and B is in a list...
-B <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/ESbirths/ESbirths.Rdata")))
-E <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/ESexp.Rdata")))
+B <- local(get(load("DATA/ESbirths/ESbirths.Rdata")))
+E <- local(get(load("DATA/Exposures/ESexp.Rdata")))
 B <- B[-length(B)] # remove 2010 births for now
 RateSurface(B, E, N = 1, 
         min.events = 30, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/ESmFx_1x1.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/ESmFx_1x1.pdf",
         age.range = c(10, 65), sex = "m", zlim = c(0,.04))
 RateSurface(B, E, N = 1, 
         min.events = 30, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/ESfFx_1x1.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/ESfFx_1x1.pdf",
         age.range = c(10, 65), sex = "f", zlim = c(0,.04))
 RateSurface(B, E, N = 2, 
         min.events = 50, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/ESmFx_2x2.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/ESmFx_2x2.pdf",
         age.range = c(10, 65), sex = "m", zlim = c(0,.06))
 RateSurface(B, E, N = 2, 
         min.events = 50, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/ESfFx_2x2.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/ESfFx_2x2.pdf",
         age.range = c(10, 65), sex = "f", zlim = c(0,.06))
 RateSurface(B, E, N = 3, 
         min.events = 100, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/ESmFx_3x3.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/ESmFx_3x3.pdf",
         age.range = c(10, 65), sex = "m", zlim = c(0,.08))
 RateSurface(B, E, N = 3, 
         min.events = 100, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/ESfFx_3x3.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/ESfFx_3x3.pdf",
         age.range = c(10, 65), sex = "f", zlim = c(0,.08))
 
 # log rate surfaces
 RateSurface(B, E, N = 1, 
         min.events = 30, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/ESmlogFx_1x1.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/ESmlogFx_1x1.pdf",
         age.range = c(10, 65), sex = "m", .log = TRUE)
 RateSurface(B, E, N = 1, 
         min.events = 30, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/ESflogFx_1x1.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/ESflogFx_1x1.pdf",
         age.range = c(10, 65), sex = "f", .log = TRUE)
 RateSurface(B, E, N = 2, 
         min.events = 50, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/ESmlogFx_2x2.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/ESmlogFx_2x2.pdf",
         age.range = c(10, 65), sex = "m", .log = TRUE)
 RateSurface(B, E, N = 2, 
         min.events = 50, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/ESflogFx_2x2.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/ESflogFx_2x2.pdf",
         age.range = c(10, 65), sex = "f", .log = TRUE)
 RateSurface(B, E, N = 3, 
         min.events = 100, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/ESmlogFx_3x3.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/ESmlogFx_3x3.pdf",
         age.range = c(10, 65), sex = "m", .log = TRUE)
 RateSurface(B, E, N = 3, 
         min.events = 100, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/ESflogFx_3x3.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/ESflogFx_3x3.pdf",
         age.range = c(10, 65), sex = "f", .log = TRUE)
 
 # ---------------------------------------------------------------------------------
@@ -152,7 +153,7 @@ RateSurface <- function(B, E, N = 1, min.events = 40, filename, age.range = c(10
     if (missing(filename)){
         stop("\nfirst give the output a name, including the suffix '.pdf'\n")
     }
-    source("/home/triffe/git/Dissertation/DISSERTATION/R/UtilityFunctions.R")
+    source("R/UtilityFunctions.R")
     # color ramp function
     colfun          <- grDevices:::colorRampPalette(RColorBrewer:::brewer.pal(9, "YlOrRd"), space = "Lab")
     # years vectors
@@ -236,58 +237,58 @@ RateSurface <- function(B, E, N = 1, min.events = 40, filename, age.range = c(10
     dev.off()
 }
 
-B <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/USbirths/USBxy0_110.Rdata")))
-E <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/USexp.Rdata")))
+B <- local(get(load("DATA/USbirths/USBxy0_110.Rdata")))
+E <- local(get(load("DATA/Exposures/USexp.Rdata")))
 names(B) <- 1969:2010
 B <- B[-length(B)]
 
 RateSurface(B, E, N = 1, 
         min.events = 30, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/USmFx_1x1.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/USmFx_1x1.pdf",
         age.range = c(10, 65), sex = "m", zlim = c(0,.04))
 RateSurface(B, E, N = 1, 
         min.events = 30, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/USfFx_1x1.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/USfFx_1x1.pdf",
         age.range = c(10, 65), sex = "f", zlim = c(0,.04))
 RateSurface(B, E, N = 2, 
         min.events = 50, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/USmFx_2x2.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/USmFx_2x2.pdf",
         age.range = c(10, 65), sex = "m", zlim = c(0,.06))
 RateSurface(B, E, N = 2, 
         min.events = 50, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/USfFx_2x2.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/USfFx_2x2.pdf",
         age.range = c(10, 65), sex = "f", zlim = c(0,.06))
 RateSurface(B, E, N = 3, 
         min.events = 100, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/USmFx_3x3.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/USmFx_3x3.pdf",
         age.range = c(10, 65), sex = "m", zlim = c(0,.08))
 RateSurface(B, E, N = 3, 
         min.events = 100, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/USfFx_3x3.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/USfFx_3x3.pdf",
         age.range = c(10, 65), sex = "f", zlim = c(0,.08))
 
 # log rate surfaces
 RateSurface(B, E, N = 1, 
         min.events = 30, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/USmlogFx_1x1.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/USmlogFx_1x1.pdf",
         age.range = c(10, 65), sex = "m", .log = TRUE)
 RateSurface(B, E, N = 1, 
         min.events = 30, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/USflogFx_1x1.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/USflogFx_1x1.pdf",
         age.range = c(10, 65), sex = "f", .log = TRUE)
 RateSurface(B, E, N = 2, 
         min.events = 50, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/USmlogFx_2x2.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/USmlogFx_2x2.pdf",
         age.range = c(10, 65), sex = "m", .log = TRUE)
 RateSurface(B, E, N = 2, 
         min.events = 50, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/USflogFx_2x2.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/USflogFx_2x2.pdf",
         age.range = c(10, 65), sex = "f", .log = TRUE)
 RateSurface(B, E, N = 3, 
         min.events = 100, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/USmlogFx_3x3.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/USmlogFx_3x3.pdf",
         age.range = c(10, 65), sex = "m", .log = TRUE)
 RateSurface(B, E, N = 3, 
         min.events = 100, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateSurfaces/USflogFx_3x3.pdf",
+        filename = "DiagnosticPlots/RateSurfaces/USflogFx_3x3.pdf",
         age.range = c(10, 65), sex = "f", .log = TRUE)

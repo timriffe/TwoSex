@@ -1,27 +1,29 @@
+setwd("/home/triffe/git/DISS/")
+# script name a misnomer. legacy name. this is a general mean solution
 # mean function 2 sex ex
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
 # Bxy totals  (not used()
-#BxUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-#BxES  <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+#BxUS  <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+#BxES  <- local(get(load("Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
 # repeated below for better SRB assumptions
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfES) <- yearsES
 names(BxymfUS) <- yearsUS
 # exposures, as such, straight from HMD, all ages 0-110, long form
-ExUS  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS  <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES  <- local(get(load("Data/Exposures/ESexp.Rdata")))
 # get Lx estimates for R0, r
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
 # make sum to 1
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
@@ -30,10 +32,10 @@ dxfES <- dxfES %col% colSums(dxfES)
 
 #------------------------------------------------------------
 # compare with Lotka:
-LxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
-LxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
-LxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata"))) / 1e5
-LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) / 1e5
+LxmUS <- local(get(load("Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
+LxfUS <- local(get(load("Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
+LxmES <- local(get(load("Data/HMD_Lx/LxmES.Rdata"))) / 1e5
+LxfES <- local(get(load("Data/HMD_Lx/LxfES.Rdata"))) / 1e5
 
 
 # harmonic mean of exposures:
@@ -179,8 +181,8 @@ rEShm <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .dxm, .d
                     c(r = LH[1], SRB = LH[2], its = LH[3])
                 }, .Bxy = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES, .M = HM))
 rownames(rEShm) <- yearsES
-#save(rUShm, file = "/home/triffe/git/DISS/Data/results/exMeanr/rUShm.Rdata")
-#save(rEShm, file = "/home/triffe/git/DISS/Data/results/exMeanr/rEShm.Rdata")
+#save(rUShm, file = "Data/results/exMeanr/rUShm.Rdata")
+#save(rEShm, file = "Data/results/exMeanr/rEShm.Rdata")
 
 # optionally do same for logarithmic and geometric means
 logoandgeo <- FALSE
@@ -244,10 +246,10 @@ if (logoandgeo){
                     }, .Bxy = BxymfES, .dxm = dxmES, .dxf = dxfES, .Ex = ExES, .M = LM))
     rownames(rESlm) <- yearsES
     
-    save(rUSlm, file = "/home/triffe/git/DISS/Data/results/exMeanr/rUSlm.Rdata")
-    save(rESlm, file = "/home/triffe/git/DISS/Data/results/exMeanr/rESlm.Rdata")
-    save(rUSgm, file = "/home/triffe/git/DISS/Data/results/exMeanr/rUSgm.Rdata")
-    save(rESgm, file = "/home/triffe/git/DISS/Data/results/exMeanr/rESgm.Rdata")
+    save(rUSlm, file = "Data/results/exMeanr/rUSlm.Rdata")
+    save(rESlm, file = "Data/results/exMeanr/rESlm.Rdata")
+    save(rUSgm, file = "Data/results/exMeanr/rUSgm.Rdata")
+    save(rESgm, file = "Data/results/exMeanr/rESgm.Rdata")
 
 }
 
@@ -423,7 +425,7 @@ EScomphm <- do.call(rbind, lapply(yearsES, function(yr, .esfr){
                 },.esfr = ESesfr)) 
 # 1)
 # plot difference between stable and initial eTFR:
-pdf("/home/triffe/git/DISS/latex/Figures/eTFRharmonic.pdf", height = 5, width = 5)
+pdf("latex/Figures/eTFRharmonic.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, UScomphm[,1] - UScomphm[,2], type = 'l', ylim = c(-.1, .1), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
@@ -454,7 +456,7 @@ y <- 0:110
 
 USFRus1975 <- USesfr[USesfr[,1] == 1975,]
 ESFRus1975 <- ESesfr[ESesfr[,1] == 1975,]
-pdf("/home/triffe/git/DISS/latex/Figures/eSFRharmonic.pdf", height = 5, width = 5)
+pdf("latex/Figures/eSFRharmonic.pdf", height = 5, width = 5)
 par(mai = c(.3, .3, .3, .1), xaxs = "i", yaxs = "i", mfrow = c(2,2))
 plot(y, USFRus1975[,"ESFRstm"], type = 'l', ylim = c(0, .1), xlim = c(0,111), axes = FALSE,
         col = gray(.2), lwd = 1.5, xlab = "", ylab = "", main = "US, 1975",
@@ -529,7 +531,7 @@ dev.off()
 
 
 
-pdf("/home/triffe/git/DISS/latex/Figures/exhmESFRdiffcoef.pdf", height = 5, width = 5)
+pdf("latex/Figures/exhmESFRdiffcoef.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, UScomphm[,"mdiffcoef"], type = 'l', ylim = c(0, .05), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 1.5, xlab = "", ylab = "",

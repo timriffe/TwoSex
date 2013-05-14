@@ -1,14 +1,16 @@
+# France could have been included but was not for lack of time and because fewer years were available
+# these data have not ben fully explored
 
 # Author: triffe
 ###############################################################################
-
-path <- "/home/triffe/git/Dissertation/DISSERTATION/DATA/FRA/BIRTHS/Zipped"
+setwd("/home/triffe/git/DISS/")
+path <- "DATA/FRA/BIRTHS/Zipped"
 zipped <- list.files(path)
 for (f in 1:length(zipped)){
-    unzip(file.path(path,zipped[f]), exdir = "/home/triffe/git/Dissertation/DISSERTATION/DATA/FRA/BIRTHS/UNZIPPED")
+    unzip(file.path(path,zipped[f]), exdir = "DATA/FRA/BIRTHS/UNZIPPED")
 }
 
-path <- "/home/triffe/git/Dissertation/DISSERTATION/DATA/FRA/BIRTHS"
+path <- "DATA/FRA/BIRTHS"
 
 file.names <- paste0("NAIS",1998:2009,".dbf")
 
@@ -25,7 +27,7 @@ for (i in 1:length(file.names)){
 #with(DAT, table(AGEXACTP,AGEXACTM))
 #image(x=17:46+.5,y=17:46+.5,Bxy,xlim=c(17,47),ylim=c(17,48))
 #sort(unique(DAT$AGEMERE))
-path.rm <- "/home/triffe/git/Dissertation/DISSERTATION/DATA/FRA/BIRTHS/UNZIPPED"
+path.rm <- "DATA/FRA/BIRTHS/UNZIPPED"
 all.files <- list.files(path.rm)
 files.rm <- all.files[!all.files == "varlist_naissances.dbf"]
 sapply(files.rm, function(x){

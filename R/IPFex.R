@@ -1,26 +1,27 @@
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
 # Bxy totals  (not used()
-BxUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-BxES  <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+BxUS  <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+BxES  <- local(get(load("Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
 # repeated below for better SRB assumptions
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfES) <- yearsES
 names(BxymfUS) <- yearsUS
 # exposures, as such, straight from HMD, all ages 0-110, long form
-ExUS  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS  <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES  <- local(get(load("Data/Exposures/ESexp.Rdata")))
 # get Lx estimates for R0, r
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
 # make sum to 1
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
@@ -190,14 +191,14 @@ rESipfhm <- do.call(rbind, lapply(as.character(yearsES), function(yr, .Bxymf, .E
 rownames(rUSipfhm) <- yearsUS
 rownames(rESipfhm) <- yearsES
 
-#save(rUSipfhm, file = "/home/triffe/git/DISS/Data/results/exIPFr/rUSipfhm.Rdata")
-#save(rESipfhm, file = "/home/triffe/git/DISS/Data/results/exIPFr/rESipfhm.Rdata")
+#save(rUSipfhm, file = "Data/results/exIPFr/rUSipfhm.Rdata")
+#save(rESipfhm, file = "Data/results/exIPFr/rESipfhm.Rdata")
 
 #plot((rUSipfhm[,1] - rUS[,1]) / ((rUSipfhm[,1] + rUS[,1])/2),type = 'l')
 #plot(rUSipfhm[,1])
 #lines(rUS[,1])
 # this will take a minute:
-# source("/home/triffe/git/DISS/R/ExLotka2SexLinear.R") # upper and lower bounds are dominance weighted 0 and 1,
+# source("R/ExLotka2SexLinear.R") # upper and lower bounds are dominance weighted 0 and 1,
 # which are identical to the single-sex r estimates.
 # produce the dominance weighted r estimates for comparison.
 # plot(rESipfhm[,1] / rES[,1], ylim = c(.8,1.3))
@@ -207,7 +208,7 @@ rownames(rESipfhm) <- yearsES
 
 make.fig <- FALSE
 if (make.fig){
-pdf("/home/triffe/git/DISS/latex/Figures/exIPFr.pdf", height = 5, width = 5)
+pdf("latex/Figures/exIPFr.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, rUSipfhm[, 1], type = 'n', ylim = c(-.016,.01),xlim = c(1968,2010), axes = FALSE,
         xlab = "", ylab = "",
@@ -338,7 +339,7 @@ EScomp <- do.call(rbind, lapply(yearsES, function(yr, .esfr){
                 },.esfr = rESesfr))  
 
 # plot differences in TFR:
-pdf("/home/triffe/git/DISS/latex/Figures/exIPFTFRdiff.pdf",height=5, width=5)
+pdf("latex/Figures/exIPFTFRdiff.pdf",height=5, width=5)
 par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, UScomp[,1] - UScomp[,3], type = 'l', ylim = c(-.3, .5), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
@@ -381,7 +382,7 @@ dev.off()
 USFRus1975 <- rUSesfr[rUSesfr[,1]==1975, ]
 ESFRus1975 <- rESesfr[rESesfr[,1]==1975, ]
 y <- 0:110
-pdf("/home/triffe/git/DISS/latex/Figures/eSFRIPF.pdf", height = 5, width = 5)
+pdf("latex/Figures/eSFRIPF.pdf", height = 5, width = 5)
 par(mai = c(.3, .3, .3, .1), xaxs = "i", yaxs = "i", mfrow = c(2,2))
 plot(y, USFRus1975[,"Mst"], type = 'l', ylim = c(0, .1), xlim = c(0,111), axes = FALSE,
         col = gray(.2), lwd = 1.5, xlab = "", ylab = "", main = "US, 1975",
@@ -454,7 +455,7 @@ dev.off()
 
 # difference coefficient: shape difference:
 
-pdf("/home/triffe/git/DISS/latex/Figures/eSFRIPFdiffcoef.pdf", height = 5, width = 5)
+pdf("latex/Figures/eSFRIPFdiffcoef.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, UScomp[,"mdiffcoef"], type = 'l', ylim = c(0, .006), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 1.5, xlab = "", ylab = "",

@@ -1,4 +1,5 @@
-
+setwd("/home/triffe/git/DISS/")
+# not used officially
 # Author: triffe
 ###############################################################################
 # check against HFD sums:
@@ -29,18 +30,18 @@ lines(1969:2010, my.years, col = "red", lty = 2)
 # Try Adrien's decomposition of mean age? for males and females? 2d?
 # it had a 'quantum' component I think. Maybe that's worth meting out
 # load in Bxy
-B                   <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy10_65.Rdata")))
+B                   <- local(get(load("Data/USbirths/USBxy10_65.Rdata")))
 
 #Bcube               <- abind::abind(B, along = 3)
 #array_names         <- dimnames(Bcube)
 #names(array_names)  <- c("Males", "Females", "Year")
 #dimnames(Bcube)     <- array_names
-E                   <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
+E                   <- local(get(load("Data/Exposures/USexp.Rdata")))
 
 # some helper functions 
 dimnames(B[[1]]) # Males in rows and Females in columns
 # loads wmean() et al for MAC
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+source("R/MeanFunctions.R")
 
 Fxm     <- Fxf  <- list()
 ages    <- 10:65

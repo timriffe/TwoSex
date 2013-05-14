@@ -1,23 +1,24 @@
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 # BxUS is a list of 56x56 matrices, ages 10-65, males in rows, females in columns
 # (1969 - 2010)
 # BxES is 0:110, years 1975:2009
-BxUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-BxES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+BxUS <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+BxES <- local(get(load("Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
-#BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf10_65.Rdata")))
-#BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf10_65.Rdata")))
+#BxymfES <- local(get(load("Data/ESbirths/ESBxymf10_65.Rdata")))
+#BxymfUS <- local(get(load("Data/USbirths/USBxymf10_65.Rdata")))
 
 # exposures, as such, straiht from HMD, all ages 0-110, long form
-ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("Data/Exposures/ESexp.Rdata")))
 # get Lx estimates for R0, r
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
 
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
@@ -50,7 +51,7 @@ levs        <- c(100, seq(500, 3000, by = 500))     # for contour plot
 
 ExBxy[ExBxy == 0]       <- NA
 expected[expected == 0] <- NA
-pdf("/home/triffe/git/DISS/latex/Figures/ObservedvsExpectedBexey.pdf", 
+pdf("latex/Figures/ObservedvsExpectedBexey.pdf", 
         height = 4, width = 6.5)
 # dev.new(height = 4, width = 6.5)
 par(mfrow=c(1,2), mar = c(3,1,2,3))
@@ -216,15 +217,15 @@ TotalVarES <- unlist(lapply(ExBxyAallES, function(.ExBxy){
 #save(thetaES, file = "thetaES.Rdata")
 
 # BE SURE TO GET NAMES RIGHT
-ESExBxytheta <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/ESExBxytheta.Rdata")))
-USExBxytheta <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/USExBxytheta.Rdata")))
-ESExBxytheta2 <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/ESExBxytheta2.Rdata")))
-USExBxytheta2 <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/USExBxytheta2.Rdata")))
+ESExBxytheta <- local(get(load("Data/rDecompResults/ESExBxytheta.Rdata")))
+USExBxytheta <- local(get(load("Data/rDecompResults/USExBxytheta.Rdata")))
+ESExBxytheta2 <- local(get(load("Data/rDecompResults/ESExBxytheta2.Rdata")))
+USExBxytheta2 <- local(get(load("Data/rDecompResults/USExBxytheta2.Rdata")))
 
 
 # confidence bands are so narrow, we should only plot bands and not center lines..
 # plot it
-pdf("/home/triffe/git/DISS/latex/Figures/TotalVariationObsvsExpectedexUSES.pdf", height = 4.5, width = 4.5)
+pdf("latex/Figures/TotalVariationObsvsExpectedexUSES.pdf", height = 4.5, width = 4.5)
 par(mai = c(.5,.4,.4,.2), xaxs = "i", yaxs = "i")
 plot(yearsUS, TotalVarUS, type = 'n', ylim = c(.04,.07), xlim = c(1968,2010), 
         axes = FALSE, xlab = "", ylab = "",
@@ -263,10 +264,10 @@ ks.sig.ES <- unlist(lapply(ExBxyAallES, function(.ExBxy){
 ###############################################################
 # design bigger monte carlo to be run on Galton today:
 # 1) make dx vary stochastically too.
-mxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata"))) 
-mxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata"))) 
-mxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata"))) 
-mxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata"))) 
+mxmUS <- local(get(load("Data/HMD_mux/muxmUS.Rdata"))) 
+mxfUS <- local(get(load("Data/HMD_mux/muxfUS.Rdata"))) 
+mxmES <- local(get(load("Data/HMD_mux/muxmES.Rdata"))) 
+mxfES <- local(get(load("Data/HMD_mux/muxfES.Rdata"))) 
 # this we can do with just Ex and mx
 
 # currently running on Galton with 5 cores

@@ -1,26 +1,23 @@
+setwd("/home/triffe/git/DISS/")
 
-
-# from Mitra (1976)
-# Mitra used 1966 US data to compare with Das Gupta. Can't reproduce his results
-# but I can apply the method.
 # ----------------------------------------------
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 yearsES <- 1975:2009
 yearsUS <- 1969:2009
 save(BxymfES,file="/home/Desktop/BxymfES.Rdata",compress = TRUE)
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
 names(BxymfES) <- yearsES
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 
 # exposures, as such, straiht from HMD, all ages 0-110, long form
-ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("Data/Exposures/ESexp.Rdata")))
 # get Lx estimates for R0, r
-LxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
-LxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
-LxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata"))) / 1e5
-LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) / 1e5
+LxmUS <- local(get(load("Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
+LxfUS <- local(get(load("Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
+LxmES <- local(get(load("Data/HMD_Lx/LxmES.Rdata"))) / 1e5
+LxfES <- local(get(load("Data/HMD_Lx/LxfES.Rdata"))) / 1e5
 
 
 yearsES <- 1975:2009
@@ -63,7 +60,7 @@ rownames(rmfES) <- yearsES
 
 # 1) the rates as such
 # plot it:
-pdf("/home/triffe/git/DISS/latex/Figures/rmf.pdf", height = 5, width = 5)
+pdf("latex/Figures/rmf.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, rmfUS[, 1], type = 'l', ylim = c(-.02, .011), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
@@ -85,7 +82,7 @@ dev.off()
 
 # 2) the difference in rates; the gap:
 
-pdf("/home/triffe/git/DISS/latex/Figures/rmfGap.pdf", height = 5, width = 5)
+pdf("latex/Figures/rmfGap.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, rmfUS[, 1] - rmfUS[, 2] , type = 'l', ylim = c(-.001, .005), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
@@ -123,10 +120,10 @@ yearsES[apply(rmfES, 1, function(x){sign(x[1]) != sign(x[2])})]
 # years to double?
 
 
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) / 1e5
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) / 1e5
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) / 1e5
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) / 1e5
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) / 1e5
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) / 1e5
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) / 1e5
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) / 1e5
 
 pxmUS <- apply(dxmUS, 2, dx2pxLes)
 pxfUS <- apply(dxfUS, 2, dx2pxLes)
@@ -176,7 +173,7 @@ TicksMaj <- 10 ^ (2:5)
 TicksMagLab <- c("100","1000","10000","10000")
 TickMin     <- log(c(t(outer(TicksMaj, 2:9))))
 
-pdf("/home/triffe/git/DISS/latex/Figures/rSRdoubling.pdf", height = 5, width = 5)
+pdf("latex/Figures/rSRdoubling.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, log(doubleUS), type = 'l', ylim = log(c(100,150000)), xlim = c(1968, 2010),
         axes = FALSE, xlab = "", ylab = "", col = gray(.2), lwd = 2, 

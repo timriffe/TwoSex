@@ -1,37 +1,38 @@
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
 # Bxy totals  (not used()
-BxUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-BxES  <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+BxUS  <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+BxES  <- local(get(load("Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
 # repeated below for better SRB assumptions
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfES) <- yearsES
 names(BxymfUS) <- yearsUS
 # exposures, as such, straight from HMD, all ages 0-110, long form
-ExUS  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS  <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES  <- local(get(load("Data/Exposures/ESexp.Rdata")))
 # get Lx estimates for R0, r
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
 # make sum to 1
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
 dxmES <- dxmES %col% colSums(dxmES)
 dxfES <- dxfES %col% colSums(dxfES)
 
-mxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata"))) 
-mxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata"))) 
-mxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata"))) 
-mxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata"))) 
+mxmUS <- local(get(load("Data/HMD_mux/muxmUS.Rdata"))) 
+mxfUS <- local(get(load("Data/HMD_mux/muxfUS.Rdata"))) 
+mxmES <- local(get(load("Data/HMD_mux/muxmES.Rdata"))) 
+mxfES <- local(get(load("Data/HMD_mux/muxfES.Rdata"))) 
 
 
 # update function to determine sex gap
@@ -192,15 +193,15 @@ exOneSexCoaleRdec2 <- compiler::cmpfun(function(rates, .a = .5:110.5, maxit = 2e
 #				exOneSexCoaleRdec1 = exOneSexCoaleRdec1))
 #stopCluster(cl)
 
-USdecompR <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/USdecompExR.Rdata")))
-ESdecompR <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/ESdecompExR.Rdata")))
+USdecompR <- local(get(load("Data/rDecompResults/USdecompExR.Rdata")))
+ESdecompR <- local(get(load("Data/rDecompResults/ESdecompExR.Rdata")))
 # determine axes compatible with output from both countries
 Neg <- USdecompR
 Neg[Neg > 0] <- 0
 Pos <- USdecompR
 Pos[Pos < 0] <- 0
 
-pdf("/home/triffe/git/DISS/latex/Figures/DecomprExUS.pdf", height = 5, width = 5)
+pdf("latex/Figures/DecomprExUS.pdf", height = 5, width = 5)
 par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n", xlab = "", ylab = "", xlim = c(-1, 42), ylim = c(-.004,.007), 
         axes = FALSE)
@@ -224,7 +225,7 @@ Neg[Neg > 0] <- 0
 Pos <- ESdecompR
 Pos[Pos < 0] <- 0
 
-pdf("/home/triffe/git/DISS/latex/Figures/DecomprExES.pdf", height = 5, width = 5)
+pdf("latex/Figures/DecomprExES.pdf", height = 5, width = 5)
 par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n", xlab = "", ylab = "", xlim = c(-7, 36), ylim = c(-.004,.007), 
         axes = FALSE)
@@ -242,8 +243,8 @@ text(-8,.0075,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
 dev.off()
 
 plot(rowSums(abs(ESdecompR)))
-USdecompRL <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/USdecompmxR.Rdata")))
-ESdecompRL <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/ESdecompmxR.Rdata")))
+USdecompRL <- local(get(load("Data/rDecompResults/USdecompmxR.Rdata")))
+ESdecompRL <- local(get(load("Data/rDecompResults/ESdecompmxR.Rdata")))
 
 plot(yearsUS, rowSums(abs(USdecompRL)), type = 'l', col = "blue", ylim = c(0,.01))
 lines(yearsES, rowSums(abs(ESdecompRL)), col = "red")
@@ -314,8 +315,8 @@ library(DecompHoriuchi)
 # computed on UCD demog Coale old server. results emailed back to laptop.
 
 
-USdecompR <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/USdecompExR2.Rdata")))
-ESdecompR <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/ESdecompExR2.Rdata")))
+USdecompR <- local(get(load("Data/rDecompResults/USdecompExR2.Rdata")))
+ESdecompR <- local(get(load("Data/rDecompResults/ESdecompExR2.Rdata")))
 
 
 head(USdecompR)
@@ -325,7 +326,7 @@ Neg[Neg > 0] <- 0
 Pos <- USdecompR
 Pos[Pos < 0] <- 0
 
-pdf("/home/triffe/git/DISS/latex/Figures/DecomprExUS2.pdf", height = 5, width = 5)
+pdf("latex/Figures/DecomprExUS2.pdf", height = 5, width = 5)
 par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n", xlab = "", ylab = "", xlim = c(-1, 42), ylim = c(-.004,.007), 
         axes = FALSE)
@@ -353,7 +354,7 @@ Neg[Neg > 0] <- 0
 Pos <- ESdecompR
 Pos[Pos < 0] <- 0
 
-pdf("/home/triffe/git/DISS/latex/Figures/DecomprExES2.pdf", height = 5, width = 5)
+pdf("latex/Figures/DecomprExES2.pdf", height = 5, width = 5)
 par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n", xlab = "", ylab = "", xlim = c(-7, 36), ylim = c(-.004,.007), 
         axes = FALSE)
@@ -419,7 +420,7 @@ Neg[Neg > 0] <- 0
 Pos <- All
 Pos[Pos < 0] <- 0
 
-pdf("/home/triffe/git/DISS/latex/Figures/DecomprExES1990.pdf", height = 5, width = 5)
+pdf("latex/Figures/DecomprExES1990.pdf", height = 5, width = 5)
 par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n", xlab = "", ylab = "", xlim = c(-1, 111), ylim = c(-.0005,.0004), 
         axes = FALSE)

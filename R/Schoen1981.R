@@ -1,30 +1,31 @@
-# Schoen cites 1977 rectangular model. Will try that later. First get basic Schoen model up and running
+# Schoen cites 1977 rectangular model (not reproduced) First get basic mean model up and running
+# actually this script name is now a misnomer, sorry, legacy naming
+setwd("/home/triffe/git/DISS/")
 
-
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
 # Bxy totals  (not used()
-BxUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-BxES  <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+BxUS  <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+BxES  <- local(get(load("Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
 # repeated below for better SRB assumptions
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfES) <- yearsES
 names(BxymfUS) <- yearsUS
 # exposures, as such, straight from HMD, all ages 0-110, long form
-ExUS  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS  <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES  <- local(get(load("Data/Exposures/ESexp.Rdata")))
 #------------------------------------------------------------
 # compare with Lotka:
-LxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
-LxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
-LxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata"))) / 1e5
-LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) / 1e5
+LxmUS <- local(get(load("Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
+LxfUS <- local(get(load("Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
+LxmES <- local(get(load("Data/HMD_Lx/LxmES.Rdata"))) / 1e5
+LxfES <- local(get(load("Data/HMD_Lx/LxfES.Rdata"))) / 1e5
 
 
 
@@ -329,19 +330,19 @@ rUSMin <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bxy, .Lxm, .
                 }, .Bxy = BxymfUS, .Lxm = LxmUS, .Lxf = LxfUS, .Ex = ExUS, .M = pmin))
 rownames(rUSMin) <- yearsUS
 #
-#save(rUSHM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rHMUS.Rdata")
-#save(rESHM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rHMES.Rdata")
-#save(rUSGM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGMUS.Rdata")
-#save(rESGM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rGMES.Rdata")
-#save(rUSLM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rLMUS.Rdata")
-#save(rESLM, file = "/home/triffe/git/DISS/Data/results/agerSRB/rLMES.Rdata")
-#save(rUSMin, file = "/home/triffe/git/DISS/Data/results/agerSRB/rMinUS.Rdata")
-#save(rESMin, file = "/home/triffe/git/DISS/Data/results/agerSRB/rMinES.Rdata")
+#save(rUSHM, file = "Data/results/agerSRB/rHMUS.Rdata")
+#save(rESHM, file = "Data/results/agerSRB/rHMES.Rdata")
+#save(rUSGM, file = "Data/results/agerSRB/rGMUS.Rdata")
+#save(rESGM, file = "Data/results/agerSRB/rGMES.Rdata")
+#save(rUSLM, file = "Data/results/agerSRB/rLMUS.Rdata")
+#save(rESLM, file = "Data/results/agerSRB/rLMES.Rdata")
+#save(rUSMin, file = "Data/results/agerSRB/rMinUS.Rdata")
+#save(rESMin, file = "Data/results/agerSRB/rMinES.Rdata")
 
 
 
 # plot Harmonic mean and min results
-pdf("/home/triffe/git/DISS/latex/Figures/HMager.pdf", height = 5, width = 5)
+pdf("latex/Figures/HMager.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, rUSHM[,"r.f"], type = 'n', ylim = c(-.02, .015), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",

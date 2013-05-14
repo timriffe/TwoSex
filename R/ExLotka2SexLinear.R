@@ -1,27 +1,28 @@
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 # BxES is 0:110, years 1975:2009
-BxUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-BxES  <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
-PxUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")))
-PxES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
+BxUS  <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+BxES  <- local(get(load("Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+PxUS <- local(get(load("Data/HMD_Px/PxUS.Rdata")))
+PxES <- local(get(load("Data/HMD_Px/PxES.Rdata")))
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfES) <- yearsES
 names(BxymfUS) <- yearsUS
 
 # exposures, as such, straiht from HMD, all ages 0-110, long form
-ExUS  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS  <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES  <- local(get(load("Data/Exposures/ESexp.Rdata")))
 # get Lx estimates for R0, r
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
 
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
@@ -221,8 +222,8 @@ rownames(ES) <- yearsES
 
 #rSigmaUS <- US
 #rSigmaES <- ES
-#save(rSigmaUS, file = "/home/triffe/git/DISS/Data/results/exGoodmanr/rSigmaUS.Rdata")
-#save(rSigmaES, file = "/home/triffe/git/DISS/Data/results/exGoodmanr/rSigmaES.Rdata")
+#save(rSigmaUS, file = "Data/results/exGoodmanr/rSigmaUS.Rdata")
+#save(rSigmaES, file = "Data/results/exGoodmanr/rSigmaES.Rdata")
 
 # manual block on table creation
 #save.tables <- FALSE
@@ -237,18 +238,18 @@ rownames(ES) <- yearsES
 #library(xtable)
 #print(xtable(ES, digits = c(0,4,4,4,2,2,2,3,3,3), align = c("c","c","c","c","c","c","c","c","c","c")),
 #        sanitize.colnames.function = identity, 
-#        file = "/home/triffe/git/DISS/latex/xtables/ex2sexlinearES.tex",floating=FALSE)
+#        file = "latex/xtables/ex2sexlinearES.tex",floating=FALSE)
 #
 #print(xtable(US, digits = c(0,4,4,4,2,2,2,3,3,3), align = c("c","c","c","c","c","c","c","c","c","c")),
 #        sanitize.colnames.function = identity, 
-#        file = "/home/triffe/git/DISS/latex/xtables/ex2sexlinearUS.tex",floating=FALSE)
+#        file = "latex/xtables/ex2sexlinearUS.tex",floating=FALSE)
 #}
 #
 
 # manual block on figure creation
 make.fig <- FALSE
 if (male.fig){
-pdf("/home/triffe/git/DISS/latex/Figures/exLotka2sexlinear.pdf", height = 5, width = 5)
+pdf("latex/Figures/exLotka2sexlinear.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, US[, 2], type = 'n', ylim = c(-.016,.01),xlim = c(1968,2010), axes = FALSE,
         xlab = "", ylab = "",
@@ -459,10 +460,10 @@ thetaES <- unlist(lapply(StableStructES.5,"[[",1))
 #lines(yearsUS, DiffCoefryUSm[,1], col = "blue")
 #lines(yearsUS, DiffCoefryUSf[,1], col = "red")
 
-mxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata"))) 
-mxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata"))) 
-mxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata"))) 
-mxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata"))) 
+mxmUS <- local(get(load("Data/HMD_mux/muxmUS.Rdata"))) 
+mxfUS <- local(get(load("Data/HMD_mux/muxfUS.Rdata"))) 
+mxmES <- local(get(load("Data/HMD_mux/muxmES.Rdata"))) 
+mxfES <- local(get(load("Data/HMD_mux/muxfES.Rdata"))) 
 
 library(parallel)
 
@@ -480,7 +481,7 @@ names(EScy) <- yearsES
 names(ESin) <- yearsES
 xlabs <- c("1.0%","0.8%","0.6%","0.4%","0.2%","0%","0.2%","0.4%","0.5%","0.6%","0.8%","1.0%")
 
-pdf("/home/triffe/git/DISS/latex/Figures/exLotka2sexlinear1975USpyr.pdf", height = 5, width = 5)
+pdf("latex/Figures/exLotka2sexlinear1975USpyr.pdf", height = 5, width = 5)
 par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
         panel.first = list(
@@ -499,7 +500,7 @@ text(c(-.63,-.55), c(50, 91), c(expression(Stable~sigma==0.5),"Initial"), col = 
 segments(-.4, 88, -0.2485961, 80.14833)
 dev.off()
 
-pdf("/home/triffe/git/DISS/latex/Figures/exLotka2sexlinear2009USpyr.pdf", height = 5, width = 5)
+pdf("latex/Figures/exLotka2sexlinear2009USpyr.pdf", height = 5, width = 5)
 par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
         panel.first = list(
@@ -519,7 +520,7 @@ segments(-.4, 88,  -0.3022095, 83)
 dev.off()
 # Spain 1975 and 2009:
 
-pdf("/home/triffe/git/DISS/latex/Figures/exLotka2sexlinear1975ESpyr.pdf", height = 5, width = 5)
+pdf("latex/Figures/exLotka2sexlinear1975ESpyr.pdf", height = 5, width = 5)
 par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
         panel.first = list(
@@ -538,7 +539,7 @@ text(c(-.66,.55), c(50, 91), c(expression(Stable~sigma==0.5),"Initial"), col = c
 segments(0.6293243,  88.70528,0.5153957, 79.00740)
 dev.off()
 
-pdf("/home/triffe/git/DISS/latex/Figures/exLotka2sexlinear2009ESpyr.pdf", height = 5, width = 5)
+pdf("latex/Figures/exLotka2sexlinear2009ESpyr.pdf", height = 5, width = 5)
 par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
         panel.first = list(
@@ -582,7 +583,7 @@ rownames(r.5US) <- yearsUS
 rownames(r.5ES) <- yearsES
 
 yr <- "1975"
-pdf("/home/triffe/git/DISS/latex/Figures/exLotka2sexlinearPyrDiffr.pdf", height = 5, width = 5)
+pdf("latex/Figures/exLotka2sexlinearPyrDiffr.pdf", height = 5, width = 5)
 par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
         panel.first = list(
@@ -609,10 +610,10 @@ text(c(-0.51, -0.66, -0.66),
 dev.off()
 
 # what about under different mortalit assumptions?
-mxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata"))) 
-mxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata"))) 
+mxmUS <- local(get(load("Data/HMD_mux/muxmUS.Rdata"))) 
+mxfUS <- local(get(load("Data/HMD_mux/muxfUS.Rdata"))) 
 yr <- "1975"
-pdf("/home/triffe/git/DISS/latex/Figures/exLotka2sexlinearPyrDiffdx.pdf", height = 5, width = 5)
+pdf("latex/Figures/exLotka2sexlinearPyrDiffdx.pdf", height = 5, width = 5)
 par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
         panel.first = list(

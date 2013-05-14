@@ -1,24 +1,25 @@
+setwd("/home/triffe/git/DISS/")
 # ----------------------------------------------
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 # BxUS is a list of 56x56 matrices, ages 10-65, males in rows, females in columns
 # (1969 - 2010)
 # BxES is 0:110, years 1975:2009
-BxUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-BxES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+BxUS <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+BxES <- local(get(load("Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 
 # exposures, as such, straiht from HMD, all ages 0-110, long form
-ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("Data/Exposures/ESexp.Rdata")))
 # get Lx estimates for R0, r
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
 
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
@@ -34,7 +35,7 @@ Mex75US <- rowSums(ExpectedDx(Px = with(ExUS, Male[Year == 1975]), dx = dxmUS[,"
 Fex75US <- rowSums(ExpectedDx(Px = with(ExUS, Female[Year == 1975]), dx = dxfUS[,"1975"]))
 Mex09US <- rowSums(ExpectedDx(Px = with(ExUS, Male[Year == 2009]), dx = dxmUS[,"2009"]))
 Fex09US <- rowSums(ExpectedDx(Px = with(ExUS, Female[Year == 2009]), dx = dxfUS[,"2009"]))
-pdf("/home/triffe/git/DISS/latex/Figures/exPyramidUS.pdf", height = 5, width = 5)
+pdf("latex/Figures/exPyramidUS.pdf", height = 5, width = 5)
 par(mai = c(.6,.6,.3,.3), xaxs = "i", yaxs = "i")
 plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
         panel.first = list(
@@ -61,7 +62,7 @@ Fex75ES <- rowSums(ExpectedDx(Px = with(ExES, Female[Year == 1975]), dx = dxfES[
 Mex09ES <- rowSums(ExpectedDx(Px = with(ExES, Male[Year == 2009]), dx = dxmES[,"2009"]))
 Fex09ES <- rowSums(ExpectedDx(Px = with(ExES, Female[Year == 2009]), dx = dxfES[,"2009"]))
 
-pdf("/home/triffe/git/DISS/latex/Figures/exPyramidES.pdf", height = 5, width = 5)
+pdf("latex/Figures/exPyramidES.pdf", height = 5, width = 5)
 par(mai = c(.5,.3,.3,.3))
 plot(NULL, type = "n",axes = FALSE, xlab = "",ylab = "", xlim = c(-1, 1), ylim = c(0,111),
         panel.first = list(
@@ -99,7 +100,7 @@ Fxex09USf <- Bex09USf / Fex09US
 Fxex09ESm <- Bex09ESm / Mex09ES
 Fxex09ESf <- Bex09ESf / Fex09ES
 
-pdf("/home/triffe/git/DISS/latex/Figures/eSFR2009.pdf", height = 5, width = 5)
+pdf("latex/Figures/eSFR2009.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(x, Fxex09USm, type = 'l', ylim = c(0, .07), xlim = c(0,111), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
@@ -142,7 +143,7 @@ Fxex09USf <- Bex09USf / Fex09USlim
 Fxex09ESm <- Bex09ESm / Mex09ESlim
 Fxex09ESf <- Bex09ESf / Fex09ESlim
 
-pdf("/home/triffe/git/DISS/latex/Figures/eSFR2009limits.pdf", height = 5, width = 5)
+pdf("latex/Figures/eSFR2009limits.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(x, Fxex09USm, type = 'l', ylim = c(0, .09), xlim = c(0,111), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
@@ -200,7 +201,7 @@ levs <- seq(0,.12,by = .01)
 shift <- 50
 
 # for USA:
-pdf("/home/triffe/git/DISS/latex/Figures/eSFRsurfacesUS.pdf", height = 5, width = 5)
+pdf("latex/Figures/eSFRsurfacesUS.pdf", height = 5, width = 5)
 par(mai = c(.3,.3,.3,1))
 # males
 image(x = yearsUS + .5, y = 0:110 + .5, t(exSFRUSm), 
@@ -243,7 +244,7 @@ text(2071, .y2, seq(0, .1, length.out = 11), pos = 4, xpd = TRUE, cex = .7)
 dev.off()
 
 # for Spain:
-pdf("/home/triffe/git/DISS/latex/Figures/eSFRsurfacesES.pdf", height = 5, width = 5)
+pdf("latex/Figures/eSFRsurfacesES.pdf", height = 5, width = 5)
 par(mai = c(.3,.3,.3,1))
 # males
 image(x = yearsES + .5, y = 0:110 + .5, t(exSFRESm), 
@@ -309,7 +310,7 @@ exTFRfUS <- colSums(exSFRUSf, na.rm = TRUE)
 exTFRmES <- colSums(exSFRESm, na.rm = TRUE)
 exTFRfES <- colSums(exSFRESf, na.rm = TRUE)
 
-pdf("/home/triffe/git/DISS/latex/Figures/exTFR.pdf", height = 5, width = 5)
+pdf("latex/Figures/exTFR.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, exTFRmUS, type = 'l', ylim = c(1.0, 3), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",

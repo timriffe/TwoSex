@@ -1,26 +1,27 @@
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
 # Bxy totals  (not used()
-BxUS  <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
-BxES  <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+BxUS  <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+BxES  <- local(get(load("Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
 # repeated below for better SRB assumptions
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfES) <- yearsES
 names(BxymfUS) <- yearsUS
 # exposures, as such, straight from HMD, all ages 0-110, long form
-ExUS  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS  <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES  <- local(get(load("Data/Exposures/ESexp.Rdata")))
 # get Lx estimates for R0, r
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
 # make sum to 1
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
@@ -29,10 +30,10 @@ dxfES <- dxfES %col% colSums(dxfES)
 
 #------------------------------------------------------------
 # compare with Lotka:
-LxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
-LxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
-LxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata"))) / 1e5
-LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata"))) / 1e5
+LxmUS <- local(get(load("Data/HMD_Lx/LxmUS.Rdata"))) / 1e5
+LxfUS <- local(get(load("Data/HMD_Lx/LxfUS.Rdata"))) / 1e5
+LxmES <- local(get(load("Data/HMD_Lx/LxmES.Rdata"))) / 1e5
+LxfES <- local(get(load("Data/HMD_Lx/LxfES.Rdata"))) / 1e5
 #------------------------------------------------------------
 
 # Function Definitions:
@@ -142,10 +143,10 @@ rfES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bx, .Ex, .dx, 
                     c(r = r, Ty = exOneSexTy(r, Fex = .fy, dx = Mna0(.dx[, yr])))
                 }, .Bx = BxymfES, .Ex = ExES, .dx = dxfES,Bxymf = "Bxyf", MF = "Female", rc = colSums))
 
-#save(rmUS, file = "/home/triffe/git/DISS/Data/results/exSingleSex/rmUS.Rdata")
-#save(rfUS, file = "/home/triffe/git/DISS/Data/results/exSingleSex/rfUS.Rdata")
-#save(rmES, file = "/home/triffe/git/DISS/Data/results/exSingleSex/rmES.Rdata")
-#save(rfES, file = "/home/triffe/git/DISS/Data/results/exSingleSex/rfES.Rdata")
+#save(rmUS, file = "Data/results/exSingleSex/rmUS.Rdata")
+#save(rfUS, file = "Data/results/exSingleSex/rfUS.Rdata")
+#save(rmES, file = "Data/results/exSingleSex/rmES.Rdata")
+#save(rfES, file = "Data/results/exSingleSex/rfES.Rdata")
 
 
 #--------------------------------------------------------------
@@ -160,16 +161,16 @@ rownames(exRepESm) <- rownames(exRepESf) <- yearsES
 
 print(xtable(exRepUSm, digits = c(0,4,2,3), align = c("c","c","c","c")),
         sanitize.colnames.function = identity, 
-        file = "/home/triffe/git/DISS/latex/xtables/exRepUSm.tex",floating=FALSE)
+        file = "latex/xtables/exRepUSm.tex",floating=FALSE)
 print(xtable(exRepUSf, digits = c(0,4,2,3), align = c("c","c","c","c")),
         sanitize.colnames.function = identity, 
-        file = "/home/triffe/git/DISS/latex/xtables/exRepUSf.tex",floating=FALSE)
+        file = "latex/xtables/exRepUSf.tex",floating=FALSE)
 print(xtable(exRepESm, digits = c(0,4,2,3), align = c("c","c","c","c")),
         sanitize.colnames.function = identity, 
-        file = "/home/triffe/git/DISS/latex/xtables/exRepESm.tex",floating=FALSE)
+        file = "latex/xtables/exRepESm.tex",floating=FALSE)
 print(xtable(exRepESf, digits = c(0,4,2,3), align = c("c","c","c","c")),
         sanitize.colnames.function = identity, 
-        file = "/home/triffe/git/DISS/latex/xtables/exRepESf.tex",floating=FALSE)
+        file = "latex/xtables/exRepESf.tex",floating=FALSE)
 #--------------------------------------------------------------
 # calculate age-classified Lotka r:
 
@@ -215,7 +216,7 @@ rfLES <- unlist(lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Lx, Bxymf,
 
 # -----------------------------------------------------
 # Figure
-#pdf("/home/triffe/git/DISS/latex/Figures/exLotka1sex.pdf", height = 5, width = 5)
+#pdf("latex/Figures/exLotka1sex.pdf", height = 5, width = 5)
 #par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 #plot(yearsUS, rmUS[, 1], type = 'n', ylim = c(-.016,.01),xlim = c(1968,2010), axes = FALSE,
 #        xlab = "", ylab = "",
@@ -239,7 +240,7 @@ rfLES <- unlist(lapply(as.character(yearsES), function(yr, .Bx, .Ex, .Lx, Bxymf,
 #-----------------------------------------------
 # add normal Lotka r to series
 # it's pretty noisy, but will pass
-pdf("/home/triffe/git/DISS/latex/Figures/exLotka1sex2.pdf", height = 5, width = 5)
+pdf("latex/Figures/exLotka1sex2.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, rmUS[, 1], type = 'n', ylim = c(-.02,.011),xlim = c(1968,2010), axes = FALSE,
         xlab = "", ylab = "",
@@ -292,8 +293,8 @@ names(rfLUS) <- yearsUS
 names(rmLES) <- yearsES
 names(rfLES) <- yearsESexOneSexMin
 
-PxUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata")))
-PxES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxES.Rdata")))
+PxUS <- local(get(load("Data/HMD_Px/PxUS.Rdata")))
+PxES <- local(get(load("Data/HMD_Px/PxES.Rdata")))
 #-----------------------------
 yr <- "1980"
 DiffCoefryUSm <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .dx, .Lx, rmat, rL){  
@@ -388,10 +389,10 @@ DiffCoefryESf <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bx, .
                 }, .Bx = BxymfES, .Ex = ExES, .Px = PxES, .Lx = LxfES, .dx = dxfES, rmat = rfES, rL = rfLES))
 
 
-mxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata"))) 
-mxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata"))) 
-mxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata"))) 
-mxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata"))) 
+mxmUS <- local(get(load("Data/HMD_mux/muxmUS.Rdata"))) 
+mxfUS <- local(get(load("Data/HMD_mux/muxfUS.Rdata"))) 
+mxmES <- local(get(load("Data/HMD_mux/muxmES.Rdata"))) 
+mxfES <- local(get(load("Data/HMD_mux/muxfES.Rdata"))) 
 
 library(parallel)
 # SAVED:
@@ -446,7 +447,7 @@ library(parallel)
 #                    ratio   <- thetasL / thetas
 #                    c(ExQ = quantile(thetas, probs = c(.025,.975)), LQ = quantile(thetasL, probs = c(.025,.975)), ratio = quantile(ratio, probs = c(.025,.975)))
 #                }, .Bx = BxymfUS, .Ex = ExUS, .Px = PxUS, .mx = mxmUS, rL = rmLUS, rmat = rmUS, mc.cores = 2))
-#save(DiffCoefryUSthetam,file="/home/triffe/git/DISS/Data/rDecompResults/DiffCoefryUSthetam.Rdata")
+#save(DiffCoefryUSthetam,file="Data/rDecompResults/DiffCoefryUSthetam.Rdata")
 ## Females
 #DiffCoefryUSthetaf <- do.call(rbind,mclapply(as.character(yearsUS), function(yr, .Bx, .Ex, .Px, .mx, rmat, rL){  
 #                 
@@ -498,7 +499,7 @@ library(parallel)
 #                    c(ExQ = quantile(thetas, probs = c(.025,.975)), LQ = quantile(thetasL, probs = c(.025,.975)), ratio = quantile(ratio, probs = c(.025,.975)))
 #                    
 #                }, .Bx = BxymfUS, .Ex = ExUS, .Px = PxUS, .mx = mxfUS, rL = rfLUS, rmat = rfUS, mc.cores = 2))
-#save(DiffCoefryUSthetaf,file="/home/triffe/git/DISS/Data/rDecompResults/DiffCoefryUSthetaf.Rdata")
+#save(DiffCoefryUSthetaf,file="Data/rDecompResults/DiffCoefryUSthetaf.Rdata")
 ## Spain
 ## Males
 #DiffCoefryESthetam <- do.call(rbind,mclapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .mx, rmat, rL){  
@@ -551,7 +552,7 @@ library(parallel)
 #                            ratio = quantile(ratio, probs = c(.025,.975)))
 #                    
 #                }, .Bx = BxymfES, .Ex = ExES, .Px = PxES, .mx = mxmES, rL = rmLES, rmat = rmES, mc.cores = 2))
-#save(DiffCoefryESthetam,file="/home/triffe/git/DISS/Data/rDecompResults/DiffCoefryESthetam.Rdata")
+#save(DiffCoefryESthetam,file="Data/rDecompResults/DiffCoefryESthetam.Rdata")
 ## Females
 #DiffCoefryESthetaf <- do.call(rbind,mclapply(as.character(yearsES), function(yr, .Bx, .Ex, .Px, .mx, rmat, rL){  
 #                 
@@ -603,12 +604,12 @@ library(parallel)
 #                    c(ExQ = quantile(thetas, probs = c(.025,.975)), LQ = quantile(thetasL, probs = c(.025,.975)), ratio = quantile(ratio, probs = c(.025,.975)))
 #                    
 #                }, .Bx = BxymfES, .Ex = ExES, .Px = PxES, .mx = mxfES, rL = rfLES, rmat = rfES, mc.cores = 2))
-#save(DiffCoefryESthetaf,file="/home/triffe/git/DISS/Data/rDecompResults/DiffCoefryESthetaf.Rdata")
+#save(DiffCoefryESthetaf,file="Data/rDecompResults/DiffCoefryESthetaf.Rdata")
 
-DiffCoefryUSthetam <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/DiffCoefryUSthetam.Rdata")))
-DiffCoefryUSthetaf <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/DiffCoefryUSthetaf.Rdata")))
-DiffCoefryESthetam <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/DiffCoefryESthetam.Rdata")))
-DiffCoefryESthetaf <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/DiffCoefryESthetaf.Rdata")))
+DiffCoefryUSthetam <- local(get(load("Data/rDecompResults/DiffCoefryUSthetam.Rdata")))
+DiffCoefryUSthetaf <- local(get(load("Data/rDecompResults/DiffCoefryUSthetaf.Rdata")))
+DiffCoefryESthetam <- local(get(load("Data/rDecompResults/DiffCoefryESthetam.Rdata")))
+DiffCoefryESthetaf <- local(get(load("Data/rDecompResults/DiffCoefryESthetaf.Rdata")))
 
 #plot(NULL, type = "n", xlim = c(1968,2010) , ylim = c(0,.2))
 #lines(yearsUS, DiffCoefryUSm, col = gray(.2), lwd = 1, lty = 1)                
@@ -617,7 +618,7 @@ DiffCoefryESthetaf <- local(get(load("/home/triffe/git/DISS/Data/rDecompResults/
 #lines(yearsES, DiffCoefryESf, col = gray(.4), lwd = 1.2, lty = 4)
 
 # plot it!
-pdf("/home/triffe/git/DISS/latex/Figures/exPyramidPresentvsStableDivergence.pdf", height = 4.5, width = 4.5)
+pdf("latex/Figures/exPyramidPresentvsStableDivergence.pdf", height = 4.5, width = 4.5)
 par(mai = c(.5,.5,.5,.3), xaxs = "i", yaxs = "i")
 plot(yearsUS, DiffCoefryUSm[,1], type = 'n', ylim = c(0,.3), xlim = c(1968, 2010), 
         axes = FALSE, xlab = "", ylab = "",
@@ -663,7 +664,7 @@ segments(c(1993, 1993,1985,1986), c(0.09198817, 0.04217548, 0.17349984, 0.111146
                 DiffCoefryESm[yearsES == 1985,1]))
 dev.off()
 
-pdf("/home/triffe/git/DISS/latex/Figures/exPyramidthetaratio.pdf", height = 4.5, width = 4.5)
+pdf("latex/Figures/exPyramidthetaratio.pdf", height = 4.5, width = 4.5)
 par(mai = c(.5,.5,.5,.3), xaxs = "i", yaxs = "i")
 plot(yearsUS, DiffCoefryUSm[,1], type = 'n', ylim = c(1,2.5), xlim = c(1968, 2010), 
         axes = FALSE, xlab = "", ylab = "",

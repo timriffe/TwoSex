@@ -1,34 +1,35 @@
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfES) <- yearsES
 names(BxymfUS) <- yearsUS
 
 # exposures, as such, straiht from HMD, all ages 0-110, long form
-ExUS  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES  <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS  <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES  <- local(get(load("Data/Exposures/ESexp.Rdata")))
 # get Lx estimates for R0, r
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
 
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
 dxmES <- dxmES %col% colSums(dxmES)
 dxfES <- dxfES %col% colSums(dxfES)
 
-PxUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata"))) 
-PxES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Px/PxUS.Rdata"))) 
+PxUS <- local(get(load("Data/HMD_Px/PxUS.Rdata"))) 
+PxES <- local(get(load("Data/HMD_Px/PxUS.Rdata"))) 
 
 # get male and female lambdas
-DTLTUUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_TLTU/DTLTUUS.Rdata"))) 
-DTLTUES <- local(get(load("/home/triffe/git/DISS/Data/HMD_TLTU/DTLTUES.Rdata"))) 
+DTLTUUS <- local(get(load("Data/HMD_TLTU/DTLTUUS.Rdata"))) 
+DTLTUES <- local(get(load("Data/HMD_TLTU/DTLTUES.Rdata"))) 
 
 
 getLambda <- function(DTLTU, sex = "Female"){
@@ -280,7 +281,7 @@ TicksMaj <- 10 ^ (2:5)
 TicksMagLab <- c("100","1000","10000","10000")
 TickMin     <- log(c(t(outer(TicksMaj, 2:9))))
 
-pdf("/home/triffe/git/DISS/latex/Figures/ExrSRdoubling.pdf", height = 5, width = 5)
+pdf("latex/Figures/ExrSRdoubling.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, log(doubleUS), type = 'l', ylim = log(c(100,150000)), xlim = c(1968, 2010),
         axes = FALSE, xlab = "", ylab = "", col = gray(.2), lwd = 2, 
@@ -358,7 +359,7 @@ DampUSL <- do.call(rbind,lapply(USL, function(x){
                 }))
         
 # Plot Damping ratios:
-pdf("/home/triffe/git/DISS/latex/Figures/Damping.pdf", height = 5, width = 5)
+pdf("latex/Figures/Damping.pdf", height = 5, width = 5)
 par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
 plot(yearsES, DampESL[,1], type = 'l', ylim = c(1.01,1.08), lty = 4, col = gray(.4), lwd = 1.2,
         axes = FALSE, xlim = c(1968,2010), xlab = "", ylab = "",
@@ -455,7 +456,7 @@ UScohenY <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Y, .Px, .d
 
 
 # D2 plot
-pdf("/home/triffe/git/DISS/latex/Figures/CohenD2.pdf", height = 5, width = 5)
+pdf("latex/Figures/CohenD2.pdf", height = 5, width = 5)
 par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
 plot(yearsES, EScohenL[,2], type = 'l', ylim = c(0,28), lty = 4, col = gray(.4), lwd = 1.2,
         axes = FALSE, xlim = c(1968,2010), xlab = "", ylab = "",
@@ -482,7 +483,7 @@ text(c(1995, 1995, 1996, 1996),c(9.562143, 13.561091, 21.7, 26.289451),c(express
                 expression(ES^F~e[y]),expression(ES^M~age),expression(ES^F~age)), cex = .8)
 dev.off()
 
-#pdf("/home/triffe/git/DISS/latex/Figures/CohenD1.pdf", height = 5, width = 5)
+#pdf("latex/Figures/CohenD1.pdf", height = 5, width = 5)
 #par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
 #plot(yearsES, EScohenL[,1], type = 'l', ylim = c(0,28), lty = 4, col = gray(.4), lwd = 1.2,
 #        axes = FALSE, xlim = c(1968,2010), xlab = "", ylab = "",
@@ -525,7 +526,7 @@ DampUS2 <- unlist(lapply(Y_2sexUS, function(x){
 
 
 # comparing damping ratios
-pdf("/home/triffe/git/DISS/latex/Figures/Damping2.pdf", height = 5, width = 5)
+pdf("latex/Figures/Damping2.pdf", height = 5, width = 5)
 par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
 plot(yearsES, DampES[,1], type = 'l', ylim = c(1.05,1.075), lty = 4, col = gray(.4), lwd = 1.2,
         axes = FALSE, xlim = c(1968,2010), xlab = "", ylab = "",
@@ -577,7 +578,7 @@ UScohenY2 <- do.call(rbind,lapply(as.character(yearsUS), function(yr, .Y, .Px, .
                     
                 }, .Y = Y_2sexUS, .Px = PxUS, .dxm = dxmUS, .dxf = dxfUS))
 
-pdf("/home/triffe/git/DISS/latex/Figures/CohenD22sex.pdf", height = 5, width = 5)
+pdf("latex/Figures/CohenD22sex.pdf", height = 5, width = 5)
 par(mai = c(.5,.5,.5,.2), xaxs = "i", yaxs = "i")
 plot(yearsES, EScohenY[,2], type = 'l', ylim = c(0,12), lty = 4, col = gray(.4), lwd = 1.2,
         axes = FALSE, xlim = c(1968,2010), xlab = "", ylab = "",

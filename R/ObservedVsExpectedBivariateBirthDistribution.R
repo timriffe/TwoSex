@@ -1,15 +1,15 @@
-
+setwd("/home/triffe/git/DISS/")
 # only one plot is needed to demonstrate this, since the basic observation will hold
 # for any human population.
 
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
-BxES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata")))
-BxUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy10_65.Rdata")))
+BxES <- local(get(load("Data/ESbirths/ESBxy.Rdata")))
+BxUS <- local(get(load("Data/USbirths/USBxy10_65.Rdata")))
 # BxUS is a list of 56x56 matrices, ages 10-65, males in rows, females in columns
 # (1969 - 2010)
-ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
+ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
 
 Bxy         <- BxUS[["1970"]]
 rowTotals   <- rowSums(Bxy)
@@ -74,7 +74,7 @@ graphics.off()
 
 brks <- seq(min(logBxy, na.rm = TRUE),max(logBxy, na.rm = TRUE), length.out = 51)
 
-pdf("/home/triffe/git/DISS/latex/Figures/ObservedvsExpectedBxy.pdf", 
+pdf("latex/Figures/ObservedvsExpectedBxy.pdf", 
         height = 4, width = 6.5)
 par(mfrow=c(1,2), mar = c(2,1,2,3))
 image(x = ages + .5, y = ages + .5, logBxy, 
@@ -156,8 +156,8 @@ Exf <- with(ExUS, Female[Age >= 10 & Age <= 65 & Year == 1970])
 # ------------------------------------------------------------------
 # calculate total difference (theta) between observed and expected:
 # add confidence bands:
-BxyES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata")))
-BxyUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy0_110.Rdata")))
+BxyES <- local(get(load("Data/ESbirths/ESBxy.Rdata")))
+BxyUS <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
 yearsES <- 1975:2009
 yearsUS <- 1969:2009
 names(BxyES) <- yearsES
@@ -215,7 +215,7 @@ TotalVarES95 <- do.call(rbind,lapply(as.character(yearsES), function(yr, .BxyES)
 # --------------------------------------------
 # plot theta with bands:
 
-pdf("/home/triffe/git/DISS/latex/Figures/TotalVariationObsvsExpectedUSES.pdf", height = 4.5, width = 4.5)
+pdf("latex/Figures/TotalVariationObsvsExpectedUSES.pdf", height = 4.5, width = 4.5)
 par(mai = c(.4,.4,.4,.2), xaxs = "i", yaxs = "i")
 plot(yearsUS, TotalVarUS, type = 'n', ylim = c(.33,.48), xlim = c(1967, 2012), 
         axes = FALSE, xlab = "", ylab = "",
@@ -274,7 +274,7 @@ HypergamyUS <- as.matrix(do.call(rbind,lapply(BxUS, function(x){
                 })  ))
 # --------------------------------------------
 # plot H:
-pdf("/home/triffe/git/DISS/latex/Figures/StrengthHypergamy.pdf", height = 4.5, width = 4.5)
+pdf("latex/Figures/StrengthHypergamy.pdf", height = 4.5, width = 4.5)
 par(mai = c(.4,.6,.4,.2), xaxs = "i", yaxs = "i")
 USyrs <- as.integer(rownames(HypergamyUS))
 ESyrs <- as.integer(rownames(HypergamyES))

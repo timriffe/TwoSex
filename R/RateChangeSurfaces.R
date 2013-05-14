@@ -1,9 +1,10 @@
-
+setwd("/home/triffe/git/DISS/")
+# early diagnostics, not used officially
 # Author: triffe
 ###############################################################################
 
-B <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/ESbirths/ESbirths.Rdata")))
-E <- local(get(load("/home/triffe/git/Dissertation/DISSERTATION/DATA/Exposures/ESexp.Rdata")))
+B <- local(get(load("DATA/ESbirths/ESbirths.Rdata")))
+E <- local(get(load("DATA/Exposures/ESexp.Rdata")))
 B <- B[-length(B)] # remove 2010 births for now
 # where E is a long df and B is in a list...
 
@@ -12,7 +13,7 @@ RateChangeDiagnostic <- function(B, E, N = 1, min.events = 40, filename, age.ran
     if (missing(filename)){
         stop("\nfirst give the output a name, including the suffix '.pdf'\n")
     }
-    source("/home/triffe/git/Dissertation/DISSERTATION/R/UtilityFunctions.R")
+    source("R/UtilityFunctions.R")
     # color ramp function
     colfun          <- grDevices:::colorRampPalette(RColorBrewer:::brewer.pal(9, "RdBu"), space = "Lab")
     # years vectors
@@ -73,32 +74,32 @@ RateChangeDiagnostic <- function(B, E, N = 1, min.events = 40, filename, age.ran
 
 RateChangeDiagnostic(B, E, N = 1, 
         min.events = 30, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateChangeSurfaces/ESmR_1x1.pdf",
+        filename = "DiagnosticPlots/RateChangeSurfaces/ESmR_1x1.pdf",
         age.range = c(10, 65),
         sex = "m")
 RateChangeDiagnostic(B, E, N = 1, 
         min.events = 30, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateChangeSurfaces/ESfR_1x1.pdf",
+        filename = "DiagnosticPlots/RateChangeSurfaces/ESfR_1x1.pdf",
         age.range = c(10, 65),
         sex = "f")
 RateChangeDiagnostic(B, E, N = 2, 
         min.events = 50, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateChangeSurfaces/ESmR_2x2.pdf",
+        filename = "DiagnosticPlots/RateChangeSurfaces/ESmR_2x2.pdf",
         age.range = c(10, 65),
         sex = "m")
 RateChangeDiagnostic(B, E, N = 2, 
         min.events = 50, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateChangeSurfaces/ESfR_2x2.pdf",
+        filename = "DiagnosticPlots/RateChangeSurfaces/ESfR_2x2.pdf",
         age.range = c(10, 65),
         sex = "f")
 RateChangeDiagnostic(B, E, N = 3, 
         min.events = 100, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateChangeSurfaces/ESmR_3x3.pdf",
+        filename = "DiagnosticPlots/RateChangeSurfaces/ESmR_3x3.pdf",
         age.range = c(10, 65),
         sex = "m")
 RateChangeDiagnostic(B, E, N = 3, 
         min.events = 100, 
-        filename = "/home/triffe/git/Dissertation/DISSERTATION/DiagnosticPlots/RateChangeSurfaces/ESfR_3x3.pdf",
+        filename = "DiagnosticPlots/RateChangeSurfaces/ESfR_3x3.pdf",
         age.range = c(10, 65),
         sex = "f")
 

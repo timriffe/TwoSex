@@ -1,15 +1,15 @@
-
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+setwd("/home/triffe/git/DISS/")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 # BxUS is a list of 56x56 matrices, ages 10-65, males in rows, females in columns
 # (1969 - 2010)
 # BxES is 0:110, years 1975:2009
-BxUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy10_65.Rdata")))
-BxES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+BxUS <- local(get(load("Data/USbirths/USBxy10_65.Rdata")))
+BxES <- local(get(load("Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 # exposures, as such, straiht from HMD, all ages 0-110, long form
-ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("Data/Exposures/ESexp.Rdata")))
 
 yearsES <- 1975:2009
 yearsUS <- 1969:2009
@@ -44,7 +44,7 @@ ASFRfES <- colSums(BxyES) / ExfES
 
 # max(c(ASFRmUS,ASFRfUS,ASFRmES,ASFRfES))
 
-pdf("/home/triffe/git/DISS/latex/Figures/ASFR1975.pdf", height = 5, width = 5)
+pdf("latex/Figures/ASFR1975.pdf", height = 5, width = 5)
 par(mai = c(.5,.5,.3,.3),xaxs = "i", yaxs = "i")
 plot(ages, ASFRmUS, type = 'l', ylim = c(0, .21), xlim = c(10,66), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
@@ -79,7 +79,7 @@ TFRUS <- as.matrix(do.call(rbind,lapply(as.character(yearsUS), function(yr, .BxU
         }, .ExUS = ExUS, .BxUS = BxUS)))
 
 # plot it, save out
-pdf("/home/triffe/git/DISS/latex/Figures/TFR.pdf", height = 5, width = 5)
+pdf("latex/Figures/TFR.pdf", height = 5, width = 5)
 par(mai = c(.5, .3, .3, .3),xaxs = "i", yaxs = "i")
 plot(yearsUS, TFRUS[, 1], type = 'l', ylim = c(1, 2.9), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
@@ -101,16 +101,16 @@ dev.off()
 # --------------------------------------------------------------
 # simple series of NRR male and female
 
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf10_65.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf10_65.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf10_65.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf10_65.Rdata")))
 names(BxymfES) <- yearsES
 # get Lx from HMD, divide by l0 (100000)
 
 # these are age by year matrices:
-LxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmUS.Rdata")))[11:66, ] / 1e5
-LxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfUS.Rdata")))[11:66, ] / 1e5
-LxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata")))[11:66, ] / 1e5
-LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata")))[11:66, ] / 1e5
+LxmUS <- local(get(load("Data/HMD_Lx/LxmUS.Rdata")))[11:66, ] / 1e5
+LxfUS <- local(get(load("Data/HMD_Lx/LxfUS.Rdata")))[11:66, ] / 1e5
+LxmES <- local(get(load("Data/HMD_Lx/LxmES.Rdata")))[11:66, ] / 1e5
+LxfES <- local(get(load("Data/HMD_Lx/LxfES.Rdata")))[11:66, ] / 1e5
 
 # calculate male-male and female-female fertility:
 FxmfUS <- lapply(as.character(yearsUS), function(yr, .BxymfUS, .ExUS){ 
@@ -156,7 +156,7 @@ R0mfES <- as.matrix(do.call(rbind, lapply(as.character(yearsES), function(yr, .F
 rownames(R0mfES) <- yearsES
 
 # plot it, save out:
-pdf("/home/triffe/git/DISS/latex/Figures/R0mf.pdf", height = 5, width = 5)
+pdf("latex/Figures/R0mf.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, R0mfUS[, 1], type = 'l', ylim = c(.5, 1.45), xlim = c(1968,2010), axes = FALSE,
         col = gray(.2), lwd = 2, xlab = "", ylab = "",
@@ -189,15 +189,15 @@ calcSRBmf <- function(Bxy, sex = "m"){
 
 
 
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfES) <- yearsES
 SRBfUS <- calcSRBmf(BxymfUS[["1975"]], sex ="f")
 SRBmUS <- calcSRBmf(BxymfUS[["1975"]], sex ="m")
 SRBfES <- calcSRBmf(BxymfES[["1975"]], sex ="f")
 SRBmES <- calcSRBmf(BxymfES[["1975"]], sex ="m")
 
-pdf("/home/triffe/git/DISS/latex/Figures/SRB1975.pdf", height = 5, width = 5)
+pdf("latex/Figures/SRB1975.pdf", height = 5, width = 5)
 age <- .5:110.5
 ind <- age >14 & age < 50
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
@@ -229,7 +229,7 @@ SRBES <- unlist(lapply(as.character(yearsES), function(yr, .Bxymf){
                     sum(.Bxymf[[yr]][["Bxym"]]) / sum(.Bxymf[[yr]][["Bxyf"]]) 
                 }, .Bxymf = BxymfES))
 
-pdf("/home/triffe/git/DISS/latex/Figures/SRByear.pdf", height = 5, width = 5)
+pdf("latex/Figures/SRByear.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 ylim <- c(1.04,1.1)
 plot(NULL, type = 'n', ylim = ylim, xlim = c(1968,2010), axes = FALSE,
@@ -252,11 +252,11 @@ dev.off()
 # reproductive spans, self-sufficient code
 yearsES <- 1975:2009
 yearsUS <- 1969:2009
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfES) <- yearsES
-ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("Data/Exposures/ESexp.Rdata")))
 
 
 
@@ -309,7 +309,7 @@ Bounds99ES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .Ex
                 }, .Bxy = BxymfES, .Ex = ExES))
 
 
-pdf("/home/triffe/git/DISS/latex/Figures/ASFRbounds.pdf", height = 5, width = 5)
+pdf("latex/Figures/ASFRbounds.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .5), xaxs = "i", yaxs = "i")
 ylim <- c(10,67)
 plot(NULL, type = 'n', ylim = ylim, xlim = c(1968,2010), axes = FALSE,
@@ -347,11 +347,11 @@ dev.off()
 # self-sufficient dissimilarity code:
 yearsES <- 1975:2009
 yearsUS <- 1969:2009
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf0_110.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
 names(BxymfES) <- yearsES
-ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("Data/Exposures/ESexp.Rdata")))
 
 
 
@@ -433,7 +433,7 @@ TotASFRES95 <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bxy, .E
                                     }), probs = c(.025, .975))          
                 },  .Bxy = BxymfES, .Ex = ExES))
 
-pdf("/home/triffe/git/DISS/latex/Figures/ASFRdissimilarity.pdf", height = 5, width = 5)
+pdf("latex/Figures/ASFRdissimilarity.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 ylim <- c(.12,.22)
 plot(NULL, type = 'n', ylim = ylim, xlim = c(1968,2010), axes = FALSE,
@@ -462,8 +462,8 @@ dev.off()
 ############################################################
 # self-sufficient ex gap code:
 
-e0ES <- local(get(load("/home/triffe/git/DISS/Data/HMD_e0period/e0perES.Rdata")))
-e0US <- local(get(load("/home/triffe/git/DISS/Data/HMD_e0period/e0perUS.Rdata")))
+e0ES <- local(get(load("Data/HMD_e0period/e0perES.Rdata")))
+e0US <- local(get(load("Data/HMD_e0period/e0perUS.Rdata")))
 
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
@@ -474,7 +474,7 @@ lines(yearsES, with(e0ES, Female[Year %in% yearsES] - Male[Year %in% yearsES]))
 USgap <- with(e0US, Female[Year %in% yearsUS] - Male[Year %in% yearsUS])
 ESgap <-  with(e0ES, Female[Year %in% yearsES] - Male[Year %in% yearsES])
 
-pdf("/home/triffe/git/DISS/latex/Figures/e0gap.pdf", height = 4.5, width = 4.5)
+pdf("latex/Figures/e0gap.pdf", height = 4.5, width = 4.5)
 par(mai = c(.5,.4,.5,.2), xaxs = "i", yaxs = "i")
 plot(yearsUS, USgap, type = 'n', ylim = c(4.5,8), xlim = c(1968,2010), 
         axes = FALSE, xlab = "", ylab = "",
@@ -495,10 +495,10 @@ dev.off()
 
 # -----------------------------
 # self-sufficient code for dx overlap:
-dxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_dx/dxfES.Rdata"))) 
+dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
 
 dxmUS <- dxmUS %col% colSums(dxmUS)
 dxfUS <- dxfUS %col% colSums(dxfUS)
@@ -506,13 +506,13 @@ dxmES <- dxmES %col% colSums(dxmES)
 dxfES <- dxfES %col% colSums(dxfES)
 
 
-mxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmUS.Rdata"))) 
-mxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfUS.Rdata"))) 
-mxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxmES.Rdata"))) 
-mxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_mux/muxfES.Rdata"))) 
+mxmUS <- local(get(load("Data/HMD_mux/muxmUS.Rdata"))) 
+mxfUS <- local(get(load("Data/HMD_mux/muxfUS.Rdata"))) 
+mxmES <- local(get(load("Data/HMD_mux/muxmES.Rdata"))) 
+mxfES <- local(get(load("Data/HMD_mux/muxfES.Rdata"))) 
 
-ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("Data/Exposures/ESexp.Rdata")))
 
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
@@ -550,7 +550,7 @@ thetasES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .mxm, .mxf,
                 },  .mxm = mxmES, .mxf = mxfES, .Ex = ExES))
 
 
-pdf("/home/triffe/git/DISS/latex/Figures/dx_dissimilarity.pdf", height = 5, width = 5)
+pdf("latex/Figures/dx_dissimilarity.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 ylim <- c(.13,.25)
 plot(NULL, type = 'n', ylim = ylim, xlim = c(1968,2010), axes = FALSE,
@@ -576,7 +576,7 @@ dev.off()
 
 # --------------------------------
 # read in amand aggregates:
-Amand <- read.table("/home/triffe/git/DISS/Data/AmandDecomp/amandaggregates", 
+Amand <- read.table("Data/AmandDecomp/amandaggregates", 
         sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
 plot(seq(0,85,by=5),colSums(Amand[,3:ncol(Amand)]/100), type = "S")

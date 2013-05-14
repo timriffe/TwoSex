@@ -1,29 +1,32 @@
-f
+setwd("/home/triffe/git/DISS/")
+# this script not used in Dissertation!
+# I don't think I ever finished or verified its results. Decided to go with the 1978 paper instead
+
 
 # from Mitra (1976) [non-linear]
 # Mitra used 1966 US data to compare with Das Gupta. Can't reproduce his results
 # but I can apply the method.
 # ----------------------------------------------
-source("/home/triffe/git/DISS/R/UtilityFunctions.R")
-source("/home/triffe/git/DISS/R/MeanFunctions.R")
+source("R/UtilityFunctions.R")
+source("R/MeanFunctions.R")
 
 # BxUS is a list of 56x56 matrices, ages 10-65, males in rows, females in columns
 # (1969 - 2010)
 # BxES is 0:110, years 1975:2009
-BxUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxy10_65.Rdata")))
-BxES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
+BxUS <- local(get(load("Data/USbirths/USBxy10_65.Rdata")))
+BxES <- local(get(load("Data/ESbirths/ESBxy.Rdata"))) # not cut to 10-65
 
-BxymfES <- local(get(load("/home/triffe/git/DISS/Data/ESbirths/ESBxymf10_65.Rdata")))
-BxymfUS <- local(get(load("/home/triffe/git/DISS/Data/USbirths/USBxymf10_65.Rdata")))
+BxymfES <- local(get(load("Data/ESbirths/ESBxymf10_65.Rdata")))
+BxymfUS <- local(get(load("Data/USbirths/USBxymf10_65.Rdata")))
 
 # exposures, as such, straiht from HMD, all ages 0-110, long form
-ExUS <- local(get(load("/home/triffe/git/DISS/Data/Exposures/USexp.Rdata")))
-ExES <- local(get(load("/home/triffe/git/DISS/Data/Exposures/ESexp.Rdata")))
+ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
+ExES <- local(get(load("Data/Exposures/ESexp.Rdata")))
 # get Lx estimates for R0, r
-LxmUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmUS.Rdata")))[11:66, ] / 1e5
-LxfUS <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfUS.Rdata")))[11:50, ] / 1e5
-LxmES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxmES.Rdata")))[11:66, ] / 1e5
-LxfES <- local(get(load("/home/triffe/git/DISS/Data/HMD_Lx/LxfES.Rdata")))[11:50, ] / 1e5
+LxmUS <- local(get(load("Data/HMD_Lx/LxmUS.Rdata")))[11:66, ] / 1e5
+LxfUS <- local(get(load("Data/HMD_Lx/LxfUS.Rdata")))[11:50, ] / 1e5
+LxmES <- local(get(load("Data/HMD_Lx/LxmES.Rdata")))[11:66, ] / 1e5
+LxfES <- local(get(load("Data/HMD_Lx/LxfES.Rdata")))[11:50, ] / 1e5
 
 
 yearsES <- 1975:2009
