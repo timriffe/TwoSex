@@ -1,6 +1,6 @@
 "The two-sex problem in populations structured by remaining years of life" 
 ----------------------------------------------------------------
-Welcome to my dissertation code dump
+Welcome to my dissertation code dump.
 For the time being, this is the only route to reproducing my results and I apologize if it's a labyrinth!
 
 This includes ALL R scripts and tex files
@@ -9,7 +9,9 @@ It does NOT include three folders, which are not tracked, and which therefore do
 are also integral parts of the workflow:
 
 /Data/             (files are nearly all in .Rdata format, so not good to track with git. Download separately as stated above)
+
 /DiagnosticPlots/  (these are not in the dissertation. These figures were early looks at the data)
+
 /latex/Figures/    (folder to hold pdfs for inclusion in the main latex document. You can reproduce 
                     its contents with the R scripts and data)
                     
@@ -30,7 +32,7 @@ In general, you'll need to tinker to make sense of things, sorry
 Each R script begins by setting the working directory with, with setwd(), 
 so you need to change that appropriately
 
-DO NOT mindlessly run an entire script without looking at it first, as it may contain a simulation
+*DO NOT* mindlessly run an entire script without looking at it first, as it may contain a simulation
 that will dominate your computer resources.
 
 thesisMain.tex is the mother tex document, pulling in chunks from /latex/ 
