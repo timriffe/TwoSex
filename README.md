@@ -42,7 +42,7 @@ script names, or 2) to find a figure in the dissertation that used this code, th
 makes that section. In the latex chunk where the figure is included you'll (usually) see the name of the script
 that produced it.
 
-Defense to be held June 26th UAB, Barcelona. 
+Defense is on June 26th, 2013 UAB, Barcelona. 
 ---------------------------------------------
 wish me luck
 
