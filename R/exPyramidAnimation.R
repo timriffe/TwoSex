@@ -51,17 +51,17 @@ makearcv <- compiler::cmpfun(function(x1,y1,x2,y2,bc=.05,nvert=100,female = TRUE
             y       <- b * sin(pivec)
             c(t(apply(cbind(x, y), 1, rotatevec, Rmat = Rmat) + c(x1, y1)))   
         })
-plot(NULL,xlim=c(-5,5),ylim=c(-5,5),asp=1)
-arc1 <- makearc(0,0,2,2,.3,100)
-lines(arc1[,1],arc1[,2],col="red")
-points(x=c(0,2),y=c(0,2))
-
-points(c(x1,x2),c(y1,y2),pch=19,cex=.5)
-for (i in 1:nrow(arc1)){
-   # plot(NULL,xlim=c(-10,10),ylim=c(-10,10),asp=1)
-    draw.rect(arc1[i,1],arc1[i,2],.5,.5)
-    Sys.sleep(.1)
-}
+#plot(NULL,xlim=c(-5,5),ylim=c(-5,5),asp=1)
+#arc1 <- makearc(0,0,2,2,.3,100)
+#lines(arc1[,1],arc1[,2],col="red")
+#points(x=c(0,2),y=c(0,2))
+#
+#points(c(x1,x2),c(y1,y2),pch=19,cex=.5)
+#for (i in 1:nrow(arc1)){
+#   # plot(NULL,xlim=c(-10,10),ylim=c(-10,10),asp=1)
+#    draw.rect(arc1[i,1],arc1[i,2],.5,.5)
+#    Sys.sleep(.1)
+#}
 
 
 # step 2 get ll and ur coords for rectangles
@@ -113,8 +113,6 @@ FemalesCnty <- FemalesCy - Females / 2
 heights <- 1
 # the prop values are now the widths
 
-
-
 x1m <- MalesCnta[MindNA]
 y1m <- col(Males)[MindNA] - .5 # midpoints
 
@@ -163,14 +161,33 @@ ym <- HM[,(ncol(HM)/2+1):ncol(HM)]
 xf <- HF[,1:(ncol(HF)/2)]
 yf <- HF[,(ncol(HF)/2+1):ncol(HF)]
 
+# save for presentation animation
 
-for (i in 200:1){
-plot(NULL, type = "n", xlim = c(-.01,.01),ylim = c(0,111))
-makeRect(xm[,i],ym[,i],wm,1,col = colsm, border = NA)
-makeRect(xf[,i],yf[,i],wf,1,col = colsf, border = NA)
+# margins different than in gif animation!
+# also no titles!
+xlabs <- c("1.0%","0.8%","0.6%","0.4%","0.2%","0%","0.2%","0.4%","0.6%","0.8%","1.0%")
+for (i in 199:0){
+    out.path <- file.path("/home/triffe/git/DISS/Pres/Age2eyAnimation",paste0("frame",sprintf("%03d",199-i),".png"))
+    par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i"xaxp=)
+    png(out.path,height=600,width=600) 
+    plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
+            axes = FALSE, xlab = "",ylab="", 
+            panel.first = list(
+                    rect(-.011,0,.011,111,col = gray(.95), border = NA),
+                    abline(h = seq(0,110,by=10), col = "white"),   
+                    abline(v = seq(-.01, .01, by = .002), col = "white"),
+                    text(-.011, seq(0,110,by=10),  seq(0,110,by=10), pos = 2, cex = 1.1, xpd = TRUE),
+                    text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = 1.1, xpd = TRUE),
+                    #text(0,118,"We can re-stack this pyramid",xpd=TRUE,cex=1.3),
+                    #text(0,113,"by remaining years of life",xpd=TRUE,cex=1.3),
+                    text(0,-8,"Percent",xpd=TRUE,cex=1.4)
+            ))
+    makeRect(xm[,i+1],ym[,i+1],wm,1,col = colsm, border = NA)
+    makeRect(xf[,i+1],yf[,i+1],wf,1,col = colsf, border = NA)
+    dev.off()
 }
 
-
+?par
 #library(animation)
 #saveGIF({
 #            for (i in 200:1){
@@ -204,15 +221,14 @@ colsf2 <- colsf2[FindNA]
 
 
 # awesome
-i<- 1
-for (i in 1:200){
-    plot(NULL, type = "n", xlim = c(-.01,.01),ylim = c(0,111))
-    makeRect(xm[,i],ym[,i],wm,1,col = colsm2, border = NA)
-    makeRect(xf[,i],yf[,i],wf,1,col = colsf2, border = NA)
-}
+#i<- 1
+#for (i in 1:200){
+#    plot(NULL, type = "n", xlim = c(-.01,.01),ylim = c(0,111))
+#    makeRect(xm[,i],ym[,i],wm,1,col = colsm2, border = NA)
+#    makeRect(xf[,i],yf[,i],wf,1,col = colsf2, border = NA)
+#}
 # ----------------------------------
 library(animation)
-seq(-.01, .01, by = .002)
 xlabs <- c("1.0%","0.8%","0.6%","0.4%","0.2%","0%","0.2%","0.4%","0.6%","0.8%","1.0%")
 #  /tmp/RtmpNwGXh2/age2eyPyramid.gif
 saveGIF({
@@ -363,6 +379,10 @@ saveGIF({
             PyramidOutline(with(PxUS, Male[Year == 1975]),with(PxUS, Female[Year == 1975]),scale=1,border=gray(.1))
             segments(0,0,0,111,col="white")
         }, movie.name = "age2eyPyramid.gif", interval = c(4,4,rep(.02,200),4,4,4,rep(.02,200),4), ani.width = 600,
-        ani.height = 600)
+        ani.height = 600, clean = FALSE)
      
+list.files("/home/triffe/git/DISS/Pres/Age2eyAnimation")
+        
+        
+        
         
