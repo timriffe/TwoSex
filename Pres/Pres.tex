@@ -33,10 +33,10 @@
   \frametitle{Presentation overview}
 
 \begin{itemize}
-  \pause \item Population structure
-  \pause \item Structured demographic rates
-  \pause \item Population growth
-  \pause \item Two sexes and two ages
+  \item Population structure
+  \item Structured demographic rates
+  \item Population growth
+  \item Two sexes and two ages
 \end{itemize}
 
 \end{frame}
@@ -73,13 +73,13 @@ Variants of this equation in T. Miller (2001), Vaupel (2009)
 \frametitle{We can re-stack such data by remaining years}
 \includegraphics[width=2.8in,height=2.8in]{FiguresStatic/AgeSexEyHetero}
 \end{frame}
-
+% if you can decompose it you can recompose it
 %----------- slide --------------------------------------------------%
 % first animation
 
 \begin{frame}
 \frametitle{We can re-stack such data by remaining years}
-\animategraphics[autoplay,controls,width=2.8in,height=2.8in]{12}{Age2eyAnimation/frame}{000}{101}
+\animategraphics[autoplay,controls,width=2.8in,height=2.8in]{14}{Age2eyAnimation/frame}{000}{101}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
@@ -124,10 +124,39 @@ Chronological $\rightarrow$ Thanatological
 % ey -> age animation 
 \begin{frame}
 \frametitle{We can return to age-struture accordingly}
-\animategraphics[autoplay,controls,width=2.8in,height=2.8in]{12}{ey2ageAnimation/frame}{000}{101}
+\animategraphics[autoplay,controls,width=2.8in,height=2.8in]{14}{ey2ageAnimation/frame}{000}{101}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
+\begin{frame}
+\frametitle{Any age-structured data can be transformed}
+
+*to model renewal in populations structured by remaining years of life, we're
+interested in fertility rates, $F_y$:
+\begin{equation}
+F_y = \frac{B_y}{E_y}
+\end{equation}
+ \begin{description}
+ \item[$B_y$:] births by remaining years of life of mother (or father)
+ \item[$E_y$:] exposures by remaining years of life of mother (or father)
+ \end{description}
+\pause
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+\frametitle{Some typical fertility curves by remaining years of life}
+\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/eyPyramidAgeHet}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+\frametitle{Reproduction in populations structured by remaining years of life}
+
+\end{frame}
+
 %----------- slide --------------------------------------------------%
 %----------- slide --------------------------------------------------%
 %----------- slide --------------------------------------------------%
