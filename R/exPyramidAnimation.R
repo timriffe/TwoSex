@@ -146,13 +146,25 @@ colsf <- c(rep(colR(11),each=10),rev(colR(11))[1])[row(Females)]
 dim(colsf) <- dim(Females)
 colsf <- colsf[FindNA]
 
-
+# colR2 is for coloring age within an ey population
+# actually it's easier than it seems:
+colR2 <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(9,"YlOrRd"),space="Lab")
+# just need new colors to go in the other direction
+colsm2 <-c(rep(colR2(11),each=10),rev(colR2(11))[1])[col(Males)] 
+dim(colsm2) <- dim(Males)
+colsm2 <- colsm2[MindNA]
+#colsf <- gray(seq(.85,.05,length.out=111))[row(Females)] 
+colsf2 <- c(rep(colR2(11),each=10),rev(colR2(11))[1])[col(Females)] 
+dim(colsf2) <- dim(Females)
+colsf2 <- colsf2[FindNA]
 # widths
 wm <- Males[MindNA]
 wf <- Females[FindNA]
 
 HM <- t(mapply(makearcv, x1m, y1m, x2m, y2m, MoreArgs = list(bc = .00015, nvert = 200, female = FALSE)))
 HF <- t(mapply(makearcv, x1f, y1f, x2f, y2f, MoreArgs = list(bc = .00015, nvert = 200, female = TRUE)))
+HM100 <- t(mapply(makearcv, x1m, y1m, x2m, y2m, MoreArgs = list(bc = .00015, nvert = 100, female = FALSE)))
+HF100 <- t(mapply(makearcv, x1f, y1f, x2f, y2f, MoreArgs = list(bc = .00015, nvert = 100, female = TRUE)))
 
 # x vals are in first 100 cols, y vals in cols 101-200
 # xy vals for each rect arc
@@ -161,14 +173,92 @@ ym <- HM[,(ncol(HM)/2+1):ncol(HM)]
 xf <- HF[,1:(ncol(HF)/2)]
 yf <- HF[,(ncol(HF)/2+1):ncol(HF)]
 
+xm100 <- HM100[,1:(ncol(HM100)/2)]
+ym100 <- HM100[,(ncol(HM100)/2+1):ncol(HM100)]
+xf100 <- HF100[,1:(ncol(HF100)/2)]
+yf100 <- HF100[,(ncol(HF100)/2+1):ncol(HF100)]
 # save for presentation animation
 
 # margins different than in gif animation!
-# also no titles!
 xlabs <- c("1.0%","0.8%","0.6%","0.4%","0.2%","0%","0.2%","0.4%","0.6%","0.8%","1.0%")
-for (i in 199:0){
-    out.path <- file.path("/home/triffe/git/DISS/Pres/Age2eyAnimation",paste0("frame",sprintf("%03d",199-i),".png"))
-    par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i"xaxp=)
+#i<-0
+
+# ----------------------------------------------------------------------------- #
+# first plot, a gray age-sex-structured population
+{
+par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+png("/home/triffe/git/DISS/Pres/FiguresStatic/AgeSexGray.png",height=600,width=600) 
+plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(-.011,0,.011,111,col = gray(.95), border = NA),
+                abline(h = seq(0,110,by=10), col = "white"),   
+                abline(v = seq(-.01, .01, by = .002), col = "white"),
+                text(-.011, seq(0,110,by=10),  seq(0,110,by=10), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
+                text(0,-6,"Percent",xpd=TRUE,cex=1.3),
+                text(-.0115,114,"Age",xpd=TRUE,cex=1.3)))
+makeRect(xm100[,100],ym100[,100],wm,1,col = gray(.5), border = NA, xpd = TRUE)
+makeRect(xf100[,100],yf100[,100],wf,1,col = gray(.5), border = NA, xpd = TRUE)
+segments(0,0,0,111,col="white")
+dev.off()
+}
+# ----------------------------------------------------------------------------- #
+# second plot, age-sex with ey heterogeneity
+{
+par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+png("/home/triffe/git/DISS/Pres/FiguresStatic/AgeSexEyHetero.png",height=600,width=600) 
+plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(-.011,0,.011,111,col = gray(.95), border = NA),
+                abline(h = seq(0,110,by=10), col = "white"),   
+                abline(v = seq(-.01, .01, by = .002), col = "white"),
+                text(-.011, seq(0,110,by=10),  seq(0,110,by=10), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
+                text(0,-6,"Percent",xpd=TRUE,cex=1.3),
+                text(-.0115,114,"Age",xpd=TRUE,cex=1.3)))
+makeRect(xm100[,100],ym100[,100],wm,1,col = colsm, border = NA, xpd = TRUE)
+makeRect(xf100[,100],yf100[,100],wf,1,col = colsf, border = NA, xpd = TRUE)
+segments(0,0,0,111,col="white")
+text(-.011,80,"few remaining years",pos = 4,xpd=TRUE,cex=1.3)
+text(-.011,40,"many remaining \n                  years",pos = 4,xpd=TRUE,cex=1.3)
+segments(-0.0045,78, -0.00065579,69.61301)
+segments(-0.006239436,35.200460, -0.007,5.041144)
+PyramidOutline(with(PxUS, Male[Year == 1975]),with(PxUS, Female[Year == 1975]),scale=1,border=gray(.1))
+segments(0,0,0,111,col="white")
+dev.off()
+}
+# ----------------------------------------------------------------------------- #
+# Age -> ey Figures (png)
+{
+par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+png("/home/triffe/git/DISS/Pres/Age2eyAnimation/frame000.png",height=600,width=600) 
+plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(-.011,0,.011,111,col = gray(.95), border = NA),
+                abline(h = seq(0,110,by=10), col = "white"),   
+                abline(v = seq(-.01, .01, by = .002), col = "white"),
+                text(-.011, seq(0,110,by=10),  seq(0,110,by=10), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
+                text(0,-6,"Percent",xpd=TRUE,cex=1.3),
+                text(-.0115,114,"Age",xpd=TRUE,cex=1.3)))
+makeRect(xm100[,100],ym100[,100],wm,1,col = colsm, border = NA, xpd = TRUE)
+makeRect(xf100[,100],yf100[,100],wf,1,col = colsf, border = NA, xpd = TRUE)
+segments(0,0,0,111,col="white")
+text(-.011,80,"few remaining years",pos = 4,xpd=TRUE,cex=1.3)
+text(-.011,40,"many remaining \n                  years",pos = 4,xpd=TRUE,cex=1.3)
+segments(-0.0045,78, -0.00065579,69.61301)
+segments(-0.006239436,35.200460, -0.007,5.041144)
+PyramidOutline(with(PxUS, Male[Year == 1975]),with(PxUS, Female[Year == 1975]),scale=1,border=gray(.1))
+segments(0,0,0,111,col="white")
+dev.off()
+# first frame same as last (frames 001 - 100)
+for (i in (ncol(yf100)-1):0){
+    out.path <- file.path("/home/triffe/git/DISS/Pres/Age2eyAnimation",
+            paste0("frame",sprintf("%03d",ncol(yf100)-i),".png"))
+    par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
     png(out.path,height=600,width=600) 
     plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
             axes = FALSE, xlab = "",ylab="", 
@@ -182,12 +272,161 @@ for (i in 199:0){
                     #text(0,113,"by remaining years of life",xpd=TRUE,cex=1.3),
                     text(0,-8,"Percent",xpd=TRUE,cex=1.4)
             ))
-    makeRect(xm[,i+1],ym[,i+1],wm,1,col = colsm, border = NA)
-    makeRect(xf[,i+1],yf[,i+1],wf,1,col = colsf, border = NA)
+    makeRect(xm100[,i+1],ym100[,i+1],wm,1,col = colsm, border = NA)
+    makeRect(xf100[,i+1],yf100[,i+1],wf,1,col = colsf, border = NA)
     dev.off()
 }
+# last frame touched-up (frame 101)
+par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+png("/home/triffe/git/DISS/Pres/Age2eyAnimation/frame101.png",height=600,width=600) 
+plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(-.011,0,.011,111,col = gray(.95), border = NA),
+                abline(h = seq(0,110,by=10), col = "white"),   
+                abline(v = seq(-.01, .01, by = .002), col = "white"),
+                text(-.011, seq(0,110,by=10),  seq(0,110,by=10), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
+                text(0,-6,"Percent",xpd=TRUE,cex=1.3),
+                text(-.012,114,expression(e[y]),xpd=TRUE,cex=1.3)))
+makeRect(xm100[,1],ym100[,1],wm,1,col = colsm, border = NA, xpd = TRUE)
+makeRect(xf100[,1],yf100[,1],wf,1,col = colsf, border = NA, xpd = TRUE)
+PyramidOutline(-rowSums(Males,na.rm=TRUE),rowSums(Females,na.rm=TRUE),scale=1,border=gray(.1))
+segments(0,0,0,111,col="white")
+dev.off()
+}
+# ----------------------------------------------------------------------------- #
+# ey stripes. repeat of last frame from previous
+{
+par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+png("/home/triffe/git/DISS/Pres/FiguresStatic/eyPyramid.png",height=600,width=600) 
+plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(-.011,0,.011,111,col = gray(.95), border = NA),
+                abline(h = seq(0,110,by=10), col = "white"),   
+                abline(v = seq(-.01, .01, by = .002), col = "white"),
+                text(-.011, seq(0,110,by=10),  seq(0,110,by=10), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
+                text(0,-6,"Percent",xpd=TRUE,cex=1.3),
+                text(-.012,114,expression(e[y]),xpd=TRUE,cex=1.3)))
+makeRect(xm100[,1],ym100[,1],wm,1,col = colsm, border = NA, xpd = TRUE)
+makeRect(xf100[,1],yf100[,1],wf,1,col = colsf, border = NA, xpd = TRUE)
+PyramidOutline(-rowSums(Males,na.rm=TRUE),rowSums(Females,na.rm=TRUE),scale=1,border=gray(.1))
+segments(0,0,0,111,col="white")
+dev.off()
+}
+# ----------------------------------------------------------------------------- #
+# a gray ey-sex-structured population
+{
+par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+png("/home/triffe/git/DISS/Pres/FiguresStatic/eyPyramidGray.png",height=600,width=600) 
+plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(-.011,0,.011,111,col = gray(.95), border = NA),
+                abline(h = seq(0,110,by=10), col = "white"),   
+                abline(v = seq(-.01, .01, by = .002), col = "white"),
+                text(-.011, seq(0,110,by=10),  seq(0,110,by=10), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
+                text(0,-6,"Percent",xpd=TRUE,cex=1.3),
+                text(-.012,114,expression(e[y]),xpd=TRUE,cex=1.3)))
+makeRect(xm100[,1],ym100[,1],wm,1,col = gray(.5), border = NA, xpd = TRUE)
+makeRect(xf100[,1],yf100[,1],wf,1,col = gray(.5), border = NA, xpd = TRUE)
+segments(0,0,0,111,col="white")
+dev.off()
+}
+# ----------------------------------------------------------------------------- #
+# ey-sex-structured population with age-heterogeneity
+{
+    par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+    png("/home/triffe/git/DISS/Pres/FiguresStatic/eyPyramidAgeHet.png",height=600,width=600) 
+    plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
+            axes = FALSE, xlab = "",ylab="", 
+            panel.first = list(
+                    rect(-.011,0,.011,111,col = gray(.95), border = NA),
+                    abline(h = seq(0,110,by=10), col = "white"),   
+                    abline(v = seq(-.01, .01, by = .002), col = "white"),
+                    text(-.011, seq(0,110,by=10),  seq(0,110,by=10), pos = 2, cex = .8, xpd = TRUE),
+                    text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
+                    text(0,-6,"Percent",xpd=TRUE,cex=1.3),
+                    text(-.012,114,expression(e[y]),xpd=TRUE,cex=1.3)))
+    makeRect(xm100[, 1], ym100[, 1], wm, 1, col = colsm2, border = NA, xpd = TRUE)
+    makeRect(xf100[, 1], yf100[, 1], wf, 1, col = colsf2, border = NA, xpd = TRUE)
+    PyramidOutline(-rowSums(Males,na.rm=TRUE),rowSums(Females,na.rm=TRUE),scale=1,border=gray(.1))
+    text(-.008, 80, "Young", pos = 4,cex=1.3)
+    text(-.008, 10, "Old", pos = 4,cex=1.3)
+    segments(-0.0054899542,79.85945, -0.0005433743,69.61301)
+    segments(-0.006351858,9.874367, -0.003953517,5.041144)
+    segments(0,0,0,111,col="white")
+    dev.off()
+}
+# ----------------------------------------------------------------------------- #
+# ey --> age animation
+{
+# first frame = previous plot
+par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+png("/home/triffe/git/DISS/Pres/ey2ageAnimation/frame000.png",height=600,width=600) 
+plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(-.011,0,.011,111,col = gray(.95), border = NA),
+                abline(h = seq(0,110,by=10), col = "white"),   
+                abline(v = seq(-.01, .01, by = .002), col = "white"),
+                text(-.011, seq(0,110,by=10),  seq(0,110,by=10), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
+                text(0,-6,"Percent",xpd=TRUE,cex=1.3),
+                text(-.012,114,expression(e[y]),xpd=TRUE,cex=1.3)))
+makeRect(xm100[, 1], ym100[, 1], wm, 1, col = colsm2, border = NA, xpd = TRUE)
+makeRect(xf100[, 1], yf100[, 1], wf, 1, col = colsf2, border = NA, xpd = TRUE)
+PyramidOutline(-rowSums(Males,na.rm=TRUE),rowSums(Females,na.rm=TRUE),scale=1,border=gray(.1))
+text(-.008, 80, "Young", pos = 4,cex=1.3)
+text(-.008, 10, "Old", pos = 4,cex=1.3)
+segments(-0.0054899542,79.85945, -0.0005433743,69.61301)
+segments(-0.006351858,9.874367, -0.003953517,5.041144)
+segments(0,0,0,111,col="white")
+dev.off()
+# now do animation ey -> age
+for (i in 1:100){
+    out.path <- file.path("/home/triffe/git/DISS/Pres/ey2ageAnimation",
+            paste0("frame",sprintf("%03d",i),".png"))
+    par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+    png(out.path,height=600,width=600) 
+    plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
+            axes = FALSE, xlab = "",ylab="", 
+            panel.first = list(
+                    rect(-.011,0,.011,111,col = gray(.95), border = NA),
+                    abline(h = seq(0,110,by=10), col = "white"),   
+                    abline(v = seq(-.01, .01, by = .002), col = "white"),
+                    text(-.011, seq(0,110,by=10),  seq(0,110,by=10), pos = 2, cex = .8, xpd = TRUE),
+                    text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
+                    text(0,-6,"Percent",xpd=TRUE,cex=1.3)
+            ))
+    makeRect(xm100[,i],ym100[,i],wm,1,col = colsm2, border = NA, xpd = TRUE)
+    makeRect(xf100[,i],yf100[,i],wf,1,col = colsf2, border = NA, xpd = TRUE)
+    dev.off()
+}
+# last frame repeated
+par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+png( "/home/triffe/git/DISS/Pres/ey2ageAnimation/frame101.png",height=600,width=600) 
+plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(-.011,0,.011,111,col = gray(.95), border = NA),
+                abline(h = seq(0,110,by=10), col = "white"),   
+                abline(v = seq(-.01, .01, by = .002), col = "white"),
+                text(-.011, seq(0,110,by=10),  seq(0,110,by=10), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
+                text(0,-6,"Percent",xpd=TRUE,cex=1.3)
+        ))
+makeRect(xm100[,100],ym100[,100],wm,1,col = colsm2, border = NA, xpd = TRUE)
+makeRect(xf100[,100],yf100[,100],wf,1,col = colsf2, border = NA, xpd = TRUE)
+dev.off()
+}
+# ----------------------------------------------------------------------------- #
 
-?par
+
+
 #library(animation)
 #saveGIF({
 #            for (i in 200:1){
@@ -208,16 +447,7 @@ for (i in 199:0){
 # 6) move back to age pyramid (200 frames)
 # 
 
-# actually it's easier than it seems:
-colR2 <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(9,"YlOrRd"),space="Lab")
-# just need new colors to go in the other direction
-colsm2 <-c(rep(colR2(11),each=10),rev(colR2(11))[1])[col(Males)] 
-dim(colsm2) <- dim(Males)
-colsm2 <- colsm2[MindNA]
-#colsf <- gray(seq(.85,.05,length.out=111))[row(Females)] 
-colsf2 <- c(rep(colR2(11),each=10),rev(colR2(11))[1])[col(Females)] 
-dim(colsf2) <- dim(Females)
-colsf2 <- colsf2[FindNA]
+
 
 
 # awesome

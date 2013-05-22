@@ -41,15 +41,92 @@
 
 \end{frame}
 %----------- slide --------------------------------------------------%
-%----------- slide --------------------------------------------------%
 \begin{frame}
-\frametitle{We can re-stack these data by remaining years}
-\animategraphics[controls,width=3in,height=3in]{.01}{Age2eyAnimation/frame}{000}{199}
+\frametitle{A population structured by age and sex --}
+\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/AgeSexGray}
 \end{frame}
 %----------- slide --------------------------------------------------%
+\begin{frame}
+\frametitle{-- is heterogeneous with respect to remaining years of life}
+\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/AgeSexEyHetero}
+\end{frame}
 %----------- slide --------------------------------------------------%
+% T. Miller's equation
+\begin{frame}
+\frametitle{We have a formula for this heterogeneity}
+The population age $a$ that will die in $n$ years is, $P_{a,n}$:
+ \begin{equation}
+   P_{a,n} = P_a \frac{d_{a+n}}{l_a}
+ \end{equation}
+ \begin{description}
+ \item[$d_a$:] lifetable death distribution 
+ \item[$l_a$:] survival function
+ \end{description}
+\pause 
+
+Variants of this equation in T. Miller (2001), Vaupel (2009)
+*This identity is generally known
+\end{frame}
+
 %----------- slide --------------------------------------------------%
+\begin{frame}
+\frametitle{We can re-stack such data by remaining years}
+\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/AgeSexEyHetero}
+\end{frame}
+
 %----------- slide --------------------------------------------------%
+% first animation
+
+\begin{frame}
+\frametitle{We can re-stack such data by remaining years}
+\animategraphics[autoplay,controls,width=2.8in,height=2.8in]{12}{Age2eyAnimation/frame}{000}{101}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+% eyPyramid (last frame of prior animation)
+\begin{frame}
+\frametitle{A population structured by remaining years of life}
+\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/eyPyramid}
+\end{frame}
+%----------- slide --------------------------------------------------%
+% Transformation equation
+
+\begin{frame}
+\frametitle{The thanatological transformation}
+The population with $y$ remaining years of life is:
+ \begin{equation}
+   P_y = P_{a+n} = \int_{a=0}^\infty P_a \frac{d_{a+n}}{l_a} \mathrm{d} a
+ \end{equation}
+ 
+\pause
+This is the basic age-transformation: 
+
+Chronological $\rightarrow$ Thanatological 
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+% ey population gray
+
+\begin{frame}
+\frametitle{A population structured by remaining years of life --}
+\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/eyPyramidGray}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+% ey poulation with age-heterogeneity
+
+\begin{frame}
+\frametitle{-- is heterogeneous with respect to age}
+\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/eyPyramidAgeHet}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+% ey -> age animation 
+\begin{frame}
+\frametitle{We can return to age-struture accordingly}
+\animategraphics[autoplay,controls,width=2.8in,height=2.8in]{12}{ey2ageAnimation/frame}{000}{101}
+\end{frame}
+
 %----------- slide --------------------------------------------------%
 %----------- slide --------------------------------------------------%
 %----------- slide --------------------------------------------------%
