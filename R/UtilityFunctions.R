@@ -136,8 +136,18 @@ LotkaRCoale <- compiler::cmpfun(function(fx,Lx,x){
     return(ri)  
 })
 
-# find a way to use this is dissertation:
+# newer faster than for loop version:
 ExpectedDx <- compiler::cmpfun(function(Px, dx){
+            N       <- length(dx)
+            ay      <- 0:(N - 1)
+            dx      <- Mna0(dx)
+            dx      <- c(dx, dx * 0) / sum(dx) # pad out with 0s
+            EDx     <- matrix(dx[col(matrix(nrow = N, ncol = N)) + ay], 
+                    nrow = N, ncol = N, dimnames = list(Ex = ay, Age = ay))
+            t(Px * Minf0(Mna0(EDx / rowSums(EDx))))
+        })
+# old version used.
+ExpectedDx2 <- compiler::cmpfun(function(Px, dx){
     dxi      <- dx / sum(dx, na.rm = TRUE)
     N        <- length(dx)
     EDx      <- matrix(0, nrow = N, ncol = N, dimnames = list(Ex = 0:(N-1), Age =  0:(N-1)))
