@@ -175,8 +175,10 @@ xlabs <- c("1.0%","0.8%","0.6%","0.4%","0.2%","0%","0.2%","0.4%","0.6%","0.8%","
 # ----------------------------------------------------------------------------- #
 # first plot, a gray age-sex-structured population
 {
-par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
-png("/home/triffe/git/DISS/Pres/FiguresStatic/AgeSexGray.png",height=600,width=600) 
+
+#png("/home/triffe/git/DISS/Pres/FiguresStatic/AgeSexGray.png",height=600,width=600) 
+pdf("/home/triffe/git/DISS/Pres/FiguresStatic/AgeSexGray.pdf")
+par(mai=c(.5,.5,.5,.3),xaxs = "i", yaxs = "i",xaxs="i")
 plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
         axes = FALSE, xlab = "",ylab="", 
         panel.first = list(
@@ -187,16 +189,19 @@ plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111),
                 text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
                 text(0,-6,"Percent",xpd=TRUE,cex=1.3),
                 text(-.0115,114,"Age",xpd=TRUE,cex=1.3)))
-makeRect(xm100[,100],ym100[,100],wm,1,col = gray(.5), border = NA, xpd = TRUE)
-makeRect(xf100[,100],yf100[,100],wf,1,col = gray(.5), border = NA, xpd = TRUE)
+PyramidOutline(with(PxUS, Male[Year == 1975]),with(PxUS, Female[Year == 1975]),scale=1,border=gray(.1),col = gray(.5))
+#makeRect(xm100[,100],ym100[,100],wm,1,col = gray(.5), border = NA, xpd = TRUE)
+#makeRect(xf100[,100],yf100[,100],wf,1,col = gray(.5), border = NA, xpd = TRUE)
 segments(0,0,0,111,col="white")
 dev.off()
 }
 # ----------------------------------------------------------------------------- #
 # second plot, age-sex with ey heterogeneity
 {
-par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
-png("/home/triffe/git/DISS/Pres/FiguresStatic/AgeSexEyHetero.png",height=600,width=600) 
+
+#png("/home/triffe/git/DISS/Pres/FiguresStatic/AgeSexEyHetero.png",height=600,width=600) 
+pdf("/home/triffe/git/DISS/Pres/FiguresStatic/AgeSexEyHetero.pdf")
+par(mai=c(.5,.5,.5,.3),xaxs = "i", yaxs = "i",xaxs="i")
 plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
         axes = FALSE, xlab = "",ylab="", 
         panel.first = list(
@@ -211,7 +216,7 @@ makeRect(xm100[,100],ym100[,100],wm,1,col = colsm, border = NA, xpd = TRUE)
 makeRect(xf100[,100],yf100[,100],wf,1,col = colsf, border = NA, xpd = TRUE)
 segments(0,0,0,111,col="white")
 text(-.011,80,"few remaining years",pos = 4,xpd=TRUE,cex=1.3)
-text(-.011,40,"many remaining \n                  years",pos = 4,xpd=TRUE,cex=1.3)
+text(-.0114,40,"many remaining \n               years",pos = 4,xpd=TRUE,cex=1.3)
 segments(-0.0045,78, -0.00065579,69.61301)
 segments(-0.006239436,35.200460, -0.007,5.041144)
 PyramidOutline(with(PxUS, Male[Year == 1975]),with(PxUS, Female[Year == 1975]),scale=1,border=gray(.1))
@@ -219,7 +224,7 @@ segments(0,0,0,111,col="white")
 dev.off()
 }
 # ----------------------------------------------------------------------------- #
-# Age -> ey Figures (png)
+# Age -> ey animation figures (png)
 {
 par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
 png("/home/triffe/git/DISS/Pres/Age2eyAnimation/frame000.png",height=600,width=600) 
@@ -308,8 +313,9 @@ dev.off()
 # ----------------------------------------------------------------------------- #
 # a gray ey-sex-structured population
 {
-par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
-png("/home/triffe/git/DISS/Pres/FiguresStatic/eyPyramidGray.png",height=600,width=600) 
+#png("/home/triffe/git/DISS/Pres/FiguresStatic/eyPyramidGray.png",height=600,width=600) 
+pdf("/home/triffe/git/DISS/Pres/FiguresStatic/eyPyramidGray.pdf") 
+par(mai=c(.5,.5,.5,.3),xaxs = "i", yaxs = "i",xaxs="i")
 plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
         axes = FALSE, xlab = "",ylab="", 
         panel.first = list(
@@ -320,16 +326,19 @@ plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111),
                 text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
                 text(0,-6,"Percent",xpd=TRUE,cex=1.3),
                 text(-.012,114,expression(e[y]),xpd=TRUE,cex=1.3)))
-makeRect(xm100[,1],ym100[,1],wm,1,col = gray(.5), border = NA, xpd = TRUE)
-makeRect(xf100[,1],yf100[,1],wf,1,col = gray(.5), border = NA, xpd = TRUE)
+PyramidOutline(-rowSums(Males,na.rm=TRUE),rowSums(Females,na.rm=TRUE),scale=1,border=gray(.1),col = gray(.5))
+#makeRect(xm100[,1],ym100[,1],wm,1,col = gray(.5), border = NA, xpd = TRUE)
+#makeRect(xf100[,1],yf100[,1],wf,1,col = gray(.5), border = NA, xpd = TRUE)
 segments(0,0,0,111,col="white")
 dev.off()
 }
 # ----------------------------------------------------------------------------- #
 # ey-sex-structured population with age-heterogeneity
 {
-    par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
-    png("/home/triffe/git/DISS/Pres/FiguresStatic/eyPyramidAgeHet.png",height=600,width=600) 
+  
+   #png("/home/triffe/git/DISS/Pres/FiguresStatic/eyPyramidAgeHet.png",height=600,width=600) 
+    pdf("/home/triffe/git/DISS/Pres/FiguresStatic/eyPyramidAgeHet.pdf")
+    par(mai=c(.5,.5,.5,.3),xaxs = "i", yaxs = "i",xaxs="i")
     plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
             axes = FALSE, xlab = "",ylab="", 
             panel.first = list(
@@ -488,7 +497,9 @@ plot(NULL, type = "n", xlim = c(0,111),ylim = c(0,250000),
                 text(seq(0, 110, by = 10), 0, seq(0, 110, by = 10), pos = 1, cex = .8, xpd = TRUE),
                 text(55,-10000,expression(e[y]),xpd=TRUE,cex=1.3,pos=1),
                 text(-8,265000,"Births",xpd=TRUE,cex=1.3,pos=4)
-        ))
+        ) animation Bx -> By
+
+# )
 rect(x2b-.5, y2b - wB/2, x2b+.5, y2b+wB/2, col = colsB, border = NA)
 segments(0,0,0,111,col="white")
 dev.off()
@@ -596,9 +607,9 @@ colsf3 <- c(rep(colR3(11),each=10),rev(colR3(11))[1])[col(Females)]
 dim(colsf3) <- dim(Females)
 colsf3 <- colsf3[FindNA]
 
-##### flat gray. Down Arrow only
-par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+# flat gray, no indications
 pdf("/home/triffe/git/DISS/Pres/FiguresStatic/eyRepro1.pdf") 
+par(mai=c(.5,.5,.5,.3),xaxs = "i", yaxs = "i",xaxs="i")
 plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
         axes = FALSE, xlab = "",ylab="", 
         panel.first = list(
@@ -610,17 +621,35 @@ plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111),
                 text(0,-9,"Percent",xpd=TRUE,cex=1.3),
                 text(-.012,116,expression(e[y]),xpd=TRUE,cex=1.3)))
 points(0,1,col="#FFFF0050")
-makeRect(xm100[, 1], ym100[, 1], wm, 1, col = gray(.6), border = NA, xpd = TRUE)
-makeRect(xf100[, 1], yf100[, 1], wf, 1, col = gray(.6), border = NA, xpd = TRUE)
-PyramidOutline(-rowSums(Males,na.rm=TRUE),rowSums(Females,na.rm=TRUE),scale=1,border=gray(.1))
+PyramidOutline(-rowSums(Males,na.rm=TRUE),rowSums(Females,na.rm=TRUE),scale=1,border=gray(.1),col = gray(.6))
+segments(0,0,0,111,col="white")
+dev.off()
+
+
+##### flat gray. Down Arrow only
+pdf("/home/triffe/git/DISS/Pres/FiguresStatic/eyRepro2.pdf")
+par(mai=c(.5,.5,.5,.3),xaxs = "i", yaxs = "i",xaxs="i")
+plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(-.011,0,.011,111,col = gray(.95), border = NA),
+                abline(h = seq(0,110,by=10), col = "white"),   
+                abline(v = seq(-.01, .01, by = .002), col = "white"),
+                text(-.011, seq(0,110,by=10),  seq(0,110,by=10), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
+                text(0,-9,"Percent",xpd=TRUE,cex=1.3),
+                text(-.012,116,expression(e[y]),xpd=TRUE,cex=1.3)))
+points(0,1,col="#FFFF0050")
+PyramidOutline(-rowSums(Males,na.rm=TRUE),rowSums(Females,na.rm=TRUE),scale=1,border=gray(.1),col = gray(.6))
 segments(0,0,0,111,col="white")
 arrows(-.008,80,-.008,40,lwd=2)
 text(-.008,80,"Advance",cex=1.2,pos=3)
 dev.off()
 
 # increment
-par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
-pdf("/home/triffe/git/DISS/Pres/FiguresStatic/eyRepro2.pdf") 
+
+pdf("/home/triffe/git/DISS/Pres/FiguresStatic/eyRepro3.pdf")
+par(mai=c(.5,.5,.5,.3),xaxs = "i", yaxs = "i",xaxs="i")
 plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
         axes = FALSE, xlab = "",ylab="", 
         panel.first = list(
@@ -641,8 +670,9 @@ arrows(-.008,80,-.008,40,lwd=2)
 text(-.008,80,"Advance",cex=1.2,pos=3)
 dev.off()
 # decrement
-par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i") 
-pdf("/home/triffe/git/DISS/Pres/FiguresStatic/eyRepro3.pdf") 
+
+pdf("/home/triffe/git/DISS/Pres/FiguresStatic/eyRepro4.pdf")
+par(mai=c(.5,.5,.5,.3),xaxs = "i", yaxs = "i",xaxs="i")
 plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
         axes = FALSE, xlab = "",ylab="", 
         panel.first = list(
