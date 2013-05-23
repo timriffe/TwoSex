@@ -454,6 +454,7 @@ plot(NULL, type = "n", xlim = c(0,111),ylim = c(0,250000),
                 text(-8,265000,"Births",xpd=TRUE,cex=1.3,pos=4)
 ))
 rect(x1b-.5, y1b - wB/2, x1b+.5, y1b+wB/2, col = colsB, border = NA)
+segments(0,0,0,111,col="white")
 dev.off()
 for (i in 99:0){
     out.path <- file.path("/home/triffe/git/DISS/Pres/Ba2ByAnimation",
@@ -489,6 +490,7 @@ plot(NULL, type = "n", xlim = c(0,111),ylim = c(0,250000),
                 text(-8,265000,"Births",xpd=TRUE,cex=1.3,pos=4)
         ))
 rect(x2b-.5, y2b - wB/2, x2b+.5, y2b+wB/2, col = colsB, border = NA)
+segments(0,0,0,111,col="white")
 dev.off()
 }
 # ----------------------------------------------------------------------------- #
