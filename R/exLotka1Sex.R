@@ -258,7 +258,7 @@ lines(yearsES, rmES[, 1],col = gray(.2), lwd = 2.5, lty = 5)
 lines(yearsES, rfES[, 1],col = gray(.5), lwd = 3, lty = 5)
 
 lines(yearsUS, rmLUS,col = gray(.2), lwd = 1)
-lines(yearsUS, rfLUS,col = grexOneSexMinay(.5), lwd = 1)
+lines(yearsUS, rfLUS,col = grey(.5), lwd = 1)
 lines(yearsES, rmLES,col = gray(.2), lwd = 1, lty = 5)
 lines(yearsES, rfLES,col = gray(.5), lwd = 1, lty = 5)
 
