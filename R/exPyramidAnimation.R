@@ -1,6 +1,5 @@
 # make a pyramid rearrange itself!
 
-
 makeRect <- function(x, y, w, h, ...){
     w2 <- w / 2
     h2 <- h / 2
@@ -77,7 +76,7 @@ dxmES <- t(t(dxmES) / colSums(dxmES))
 dxfES <- t(t(dxfES) / colSums(dxfES))
 
 PxUS <- local(get(load("Data/HMD_Px/PxUS.Rdata"))) 
-PxES <- local(get(load("Data/HMD_Px/PxUS.Rdata"))) 
+PxES <- local(get(load("Data/HMD_Px/PxES.Rdata"))) 
 
 source("R/UtilityFunctions.R")
 
@@ -127,16 +126,6 @@ y2f <- row(Females)[FindNA] - .5
 #RColorBrewer::display.brewer.all()
 
 colR <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(9,"YlGnBu"),space="Lab")
-#colR <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(9,"Set3"),space="Lab")
-# get colors
-#colsm <- gray(seq(.85,.05,length.out=111))[row(Males)] 
-#colsm <- colR(111)[row(Males)] 
-#dim(colsm) <- dim(Males)
-#colsm <- colsm[MindNA]
-##colsf <- gray(seq(.85,.05,length.out=111))[row(Females)] 
-#colsf <- colR(111)[row(Females)] 
-#dim(colsf) <- dim(Females)
-#colsf <- colsf[FindNA]
 
 colsm <- c(rep(colR(11),each=10),rev(colR(11))[1])[row(Males)] 
 dim(colsm) <- dim(Males)
@@ -424,7 +413,257 @@ makeRect(xf100[,100],yf100[,100],wf,1,col = colsf2, border = NA, xpd = TRUE)
 dev.off()
 }
 # ----------------------------------------------------------------------------- #
+# animation Bx -> By
+{
+BxUS  <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+Bxf   <- colSums(BxUS[["1975"]])
+Byf   <- ExpectedDx(Bxf, dxfUS[,"1975"])
+BCa     <- apply(Byf,2,cumsum)
+BCy     <- t(apply(Byf,1,cumsum))
+BCnta   <- BCa - Byf / 2
+BCnty   <- BCy - Byf / 2
+BindNA  <- Byf > 0
 
+y1b <- BCnta[BindNA]
+x1b <- col(Byf)[BindNA] - .5 # midpoints
+y2b <- BCnty[BindNA]
+x2b <- row(Byf)[BindNA] - .5
+# get colors
+colB <- grDevices::colorRampPalette(RColorBrewer::brewer.pal(9,"RdPu"),space="Lab")
+colsB <- c(rep(colB(11),each=10),rev(colB(11))[1])[row(BCnta)] 
+dim(colsB) <- dim(BCnta)
+colsB <- colsB[BindNA]
+wB <- Byf[BindNA]
+
+HB100 <- t(mapply(makearcv, x1b, y1b, x2b, y2b, MoreArgs = list(bc = .00035, 
+                        nvert = 100, female = TRUE)))
+xb100 <- HB100[,1:(ncol(HB100)/2)]
+yb100 <- HB100[,(ncol(HB100)/2+1):ncol(HB100)]
+
+par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+png("/home/triffe/git/DISS/Pres/Ba2ByAnimation/frame000.png",height=600,width=600) 
+plot(NULL, type = "n", xlim = c(0,111),ylim = c(0,250000), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(0,0,111,250000,col = gray(.95), border = NA),
+                abline(v = seq(0,110,by=10), col = "white"),   
+                abline(h = seq(0, 250000, by = 25000), col = "white"),
+                text(0, seq(0,250000,by=50000),  c("0","50000","100000","150000","200000","250000"), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(0, 110, by = 10), 0, seq(0, 110, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(55,-10000,"Age",xpd=TRUE,cex=1.3,pos=1),
+                text(-8,265000,"Births",xpd=TRUE,cex=1.3,pos=4)
+))
+rect(x1b-.5, y1b - wB/2, x1b+.5, y1b+wB/2, col = colsB, border = NA)
+dev.off()
+for (i in 99:0){
+    out.path <- file.path("/home/triffe/git/DISS/Pres/Ba2ByAnimation",
+            paste0("frame", sprintf("%03d", ncol(yb100) - i), ".png"))
+    par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+    png(out.path, height = 600, width = 600) 
+    plot(NULL, type = "n", xlim = c(0,111),ylim = c(0,250000), 
+            axes = FALSE, xlab = "",ylab="", 
+            panel.first = list(
+                    rect(0,0,111,250000,col = gray(.95), border = NA),
+                    abline(v = seq(0,110,by=10), col = "white"),   
+                    abline(h = seq(0, 250000, by = 25000), col = "white"),
+                    text(0, seq(0,250000,by=50000),  c("0","50000","100000","150000","200000","250000"), pos = 2, cex = .8, xpd = TRUE),
+                    text(seq(0, 110, by = 10), 0, seq(0, 110, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                    text(55,-10000,"Age",xpd=TRUE,cex=1.3,pos=1),
+                    text(-8,265000,"Births",xpd=TRUE,cex=1.3,pos=4)
+            ))
+    rect(xb100[, i + 1] - .5, yb100[, i + 1] - wB / 2, xb100[, i + 1] + .5, yb100[, i + 1] + wB / 2, 
+            col = colsB, border = NA)
+    dev.off()
+}
+par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+png("/home/triffe/git/DISS/Pres/Ba2ByAnimation/frame101.png",height=600,width=600)  
+plot(NULL, type = "n", xlim = c(0,111),ylim = c(0,250000), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(0,0,111,250000,col = gray(.95), border = NA),
+                abline(v = seq(0,110,by=10), col = "white"),   
+                abline(h = seq(0, 250000, by = 25000), col = "white"),
+                text(0, seq(0,250000,by=50000),  c("0","50000","100000","150000","200000","250000"), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(0, 110, by = 10), 0, seq(0, 110, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(55,-10000,expression(e[y]),xpd=TRUE,cex=1.3,pos=1),
+                text(-8,265000,"Births",xpd=TRUE,cex=1.3,pos=4)
+        ))
+rect(x2b-.5, y2b - wB/2, x2b+.5, y2b+wB/2, col = colsB, border = NA)
+dev.off()
+}
+# ----------------------------------------------------------------------------- #
+# let's look at some fertility rates:
+{
+BxUS  <- local(get(load("Data/USbirths/USBxy0_110.Rdata")))
+BxES  <- local(get(load("Data/ESbirths/ESBxy.Rdata")))
+ExUS <- local(get(load("Data/Exposures/USexp.Rdata"))) 
+ExES <- local(get(load("Data/Exposures/ESexp.Rdata"))) 
+
+# 2 years, 1975, 2009
+FyUS   <- do.call(cbind,lapply(c(1975,2009), function(yr, .Bx,.Ex,.dxm, .dxf){
+            yrc <- as.character(yr)
+            Bxy <- .Bx[[yrc]]
+            Bym <- rowSums(ExpectedDx(rowSums(Bxy),.dxm[,yrc]))
+            Byf <- rowSums(ExpectedDx(colSums(Bxy),.dxf[,yrc]))
+            Eym <- rowSums(ExpectedDx(with(.Ex, Male[Year == yr]),.dxm[,yrc]))
+            Eyf <- rowSums(ExpectedDx(with(.Ex, Female[Year == yr]),.dxf[,yrc]))
+            Fym <- Minf0(Mna0(Bym / Eym))
+            Fyf <- Minf0(Mna0(Byf / Eyf))
+            cbind(Fym, Fyf)
+        }, .Bx = BxUS,.Ex = ExUS,.dxm = dxmUS, .dxf = dxfUS))
+FyES   <- do.call(cbind,lapply(c(1975,2009), function(yr, .Bx,.Ex,.dxm, .dxf){
+            yrc <- as.character(yr)
+            Bxy <- .Bx[[yrc]]
+            Bym <- rowSums(ExpectedDx(rowSums(Bxy),.dxm[,yrc]))
+            Byf <- rowSums(ExpectedDx(colSums(Bxy),.dxf[,yrc]))
+            Eym <- rowSums(ExpectedDx(with(.Ex, Male[Year == yr]),.dxm[,yrc]))
+            Eyf <- rowSums(ExpectedDx(with(.Ex, Female[Year == yr]),.dxf[,yrc]))
+            Fym <- Minf0(Mna0(Bym / Eym))
+            Fyf <- Minf0(Mna0(Byf / Eyf))
+            cbind(Fym, Fyf)
+        }, .Bx = BxES,.Ex = ExES,.dxm = dxmES, .dxf = dxfES))
+eys <- 0:110 # x values
+LC <- RColorBrewer::brewer.pal(3,"Dark2")
+
+# Males
+par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+#png("/home/triffe/git/DISS/Pres/FiguresStatic/Fym.png",height=600,width=600) 
+pdf("/home/triffe/git/DISS/Pres/FiguresStatic/Fym.pdf")
+plot(NULL, type = "n", xlim = c(0,111),ylim = c(0,.1), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(0,0,111,.1,col = gray(.95), border = NA),
+                abline(v = seq(0,110,by=10), col = "white"),   
+                abline(h = seq(0, .1, by = .01), col = "white"),
+                text(0, seq(0, .1, by = .01), seq(0, .1, by = .01), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(0,110,by=10), 0, seq(0,110,by=10), pos = 1, cex = .8, xpd = TRUE),
+                text(55,-.01,expression(e[y]),xpd=TRUE,cex=1.3),
+                text(-5,.105,expression(F[y]),xpd=TRUE,cex=1.3),
+                text(55,.113,"Males",cex=3,xpd=TRUE)
+))
+
+lines(eys, FyUS[,1],col = LC[3], lwd = 3)
+lines(eys, FyUS[,3],col = LC[3], lwd = 3)
+points(eys, FyUS[,3],col = LC[3],pch=19,cex = .6)
+lines(eys, FyES[,1], lwd = 3, col = LC[2])
+lines(eys, FyES[,3], lwd = 3, col = LC[2])
+points(eys, FyES[,3],pch=19,cex = .6, col = LC[2])
+
+text(c(46.4, 50),c(0.08552239, 0.0565),c("ES 1975","US 1975"),pos=2,cex=1.3)
+text(c(38.5, 60),c(0.03, 0.05328358),c("ES 2009","US 2009"),pos=4,cex=1.3)
+dev.off()
+
+# Females
+par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+#png("/home/triffe/git/DISS/Pres/FiguresStatic/Fyf.png",height=600,width=600) 
+pdf("/home/triffe/git/DISS/Pres/FiguresStatic/Fyf.pdf") 
+plot(NULL, type = "n", xlim = c(0,111),ylim = c(0,.1), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(0,0,111,.1,col = gray(.95), border = NA),
+                abline(v = seq(0,110,by=10), col = "white"),   
+                abline(h = seq(0, .1, by = .01), col = "white"),
+                text(0, seq(0, .1, by = .01), seq(0, .1, by = .01), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(0,110,by=10), 0, seq(0,110,by=10), pos = 1, cex = .8, xpd = TRUE),
+                text(55,-.01,expression(e[y]),xpd=TRUE,cex=1.3),
+                text(-5,.105,expression(F[y]),xpd=TRUE,cex=1.3),
+                text(55,.113,"Females",cex=3,xpd=TRUE)
+        ))
+
+lines(eys, FyUS[,2],col = LC[3], lwd = 3)
+points(eys, FyUS[,4],col = LC[3],pch=19,cex = .6)
+lines(eys, FyUS[,4],col = LC[3], lwd = 3)
+lines(eys, FyES[,2], col = LC[2], lwd = 3)
+points(eys, FyES[,4],pch=19,cex = .6, col = LC[2])
+lines(eys, FyES[,4], col = LC[2], lwd = 3)
+text(c(52, 36),c(0.095, 0.0565),c("ES 1975","US 1975"),pos=2,cex=1.3)
+text(c(45, 68),c(0.03, 0.05328358),c("ES 2009","US 2009"),pos=4,cex=1.3)
+segments(35.16350, 0.05641791, 46.18248, 0.04283582)
+dev.off()
+}
+# ----------------------------------------------------------------------------- #
+# Figure for ey Reproduction, like the diagram in dissertation, grays
+{
+colR3 <- grDevices::colorRampPalette(gray(c(.3,.8)),space="Lab")
+# just need new colors to go in the other direction
+colsm3 <-c(rep(colR3(11),each=10),rev(colR3(11))[1])[col(Males)] 
+dim(colsm3) <- dim(Males)
+colsm3 <- colsm3[MindNA]
+#colsf <- gray(seq(.85,.05,length.out=111))[row(Females)] 
+colsf3 <- c(rep(colR3(11),each=10),rev(colR3(11))[1])[col(Females)] 
+dim(colsf3) <- dim(Females)
+colsf3 <- colsf3[FindNA]
+
+##### flat gray. Down Arrow only
+par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+pdf("/home/triffe/git/DISS/Pres/FiguresStatic/eyRepro1.pdf") 
+plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(-.011,0,.011,111,col = gray(.95), border = NA),
+                abline(h = seq(0,110,by=10), col = "white"),   
+                abline(v = seq(-.01, .01, by = .002), col = "white"),
+                text(-.011, seq(0,110,by=10),  seq(0,110,by=10), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
+                text(0,-9,"Percent",xpd=TRUE,cex=1.3),
+                text(-.012,116,expression(e[y]),xpd=TRUE,cex=1.3)))
+points(0,1,col="#FFFF0050")
+makeRect(xm100[, 1], ym100[, 1], wm, 1, col = gray(.6), border = NA, xpd = TRUE)
+makeRect(xf100[, 1], yf100[, 1], wf, 1, col = gray(.6), border = NA, xpd = TRUE)
+PyramidOutline(-rowSums(Males,na.rm=TRUE),rowSums(Females,na.rm=TRUE),scale=1,border=gray(.1))
+segments(0,0,0,111,col="white")
+arrows(-.008,80,-.008,40,lwd=2)
+text(-.008,80,"Advance",cex=1.2,pos=3)
+dev.off()
+
+# increment
+par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i")
+pdf("/home/triffe/git/DISS/Pres/FiguresStatic/eyRepro2.pdf") 
+plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(-.011,0,.011,111,col = gray(.95), border = NA),
+                abline(h = seq(0,110,by=10), col = "white"),   
+                abline(v = seq(-.01, .01, by = .002), col = "white"),
+                text(-.011, seq(0,110,by=10),  seq(0,110,by=10), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
+                text(0,-9,"Percent",xpd=TRUE,cex=1.3),
+                text(-.012,116,expression(e[y]),xpd=TRUE,cex=1.3)))
+points(0,1,col="#FFFF0050")
+makeRect(xm100[, 1], ym100[, 1], wm, 1, col = colsm3, border = NA, xpd = TRUE)
+makeRect(xf100[, 1], yf100[, 1], wf, 1, col = colsf3, border = NA, xpd = TRUE)
+PyramidOutline(-rowSums(Males,na.rm=TRUE),rowSums(Females,na.rm=TRUE),scale=1,border=gray(.1))
+text(.0005,75,"Increment",srt=270,col = "white",cex=1.2)
+segments(0,0,0,111,col="white")
+arrows(-.008,80,-.008,40,lwd=2)
+text(-.008,80,"Advance",cex=1.2,pos=3)
+dev.off()
+# decrement
+par(mai=c(0,0,0,0),xaxs = "i", yaxs = "i",xaxs="i") 
+pdf("/home/triffe/git/DISS/Pres/FiguresStatic/eyRepro3.pdf") 
+plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111), 
+        axes = FALSE, xlab = "",ylab="", 
+        panel.first = list(
+                rect(-.011,0,.011,111,col = gray(.95), border = NA),
+                abline(h = seq(0,110,by=10), col = "white"),   
+                abline(v = seq(-.01, .01, by = .002), col = "white"),
+                text(-.011, seq(0,110,by=10),  seq(0,110,by=10), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(-.01, .01, by = .002), 0, xlabs, pos = 1, cex = .8, xpd = TRUE),
+                text(0,-9,"Percent",xpd=TRUE,cex=1.3),
+                text(-.012,116,expression(e[y]),xpd=TRUE,cex=1.3)))
+makeRect(xm100[, 1], ym100[, 1], wm, 1, col = colsm3, border = NA, xpd = TRUE)
+makeRect(xf100[, 1], yf100[, 1], wf, 1, col = colsf3, border = NA, xpd = TRUE)
+PyramidOutline(-rowSums(Males,na.rm=TRUE),rowSums(Females,na.rm=TRUE),scale=1,border=gray(.1))
+rect(rowSums(Males,na.rm=TRUE)[1:5],0:4,rowSums(Females,na.rm=TRUE)[1:5],1:5,
+        col=paste0("#FFFF00",c("FF","B8","A5","80","40")),border = NA)
+text(.005,2.5,"Decrement",cex = 1.2,pos=4)
+arrows(.005,2.5,0.004,1,length=.05)
+text(.0005,75,"Increment",srt=270,col = "white",cex=1.2)
+segments(0,0,0,111,col="white")
+arrows(-.008,80,-.008,40,lwd=2)
+text(-.008,80,"Advance",cex=1.2,pos=3)
+dev.off()
+}
 
 
 #library(animation)

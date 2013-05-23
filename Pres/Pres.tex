@@ -10,8 +10,15 @@
 \documentclass{beamer}
 \usetheme{Berkeley}
 \usecolortheme{dove}
-\usefonttheme{structuresmallcapsserif}
+%\usefonttheme{structuresmallcapsserif}
 \usepackage{animate}
+% little red box for parts of formulas
+\usepackage{amsmath}
+\newcommand*{\boxedcolor}{red}
+\makeatletter
+\renewcommand{\boxed}[1]{\textcolor{\boxedcolor}{%
+  \fbox{\normalcolor\m@th$\displaystyle#1$}}}
+\makeatother
 % --------------------------------------------------
 % title slide
 \title{The two-sex problem in populations structured by remaining years of life}
@@ -25,10 +32,13 @@
 
 \begin{document}
 %----------- titlepage ----------------------------------------------%
+
 \begin{frame}
   \titlepage
 \end{frame}
+
 %----------- slide --------------------------------------------------%
+
 \begin{frame}
   \frametitle{Presentation overview}
 
@@ -40,24 +50,34 @@
 \end{itemize}
 
 \end{frame}
+
+%----------- section -------------------------------------------------%
+\section{Transforming population structure}
 %----------- slide --------------------------------------------------%
+
 \begin{frame}
 \frametitle{A population structured by age and sex --}
 \includegraphics[width=2.8in,height=2.8in]{FiguresStatic/AgeSexGray}
 \end{frame}
+
 %----------- slide --------------------------------------------------%
+
 \begin{frame}
 \frametitle{-- is heterogeneous with respect to remaining years of life}
 \includegraphics[width=2.8in,height=2.8in]{FiguresStatic/AgeSexEyHetero}
 \end{frame}
+
 %----------- slide --------------------------------------------------%
 % T. Miller's equation
+
 \begin{frame}
 \frametitle{We have a formula for this heterogeneity}
-The population age $a$ that will die in $n$ years is, $P_{a,n}$:
+\begin{block}{The population age $a$ that will die in $n$ years is, $P_{a,n}$}
  \begin{equation}
    P_{a,n} = P_a \frac{d_{a+n}}{l_a}
  \end{equation}
+ \end{block}
+ \vskip.5cm
  \begin{description}
  \item[$d_a$:] lifetable death distribution 
  \item[$l_a$:] survival function
@@ -69,39 +89,57 @@ Variants of this equation in T. Miller (2001), Vaupel (2009)
 \end{frame}
 
 %----------- slide --------------------------------------------------%
+
 \begin{frame}
-\frametitle{We can re-stack such data by remaining years}
-\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/AgeSexEyHetero}
+\frametitle{We have a formula for this heterogeneity}
+\begin{block}{Example: The population age $20$ that will die in $10$ years}
+ \begin{equation}
+   P_{20,10} = P_{20} \frac{d_{30}}{l_{20}} \notag
+ \end{equation}
+ \end{block}
 \end{frame}
+
+%----------- slide --------------------------------------------------%
+
+%\begin{frame}
+%\frametitle{We can re-stack such data by remaining years}
+%\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/AgeSexEyHetero}
+%\end{frame}
+
 % if you can decompose it you can recompose it
 %----------- slide --------------------------------------------------%
-% first animation
+% first animation age -> ey
 
 \begin{frame}
 \frametitle{We can re-stack such data by remaining years}
-\animategraphics[autoplay,controls,width=2.8in,height=2.8in]{14}{Age2eyAnimation/frame}{000}{101}
+\animategraphics[controls,width=2.8in,height=2.8in]{14}{Age2eyAnimation/frame}{000}{101}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
 % eyPyramid (last frame of prior animation)
-\begin{frame}
-\frametitle{A population structured by remaining years of life}
-\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/eyPyramid}
-\end{frame}
+% NO NEED FOR THIS SLIDE- last frame of prev animation is same
+%\begin{frame}
+%\frametitle{A population structured by remaining years of life}
+%\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/eyPyramid}
+%\end{frame}
+
 %----------- slide --------------------------------------------------%
 % Transformation equation
 
 \begin{frame}
 \frametitle{The thanatological transformation}
-The population with $y$ remaining years of life is:
+\begin{block}{The population with $y$ remaining years of life, $P_y$}
  \begin{equation}
-   P_y = P_{a+n} = \int_{a=0}^\infty P_a \frac{d_{a+n}}{l_a} \mathrm{d} a
+   \onslide<2->{P_y = P_{n} = \int_{a=0}^\infty} P_a \frac{d_{a+n}}{l_a}
+   \onslide<2->{\mathrm{d} a}
  \end{equation}
- 
-\pause
-This is the basic age-transformation: 
-
+ \end{block}
+\onslide<3->{
+\vskip1cm
+This is the basic age-transformation we propose: 
+\vskip.3cm
 Chronological $\rightarrow$ Thanatological 
+}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
@@ -122,20 +160,32 @@ Chronological $\rightarrow$ Thanatological
 
 %----------- slide --------------------------------------------------%
 % ey -> age animation 
+
 \begin{frame}
 \frametitle{We can return to age-struture accordingly}
-\animategraphics[autoplay,controls,width=2.8in,height=2.8in]{14}{ey2ageAnimation/frame}{000}{101}
+\animategraphics[controls,width=2.8in,height=2.8in]{14}{ey2ageAnimation/frame}{000}{101}
+\end{frame}
+
+%----------- section ------------------------------------------------%
+\section{Demographic rates}
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+\frametitle{Any age-structured data can be transformed}
+\animategraphics[controls,width=2.8in,height=2.8in]{20}{Ba2ByAnimation/frame}{000}{101}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
-\begin{frame}
-\frametitle{Any age-structured data can be transformed}
 
-*to model renewal in populations structured by remaining years of life, we're
-interested in fertility rates, $F_y$:
+\begin{frame}
+\frametitle{Remaining-years classified demographic rates}
+\begin{block}{Define remaining-years fertility rates, $F_y$}
 \begin{equation}
-F_y = \frac{B_y}{E_y}
+F_y = \frac{B_y}{E_y}\notag
 \end{equation}
+\end{block}
+
+\vskip.5cm
  \begin{description}
  \item[$B_y$:] births by remaining years of life of mother (or father)
  \item[$E_y$:] exposures by remaining years of life of mother (or father)
@@ -144,22 +194,93 @@ F_y = \frac{B_y}{E_y}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
-
+% males
 \begin{frame}
 \frametitle{Some typical fertility curves by remaining years of life}
-\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/eyPyramidAgeHet}
+\includegraphics[width=3.2in,height=3.2in]{FiguresStatic/Fym}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+% females
+\begin{frame}
+\frametitle{Some typical fertility curves by remaining years of life}
+\includegraphics[width=3.2in,height=3.2in]{FiguresStatic/Fyf}
+\end{frame}
+
+%----------- section ------------------------------------------------%
+\section{Growth}
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+\frametitle{Reproduction}
+\begin{figure}
+\includegraphics<1>[width=3in,height=3in]{FiguresStatic/eyRepro1}
+\includegraphics<2>[width=3in,height=3in]{FiguresStatic/eyRepro2}
+\includegraphics<3>[width=3in,height=3in]{FiguresStatic/eyRepro3}
+\end{figure}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
-\frametitle{Reproduction in populations structured by remaining years of life}
-
+\frametitle{Births}
+\begin{center}
+Births in year $t$ are incremented to the population according to the death
+distribution, $d_a$.
+\vskip2pt
+\pause
+*Thus, the shape of $d_a$ determines the underlying population structure.
+\end{center}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
+
+\begin{frame}
+\frametitle{Births}
+\begin{align}
+B(t) &= \int_{y=0}^\infty F_y P_y \mathrm{d}y\notag\\
+\onslide<2->{&= \int_{y=0}^\infty \int_{a=0}^\infty F_y \boxed{B(t-a)
+d_{a+y}}\mathrm{d}a \mathrm{d}y\notag}\notag
+\onslide<3->{\intertext{And after many years pass\ldots}}
+\onslide<4->{&= \int_{y=0}^\infty \int_{a=0}^\infty F_y \boxed{B(t)e^{-ra}
+d_{a+y}}\mathrm{d}a \mathrm{d}y\notag}\notag
+\end{align}
+\end{frame}
+
 %----------- slide --------------------------------------------------%
+
+\begin{frame}
+\frametitle{Renewal}
+\center{The relative size of adjacent cohorts becomes constant, $e^{r}$ }
+\begin{align}
+\onslide<1->{&= \int_{y=0}^\infty \int_{a=0}^\infty F_y B(t)\boxed{e^{-ra}}
+d_{a+y}\mathrm{d}a \mathrm{d}y\notag}\notag
+\onslide<2->{\intertext{Divide out $B(t)$ to isolate the intrinsic growth
+rate, $r$}
+1 &= \int_{y=0}^\infty \int_{a=0}^\infty F_y d_{a+y}e^{-ra}\mathrm{d}a
+\mathrm{d}y}
+\end{align}
+\end{frame}
+
 %----------- slide --------------------------------------------------%
+
+\begin{frame}
+\frametitle{We can estimate $r$ from data}
+stuff
+\end{frame}
+
+%----------- section ------------------------------------------------%
+
+\section{Two sexes and two ages}
+
 %----------- slide --------------------------------------------------%
+
+\begin{frame}
+\frametitle{A single estimate of $r$ for the population}
+words
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+
 \end{document}
 
