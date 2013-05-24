@@ -19,6 +19,8 @@
 \renewcommand{\boxed}[1]{\textcolor{\boxedcolor}{%
   \fbox{\normalcolor\m@th$\displaystyle#1$}}}
 \makeatother
+% to remove caption prefixes
+\usepackage[labelformat=empty]{caption}
 % --------------------------------------------------
 % title slide
 \title{The two-sex problem in populations structured by remaining years of life}
@@ -57,14 +59,16 @@
 
 \begin{frame}
 \frametitle{A population structured by age and sex --}
-\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/AgeSexGray}
+\vskip-.5cm
+\includegraphics[width=3in,height=3in]{FiguresStatic/AgeSexGray}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
 \frametitle{-- is heterogeneous with respect to remaining years of life}
-\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/AgeSexEyHetero}
+\vskip-.5cm
+\includegraphics[width=3in,height=3in]{FiguresStatic/AgeSexEyHetero}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
@@ -112,6 +116,7 @@ Variants of this equation in T. Miller (2001), Vaupel (2009)
 
 \begin{frame}
 \frametitle{We can re-stack such data by remaining years}
+\vskip-.5cm
 \animategraphics[controls,width=2.8in,height=2.8in]{14}{Age2eyAnimation/frame}{000}{101}
 \end{frame}
 
@@ -147,7 +152,8 @@ Chronological $\rightarrow$ Thanatological
 
 \begin{frame}
 \frametitle{A population structured by remaining years of life --}
-\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/eyPyramidGray}
+\vskip-.5cm
+\includegraphics[width=3in,height=3in]{FiguresStatic/eyPyramidGray}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
@@ -155,7 +161,8 @@ Chronological $\rightarrow$ Thanatological
 
 \begin{frame}
 \frametitle{-- is heterogeneous with respect to age}
-\includegraphics[width=2.8in,height=2.8in]{FiguresStatic/eyPyramidAgeHet}
+\vskip-.5cm
+\includegraphics[width=3in,height=3in]{FiguresStatic/eyPyramidAgeHet}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
@@ -163,6 +170,7 @@ Chronological $\rightarrow$ Thanatological
 
 \begin{frame}
 \frametitle{We can return to age-struture accordingly}
+\vskip-.5cm
 \animategraphics[controls,width=2.8in,height=2.8in]{14}{ey2ageAnimation/frame}{000}{101}
 \end{frame}
 
@@ -171,6 +179,8 @@ Chronological $\rightarrow$ Thanatological
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
+\frametitle{Any age-structured data can be restructured like this}
+\vskip-.5cm
 \animategraphics[controls,width=2.8in,height=2.8in]{20}{Ba2ByAnimation/frame}{000}{101}
 \end{frame}
 
@@ -186,8 +196,8 @@ F_y = \frac{B_y}{E_y}\notag
 
 \vskip.5cm
  \begin{description}
- \item[$B_y$:] births by remaining years of life of mother (or father)
- \item[$E_y$:] exposures by remaining years of life of mother (or father)
+ \item[$B_y$:] births by remaining years of life of mother/father
+ \item[$E_y$:] exposures by remaining years of life of mother/father
  \end{description}
 \pause
 \end{frame}
@@ -212,6 +222,7 @@ F_y = \frac{B_y}{E_y}\notag
 
 \begin{frame}
 \frametitle{Reproduction}
+\vskip-.5cm
 \begin{figure}
 \includegraphics<1>[width=3in,height=3in]{FiguresStatic/eyRepro1}
 \includegraphics<2>[width=3in,height=3in]{FiguresStatic/eyRepro2}
@@ -252,21 +263,27 @@ d_{a+y}}\mathrm{d}a \mathrm{d}y\notag}\notag
 \frametitle{Renewal}
 \center{The relative size of adjacent cohorts becomes constant, $e^{r}$ }
 \begin{align}
-\onslide<1->{&= \int_{y=0}^\infty \int_{a=0}^\infty F_y B(t)\boxed{e^{-ra}}
-d_{a+y}\mathrm{d}a \mathrm{d}y\notag}\notag
+\onslide<1->{B(t) &= \int_{y=0}^\infty \int_{a=0}^\infty F_y
+B(t)\boxed{e^{-ra}} d_{a+y}\mathrm{d}a \mathrm{d}y\notag}\notag
 \onslide<2->{\intertext{Divide out $B(t)$ to isolate the intrinsic growth
 rate, $r$}
 1 &= \int_{y=0}^\infty \int_{a=0}^\infty F_y d_{a+y}e^{-ra}\mathrm{d}a
 \mathrm{d}y}
+\onslide<3->{\intertext{Compare with Lotka}1 &= \int_{a=0}^\infty F_al_a
+\mathrm{d}a}
 \end{align}
+
 \end{frame}
 
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
 \frametitle{We can estimate $r$ from data}
-\vskip-1cm
-\includegraphics[width=3.2in,height=3.2in]{FiguresStatic/rSingleSex}
+\vskip-.5cm
+\begin{figure}
+\includegraphics<1>[width=3in,height=3in]{FiguresStatic/rSingleSex1}
+\includegraphics<2>[width=3in,height=3in]{FiguresStatic/rSingleSex2}
+\end{figure}
 \end{frame}
 % note differences between males vs females and chrono vs thano
 %----------- section ------------------------------------------------%
@@ -277,10 +294,39 @@ rate, $r$}
 
 \begin{frame}
 \frametitle{A single estimate of $r$ for the population}
-words
+\begin{itemize}
+  \onslide<2->{\item Male and female intrinsic rates differ}\onslide<4->{
+  (two-sex problem)} \onslide<3->{ \item Chronos versus Thanatos} \onslide<4->{ (two-age problem)}
+\end{itemize}
+% insert sculpture pics of Chronos and Thanatos
+\vskip-.5cm
+\onslide<3->{
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \caption{Chronos}
+  \includegraphics[width=.5\linewidth]{FiguresStatic/Chronos}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \caption{Thanatos}
+  \includegraphics[width=.4\linewidth]{FiguresStatic/Thanatos}
+\end{minipage}
+\end{figure}
+}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
 
+\begin{frame}
+\frametitle{The two-sex problem}
+\begin{itemize}
+  \item Why do male and female reproductive indices differ?
+  \item This divergence
+\end{itemize}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
 \end{document}
 

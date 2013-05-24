@@ -419,6 +419,7 @@ plot(NULL, type = "n", xlim = c(-.011,.011),ylim = c(0,111),
         ))
 makeRect(xm100[,100],ym100[,100],wm,1,col = colsm2, border = NA, xpd = TRUE)
 makeRect(xf100[,100],yf100[,100],wf,1,col = colsf2, border = NA, xpd = TRUE)
+segments(0,0,0,111,col="white")
 dev.off()
 }
 # ----------------------------------------------------------------------------- #
@@ -705,9 +706,11 @@ rfES        <- local(get(load("/home/triffe/git/DISS/Data/results/exSingleSex/rf
 rmES        <- local(get(load("/home/triffe/git/DISS/Data/results/exSingleSex/rmES.Rdata")))
 rfUS        <- local(get(load("/home/triffe/git/DISS/Data/results/exSingleSex/rfUS.Rdata")))
 rmUS        <- local(get(load("/home/triffe/git/DISS/Data/results/exSingleSex/rmUS.Rdata")))
-
+yearsUS <- 1969:2009
+yearsES <- 1975:2009
 Cols <- RColorBrewer::brewer.pal(9,"Set1")
-pdf("Pres/FiguresStatic/rSingleSex.pdf", height = 5, width = 5)
+# for the US
+pdf("Pres/FiguresStatic/rSingleSex1.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
 plot(yearsUS, rmUS[, 1], type = 'n', ylim = c(-.02,.011),xlim = c(1968,2010), axes = FALSE,
         xlab = "", ylab = "",
@@ -721,16 +724,49 @@ plot(yearsUS, rmUS[, 1], type = 'n', ylim = c(-.02,.011),xlim = c(1968,2010), ax
 
 lines(yearsUS, rmUS[, 1],col = Cols[2], lwd = 2.5)
 lines(yearsUS, rfUS[, 1],col = Cols[8], lwd = 3)
-lines(yearsES, rmES[, 1],col = Cols[2], lwd = 2, lty = 5)
-lines(yearsES, rfES[, 1],col = Cols[8], lwd = 2, lty = 5)
+lines(yearsES, rmES[, 1],col = grey(.8), lwd = 2, lty = 5)
+lines(yearsES, rfES[, 1],col = grey(.8), lwd = 2, lty = 5)
 
 lines(yearsUS, rLotkaUS[,1], col = Cols[2], lwd = 1)
 lines(yearsUS, rLotkaUS[,2], col = Cols[8], lwd = 1)
+lines(yearsES, rLotkaES[,1], col = grey(.8), lwd = 1, lty = 5)
+lines(yearsES, rLotkaES[,2], col = grey(.8), lwd = 1, lty = 5)
+
+legend(1969,-.0085, lty = c(1,1,5,5,1,1,5,5), 
+        col = c(Cols[c(2,8)],grey(.8),grey(.8),Cols[c(2,8)],grey(.8),grey(.8)), 
+        lwd = c(2.5,3,2,2,1,1,1,1),
+        bty = "n",
+        legend = c(expression(US~males~e[y]), expression(US~females~e[y]), 
+                expression(ES~males~e[y]), expression(ES~females~e[y]),
+                "US males age", "US females age", "ES males age", "ES females age"), 
+        xpd = TRUE, cex = .8)
+dev.off()
+
+# for Spain
+pdf("Pres/FiguresStatic/rSingleSex2.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
+plot(yearsUS, rmUS[, 1], type = 'n', ylim = c(-.02,.011),xlim = c(1968,2010), axes = FALSE,
+        xlab = "", ylab = "",
+        panel.first = list(rect(1968,-.02,2010,.011,col = gray(.95), border=NA),
+                abline(h = seq(-.02,.011,by = .0025), col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(-.02,.011,by = .005),seq(-.02,.011,by = .005), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10),-.02, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, -.022, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1966,.0125, "r", cex = 1, xpd = TRUE)))
+
+lines(yearsUS, rmUS[, 1],col = grey(.8), lwd = 2.5)
+lines(yearsUS, rfUS[, 1],col = grey(.8), lwd = 3)
+lines(yearsES, rmES[, 1],col = Cols[2], lwd = 2, lty = 5)
+lines(yearsES, rfES[, 1],col = Cols[8], lwd = 2, lty = 5)
+
+lines(yearsUS, rLotkaUS[,1], col = grey(.8), lwd = 1)
+lines(yearsUS, rLotkaUS[,2], col = grey(.8), lwd = 1)
 lines(yearsES, rLotkaES[,1], col = Cols[2], lwd = 1, lty = 5)
 lines(yearsES, rLotkaES[,2], col = Cols[8], lwd = 1, lty = 5)
 
 legend(1969,-.0085, lty = c(1,1,5,5,1,1,5,5), 
-        col = Cols[c(2,8)], 
+        col = c(grey(.8),grey(.8),Cols[c(2,8)],grey(.8),grey(.8),Cols[c(2,8)]), 
         lwd = c(2.5,3,2,2,1,1,1,1),
         bty = "n",
         legend = c(expression(US~males~e[y]), expression(US~females~e[y]), 
