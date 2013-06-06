@@ -163,10 +163,26 @@ rect(cbind(0,LivCF[,-ncol(LivCF)]),bottomsL,LivCF,topsL, col = LivcolM, border =
 
 # now for dx pyramid on top:
 dev.off()
+res <- 200
 
+png("/home/triffe/Desktop/teaserFigure.png",height = 8 * res, width = 3 * res, res = res)
+par(mai = c(.3,.3,.3,.3), xaxs = "i", yaxs = "i", xpd = TRUE, bg = "black")
+plot(NULL, type = "n", xlim = c(-3000000, 3000000), ylim = c(1900, 2300), axes = FALSE)
+# a year slice:
 
+# draw Lower historical
+rect(-cbind(0,RCMales[,-ncol(RCMales)]),bottomsH,-RCMales,topsH, col = HcolM, border = NA)
+rect(cbind(0,RCFemales[,-ncol(RCFemales)]),bottomsH,RCFemales,topsH, col = HcolM, border = NA)
 
+# draw Upper projected 
+rect(-cbind(0,ProjCM[,-ncol(ProjCM)]),bottomsP,-ProjCM,topsP, col = ProjcolM, border = NA)
+rect(cbind(0,ProjCF[,-ncol(ProjCF)]),bottomsP,ProjCF,topsP, col = ProjcolM, border = NA)
 
+# draw Middle Living projected 
+rect(-cbind(0,LivCM[,-ncol(LivCM)]),bottomsL,-LivCM,topsL, col = LivcolM, border = NA)
+rect(cbind(0,LivCF[,-ncol(LivCF)]),bottomsL,LivCF,topsL, col = LivcolM, border = NA)
 
+# now for dx pyramid on top:
+dev.off()
 
 
