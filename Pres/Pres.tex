@@ -21,15 +21,20 @@
 \makeatother
 % to remove caption prefixes
 \usepackage[labelformat=empty]{caption}
+\usepackage{subcaption}
 % --------------------------------------------------
 % title slide
 \title{The two-sex problem in populations structured by remaining years of life}
-\author[Tim Riffe]{Timothy L. M. Riffe}
-\institute[UAB]{
-  Department of Geography \\
-  Universitat Aut\`{o}noma de Barcelona \\
-  Centre d'Estudis Demogr\`{a}fics \\
-}
+\author[Tim Riffe]{Timothy L. M. Riffe} 
+\institute[UAB]{\raggedright{\underline{Director}: \\ 
+\quad Dr. Albert Esteve Pal\'{o}s \\
+\underline{Tribunal}: \\ 
+\quad Dr. Julio P\'{e}rez D\'{i}az \\ 
+\quad Dr. I\~{n}aki Permanyer Ugartemendia\\ 
+\quad Dr. Trifon Missov \\
+Department of Geography \\ 
+Universitat Aut\`{o}noma de Barcelona \\ 
+Centre d'Estudis Demogr\`{a}fics }}
 \date{June 26, 2013}
 
 \begin{document}
@@ -40,16 +45,20 @@
 \end{frame}
 
 %----------- slide --------------------------------------------------%
-
+\begin{frame}
+  \frametitle{A bit of guidance}
+  \onslide<1-> What is the two-sex problem?\\
+  \onslide<2-> How to model and measure reproductivity \\ 
+  \onslide<3-> We look at the intrinsic growth rate, $r$
+\end{frame}
+%----------- slide --------------------------------------------------%
 \begin{frame}
   \frametitle{Presentation overview}
 
-\begin{itemize}
-  \item Population structure
-  \item Structured demographic rates
-  \item Population growth
-  \item Two sexes and two ages
-\end{itemize}
+  Population structure\\
+  Structured demographic rates\\
+  Population growth\\
+  Two sexes and two ages
 
 \end{frame}
 
@@ -205,32 +214,177 @@ F_y = \frac{B_y}{E_y}\notag
 %----------- slide --------------------------------------------------%
 % males
 \begin{frame}
-\frametitle{Some typical fertility curves by remaining years of life}
-\includegraphics[width=3.2in,height=3.2in]{FiguresStatic/Fym}
+\frametitle{Male fertility rates, US, 1975 and 2009}
+\vspace{-5em}
+%\includegraphics[width=3.2in,height=3.2in]{FiguresStatic/Fym}
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{ASFR}
+                \includegraphics[width=\textwidth]{FiguresStatic/Fx1}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{$e$SFR}
+                \includegraphics[width=\textwidth]{FiguresStatic/Fy1}
+        \end{subfigure}
+\end{figure}
 \end{frame}
-
 %----------- slide --------------------------------------------------%
 % females
 \begin{frame}
-\frametitle{Some typical fertility curves by remaining years of life}
-\includegraphics[width=3.2in,height=3.2in]{FiguresStatic/Fyf}
+\frametitle{Female fertility rates, US, 1975 and 2009}
+\vspace{-5em}
+%\includegraphics[width=3.2in,height=3.2in]{FiguresStatic/Fym}
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{ASFR}
+                \includegraphics[width=\textwidth]{FiguresStatic/Fx2}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{$e$SFR}
+                \includegraphics[width=\textwidth]{FiguresStatic/Fy2}
+        \end{subfigure}
+\end{figure}
 \end{frame}
-
+%----------- slide --------------------------------------------------%
+% males
+\begin{frame}
+\frametitle{Male fertility rates, Spain, 1975 and 2009}
+\vspace{-5em}
+%\includegraphics[width=3.2in,height=3.2in]{FiguresStatic/Fym}
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{ASFR}
+                \includegraphics[width=\textwidth]{FiguresStatic/Fx3}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{$e$SFR}
+                \includegraphics[width=\textwidth]{FiguresStatic/Fy3}
+        \end{subfigure}
+\end{figure}
+\end{frame}
+%----------- slide --------------------------------------------------%
+% females
+\begin{frame}
+\frametitle{Female fertility rates, Spain, 1975 and 2009}
+\vspace{-5em}
+%\includegraphics[width=3.2in,height=3.2in]{FiguresStatic/Fym}
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{ASFR}
+                \includegraphics[width=\textwidth]{FiguresStatic/Fx4}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{$e$SFR}
+                \includegraphics[width=\textwidth]{FiguresStatic/Fy4}
+        \end{subfigure}
+\end{figure}
+\end{frame}
 %----------- section ------------------------------------------------%
 \section{Growth}
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
 \frametitle{Reproduction}
-\vskip-.5cm
+\vspace{-5em}
 \begin{figure}
-\includegraphics<1>[width=3in,height=3in]{FiguresStatic/eyRepro1}
-\includegraphics<2>[width=3in,height=3in]{FiguresStatic/eyRepro2}
-\includegraphics<3>[width=3in,height=3in]{FiguresStatic/eyRepro3}
-\includegraphics<4>[width=3in,height=3in]{FiguresStatic/eyRepro4}
+        \centering
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{Chronological}
+                \includegraphics[width=\textwidth]{FiguresStatic/exRepro1}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{Thanatological}
+                \includegraphics[width=\textwidth]{FiguresStatic/eyRepro1}
+        \end{subfigure}
 \end{figure}
 \end{frame}
+%----------- slide --------------------------------------------------%
 
+\begin{frame}
+\frametitle{Reproduction}
+\vspace{-5em}
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{Chronological}
+                \includegraphics[width=\textwidth]{FiguresStatic/exRepro2}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{Thanatological}
+                \includegraphics[width=\textwidth]{FiguresStatic/eyRepro2}
+        \end{subfigure}
+\end{figure}
+\end{frame}
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+\frametitle{Reproduction}
+\vspace{-5em}
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{Chronological}
+                \includegraphics[width=\textwidth]{FiguresStatic/exRepro3}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{Thanatological}
+                \includegraphics[width=\textwidth]{FiguresStatic/eyRepro3}
+        \end{subfigure}
+\end{figure}
+\end{frame}
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+\frametitle{Reproduction}
+\vspace{-5em}
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{Chronological}
+                \includegraphics[width=\textwidth]{FiguresStatic/exRepro4}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \caption*{Thanatological}
+                \includegraphics[width=\textwidth]{FiguresStatic/eyRepro4}
+        \end{subfigure}
+\end{figure}
+\end{frame}
 %----------- slide -----
 \begin{frame}
 \frametitle{Births}
@@ -269,20 +423,62 @@ B(t)\boxed{e^{-ra}} d_{a+y}\mathrm{d}a \mathrm{d}y\notag}\notag
 rate, $r$}
 1 &= \int_{y=0}^\infty \int_{a=0}^\infty F_y d_{a+y}e^{-ra}\mathrm{d}a
 \mathrm{d}y}
-\onslide<3->{\intertext{Compare with Lotka}1 &= \int_{a=0}^\infty F_al_a
+\onslide<3->{\intertext{Compare with Lotka (1911)}1 &= \int_{a=0}^\infty
+F_al_ae^{-ra}
 \mathrm{d}a}
 \end{align}
-
+\onslide<4->{(Vital rates either refer to males or females.)}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
+\begin{frame}
+\frametitle{Renewal}
+\onslide<1-> Vital rates either refer to males or females \\
+\vspace{1em}
+\onslide<2-> Male $r$ $\ne$ Female $r$  \\
+\onslide<3-> \quad (Except of course in a stationary population) \\
+\vspace{1em}
+\onslide<4-> Chronological $r$ $\ne$ thanatological $r$ \\
+\onslide<5-> \quad (Except of course in a stationary population)
+\end{frame}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+\frametitle{Single-sex intrinsic growth rates, $r$}
+\vspace{-2em}
+\begin{figure}
+      \centering
+      \caption*{Lotka's $r$, US 1969-2009}
+      \includegraphics[scale = .55]{FiguresStatic/rSingleSex1}
+\end{figure}
+\end{frame}
 
 \begin{frame}
-\frametitle{We can estimate $r$ from data}
-\vskip-.5cm
+\frametitle{Single-sex intrinsic growth rates, $r$}
+\vspace{-2em}
 \begin{figure}
-\includegraphics<1>[width=3in,height=3in]{FiguresStatic/rSingleSex1}
-\includegraphics<2>[width=3in,height=3in]{FiguresStatic/rSingleSex2}
+      \centering
+      \caption*{Lotka's vs Thanatological $r$, US 1969-2009}
+      \includegraphics[scale = .55]{FiguresStatic/rSingleSex2}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Single-sex intrinsic growth rates, $r$}
+\vspace{-2em}
+\begin{figure}
+      \centering
+      \caption*{Lotka's $r$, Spain 1975-2009}
+      \includegraphics[scale = .55]{FiguresStatic/rSingleSex3}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Single-sex intrinsic growth rates, $r$}
+\vspace{-2em}
+\begin{figure}
+      \centering
+      \caption*{Lotka's vs Thanatological $r$, Spain 1975-2009}
+      \includegraphics[scale = .55]{FiguresStatic/rSingleSex4}
 \end{figure}
 \end{frame}
 % note differences between males vs females and chrono vs thano
@@ -293,7 +489,8 @@ rate, $r$}
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
-\frametitle{A single estimate of $r$ for the population}
+\frametitle{Presentation still under construction}
+Follow with decomposition slides, then one simple method, and then summarize
 \begin{itemize}
   \onslide<2->{\item Male and female intrinsic rates differ}\onslide<4->{
   (two-sex problem)} \onslide<3->{ \item Chronos versus Thanatos} \onslide<4->{ (two-age problem)}
@@ -323,7 +520,6 @@ rate, $r$}
 \frametitle{The two-sex problem}
 \begin{itemize}
   \item Why do male and female reproductive indices differ?
-  \item This divergence
 \end{itemize}
 \end{frame}
 

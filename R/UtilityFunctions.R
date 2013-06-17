@@ -192,7 +192,22 @@ PyramidOutline <- function(males, females, scale = sum(c(males, females)), gap =
     polygon(x = c(-0, rep(-males, each = 2) - 0, -0) - gap / 2 + x.shift, 
             y =  c(rep(c(age, u.age), each = 2)) + y.shift, ...)
 }
-
+PyramidOutline2 <- function(males, females, 
+        scale = sum(c(males, females)), 
+        x = 0, y = 0, ...){
+    N       <- length(males)
+    Total   <- sum(c(males, females), na.rm = TRUE)
+    widths  <- rep(1, N)
+    age     <- c(0,cumsum(widths)[-N])
+    u.age   <- age[N] + widths[N]
+    
+    males   <- scale * males / Total
+    females <- scale * females / Total
+    
+    
+    polygon(x = c(0, rep(females, each = 2) + 0,0, rev(c(-0, rep(-males, each = 2) - 0, -0))) + x, 
+            y =  c(rep(c(age, u.age), each = 2), rev(c(rep(c(age, u.age), each = 2)))) + y, ...)
+}
 # from my package "decompHoriuchi"
 DecompContinuousOrig <- function(func,rates1,rates2,N,...){
     # number of interval jumps   
@@ -224,7 +239,7 @@ mx2LxHMD <- compiler::cmpfun(function(mx){
             qx                  <- mx / (1 + (1 - ax) * mx)          # Eq 60 MPv5 (identity)
 # ---------------------------------------------------------------------------------
 # set open age qx to 1
-            i.openage           <- 111 # removed argument OPENAGE
+            i.openage           <- length(mx)+1 # removed argument OPENAGE
             qx[i.openage]       <- ifelse(is.na(qx[i.openage]), NA, 1)
             ax[i.openage]       <- Minf0(Mna0(1 / mx[i.openage]))        
 # ---------------------------------------------------------------------------------
@@ -252,7 +267,7 @@ mx2dxHMD <- compiler::cmpfun(function(mx){
             qx                  <- mx / (1 + (1 - ax) * mx)          # Eq 60 MPv5 (identity)
 # ---------------------------------------------------------------------------------
 # set open age qx to 1
-            i.openage           <- 111 # removed argument OPENAGE
+            i.openage           <- length(mx)+1 # removed argument OPENAGE
             qx[i.openage]       <- ifelse(is.na(qx[i.openage]), NA, 1)
             ax[i.openage]       <- 1 / mx[i.openage]                   
 # ---------------------------------------------------------------------------------
@@ -264,7 +279,7 @@ mx2dxHMD <- compiler::cmpfun(function(mx){
             # NA should only be possible if there was a death with no Exp below age 80- impossible, but just to be sure
             # lx[is.na(lx)]   <- 0 # removed for BEL testing        
             dx                  <- lx * qx                                                                                # Eq 66 MPv5
-            dx
+            Mna0(dx)
         })
 
 # sum a matrix in blocks in just one margin, not both.
