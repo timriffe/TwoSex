@@ -1053,6 +1053,29 @@ rmUS        <- local(get(load("/home/triffe/git/DISS/Data/results/exSingleSex/rm
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 Cols <- RColorBrewer::brewer.pal(9,"Set1")
+
+# toward intro, figure showing differences in sing-sex lotka
+pdf("Pres/FiguresStatic/rSingleSexLotka.pdf", height = 5, width = 5)
+par(mai = c(.5, .5, .3, .3), xaxs = "i", yaxs = "i")
+plot(yearsUS, rmUS[, 1], type = 'n', ylim = c(-.02,.011),xlim = c(1968,2010), axes = FALSE,
+        xlab = "", ylab = "",
+        panel.first = list(rect(1968,-.02,2010,.011,col = gray(.95), border=NA),
+                abline(h = seq(-.02,.011,by = .0025), col = "white"),
+                abline(v = seq(1970, 2010, by = 5), col = "white"),
+                text(1968, seq(-.02,.011,by = .005),seq(-.02,.011,by = .005), pos = 2, cex = .8, xpd = TRUE),
+                text(seq(1970, 2010, by = 10),-.02, seq(1970, 2010, by = 10), pos = 1, cex = .8, xpd = TRUE),
+                text(1990, -.022, "Year", cex = 1, pos = 1, xpd = TRUE),
+                text(1966,.0125, "r", cex = 1, xpd = TRUE)))
+
+lines(yearsES, rLotkaES[,1], col = Cols[2], lwd = 2)
+lines(yearsES, rLotkaES[,2], col = Cols[8], lwd = 2)
+lines(yearsUS, rLotkaUS[,1], col = Cols[2], lwd = 2.5, lty = 5)
+lines(yearsUS, rLotkaUS[,2], col = Cols[8], lwd = 2.5, lty = 5)
+text(c(1976, 1975, 1992, 1985),c(0.0021, -0.008387479, -0.008657443, -0.015028590),
+        c("US males","US females","ES males","ES females"))
+dev.off()
+
+
 # for age US
 pdf("Pres/FiguresStatic/rSingleSex1.pdf", height = 5, width = 5)
 par(mai = c(.5, .5, .5, .3), xaxs = "i", yaxs = "i")
@@ -1312,6 +1335,40 @@ saveGIF({
      
 list.files("/home/triffe/git/DISS/Pres/Age2eyAnimation")
         
-        
-        
-        
+# ----------------------------------------------
+# linear age diagram
+
+pdf("Pres/FiguresStatic/AgeChrono.pdf", height = 2, width = 5)
+par(mai=c(0,0,0,0),xaxs="i",yaxs="i")
+plot(NULL, xlim = c(-.05,1.05),ylim = c(0,1),axes = FALSE, xlab = "", ylab = "")
+arrows(.2,.7,.8,.7, lwd = 4)
+text(.5,.92,"time",cex=2)
+points(.2,.7,pch=19,cex=2)
+text(.08,.7,"Birth",cex=2)
+points(.9,.7,cex=2)
+segments(seq(.2,.7,by=.1),.7,seq(.2,.7,by=.1),.65)
+text(seq(.2,.7,by=.1),.6,0:5)
+dev.off()
+
+pdf("Pres/FiguresStatic/AgeThano.pdf", height = 2, width = 5)
+par(mai=c(0,0,0,0),xaxs="i",yaxs="i")
+plot(NULL, xlim = c(-.05,1.05),ylim = c(0,1),axes = FALSE, xlab = "", ylab = "")
+arrows(.2,.7,.8,.7, lwd = 4, col = gray(.8))
+text(.5,.92,"time",cex=2)
+points(.2,.7,pch=19,cex=2, col = gray(.8))
+text(.08,.7,"Birth",cex=2, col = gray(.8))
+points(.9,.7,cex=2, col = gray(.8))
+segments(seq(.2,.7,by=.1),.7,seq(.2,.7,by=.1),.65, col = gray(.8))
+text(seq(.2,.7,by=.1),.6,0:5, col = gray(.8))
+arrows(.2,.3,.8,.3, lwd = 4)
+points(.8,.3,pch=19,cex=2)
+text(.93,.3,"Death",cex=2)
+points(.1,.3,cex=2)
+segments(seq(.3,.8,by=.1),.3,seq(.3,.8,by=.1),.25)
+text(seq(.3,.8,by=.1),.2,5:0)
+dev.off()
+
+pdf("Pres/FiguresStatic/AgeFiller.pdf", height = 2, width = 5)
+par(mai=c(0,0,0,0),xaxs="i",yaxs="i")
+plot(NULL, xlim = c(-.05,1.05),ylim = c(0,1),axes = FALSE, xlab = "", ylab = "")
+dev.off()

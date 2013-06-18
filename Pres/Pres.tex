@@ -45,22 +45,95 @@ Centre d'Estudis Demogr\`{a}fics }}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
+\section{Intro}
 \begin{frame}
-  \frametitle{A bit of guidance}
-  \onslide<1-> What is the two-sex problem?\\
-  \onslide<2-> How to model and measure reproductivity \\ 
-  \onslide<3-> We look at the intrinsic growth rate, $r$
+  \frametitle{What is the two-sex problem?}
+  \onslide<2->\begin{quotation}
+  Disagreement between male and female models and measures of
+  reproductivity ($TFR$, $R_0$, $r$, birth or marriage predictions)
+  \end{quotation}
+  \onslide<3-> Formal demographers and others have been working on this for a
+  long time -- from Karmel (1947) to Garibaldi and Sobottka (2013)\\
+  \onslide<4-> *We examine the intrinsic growth rate, $r$
 \end{frame}
+
 %----------- slide --------------------------------------------------%
+
 \begin{frame}
-  \frametitle{Presentation overview}
-
-  Population structure\\
-  Structured demographic rates\\
-  Population growth\\
-  Two sexes and two ages
-
+  \frametitle{What is $r$?}
+  \onslide<1-> The intrinsic growth rate, $r$, falls out of this formula
+  \begin{equation}
+  1 = \int _{a=0}^\infty l_ae^{-ra}f_a \mathrm{d} a \notag \quad \quad
+  \mathrm{(Lotka, 1911)}
+  \end{equation}
+  \onslide<2-> $l_a$ is the survival function\\
+  \onslide<3-> $e^{-ra}$ scales $l_a$ to account for growth over cohorts\\
+  \onslide<4-> $f_a$ are exact fertility probabilities \\
+  \onslide<5-> $f_a$ and $l_a$ can refer to either males or females, usually
+  females
 \end{frame}
+
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+  \frametitle{Males and females have different values of $r$}
+  \vspace{-2em}
+  \begin{figure}
+  \centering
+  \caption*{Single-sex $r$, Spain and US}
+  \includegraphics[scale=.55]{FiguresStatic/rSingleSexLotka}
+\end{figure}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+\frametitle{What is population \textit{structure}?}
+\onslide<2-> Any meaningful way to segment demographic rates, most notably age
+and sex, but also \ldots \\
+\vspace{1em}
+\onslide<3-> life stages, parity groups, socioeconomic groups, e.g. education,
+i.e. anything that comes to mind when people say \textbf{``demographics''} \\
+\vspace{1em}
+\onslide<4-> We just saw that sex matters for the classic renewal equation. \\
+\vspace{1em}
+\onslide<5-> So does the concept of \textbf{age}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+\frametitle{Demography and age}
+All demographic phenomena are a function of age \\
+\vspace{1em}
+\onslide<2-> Age is also a function of demographic phenomena \\
+\begin{figure}
+\centering
+\includegraphics<1-2>[scale=.7]{FiguresStatic/AgeFiller}
+\includegraphics<3>[scale=.7]{FiguresStatic/AgeChrono}
+\includegraphics<4>[scale=.7]{FiguresStatic/AgeThano}
+\end{figure}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+\frametitle{Age and demography}
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \caption{Chronos}
+  \includegraphics[width=.6\linewidth]{FiguresStatic/Chronos}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \caption{Thanatos}
+  \includegraphics[width=.5\linewidth]{FiguresStatic/Thanatos}
+\end{minipage}
+\end{figure}
+\end{frame}
+
 
 %----------- section -------------------------------------------------%
 \section{Transforming population structure}
@@ -99,17 +172,6 @@ Centre d'Estudis Demogr\`{a}fics }}
 
 Variants of this equation in T. Miller (2001), Vaupel (2009)
 *This identity is generally known
-\end{frame}
-
-%----------- slide --------------------------------------------------%
-
-\begin{frame}
-\frametitle{We have a formula for this heterogeneity}
-\begin{block}{Example: The population age $20$ that will die in $10$ years}
- \begin{equation}
-   P_{20,10} = P_{20} \frac{d_{30}}{l_{20}} \notag
- \end{equation}
- \end{block}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
