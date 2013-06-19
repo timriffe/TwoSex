@@ -17,105 +17,107 @@ source("R/MeanFunctions.R")
 yearsUS <- 1969:2009
 yearsES <- 1975:2009
 
-BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
-BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
-names(BxymfES) <- yearsES
-# exposures, as such, straiht from HMD, all ages 0-110, long form
-ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
-ExES <- local(get(load("Data/Exposures/ESexp.Rdata")))
-# get Lx estimates for R0, r
-dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
-dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
-dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
-dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
-
-dxmUS <- dxmUS %col% colSums(dxmUS)
-dxfUS <- dxfUS %col% colSums(dxfUS)
-dxmES <- dxmES %col% colSums(dxmES)
-dxfES <- dxfES %col% colSums(dxfES)
-
-mxmUS <- local(get(load("Data/HMD_mux/muxmUS.Rdata"))) 
-mxfUS <- local(get(load("Data/HMD_mux/muxfUS.Rdata"))) 
-mxmES <- local(get(load("Data/HMD_mux/muxmES.Rdata"))) 
-mxfES <- local(get(load("Data/HMD_mux/muxfES.Rdata"))) 
-
 # mx2LxHMD is now in utilities!
 
-
+do.decomp <- FALSE
+if (do.decomp){
+    # get data
+    BxymfES <- local(get(load("Data/ESbirths/ESBxymf.Rdata")))
+    BxymfUS <- local(get(load("Data/USbirths/USBxymf0_110.Rdata")))
+    names(BxymfES) <- yearsES
+# exposures, as such, straiht from HMD, all ages 0-110, long form
+    ExUS <- local(get(load("Data/Exposures/USexp.Rdata")))
+    ExES <- local(get(load("Data/Exposures/ESexp.Rdata")))
+# get Lx estimates for R0, r
+    dxmUS <- local(get(load("Data/HMD_dx/dxmUS.Rdata"))) 
+    dxfUS <- local(get(load("Data/HMD_dx/dxfUS.Rdata"))) 
+    dxmES <- local(get(load("Data/HMD_dx/dxmES.Rdata"))) 
+    dxfES <- local(get(load("Data/HMD_dx/dxfES.Rdata"))) 
+    
+    dxmUS <- dxmUS %col% colSums(dxmUS)
+    dxfUS <- dxfUS %col% colSums(dxfUS)
+    dxmES <- dxmES %col% colSums(dxmES)
+    dxfES <- dxfES %col% colSums(dxfES)
+    
+    mxmUS <- local(get(load("Data/HMD_mux/muxmUS.Rdata"))) 
+    mxfUS <- local(get(load("Data/HMD_mux/muxfUS.Rdata"))) 
+    mxmES <- local(get(load("Data/HMD_mux/muxmES.Rdata"))) 
+    mxfES <- local(get(load("Data/HMD_mux/muxfES.Rdata"))) 
+    # these scripts all take a long time!
 #-------------------------
-LotkardxFxSRB1 <- compiler::cmpfun(function(rates, .a = .5:110.5, T.guess = 30){
-            N       <- length(.a)
-           
-            fx      <- rates[1:N]
-            sig     <- rates[(N+1):(2*N)]
-            dx      <- rates[(2*N+1):(3*N)]
-            
-            lx      <- rev(cumsum(rev(dx)))         # identity
-            Lx      <- (lx[1:(N-1)] + lx[2:N]) / 2  # hack 1
-            Lx[1]   <- Lx[1] - dx[1] / 5            # hack 2
-            Lx[N]   <- lx[N] / 2                    # hack 3
-            # from Coale, Ansley J. (1957) A New Method for Calculating Lotka's r- the Intrinsic Rate of Growth in a Stable Population.
-            # Population Studies, Vol. 11 no. 1, pp 92-94
-            R0 <- sum(sig * fx * Lx)
-            # first assuming a mean generation time of 29
-            ri <- log(R0)/30
-            
-            for (i in 1:15){ # 10 is more than enough!
-                deltai <- sum(exp(-ri * .a) * sig * fx * Lx) - 1
-                # the mean generation time self-corrects 
-                # according to the error produced by the Lotka equation
-                ri <- ri + (deltai / (T.guess - (deltai / ri)))
-            }
-            return(ri)  
-        })
-
-LotkarmxFxSRB1 <- compiler::cmpfun(function(rates, .a = .5:110.5, T.guess = 30){
-            N       <- length(.a)
-            
-            fx      <- rates[1:N]
-            sig     <- rates[(N+1):(2*N)]
-            mx      <- rates[(2*N+1):(3*N)]
-            
-            Lx      <- mx2LxHMD(mx = mx)
-            # from Coale, Ansley J. (1957) A New Method for Calculating Lotka's r- the Intrinsic Rate of Growth in a Stable Population.
-            # Population Studies, Vol. 11 no. 1, pp 92-94
-            R0 <- sum(sig * fx * Lx)
-            # first assuming a mean generation time of 29
-            ri <- log(R0)/30
-            
-            for (i in 1:15){ # 10 is more than enough!
-                deltai <- sum(exp(-ri * .a) * sig * fx * Lx) - 1
-                # the mean generation time self-corrects 
-                # according to the error produced by the Lotka equation
-                ri <- ri + (deltai / (T.guess - (deltai / ri)))
-            }
-            return(ri)  
-        })
-LotkarmxFxSRB2 <- compiler::cmpfun(function(rates, .a = .5:110.5, T.guess = 30){
-            N       <- length(.a)
-            
-            fxfx    <- rates[1:N]
-            sig     <- rates[(N+1):(2*N)]
-            mx      <- rates[(2*N+1):(3*N)]
-            TFR     <- rates[length(rates)]
-           
-            Lx      <- mx2LxHMD(mx = mx)
-            # from Coale, Ansley J. (1957) A New Method for Calculating Lotka's r- the Intrinsic Rate of Growth in a Stable Population.
-            # Population Studies, Vol. 11 no. 1, pp 92-94
-            R0 <- sum(sig * fxfx * TFR * Lx)
-            # first assuming a mean generation time of 29
-            ri <- log(R0)/30
-            
-            for (i in 1:15){ # 10 is more than enough!
-                deltai <- sum(exp(-ri * .a) * sig * fxfx * TFR * Lx) - 1
-                # the mean generation time self-corrects 
-                # according to the error produced by the Lotka equation
-                ri <- ri + (deltai / (T.guess - (deltai / ri)))
-            }
-            return(ri)  
-        })
-library(DecompHoriuchi)
-library(parallel)
+    LotkardxFxSRB1 <- compiler::cmpfun(function(rates, .a = .5:110.5, T.guess = 30){
+                N       <- length(.a)
+                
+                fx      <- rates[1:N]
+                sig     <- rates[(N+1):(2*N)]
+                dx      <- rates[(2*N+1):(3*N)]
+                
+                lx      <- rev(cumsum(rev(dx)))         # identity
+                Lx      <- (lx[1:(N-1)] + lx[2:N]) / 2  # hack 1
+                Lx[1]   <- Lx[1] - dx[1] / 5            # hack 2
+                Lx[N]   <- lx[N] / 2                    # hack 3
+                # from Coale, Ansley J. (1957) A New Method for Calculating Lotka's r- the Intrinsic Rate of Growth in a Stable Population.
+                # Population Studies, Vol. 11 no. 1, pp 92-94
+                R0 <- sum(sig * fx * Lx)
+                # first assuming a mean generation time of 29
+                ri <- log(R0)/30
+                
+                for (i in 1:15){ # 10 is more than enough!
+                    deltai <- sum(exp(-ri * .a) * sig * fx * Lx) - 1
+                    # the mean generation time self-corrects 
+                    # according to the error produced by the Lotka equation
+                    ri <- ri + (deltai / (T.guess - (deltai / ri)))
+                }
+                return(ri)  
+            })
+    
+    LotkarmxFxSRB1 <- compiler::cmpfun(function(rates, .a = .5:110.5, T.guess = 30){
+                N       <- length(.a)
+                
+                fx      <- rates[1:N]
+                sig     <- rates[(N+1):(2*N)]
+                mx      <- rates[(2*N+1):(3*N)]
+                
+                Lx      <- mx2LxHMD(mx = mx)
+                # from Coale, Ansley J. (1957) A New Method for Calculating Lotka's r- the Intrinsic Rate of Growth in a Stable Population.
+                # Population Studies, Vol. 11 no. 1, pp 92-94
+                R0 <- sum(sig * fx * Lx)
+                # first assuming a mean generation time of 29
+                ri <- log(R0)/30
+                
+                for (i in 1:15){ # 10 is more than enough!
+                    deltai <- sum(exp(-ri * .a) * sig * fx * Lx) - 1
+                    # the mean generation time self-corrects 
+                    # according to the error produced by the Lotka equation
+                    ri <- ri + (deltai / (T.guess - (deltai / ri)))
+                }
+                return(ri)  
+            })
+    LotkarmxFxSRB2 <- compiler::cmpfun(function(rates, .a = .5:110.5, T.guess = 30){
+                N       <- length(.a)
+                
+                fxfx    <- rates[1:N]
+                sig     <- rates[(N+1):(2*N)]
+                mx      <- rates[(2*N+1):(3*N)]
+                TFR     <- rates[length(rates)]
+                
+                Lx      <- mx2LxHMD(mx = mx)
+                # from Coale, Ansley J. (1957) A New Method for Calculating Lotka's r- the Intrinsic Rate of Growth in a Stable Population.
+                # Population Studies, Vol. 11 no. 1, pp 92-94
+                R0 <- sum(sig * fxfx * TFR * Lx)
+                # first assuming a mean generation time of 29
+                ri <- log(R0)/30
+                
+                for (i in 1:15){ # 10 is more than enough!
+                    deltai <- sum(exp(-ri * .a) * sig * fxfx * TFR * Lx) - 1
+                    # the mean generation time self-corrects 
+                    # according to the error produced by the Lotka equation
+                    ri <- ri + (deltai / (T.guess - (deltai / ri)))
+                }
+                return(ri)  
+            })
+    library(DecompHoriuchi)
+    library(parallel)
 #USdecompR <- do.call(rbind, lapply(as.character(yearsUS), function(yr, .Bxymf, .Ex, .dxm, .dxf){
 #            
 #            BTm  <- (rowSums(.Bxymf[[yr]][["Bxym"]]) + rowSums(.Bxymf[[yr]][["Bxyf"]]))
@@ -151,10 +153,10 @@ library(parallel)
 #                }, .Bxymf = BxymfES, .Ex = ExES, .dxm = dxmES, .dxf = dxfES))
 #save(USdecompR, file = "Data/rDecompResults/USdecompR.Rdata")
 #save(ESdecompR, file = "Data/rDecompResults/ESdecompR.Rdata")
-
+    
 # these two decompositions were done on the WORLDFAM server, using N = 500, since for some reason the 
 # residual error was high in a few years. It should now be negligible.
-
+    
 #USdecompmxR <- do.call(rbind, parallel::mclapply(as.character(yearsUS), function(yr, .Bxymf, .Ex, .mxm, .mxf){
 #            N <- 111
 #            BTm  <- (rowSums(.Bxymf[[yr]][["Bxym"]]) + rowSums(.Bxymf[[yr]][["Bxyf"]]))
@@ -239,14 +241,14 @@ library(parallel)
 #rownames(ESdecompmxR2) <- yearsES
 #save(USdecompmxR2, file = "Data/rDecompResults/USdecompmxR2.Rdata")
 #save(ESdecompmxR2, file = "Data/rDecompResults/ESdecompmxR2.Rdata")
-
+    
 #USdecompR <- local(get(load("Data/rDecompResults/USdecompR.Rdata")))
 #ESdecompR <- local(get(load("Data/rDecompResults/ESdecompR.Rdata")))
 #
 #USdecompR <- local(get(load("Data/rDecompResults/USdecompmxR.Rdata")))
 #ESdecompR <- local(get(load("Data/rDecompResults/ESdecompmxR.Rdata")))
-
-## determine axes compatible with output from both countries
+    
+    ## determine axes compatible with output from both countries
 #Neg <- USdecompmxR
 #Neg[Neg > 0] <- 0
 #Pos <- USdecompmxR
@@ -270,7 +272,7 @@ library(parallel)
 #text(-2,.0065,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
 #dev.off()
 #
-## Spain
+    ## Spain
 #Neg <- ESdecompR
 #Neg[Neg > 0] <- 0
 #Pos <- ESdecompR
@@ -293,7 +295,7 @@ library(parallel)
 #text(15,-.0032,"Year",xpd=TRUE)
 #text(-9,.0065,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
 #dev.off()
-
+}
 # ----------------------------------------------------------
 # redo taking distribution into account.
 

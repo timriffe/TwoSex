@@ -1,5 +1,6 @@
 # ----------------------------------------------
 # linear age diagram
+setwd("/home/triffe/git/DISS/")
 
 pdf("Pres/FiguresStatic/AgeChrono.pdf", height = 2, width = 5)
 par(mai=c(0,0,0,0),xaxs="i",yaxs="i")
