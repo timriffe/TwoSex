@@ -22,19 +22,15 @@
 % to remove caption prefixes
 \usepackage[labelformat=empty]{caption}
 \usepackage{subcaption}
+\newcommand{\dd}{\; \mathrm{d}}
 % --------------------------------------------------
 % title slide
 \title{The two-sex problem in populations structured by remaining years of life}
 \author[Tim Riffe]{Timothy L. M. Riffe} 
-\institute[UAB]{\raggedright{\underline{Director}: \\ 
-\quad Dr. Albert Esteve Pal\'{o}s \\
-\underline{Tribunal}: \\ 
-\quad Dr. Julio P\'{e}rez D\'{i}az \\ 
-\quad Dr. I\~{n}aki Permanyer Ugartemendia\\ 
-\quad Dr. Trifon Missov \\
-Department of Geography \\ 
+\institute[UAB]{Director: Dr. Albert Esteve Pal\'{o}s \\
+\vspace{2em}
 Universitat Aut\`{o}noma de Barcelona \\ 
-Centre d'Estudis Demogr\`{a}fics }}
+Centre d'Estudis Demogr\`{a}fics }
 \date{June 26, 2013}
 
 \begin{document}
@@ -49,12 +45,13 @@ Centre d'Estudis Demogr\`{a}fics }}
 \begin{frame}
   \frametitle{What is the two-sex problem?}
   \onslide<2->\begin{quotation}
-  Disagreement between male and female models and measures of
-  reproductivity ($TFR$, $R_0$, $r$, birth or marriage predictions)
-  \end{quotation}
-  \onslide<3-> Formal demographers and others have been working on this for a
+  \noindent Disagreement between male and female models and measures of
+  reproductivity  \end{quotation}
+  \onslide<3->($TFR$, $R_0$, $r$, birth or marriage predictions) \\
+  \onslide<4-> Formal demographers and others have been working on this for a
   long time -- from Karmel (1947) to Garibaldi and Sobottka (2013)\\
-  \onslide<4-> *We examine the intrinsic growth rate, $r$
+  \vspace{2em}
+  \onslide<5-> *We examine the intrinsic growth rate, $r$
 \end{frame}
 
 %----------- slide --------------------------------------------------%
@@ -63,11 +60,11 @@ Centre d'Estudis Demogr\`{a}fics }}
   \frametitle{What is $r$?}
   \onslide<1-> The intrinsic growth rate, $r$, falls out of this formula
   \begin{equation}
-  1 = \int _{a=0}^\infty l_ae^{-ra}f_a \mathrm{d} a \notag \quad \quad
+  1 = \int _{a=0}^\infty l_ae^{-ra}f_a \dd a \notag \quad \quad
   \mathrm{(Lotka, 1911)}
   \end{equation}
-  \onslide<2-> $l_a$ is the survival function\\
-  \onslide<3-> $e^{-ra}$ scales $l_a$ to account for growth over cohorts\\
+  \onslide<2-> $l_a$ is the survival function \\
+  \onslide<3-> $e^{-ra}$ scales $l_a$ to account for growth over cohorts \\
   \onslide<4-> $f_a$ are exact fertility probabilities \\
   \onslide<5-> $f_a$ and $l_a$ can refer to either males or females, usually
   females
@@ -87,6 +84,36 @@ Centre d'Estudis Demogr\`{a}fics }}
 
 %----------- slide --------------------------------------------------%
 
+\begin{frame}
+  \frametitle{The sex-gap in $r$ is a compound}
+  \vspace{-2em}
+\begin{figure}
+\centering
+\caption*{Components to sex-gap in $r$; US, 1969-2009}
+\includegraphics[scale=.55]{FiguresStatic/DecomprUS}
+\end{figure}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+  \frametitle{The sex-gap in $r$ is a compound}
+  \vspace{-2em}
+\begin{figure}
+\centering
+\caption*{Components to sex-gap in $r$; Spain, 1975-2009}
+\includegraphics[scale=.55]{FiguresStatic/DecomprES}
+\end{figure}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+  \frametitle{Males and females have different values of $r$}
+Let's take a break from the two-sex problem and talk about age structure
+\end{frame}
+
+%----------- slide --------------------------------------------------%
 \begin{frame}
 \frametitle{What is population \textit{structure}?}
 \onslide<2-> Any meaningful way to segment demographic rates, most notably age
@@ -207,7 +234,7 @@ Variants of this equation in T. Miller (2001), Vaupel (2009)
 \begin{block}{The population with $y$ remaining years of life, $P_y$}
  \begin{equation}
    \onslide<2->{P_y = P_{n} = \int_{a=0}^\infty} P_a \frac{d_{a+n}}{l_a}
-   \onslide<2->{\mathrm{d} a}
+   \onslide<2->{\dd a}
  \end{equation}
  \end{block}
 \onslide<3->{
@@ -451,7 +478,7 @@ F_y = \frac{B_y}{E_y}\notag
 \begin{frame}
 \frametitle{Births}
 \begin{center}
-Births in year $t$ are incremented to the population according to the death
+Births in year $t$ are added to the population according to the death
 distribution, $d_a$.
 \vskip2pt
 \pause
@@ -464,12 +491,12 @@ distribution, $d_a$.
 \begin{frame}
 \frametitle{Births}
 \begin{align}
-B(t) &= \int_{y=0}^\infty F_y P_y \mathrm{d}y\notag\\
-\onslide<2->{&= \int_{y=0}^\infty \int_{a=0}^\infty F_y \boxed{B(t-a)
-d_{a+y}}\mathrm{d}a \mathrm{d}y\notag}\notag
+B(t) &= \int_{y=0}^\infty f_y P_y \dd y\notag\\
+\onslide<2->{&= \int_{y=0}^\infty \int_{a=0}^\infty f_y \boxed{B(t-a)
+d_{a+y}}\dd a \dd y\notag}\notag
 \onslide<3->{\intertext{And after many years pass\ldots}}
-\onslide<4->{&= \int_{y=0}^\infty \int_{a=0}^\infty F_y \boxed{B(t)e^{-ra}
-d_{a+y}}\mathrm{d}a \mathrm{d}y\notag}\notag
+\onslide<4->{&= \int_{y=0}^\infty \int_{a=0}^\infty f_y \boxed{B(t)e^{-ra}
+d_{a+y}}\dd a \dd y\notag}\notag
 \end{align}
 \end{frame}
 
@@ -479,15 +506,13 @@ d_{a+y}}\mathrm{d}a \mathrm{d}y\notag}\notag
 \frametitle{Renewal}
 \center{The relative size of adjacent cohorts becomes constant, $e^{r}$ }
 \begin{align}
-\onslide<1->{B(t) &= \int_{y=0}^\infty \int_{a=0}^\infty F_y
-B(t)\boxed{e^{-ra}} d_{a+y}\mathrm{d}a \mathrm{d}y\notag}\notag
+\onslide<1->{B(t) &= \int_{y=0}^\infty \int_{a=0}^\infty f_y
+B(t)\boxed{e^{-ra}} d_{a+y}\dd a \dd y\notag}\notag
 \onslide<2->{\intertext{Divide out $B(t)$ to isolate the intrinsic growth
 rate, $r$}
-1 &= \int_{y=0}^\infty \int_{a=0}^\infty F_y d_{a+y}e^{-ra}\mathrm{d}a
-\mathrm{d}y}
+1 &= \int_{y=0}^\infty \int_{a=0}^\infty f_y d_{a+y}e^{-ra}\dd a\dd y}
 \onslide<3->{\intertext{Compare with Lotka (1911)}1 &= \int_{a=0}^\infty
-F_al_ae^{-ra}
-\mathrm{d}a}
+f_al_ae^{-ra}\dd a \notag}
 \end{align}
 \onslide<4->{(Vital rates either refer to males or females.)}
 \end{frame}
@@ -551,38 +576,25 @@ F_al_ae^{-ra}
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
-\frametitle{Presentation still under construction}
-Follow with decomposition slides, then one simple method, and then summarize
-\begin{itemize}
-  \onslide<2->{\item Male and female intrinsic rates differ}\onslide<4->{
-  (two-sex problem)} \onslide<3->{ \item Chronos versus Thanatos} \onslide<4->{ (two-age problem)}
-\end{itemize}
-% insert sculpture pics of Chronos and Thanatos
-\vskip-.5cm
-\onslide<3->{
+  \frametitle{The sex-gap in thanatological $r$ is a compound}
+  \vspace{-2em}
 \begin{figure}
 \centering
-\begin{minipage}{.5\textwidth}
-  \centering
-  \caption{Chronos}
-  \includegraphics[width=.5\linewidth]{FiguresStatic/Chronos}
-\end{minipage}%
-\begin{minipage}{.5\textwidth}
-  \centering
-  \caption{Thanatos}
-  \includegraphics[width=.4\linewidth]{FiguresStatic/Thanatos}
-\end{minipage}
+\caption*{Components to sex-gap in $r$; US, 1969-2009}
+\includegraphics[scale=.55]{FiguresStatic/DecomprThanosUS}
 \end{figure}
-}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
-\frametitle{The two-sex problem}
-\begin{itemize}
-  \item Why do male and female reproductive indices differ?
-\end{itemize}
+  \frametitle{The sex-gap in thanatological $r$ is a compound}
+  \vspace{-2em}
+\begin{figure}
+\centering
+\caption*{Components to sex-gap in $r$; Spain, 1975-2009}
+\includegraphics[scale=.55]{FiguresStatic/DecomprThanosES}
+\end{figure}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
