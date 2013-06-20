@@ -43,12 +43,24 @@ Centre d'Estudis Demogr\`{a}fics }
 
 %----------- slide --------------------------------------------------%
 
+\section{Two-sex problem}
+\begin{frame}
+  \frametitle{What is the two-sex problem?}
+  \onslide<2->\begin{quotation}
+  \noindent Disagreement between male and female models and measures of
+  reproductivity  \end{quotation}
+  \onslide<3->($TFR$, $R_0$, $r$, birth or marriage predictions) \\
+  \vspace{2em}
+  \onslide<3-> *We examine the intrinsic growth rate, $r$
+\end{frame}
+%----------- slide --------------------------------------------------%
+
 \begin{frame}
 \setbeamercolor{normal text}{fg=gray,bg=}
 \setbeamercolor{alerted text}{fg=black,bg=}
 \usebeamercolor{normal text}
    \frametitle{Objectives and outline}
-   \alert<2>{1) Measure and decompose the two-sex problem} \\
+   \alert<2>{1) Measure and decompose the two-sex problem in $r$} \\
    \vspace{1em}
    2) Compare two-sex methods using data \\
    \vspace{1em}
@@ -61,25 +73,12 @@ Centre d'Estudis Demogr\`{a}fics }
 
 %----------- slide --------------------------------------------------%
 
-\section{Two-sex problem}
-\begin{frame}
-  \frametitle{What is the two-sex problem?}
-  \onslide<2->\begin{quotation}
-  \noindent Disagreement between male and female models and measures of
-  reproductivity  \end{quotation}
-  \onslide<3->($TFR$, $R_0$, $r$, birth or marriage predictions) \\
-  \vspace{2em}
-  \onslide<3-> *We examine the intrinsic growth rate, $r$
-\end{frame}
-
-%----------- slide --------------------------------------------------%
-
 \begin{frame}
   \frametitle{What is $r$?}
-  \onslide<1-> The intrinsic growth rate, $r$, falls out of this formula
+  The intrinsic growth rate, $r$, falls out of this formula
   \begin{equation}
   1 = \int _{a=0}^\infty l_ae^{-ra}f_a \dd a \notag \quad \quad
-  \mathrm{(Lotka, 1911)}
+  \mathrm{\cite{sharpe1911problem}}
   \end{equation}
   \onslide<2-> $l_a$ is the survival function \\
   \onslide<2-> $e^{-ra}$ scales $l_a$ to account for growth over cohorts \\
@@ -127,8 +126,49 @@ Centre d'Estudis Demogr\`{a}fics }
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
-  \frametitle{Males and females have different values of $r$}
-Let's take a break from the two-sex problem and talk about age structure
+  \frametitle{State of the two-sex problem}
+  \begin{itemize}
+    \item \cite{kuczynski1932fertility} pointed it out
+    \item \cite{karmel1947relations,karmel1948analysis, karmel1948measurement, karmel1948relations} formalized it, and introduced marriage
+    \item \cite{pollard1948measurement} first semi-popular solution
+    \item \cite{kendall1949stochastic} made it stochastic
+    \item \cite{goodman1953population, goodman1967age} weighted mean
+    \item \cite{henry1972nuptiality} iterative matrix decomposition
+    \item \cite{mcfarland1972comparison, mc1975models} IPF, axiomatic approach
+  \end{itemize}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+  \frametitle{State of the two-sex problem}
+  \begin{itemize}
+    \item \cite{schoen1977two, schoen1978standardized, schoen1981harmonic} 
+    harmonic mean popularity
+    \item \cite{marriage1981warren} parametric, general equilibrium
+    \item \cite{pollak1986reformulation} a flexible matrix framework
+    \item \cite{hadeler1988models, hadeler1989pair} introduced to epidemiology,
+    ODE framework.
+    \item \cite{choo2006estimating} interage spillover effects
+    \item [Riffe, 2013] 1) remaining years structure
+  \end{itemize}
+  
+%----------- slide --------------------------------------------------%
+
+\end{frame}
+\begin{frame}
+\setbeamercolor{normal text}{fg=gray,bg=}
+\setbeamercolor{alerted text}{fg=black,bg=}
+  \frametitle{Methods implemented in this dissertation}
+  \begin{itemize}
+     \item \cite{pollard1948measurement} 
+     \item \cite{mitra1978derivation} 
+     \alert<2>{ \item \cite{goodman1967age} dominace weights}
+     \item \cite{gupta1978general} joint age
+     \alert<2>{ \item \cite{schoen1981harmonic} and means in general}
+     \alert<2>{ \item \cite{mc1975models} IPF} 
+     \onslide<2>{ \item \alert{ [Riffe, 2013] ratio-adjustment method}}
+    \end{itemize}
 \end{frame}
 
 %----------- section -------------------------------------------------%
@@ -618,25 +658,6 @@ f_al_ae^{-ra}\dd a \notag}
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
-\setbeamercolor{normal text}{fg=gray,bg=}
-\setbeamercolor{alerted text}{fg=black,bg=}
-  \frametitle{Two-sex adjustments}
-  Several two-sex methods implemented in dissertation
-  \begin{itemize}
-     \item \cite{pollard1948measurement} 
-     \item \cite{mitra1978derivation} 
-     \alert<2>{ \item \cite{goodman1967age}} dominace weights
-     \item \cite{gupta1978general} joint age
-     \alert<2>{ \item \cite{schoen1981harmonic}} and means in general
-     \alert<2>{\ \item \cite{mc1975models}} IPF 
-     \onslide<2>{ \item \alert{[Riffe, 2013] ratio-adjustment method,
-     experimental}}
-    \end{itemize}
-\end{frame}
-
-%----------- slide --------------------------------------------------%
-
-\begin{frame}
   \frametitle{Conclusions from the dissertation}
   \begin{itemize}
     \item Two-sex problem is usually non-trivial
@@ -656,12 +677,12 @@ f_al_ae^{-ra}\dd a \notag}
   \frametitle{Recommendations}
   \begin{itemize}
     \item Account for the two-sex problem
-    \item Try thantological age -- it's a big perspective change
+    \item Try thantological age
   \end{itemize}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
-\begin{frame}
+\begin{frame}[allowframebreaks]
   \bibliographystyle{apalike}
   \bibliography{References.bib}   % Use the BibTeX file ``References.bib''.
 \end{frame}
