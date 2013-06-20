@@ -42,18 +42,34 @@ Centre d'Estudis Demogr\`{a}fics }
 \end{frame}
 
 %----------- slide --------------------------------------------------%
-\section{Intro}
+
+\begin{frame}
+\setbeamercolor{normal text}{fg=gray,bg=}
+\setbeamercolor{alerted text}{fg=black,bg=}
+\usebeamercolor{normal text}
+   \frametitle{Objectives and outline}
+   \alert<2>{1) Measure and decompose the two-sex problem} \\
+   \vspace{1em}
+   2) Compare two-sex methods using data \\
+   \vspace{1em}
+   \alert<2>{3) Translate renewal model to remaining years structure}\\
+   \vspace{1em}
+   \alert<2>{4) Compare renewal models under both definitions of age} \\
+   \vspace{1em}
+   5) Apply two-sex methods to remaining-years renewal models
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+
+\section{Two-sex problem}
 \begin{frame}
   \frametitle{What is the two-sex problem?}
   \onslide<2->\begin{quotation}
   \noindent Disagreement between male and female models and measures of
   reproductivity  \end{quotation}
   \onslide<3->($TFR$, $R_0$, $r$, birth or marriage predictions) \\
-   \vspace{2em}
-  \onslide<4-> Formal demographers and others have been working on this for a
-  long time -- from Karmel (1947) to Garibaldi and Sobottka (2013)\\
   \vspace{2em}
-  \onslide<5-> *We examine the intrinsic growth rate, $r$
+  \onslide<3-> *We examine the intrinsic growth rate, $r$
 \end{frame}
 
 %----------- slide --------------------------------------------------%
@@ -66,9 +82,9 @@ Centre d'Estudis Demogr\`{a}fics }
   \mathrm{(Lotka, 1911)}
   \end{equation}
   \onslide<2-> $l_a$ is the survival function \\
-  \onslide<3-> $e^{-ra}$ scales $l_a$ to account for growth over cohorts \\
-  \onslide<4-> $f_a$ are exact fertility probabilities \\
-  \onslide<5-> $f_a$ and $l_a$ can refer to either males or females, usually
+  \onslide<2-> $e^{-ra}$ scales $l_a$ to account for growth over cohorts \\
+  \onslide<2-> $f_a$ are exact fertility probabilities \\
+  \onslide<2-> $f_a$ and $l_a$ can refer to either males or females, usually
   females
 \end{frame}
 
@@ -115,10 +131,14 @@ Centre d'Estudis Demogr\`{a}fics }
 Let's take a break from the two-sex problem and talk about age structure
 \end{frame}
 
+%----------- section -------------------------------------------------%
+
+\section{Population structure}
+
 %----------- slide --------------------------------------------------%
 \begin{frame}
 \frametitle{What is population \textit{structure}?}
-\onslide<2-> Any meaningful way to segment demographic rates, most notably age
+Any meaningful way to segment demographic rates, most notably age
 and sex, but also \ldots \\
 \vspace{1em}
 \onslide<3-> life stages, parity groups, socioeconomic groups, e.g. education,
@@ -126,7 +146,7 @@ i.e. anything that comes to mind when people say \textbf{``demographics''} \\
 \vspace{1em}
 \onslide<4-> We just saw that sex matters for the classic renewal equation. \\
 \vspace{1em}
-\onslide<5-> So does the concept of \textbf{age}
+\onslide<4-> So does the concept of \textbf{age}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
@@ -163,9 +183,6 @@ All demographic phenomena are a function of age \\
 \end{figure}
 \end{frame}
 
-
-%----------- section -------------------------------------------------%
-\section{Transforming population structure}
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
@@ -250,29 +267,29 @@ Chronological $\rightarrow$ Thanatological
 %----------- slide --------------------------------------------------%
 % ey population gray
 
-\begin{frame}
-\frametitle{A population structured by remaining years of life --}
-\vskip-.5cm
-\includegraphics[width=3in,height=3in]{FiguresStatic/eyPyramidGray}
-\end{frame}
+%\begin{frame}
+%\frametitle{A population structured by remaining years of life --}
+%\vskip-.5cm
+%\includegraphics[width=3in,height=3in]{FiguresStatic/eyPyramidGray}
+%\end{frame}
 
 %----------- slide --------------------------------------------------%
 % ey poulation with age-heterogeneity
 
-\begin{frame}
-\frametitle{-- is heterogeneous with respect to age}
-\vskip-.5cm
-\includegraphics[width=3in,height=3in]{FiguresStatic/eyPyramidAgeHet}
-\end{frame}
+%\begin{frame}
+%\frametitle{-- is heterogeneous with respect to age}
+%\vskip-.5cm
+%\includegraphics[width=3in,height=3in]{FiguresStatic/eyPyramidAgeHet}
+%\end{frame}
 
 %----------- slide --------------------------------------------------%
 % ey -> age animation 
 
-\begin{frame}
-\frametitle{We can return to age-struture accordingly}
-\vskip-.5cm
-\animategraphics[controls,width=2.8in,height=2.8in]{14}{ey2ageAnimation/frame}{000}{101}
-\end{frame}
+%\begin{frame}
+%\frametitle{We can return to age-struture accordingly}
+%\vskip-.5cm
+%\animategraphics[controls,width=2.8in,height=2.8in]{14}{ey2ageAnimation/frame}{000}{101}
+%\end{frame}
 
 %----------- section ------------------------------------------------%
 \section{Demographic rates}
@@ -390,7 +407,7 @@ F_y = \frac{B_y}{E_y}\notag
 \end{figure}
 \end{frame}
 %----------- section ------------------------------------------------%
-\section{Growth}
+\section{Renewal}
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
@@ -475,7 +492,7 @@ F_y = \frac{B_y}{E_y}\notag
         \end{subfigure}
 \end{figure}
 \end{frame}
-%----------- slide -----
+%----------- slide --------------------------------------------------%
 \begin{frame}
 \frametitle{Births}
 \begin{center}
@@ -587,7 +604,7 @@ f_al_ae^{-ra}\dd a \notag}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
-?approx
+
 \begin{frame}
   \frametitle{The sex-gap in thanatological $r$ is decomposable}
   \vspace{-2em}
@@ -599,5 +616,57 @@ f_al_ae^{-ra}\dd a \notag}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
+
+\begin{frame}
+\setbeamercolor{normal text}{fg=gray,bg=}
+\setbeamercolor{alerted text}{fg=black,bg=}
+  \frametitle{Two-sex adjustments}
+  Several two-sex methods implemented in dissertation
+  \begin{itemize}
+     \item \cite{pollard1948measurement} 
+     \item \cite{mitra1978derivation} 
+     \alert<2>{ \item \cite{goodman1967age}} dominace weights
+     \item \cite{gupta1978general} joint age
+     \alert<2>{ \item \cite{schoen1981harmonic}} and means in general
+     \alert<2>{\ \item \cite{mc1975models}} IPF 
+     \onslide<2>{ \item \alert{[Riffe, 2013] ratio-adjustment method,
+     experimental}}
+    \end{itemize}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+  \frametitle{Conclusions from the dissertation}
+  \begin{itemize}
+    \item Two-sex problem is usually non-trivial
+    \item Composure of sex-gap changes over time
+    \item Most two-sex methods give similar results
+    \item Thanatological structure formalizes the remaining years perspective
+    \item Any age data can be restructured
+    \item Thanatological renewal models and projections are possible
+    \item Thanatological populations are more stable, less erratic
+    \item This carries over to the two-sex problem 
+  \end{itemize}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+  \frametitle{Recommendations}
+  \begin{itemize}
+    \item Account for the two-sex problem
+    \item Try thantological age -- it's a big perspective change
+  \end{itemize}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \bibliographystyle{apalike}
+  \bibliography{References.bib}   % Use the BibTeX file ``References.bib''.
+\end{frame}
+
+%-----------------------------------------------------------
+
 \end{document}
 
