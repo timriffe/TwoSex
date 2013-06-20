@@ -41,9 +41,12 @@ Centre d'Estudis Demogr\`{a}fics }
   \titlepage
 \end{frame}
 
-%----------- slide --------------------------------------------------%
+%----------- section ------------------------------------------------%
 
 \section{Two-sex problem}
+
+%----------- slide --------------------------------------------------%
+
 \begin{frame}
   \frametitle{What is the two-sex problem?}
   \onslide<2->\begin{quotation}
@@ -68,7 +71,9 @@ Centre d'Estudis Demogr\`{a}fics }
    \vspace{1em}
    \alert<2>{4) Compare renewal models under both definitions of age} \\
    \vspace{1em}
-   5) Apply two-sex methods to remaining-years renewal models
+   \alert<2>{5) Measure and decompose the in remaining-years renewal models}\\
+    \vspace{1em}
+   6) Apply two-sex methods to remaining-years populations \\
 \end{frame}
 
 %----------- slide --------------------------------------------------%
@@ -176,6 +181,7 @@ Centre d'Estudis Demogr\`{a}fics }
 \section{Population structure}
 
 %----------- slide --------------------------------------------------%
+
 \begin{frame}
 \frametitle{What is population \textit{structure}?}
 Any meaningful way to segment demographic rates, most notably age
@@ -292,7 +298,7 @@ Variants of this equation in T. Miller (2001), Vaupel (2009)
 \frametitle{The thanatological transformation}
 \begin{block}{The population with $y$ remaining years of life, $P_y$}
  \begin{equation}
-   \onslide<2->{P_y = P_{n} = \int_{a=0}^\infty} P_a \frac{d_{a+n}}{l_a}
+   \onslide<2->{P_y = \int_{a=0}^\infty} P_a \frac{d_{a+y}}{l_a}
    \onslide<2->{\dd a}
  \end{equation}
  \end{block}
@@ -332,7 +338,9 @@ Chronological $\rightarrow$ Thanatological
 %\end{frame}
 
 %----------- section ------------------------------------------------%
-\section{Demographic rates}
+
+\section[Rates]{Demographic rates}
+
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
@@ -350,7 +358,6 @@ Define remaining-years fertility rates, $F_y$
 F_y = \frac{B_y}{E_y}\notag
 \end{equation}
 
-
 \vskip.5cm
  \begin{description}
  \item[$B_y$:] births by remaining years of life of mother/father
@@ -359,6 +366,7 @@ F_y = \frac{B_y}{E_y}\notag
 \end{frame}
 
 %----------- slide --------------------------------------------------%
+
 % males
 \begin{frame}
 \frametitle{Male fertility rates, US, 1975 and 2009}
@@ -380,7 +388,9 @@ F_y = \frac{B_y}{E_y}\notag
         \end{subfigure}
 \end{figure}
 \end{frame}
+
 %----------- slide --------------------------------------------------%
+
 % females
 \begin{frame}
 \frametitle{Female fertility rates, US, 1975 and 2009}
@@ -402,7 +412,9 @@ F_y = \frac{B_y}{E_y}\notag
         \end{subfigure}
 \end{figure}
 \end{frame}
+
 %----------- slide --------------------------------------------------%
+
 % males
 \begin{frame}
 \frametitle{Male fertility rates, Spain, 1975 and 2009}
@@ -424,7 +436,9 @@ F_y = \frac{B_y}{E_y}\notag
         \end{subfigure}
 \end{figure}
 \end{frame}
+
 %----------- slide --------------------------------------------------%
+
 % females
 \begin{frame}
 \frametitle{Female fertility rates, Spain, 1975 and 2009}
@@ -446,8 +460,11 @@ F_y = \frac{B_y}{E_y}\notag
         \end{subfigure}
 \end{figure}
 \end{frame}
+
 %----------- section ------------------------------------------------%
+
 \section{Renewal}
+
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
@@ -490,6 +507,7 @@ F_y = \frac{B_y}{E_y}\notag
         \end{subfigure}
 \end{figure}
 \end{frame}
+
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
@@ -511,6 +529,7 @@ F_y = \frac{B_y}{E_y}\notag
         \end{subfigure}
 \end{figure}
 \end{frame}
+
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
@@ -531,17 +550,6 @@ F_y = \frac{B_y}{E_y}\notag
                 \includegraphics[width=\textwidth]{FiguresStatic/eyRepro4}
         \end{subfigure}
 \end{figure}
-\end{frame}
-%----------- slide --------------------------------------------------%
-\begin{frame}
-\frametitle{Births}
-\begin{center}
-Births in year $t$ are added to the population according to the death
-distribution, $d_a$.
-\vskip2pt
-\pause
-*Thus, the shape of $d_a$ determines the underlying population structure.
-\end{center}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
@@ -569,24 +577,43 @@ B(t)\boxed{e^{-ra}} d_{a+y}\dd a \dd y\notag}\notag
 \onslide<2->{\intertext{Divide out $B(t)$ to isolate the intrinsic growth
 rate, $r$}
 1 &= \int_{y=0}^\infty \int_{a=0}^\infty f_y d_{a+y}e^{-ra}\dd a\dd y}
-\onslide<3->{\intertext{Compare with Lotka (1911)}1 &= \int_{a=0}^\infty
-f_al_ae^{-ra}\dd a \notag}
+\onslide<3->{\intertext{Compare with \cite{sharpe1911problem}}
+1 &=
+\int_{a=0}^\infty f_al_ae^{-ra}\dd a \notag}
 \end{align}
 \onslide<4->{(Vital rates either refer to males or females.)}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
+
+\begin{frame}
+\frametitle{Renewal}
+Again, relating to \cite{sharpe1911problem}. Chronological renewal:
+\begin{align}
+1 &= \int_{a=0}^\infty f_al_ae^{-ra}\dd a \notag \\
+  &= \int_{a=0}^\infty \int_{y=0}^\infty f_a d_{a+y}e^{-ra} \dd y \dd a \notag
+  \\
+  \intertext{Thanatological renewal:}
+1 &= \int_{y=0}^\infty \int_{a=0}^\infty f_y d_{a+y}e^{-ra} \dd a \dd y
+   \notag
+ \end{align}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+
 \begin{frame}
 \frametitle{Renewal}
 \onslide<1-> Vital rates either refer to males or females \\
 \vspace{1em}
 \onslide<2-> Male $r$ $\ne$ Female $r$  \\
-\onslide<3-> \quad (Except of course in a stationary population) \\
+\onslide<3-> \quad (Except in a stationary population) \\
 \vspace{1em}
 \onslide<4-> Chronological $r$ $\ne$ thanatological $r$ \\
-\onslide<5-> \quad (Except of course in a stationary population)
+\onslide<5-> \quad (Except in a stationary population)
 \end{frame}
+
 %----------- slide --------------------------------------------------%
+
 \begin{frame}
 \frametitle{Single-sex intrinsic growth rates, $r$}
 \vspace{-2em}
@@ -660,14 +687,27 @@ f_al_ae^{-ra}\dd a \notag}
 \begin{frame}
   \frametitle{Conclusions from the dissertation}
   \begin{itemize}
-    \item Two-sex problem is usually non-trivial
-    \item Composure of sex-gap changes over time
-    \item Most two-sex methods give similar results
-    \item Thanatological structure formalizes the remaining years perspective
-    \item Any age data can be restructured
-    \item Thanatological renewal models and projections are possible
-    \item Thanatological populations are more stable, less erratic
-    \item This carries over to the two-sex problem 
+    \item Two-sex problem is usually non-trivial.
+    \item Composure of sex-gap changes over time.
+    \item Most two-sex methods give similar results.
+    \item Thanatological structure formalizes the remaining years perspective.
+    \item Any age data can be restructured.
+    \item Thanatological renewal models and projections are possible - this is a
+    new \textit{family} of models.
+    \item Thanatological populations are more stable, less erratic.
+    \item This carries over to the two-sex problem.
+  \end{itemize}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+
+\begin{frame}
+  \frametitle{Agenda}
+  \begin{itemize}
+    \item Try two-sex models on wider range of years and populations.
+    \item Produce proofs for uniqueness of solutions and ergodicity.
+    \item Translate perspective to other terminal perspecitives.
+    \item Propose cross-discipline applications.
   \end{itemize}
 \end{frame}
 
@@ -676,12 +716,13 @@ f_al_ae^{-ra}\dd a \notag}
 \begin{frame}
   \frametitle{Recommendations}
   \begin{itemize}
-    \item Account for the two-sex problem
-    \item Try thantological age
+    \item Account for the two-sex problem, but avoid single-sex fertility.
+    \item Try thantological age on your data.
   \end{itemize}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
+
 \begin{frame}[allowframebreaks]
   \bibliographystyle{apalike}
   \bibliography{References.bib}   % Use the BibTeX file ``References.bib''.
