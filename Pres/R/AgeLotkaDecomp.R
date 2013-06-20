@@ -27,6 +27,7 @@ barplot(t(Pos), add = TRUE, space = 0, border = NA, col = cols,
         width = 1,axes = FALSE,axisnames=FALSE)
 text(seq(1,41,by=5),-.003,seq(1970,2010,by=5),pos=1,cex=.8,xpd=TRUE)
 text(-1,seq(ymin,ymax,by=.001),seq(ymin,ymax,by=.001),cex=.8,pos=2,xpd=TRUE)
+lines(.5:40.5, rowSums(USdecompR), col = "green",lwd=2)
 text(c(7.5, 5, 7.5, 7.5, 29.6246),
         c(-0.0004035491, -0.0019188301,  0.0010072297,  0.0034978640,-0.001187315), 
         c("Mortality", "Fertility shape", "SRB", "TFR", "TFR"), cex = 1.3,pos = 4, 
@@ -34,8 +35,8 @@ text(c(7.5, 5, 7.5, 7.5, 29.6246),
 segments(5.559413,-0.0016575748, 2.001951,-0.0006996385)
 text(20,-.004,"Year",xpd=TRUE)
 text(-2,.0075,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
+text(22.5,.001,"Gap",col="green",cex=1.2)
 dev.off()
-
 
 
 # Spain
@@ -59,11 +60,13 @@ barplot(t(Pos), add = TRUE, space = 0, border = NA, col = cols,
         width = 1,axes = FALSE,axisnames=FALSE)
 text(seq(-5,35,by=5),-.003,seq(1970,2010,by=5),pos=1,cex=.8,xpd=TRUE)
 text(-7,seq(ymin,ymax,by=.001),seq(ymin,ymax,by=.001),cex=.8,pos=2,xpd=TRUE)
+lines(.5:34.5, rowSums(ESdecompR), col = "green",lwd=2)
 text(c(12,12,12,12,28),
-        c(-0.0003338810,  0.0003976339,  0.0021393362,  0.0038113704, -0.0011873151), 
+        c(-0.0003338810,  0.0003976339,  0.0021393362,  0.004, -0.0011873151), 
         c("Mortality","Fertility shape","SRB", "TFR", "TFR"), cex = 1.3,pos = 4, col = "white")
 text(15,-.004,"Year",xpd=TRUE)
 text(-9,.0075,"Contribution\nto difference in r", pos = 4, xpd = TRUE)
+text(30,.002,"Gap",col="green",cex=1.2)
 dev.off()
 
 
