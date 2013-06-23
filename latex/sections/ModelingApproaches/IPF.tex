@@ -13,7 +13,7 @@ initially-predicted marginal birth count distributions, the sums of which will
 never agree (as was illustrated in Section~\ref{sec:divbirth}). These new
 marginal distributions may be uniformly rescaled according to some mean of their
 respective sums. The mean function chosen will affect results only when the
-sex-gap in predicted births is very large.\footnote{we have compared overall
+sex-gap in predicted births is very large.\footnote{We have compared overall
 results using arithmetic and harmonic means, and found no noteworthy difference. 
 All results will be in terms of the harmonic mean for this first rescaling.}
 
@@ -82,7 +82,6 @@ will be the IPF-adjusted male ASFR based on year $\tau$ data, and
 $F_{a'}^{F^\ast(\tau,p^M, p^F)}$ the female ASFR output from the same procedure.
 Then assuming constant mortality and continuous functions, we can define year
 $t$ total births as a function of past births as:
-
 \begin{align}
 B(t) &= \int_{a=0}^\infty \varsigma B(t-a)p_aF_a^{M^\ast(\tau,p^M, p^F)}\dd a
 \\ &= \int_{a'=0}^\infty (1-\varsigma) B(t-a')p_{a'}F_{a'}^{F^\ast(\tau,p^M,
@@ -137,9 +136,11 @@ now describe the iterative procedure to locate $r$ and simultaneously the stable
 SRB.
 
 \begin{enumerate}
+  \item Use the year $t$ sex ratio at birth to determine the starting value for
+  the proportion male of births, $\varsigma^{(0)}$
   \item Make a rough guess at $R_0$, $\widehat{R_0}$, assuming that $r = 0$
   \begin{equation}
-  \widehat{R_0} = \int_{a=0}^\infty \varsigma p_aF_a^{M^\ast(\tau,p^{M},
+  \widehat{R_0} = \int_{a=0}^\infty \varsigma^{(0)} p_aF_a^{M^\ast(\tau,p^{M},
   p^{F})} \dd a
   \end{equation}
   in other words, where the IPF arguments $p^{M}$ and $p^{F}$ are simply the
@@ -190,7 +191,7 @@ SRB.
 
 We have been explicit in these instructions because the implementation of this
 method is not obvious, and it requires more moving parts than other
-methods. Nonetheless this particular method converges much faster.
+methods. Nonetheless this particular method converges very efficiently.
 
 \paragraph{Summary of IPF method applied to models of population growth:
 }

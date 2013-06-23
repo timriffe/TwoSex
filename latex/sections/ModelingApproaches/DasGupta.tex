@@ -1,11 +1,10 @@
 \FloatBarrier
 \label{sec:dasgupta}
-\citet{gupta1978alternative} states``The lesson we learn from the above is that our
-starting point must not be the formulation of two equations, one for $B_M(t)$ and another for
+\citet{gupta1978alternative} states ``The lesson we learn from the above is that
+our starting point must not be the formulation of two equations, one for $B_M(t)$ and another for
 $B_F(t)$, but of a single equation for $B(t)$ with the help of a bisexual
 fertility function that can explain the occurrence of births of type $(a,a')$ in
-terms of the availability of both males and females.''\footnote{and this fits
-nicely into the flow of our own presentation.} 
+terms of the availability of both males and females.''
 
 Das Gupta introduced a series of proposals for two-sex reproduction models
 throughout the 1970s \citep{gupta1972two, gupta1973us,
@@ -18,7 +17,6 @@ suggestion is to derive a series of probability density functions that apply to
 each age of potential mother and each age of potential father from information
 contained in the matrix of observed births. Define these age-specific pdfs for
 males, $U_{a,a'}$, and for females, $V_{a,a'}$ as follows:
-
 \begin{align}
 U_{a,a'} &= \frac{B_{a,a'}}{\int B_{a,a'} \dd a'}\\
 V_{a,a'} &= \frac{B_{a,a'}}{\int B_{a,a'} \dd a}
@@ -26,9 +24,8 @@ V_{a,a'} &= \frac{B_{a,a'}}{\int B_{a,a'} \dd a}
 In discrete terms, one establishes two matrices, arranged according to our
 standard in this dissertation with male age in rows and female age over columns.
 The row marginal sums for $U_{a,a'}$ and the column marginal sums of
-$V_{a,a'}$ all equal 1\footnote{Both have the exception of ages with no
-fertility, which are left as 0 if undefined.}. We then calculate Das Gupta's
-approximation of bisexual exposure, $E_{a,a'}$, by redistributing male and
+$V_{a,a'}$ all equal 1, except ages with no fertility, which are left as 0 if
+undefined. We then calculate Das Gupta's approximation of bisexual exposure, $E_{a,a'}$, by redistributing male and
 female age-specific exposure and summing for each combination of age
 \begin{equation}
 E_{a,a'} = U_{a,a'}E_a + V_{a,a'}E_{a'}
@@ -107,7 +104,7 @@ weight for the male and female population structures. There is no dominance
 parameter in this model, per se. \citet{gupta1978alternative} does not mention
 whether the method will always produce an $r$ that is bracketed by the
 single-sex $r$ values, although in a previous paper
-\citep{gupta1976interactive} he appeared to give this property axiom
+\citet{gupta1976interactive} appeared to give this property axiom
 status.\footnote{\citet{yellin1977comparison} had since proved bracketing to be
 an extraneous constraint.}
  
@@ -143,7 +140,7 @@ or logorithmic means (to be explored in the following).
 For purposes of prediction and ease of implementation, Das Gupta's model is
 close to acceptable, though in the following we explore some models that
 are somewhat more palatable and more widely studied, starting with models whose
-two-sex fertility rates are derived from mean functins of the male
+two-sex fertility rates are derived from mean functions of the male
 and female rates \citep{schoen1981harmonic}.
 
 \FloatBarrier

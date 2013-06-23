@@ -2,7 +2,7 @@
 \label{sec:googmanage}
 \citet{goodman1967age}, in an age-extension to \citet{goodman1953population},
 provided a series of discrete formulas for calculating the
-stable age-sex-structure of given a series of vital rates similar to those
+stable age-sex-structure of a given series of vital rates similar to those
 treated earlier. In particular, let us define the radix-1 survival functions,
 $p_a$ for males and $p_{a'}$ for females, as well as four fertility
 functions specific to sex of progenitor and sex of birth:
@@ -107,7 +107,7 @@ to estimate $r$.
 \begin{enumerate}
   \item Establish a rough estimate of the net reproduction rate, $R_0$, assuming
   that $r = 0$ and assuming some value of SRB (such as the year $t$ observed
-  SRB) and derive $\hat{\varsigma} = \frac{SRB}{1 + SRB}$
+  SRB) and derive $\hat{\varsigma} = \frac{SRB(t)}{1 + SRB(t)}$
   \begin{equation}
   \label{eq:R0itgoodman}
   \begin{split}
@@ -116,6 +116,8 @@ p_{a'}(F_{a'}^{F-F}+F_{a'}^{F-M}) \dd a' \\ + \sigma  \int_{a=0}^\infty
 \hat{\varsigma} p_a(F_a^{M-M}+F_a^{M-F}) \dd a
 \end{split}
   \end{equation}
+  This value only differs slightly from the stable $R_0$ in that the stable SRB
+  has not yet been determined.
   \item Establish a guess at the mean generation length, $\widehat{T}$, by
   weighting $a$ and $a'$, respectively, into Equation~\eqref{eq:R0itgoodman} and
   then dividing by $\widehat{R_0}$. With $\widehat{T}$ and $\widehat{R_0}$,
