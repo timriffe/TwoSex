@@ -13,8 +13,8 @@ directly manipulating $d_a$, which is our redistribution vector. To illustrate b
 example, take the population of infants and the full present vector of $\mu_a$. It seems fair that
 that $\mu_0$, or something close to it, will apply to these infants, yet by age
 5, $\mu_5$ will likely be too high, and certainly by age 50
-this same static $\mu_50$ will be too high. For the sake of simplicity, let us assume that the
-rate of improvement, $\iota$, applies equally over all ages and future years,
+this same static $\mu_{50}$ will be too high. For the sake of simplicity, let us
+assume that the rate of improvement, $\iota$, applies equally over all ages and future years,
 and is equal to about 0.5\% per year (conservative for some ages, liberal
 for others). To use this as a multiplicative factor, we take $e^{\iota a}$,
 where $\iota = -0.005$. Then we modify $\mu_a$ for these 0-year-olds, in the
@@ -59,9 +59,9 @@ for example from a projection.
 For our discretized example, the above formulas are not convenient. We use the
 HMD methodology to derive to $d_a$ from $\mu_a$. This entails the following
 steps. 1) Assume that the average proportion of the year completed at death in
-each single-age interval is 0.5 (except for age 0, which uses the Coale-Demeny
-rule of thumb). 2) Derive death probabilities, $q_a$, using $\mu_a$ and the
-latter. 3) Derive the survival function, $l_a$, as the cumulative product of
+each single-age interval is 0.5 (except for age 0, which uses the
+sex-averaged Coale-Demeny rule of thumb). 2) Derive death probabilities, $q_a$,
+using $\mu_a$ and the latter. 3) Derive the survival function, $l_a$, as the cumulative product of
 the complement of $q_a$, with an initial value of 1 and a final value of 0. 4)
 Finally, take the element-wise product of $q_a$ and $l_a$ to arrive at our
 requisite $d_a$.\footnote{This is the abbreviated version. See the HMD Methods
