@@ -151,14 +151,18 @@ rfES <- do.call(rbind,lapply(as.character(yearsES), function(yr, .Bx, .Ex, .dx, 
 
 #--------------------------------------------------------------
 # Tables for appendix 'zAppendix.exSingleSexLotka.tex'
+rmUS <- local(get(load("Data/results/exSingleSex/rmUS.Rdata")))
+rfUS <- local(get(load(file = "Data/results/exSingleSex/rfUS.Rdata")))
+rmES <- local(get(load(file = "Data/results/exSingleSex/rmES.Rdata")))
+rfES <- local(get(load(file = "Data/results/exSingleSex/rfES.Rdata")))
 exRepUSm <- cbind(rmUS, R0 = exp(rmUS[,1]*rmUS[,2]) )
 exRepUSf <- cbind(rfUS, R0 = exp(rfUS[,1]*rfUS[,2]) )
 exRepESm <- cbind(rmES, R0 = exp(rmES[,1]*rmES[,2]) )
 exRepESf <- cbind(rfES, R0 = exp(rfES[,1]*rfES[,2]) )
-colnames(exRepESf) <-colnames(exRepESm) <-colnames(exRepUSf) <-colnames(exRepUSm) <- c("$r$","$T^y$","$R_0$")
+colnames(exRepESf) <-colnames(exRepESm) <-colnames(exRepUSf) <-colnames(exRepUSm) <- c("$r$","$T$","$R_0$")
 rownames(exRepUSm) <- rownames(exRepUSf) <- yearsUS
 rownames(exRepESm) <- rownames(exRepESf) <- yearsES
-
+library(xtable)
 print(xtable(exRepUSm, digits = c(0,4,2,3), align = c("c","c","c","c")),
         sanitize.colnames.function = identity, 
         file = "latex/xtables/exRepUSm.tex",floating=FALSE)
