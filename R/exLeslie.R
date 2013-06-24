@@ -298,7 +298,7 @@ lines(yearsES, log(doubleES), lty = 1, col = gray(.5), lwd = 2.5)
 lines(yearsUS, log(doubleUSL), lty = 5, col = gray(.2), lwd = 2)
 lines(yearsES, log(doubleESL), lty = 5, col = gray(.5), lwd = 2.5)
 legend(1970,11.7, lty = c(1,5,1,5), col = gray(c(.2,.2,.5,.5)), lwd = c(2,2,2.5,2.5),bty = "n",
-        legend = c(expression(US~e[x]), "US age",expression(ES~e[x]), "ES age"), xpd = TRUE)
+        legend = c(expression(US~e[y]), "US age",expression(ES~e[y]), "ES age"), xpd = TRUE)
 dev.off()
 
 # ----------------------------------------------------------------
