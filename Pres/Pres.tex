@@ -37,8 +37,37 @@ Centre d'Estudis Demogr\`{a}fics }
 \begin{document}
 %----------- titlepage ----------------------------------------------%
 
-\begin{frame}
-  \titlepage
+\begin{frame}[plain]
+\vspace{3em}
+\LARGE The two-sex problem in populations structured by remaining years of life
+\\
+\vspace{1em}
+\large Timothy L. M. Riffe \\
+\vspace{1em}
+\normalsize Director: Dr. Albert Esteve Pal\'{o}s \\
+\vspace{1em}
+Universitat Aut\`{o}noma de Barcelona \\ 
+Centre d'Estudis Demogr\`{a}fics 
+\vspace{5em}
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+                \includegraphics[width=.7in]{FiguresStatic/UABlogo}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+                \includegraphics[width=.7in]{FiguresStatic/CEDlogo}
+        \end{subfigure}
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+                \includegraphics[width=.7in]{FiguresStatic/AGAURlogo}
+        \end{subfigure}
+\end{figure}
 \end{frame}
 
 %----------- section ------------------------------------------------%
@@ -59,23 +88,33 @@ Centre d'Estudis Demogr\`{a}fics }
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
-\setbeamercolor{normal text}{fg=gray,bg=}
-\setbeamercolor{alerted text}{fg=black,bg=}
+\setbeamercovered{transparent}
 \usebeamercolor{normal text}
    \frametitle{Objectives and outline}
-   \alert<2>{1) Measure and decompose the two-sex problem in $r$} \\
-   \vspace{1em}
-   2) Compare two-sex methods using data \\
-   \vspace{1em}
-   \alert<2>{3) Translate renewal model to remaining years structure}\\
-   \vspace{1em}
-   \alert<2>{4) Compare renewal models under both definitions of age} \\
-   \vspace{1em}
-   \alert<2>{5) Measure and decompose the in remaining-years renewal models}\\
-    \vspace{1em}
-   6) Apply two-sex methods to remaining-years populations \\
+   \begin{enumerate}[<+->]
+   \item Measure and decompose the two-sex problem in $r$
+   \item Compare two-sex methods using data 
+   \item Translate renewal model to remaining years structure
+   \item Compare renewal models under both definitions of age 
+   \item Decompose $r$ sex gap in remaining-years renewal models
+   \item Apply two-sex methods to remaining-years populations 
+   \end{enumerate}
 \end{frame}
 
+\begin{frame}
+
+\usebeamercolor{normal text}
+   \frametitle{Objectives and outline}
+   \begin{enumerate}
+   \item Measure and decompose the two-sex problem in $r$
+   \item \textcolor[gray]{.7}{Compare two-sex methods using data}
+   \item Translate renewal model to remaining years structure
+   \item Compare renewal models under both definitions of age 
+   \item Decompose $r$ sex gap in remaining-years renewal models
+   \item \textcolor[gray]{.7}{Apply two-sex methods to
+   remaining-years populations}
+   \end{enumerate}
+\end{frame}
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
@@ -85,10 +124,11 @@ Centre d'Estudis Demogr\`{a}fics }
   1 = \int _{a=0}^\infty l_ae^{-ra}f_a \dd a \notag \quad \quad
   \mathrm{\cite{sharpe1911problem}}
   \end{equation}
-  \onslide<2-> $l_a$ is the survival function \\
-  \onslide<2-> $e^{-ra}$ scales $l_a$ to account for growth over cohorts \\
-  \onslide<2-> $f_a$ are exact fertility probabilities \\
-  \onslide<2-> $f_a$ and $l_a$ can refer to either males or females, usually
+  $l_a$:  survival \\
+  $e^{-ra}$: cohort scalar \\
+  $f_a$: fertility \\
+  \vspace{1em}
+  \onslide<2-> *$f_a$ and $l_a$ can refer to either males or females, usually
   females
 \end{frame}
 
@@ -130,49 +170,66 @@ Centre d'Estudis Demogr\`{a}fics }
 
 %----------- slide --------------------------------------------------%
 
-\begin{frame}
+\begin{frame} 
+\setbeamercovered{transparent}
+  
   \frametitle{State of the two-sex problem}
-  \begin{itemize}
+  \begin{itemize}[<+->]
     \item \cite{kuczynski1932fertility} pointed it out
-    \item \cite{karmel1947relations,karmel1948analysis, karmel1948measurement, karmel1948relations} formalized it, and introduced marriage
+    \item \cite{karmel1947relations,karmel1948analysis,
+    karmel1948measurement, karmel1948relations} formalized it, and introduced marriage
     \item \cite{pollard1948measurement} first semi-popular solution
     \item \cite{kendall1949stochastic} made it stochastic
     \item \cite{goodman1953population, goodman1967age} weighted mean
     \item \cite{henry1972nuptiality} iterative matrix decomposition
-    \item \cite{mcfarland1972comparison, mc1975models} IPF, axiomatic approach
+    \item \cite{mcfarland1972comparison, mc1975models} IPF, axiomatic
+    approach
   \end{itemize}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
 
 \begin{frame}
+  \setbeamercovered{transparent}
   \frametitle{State of the two-sex problem}
-  \begin{itemize}
+  \begin{itemize}[<+->]
     \item \cite{schoen1977two, schoen1978standardized, schoen1981harmonic} 
     harmonic mean popularity
     \item \cite{marriage1981warren} parametric, general equilibrium
     \item \cite{pollak1986reformulation} a flexible matrix framework
     \item \cite{hadeler1988models, hadeler1989pair} introduced to epidemiology,
     ODE framework.
+    \item \cite{billari2002wedding}
     \item \cite{choo2006estimating} interage spillover effects
-    \item [Riffe, 2013] 1) remaining years structure
+    \item Present work: remaining years structure
   \end{itemize}
   
 %----------- slide --------------------------------------------------%
-
 \end{frame}
+\begin{frame}
+  \frametitle{Methods implemented in this dissertation}
+  \begin{itemize}
+     \item \cite{pollard1948measurement} first parsimonious
+     \item \cite{mitra1978derivation} fixed SRB
+     \item \cite{goodman1967age} dominace weights
+     \item \cite{gupta1978general} joint age
+     \item \cite{schoen1981harmonic} joint age means
+     \item \cite{mc1975models} IPF
+  \end{itemize}
+\end{frame}
+
 \begin{frame}
 \setbeamercolor{normal text}{fg=gray,bg=}
 \setbeamercolor{alerted text}{fg=black,bg=}
   \frametitle{Methods implemented in this dissertation}
   \begin{itemize}
-     \item \cite{pollard1948measurement} 
-     \item \cite{mitra1978derivation} 
-     \alert<2>{ \item \cite{goodman1967age} dominace weights}
+     \item \cite{pollard1948measurement} first parsimonious
+     \item \cite{mitra1978derivation} fixed SRB
+     \alert{ \item \cite{goodman1967age} dominace weights}
      \item \cite{gupta1978general} joint age
-     \alert<2>{ \item \cite{schoen1981harmonic} and means in general}
-     \alert<2>{ \item \cite{mc1975models} IPF} 
-     \onslide<2>{ \item \alert{ [Riffe, 2013] ratio-adjustment method}}
+     \alert{ \item \cite{schoen1981harmonic} and means in general}
+     \alert{ \item \cite{mc1975models} IPF} 
+     \item \alert{ [Riffe, 2013] ratio-adjustment method}
     \end{itemize}
 \end{frame}
 
@@ -187,12 +244,12 @@ Centre d'Estudis Demogr\`{a}fics }
 Any meaningful way to segment demographic rates, most notably age
 and sex, but also \ldots \\
 \vspace{1em}
-\onslide<3-> life stages, parity groups, socioeconomic groups, e.g. education,
+\onslide<2-> life stages, parity groups, socioeconomic groups, e.g. education,
 i.e. anything that comes to mind when people say \textbf{``demographics''} \\
 \vspace{1em}
-\onslide<4-> We just saw that sex matters for the classic renewal equation. \\
+\onslide<3-> We just saw that sex matters for the classic renewal equation. \\
 \vspace{1em}
-\onslide<4-> So does the concept of \textbf{age}
+\onslide<3-> So does the concept of \textbf{age}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
@@ -581,7 +638,6 @@ rate, $r$}
 1 &=
 \int_{a=0}^\infty f_al_ae^{-ra}\dd a \notag}
 \end{align}
-\onslide<4->{(Vital rates either refer to males or females.)}
 \end{frame}
 
 %----------- slide --------------------------------------------------%
@@ -722,6 +778,41 @@ Again, relating to \cite{sharpe1911problem}. Chronological renewal:
 \end{frame}
 
 %----------- slide --------------------------------------------------%
+
+\begin{frame}[plain]
+\vspace{3em}
+\LARGE The two-sex problem in populations structured by remaining years of life
+\\
+\vspace{1em}
+\large Timothy L. M. Riffe \\
+\vspace{1em}
+\normalsize Director: Dr. Albert Esteve Pal\'{o}s \\
+\vspace{1em}
+Universitat Aut\`{o}noma de Barcelona \\ 
+Centre d'Estudis Demogr\`{a}fics 
+\vspace{5em}
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+                \includegraphics[width=.7in]{FiguresStatic/UABlogo}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+                \includegraphics[width=.7in]{FiguresStatic/CEDlogo}
+        \end{subfigure}
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+                \includegraphics[width=.7in]{FiguresStatic/AGAURlogo}
+        \end{subfigure}
+\end{figure}
+\end{frame}
+
+%-----------------------------------------------------------
 
 \begin{frame}[allowframebreaks]
   \bibliographystyle{apalike}
