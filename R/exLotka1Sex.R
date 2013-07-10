@@ -744,6 +744,10 @@ Eym <- rowSums(ExpectedDx(with(ExUS,Male[ExUS$Year == as.integer(yr)]), dxmUS[, 
 
 Bym <-  rowSums(ExpectedDx(rowSums(BxymfUS[[yr]][["Bxym"]], na.rm = TRUE), dxmUS[, yr]))
 Fym <- Minf0(Mna0(Bym / Eym))
-resids <- sapply(seq(-.5,.5,by=.001),exOneSexMin, dx = dxmUS[, yr], Fex = Fym)
-plot(seq(-.5,.5,by=.001),resids,type = 'l')
-abline(h=0)
+rvals <- seq(-.05,.1,by=.001)
+resids <- sapply(rvals,exOneSexMin, dx = dxmUS[, yr], Fex = Fym)
+plot(rvals,resids,type = 'l', panel.first=list(abline(h=0,col="red")))
+
+
+
+
