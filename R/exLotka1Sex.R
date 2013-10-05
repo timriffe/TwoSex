@@ -63,7 +63,7 @@ exOneSexCoaleR <- function(Fex, dx, .a = .5:110.5, maxit = 1e2, tol = 1e-15, r.s
     }     
     R0      <- sum(dxM * Fex)
     T.guess <- sum(.a * dxM * Fex) / R0 # assuming r = 0
-    r.i      <- log(R0) / T.guess
+    r.i     <- log(R0) / T.guess
    
     # be careful to discount Fex by SRB appropriately for males / females
     # prior to specification

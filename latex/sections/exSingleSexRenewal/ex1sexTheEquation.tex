@@ -23,8 +23,7 @@ B_t = \int_{y=0}^\infty \int_{a=0}^\infty F_{y,t}
 Present population can be related to past
 births in the same way
 \begin{equation}
-B_t = \int_{y=0}^\infty \int_{a=0}^\infty F_y
-\frac{B_{t-a}d_{a+y}}{\int_{b=a+y}^\infty d_b \dd b} \dd a \dd y
+B_t = \int_{y=0}^\infty \int_{a=0}^\infty F_y B_{t-a}d_{a+y} \dd a \dd y \notag
 \end{equation}
 and when the population is subject to constant vital rates it will eventually
 enter into an invariant structure, where the births in each year are related to
@@ -40,8 +39,7 @@ where $r$ is Lotka's intrinsic rate of growth. This identity means that $B_t$
 can, in the case of stability, also be written in terms of itself,
 \begin{equation}
 \label{eq:exrenewal1sex}
-B_t = \int_{y=0}^\infty \int_{a=0}^\infty F_y
-\frac{B_{t}e^{-ra}d_{y+a}}{\int_{b=a+y}^\infty d_b \dd b} \dd a \dd y
+B_t = \int_{y=0}^\infty \int_{a=0}^\infty F_y B_{t}e^{-ra}d_{a}\dd a \dd y
 \end{equation}
 which give us the so-called renewal equation. The fundamental equation to
 estimate the growth rate, $r$, is given by

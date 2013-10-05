@@ -54,9 +54,17 @@ B_t &= \int_{y=0}^\infty \int_{a=0}^\infty F_{y,t}
 B_t &= \int_{y=0}^\infty \int_{n=0}^\infty F_y
 \frac{B_{t-n}d_{n+y}}{\int_{b=n+y}^\infty d_b \dd b} \dd n \dd y \notag\\
 \intertext{Revised:}
-B_t &= \int_{y=0}^\infty \int_{a=0}^\infty F_y
-\frac{B_{t-a}d_{a+y}}{\int_{b=a+y}^\infty d_b \dd b} \dd a \dd y \notag
+B_t &= \int_{y=0}^\infty \int_{a=0}^\infty F_y B_{t-a}d_{a+y} \dd a \dd y \notag
 \end{align}
+\item[Equation 5.5]
+\begin{align}
+\intertext{Former:}
+B_t &= \int_{y=0}^\infty \int_{a=0}^\infty F_y B_{t}e^{-ra}d_{a}\dd a \dd y
+\intertext{Revised:}
+
+\end{align}
+
+
 \item[Equation 5.6]
 \begin{align}
 \intertext{Former:}

@@ -42,7 +42,7 @@ getLambda <- function(DTLTU, sex = "Female"){
                     }))
     lambda        <- D0[1,] / colSums(D0)
     years         <- as.integer(names(lambda))
-    years         <-c(years,years[length(years)]+1)
+    years         <- c(years,years[length(years)]+1)
     lambda        <- c(lambda,lambda[length(lambda)])
     names(lambda) <- years
     lambda
